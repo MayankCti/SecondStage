@@ -503,44 +503,44 @@ function FilterBy() {
                 <a
                   href="#"
                   className="swatch-color js-filter"
-                  style={{ color: "#0a2472" }}
+                  style={{ color: "#000" }}
+                ></a>
+                <a
+                  href="#"
+                  className="swatch-color js-filter swatch_active"
+                  style={{ color: "#fff" }}
                 ></a>
                 <a
                   href="#"
                   className="swatch-color js-filter"
-                  style={{ color: "#d7bb4f" }}
+                  style={{ color: "#FF0000" }}
                 ></a>
                 <a
                   href="#"
                   className="swatch-color js-filter"
-                  style={{ color: "#282828" }}
+                  style={{ color: "#0000FF" }}
                 ></a>
                 <a
                   href="#"
                   className="swatch-color js-filter"
-                  style={{ color: "#b1d6e8" }}
+                  style={{ color: "#008000" }}
                 ></a>
                 <a
                   href="#"
                   className="swatch-color js-filter"
-                  style={{ color: "#9c7539" }}
+                  style={{ color: "#A020F0" }}
                 ></a>
                 <a
                   href="#"
                   className="swatch-color js-filter"
-                  style={{ color: "#d29b48" }}
+                  style={{ color: "#FFC0CB" }}
                 ></a>
                 <a
                   href="#"
                   className="swatch-color js-filter"
-                  style={{ color: "#e6ae95" }}
+                  style={{ color: "#ff00e1" }}
                 ></a>
-                <a
-                  href="#"
-                  className="swatch-color js-filter"
-                  style={{ color: "#d76b67" }}
-                ></a>
-                <a
+                {/* <a
                   href="#"
                   className="swatch-color swatch_active js-filter"
                   style={{ color: "#bababa" }}
@@ -549,7 +549,7 @@ function FilterBy() {
                   href="#"
                   className="swatch-color js-filter"
                   style={{ color: "#bfdcc4" }}
-                ></a>
+                ></a> */}
               </div>
             </div>
           </div>

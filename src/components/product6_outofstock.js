@@ -4,16 +4,33 @@ import Header from './header'
 import Footer from './footer'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { useState } from "react";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import "react-date-range/dist/styles.css"; // main style file
+import { DateRangePicker } from "react-date-range";
+import { addDays } from "date-fns";
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { Calendar } from "react-date-range";
 function Product6_outofstock() {
   const navigate = useNavigate()
 
   const handleProduct1Simple = () => {
     navigate("/product1-simple")
   }
+  const [state, setState] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    },
+  ]);
 
+  const [showCalender, setshowCalender] = useState(false);
+  const handleClickRent = () => {
+    setshowCalender(!showCalender);
+  };
   return (
     <>
       <svg className="d-none">
@@ -287,12 +304,12 @@ function Product6_outofstock() {
                   <a href="#" className="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
                 </div>
 
-                <div className="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
+                {/* <div className="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
                   <a href="#" className="text-uppercase fw-medium"><svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg><span className="menu-link menu-link_us-s">Prev</span></a>
                   <a href="#" className="text-uppercase fw-medium"><span className="menu-link menu-link_us-s">Next</span><svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg></a>
-                </div>
+                </div> */}
               </div>
-              <h1 className="product-single__name">Lightweight Puffer Jacket With a Hood</h1>
+              {/* <h1 className="product-single__name">Lightweight Puffer Jacket With a Hood</h1>
               <div className="product-single__rating">
                 <div className="reviews-group d-flex">
                   <svg className="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg"><use href="#icon_star" /></svg>
@@ -308,7 +325,237 @@ function Product6_outofstock() {
               </div>
               <div className="product-single__short-desc">
                 <p>Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.</p>
+              </div> */}
+               <div className="product-single__details-tab mt-4">
+            <ul
+              className="nav nav-tabs ct_buy_rent_tab justify-content-start"
+              id="myTab"
+              role="tablist"
+            >
+              <li className="nav-item" role="presentation">
+                <a
+                  className="nav-link nav-link_underscore active"
+                  id="tab-buy-tab"
+                  data-bs-toggle="tab"
+                  href="#tab-buy"
+                  role="tab"
+                  aria-controls="tab-buy"
+                  aria-selected="true"
+                >
+                  Buy
+                </a>
+              </li>
+              <li className="nav-item" role="presentation">
+                <a
+                  className="nav-link nav-link_underscore"
+                  id="tab-additional-rent-tab"
+                  data-bs-toggle="tab"
+                  href="#tab-additional-rent"
+                  role="tab"
+                  aria-controls="tab-additional-rent"
+                  aria-selected="false"
+                >
+                 Rent
+                </a>
+              </li>
+            </ul>
+            <div className="tab-content pb-0">
+              <div
+                className="tab-pane fade show active"
+                id="tab-buy"
+                role="tabpanel"
+                aria-labelledby="tab-buy-tab"
+              >
+                 <div>
+                <h1 className="product-single__name">Bikini</h1>
+
+                <div className="product-single__price">
+                  <span className="current-price">$449</span>
+                </div>
+                <div className="product-single__short-desc">
+                  <p>
+                    Phasellus sed volutpat orci. Fusce eget lore mauris vehicula
+                    elementum gravida nec dui. Aenean aliquam varius ipsum, non
+                    ultricies tellus sodales eu. Donec dignissim viverra nunc,
+                    ut aliquet magna posuere eget.
+                  </p>
+                </div>
+                
+                <form name="addtocart-form" method="post">
+                  <div className="product-single__addtocart">
+                    <div className="qty-control position-relative">
+                      <input
+                        type="number"
+                        name="quantity"
+                        value="1"
+                        min="1"
+                        className="qty-control__number text-center"
+                      />
+                      <div className="qty-control__reduce">-</div>
+                      <div className="qty-control__increase">+</div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-addtocart js-open-aside"
+                      data-aside="cartDrawer"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </form>
+
+                <div className="product-single__addtolinks">
+                  <a
+                    href="#"
+                    className="menu-link menu-link_us-s add-to-wishlist pb-0"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <use href="#icon_heart" />
+                    </svg>
+                    <span>Add to Wishlist</span>
+                  </a>
+                 
+                  <script src="js/details-disclosure.js" defer="defer"></script>
+                  <script src="js/share.js" defer="defer"></script>
+                </div>
+
+                <div className="product-single__meta-info">
+                  <div className="meta-item">
+                    <label>SKU:</label>
+                    <span>N/A</span>
+                  </div>
+                  <div className="meta-item">
+                    <label>Categories:</label>
+                    <span>Casual & Urban Wear, Jackets, Men</span>
+                  </div>
+                </div>
               </div>
+                
+              </div>
+              <div
+                className="tab-pane fade"
+                id="tab-additional-rent"
+                role="tabpanel"
+                aria-labelledby="tab-additional-rent-tab"
+              >
+
+<div>
+                <h1 className="product-single__name">Bikini<small className="ms-2 ct_fs_14">1 Week</small></h1>
+
+                <div className="product-single__price">
+                  <span className="current-price">$9</span>
+                </div>
+                <div className="product-single__short-desc">
+                  <p>
+                    Phasellus sed volutpat orci. Fusce eget lore mauris vehicula
+                    elementum gravida nec dui. Aenean aliquam varius ipsum, non
+                    ultricies tellus sodales eu. Donec dignissim viverra nunc,
+                    ut aliquet magna posuere eget.
+                  </p>
+                </div>
+                <div className="mb-4">
+                  <div className="mb-4">
+                    <button
+                      className="ct_mobile_fs14 text-white ct_sell_btn"
+                      onClick={() => setshowCalender(!showCalender)}
+                    >
+                      Select Date for Rent
+                    </button>
+                  </div>
+                  <DateRangePicker
+                    className={
+                      showCalender != true
+                        ? "ct_range_calendar"
+                        : "ct_range_calendar ct_show_calender"
+                    }
+                    onChange={(item) => setState([item.selection])}
+                    showSelectionPreview={true}
+                    moveRangeOnFirstSelection={false}
+                    months={1}
+                    ranges={state}
+                    rangeColors={"red"}
+                    direction="horizontal"
+                  />
+                </div>
+                <form name="addtocart-form" method="post">
+                  <div className="product-single__addtocart">
+                    <div className="qty-control position-relative">
+                      <input
+                        type="number"
+                        name="quantity"
+                        value="1"
+                        min="1"
+                        className="qty-control__number text-center"
+                      />
+                      <div className="qty-control__reduce">-</div>
+                      <div className="qty-control__increase">+</div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-addtocart js-open-aside"
+                      data-aside="cartDrawer"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </form>
+
+                <div className="product-single__addtolinks">
+                  <a
+                    href="#"
+                    className="menu-link menu-link_us-s add-to-wishlist pb-0"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <use href="#icon_heart" />
+                    </svg>
+                    <span>Add to Wishlist</span>
+                  </a>
+                  <share-button className="share-button">
+                    <button className="menu-link menu-link_us-s to-share border-0 gap-2 bg-transparent d-flex align-items-center">
+                      <svg
+                        width="16"
+                        height="19"
+                        viewBox="0 0 16 19"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <use href="#icon_sharing" />
+                      </svg>
+                      <span>Share</span>
+                    </button>
+                 
+                  </share-button>
+                  <script src="js/details-disclosure.js" defer="defer"></script>
+                  <script src="js/share.js" defer="defer"></script>
+                </div>
+
+                <div className="product-single__meta-info">
+                  <div className="meta-item">
+                    <label>SKU:</label>
+                    <span>N/A</span>
+                  </div>
+                  <div className="meta-item">
+                    <label>Categories:</label>
+                    <span>Casual & Urban Wear, Jackets, Men</span>
+                  </div>
+                </div>
+              </div>
+                
+              </div>
+            </div>
+          </div>
               <form name="addtocart-form" method="post">
                 <div className="product-single__addtocart">
                   <button type="submit" className="btn btn-primary btn-addtocart btn-outofstock">Out of Stock</button>

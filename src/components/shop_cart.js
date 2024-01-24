@@ -260,6 +260,7 @@ function Shop_cart() {
                     <ul className="shopping-cart__product-item__options">
                       <li>Color: Black</li>
                       <li>Size: L</li>
+                      <li>Selected Date For Rent : <span>22 - 02 - 2024</span> to <span>25 - 02 - 2024</span>  </li>
                     </ul>
                   </div>
                 </td>

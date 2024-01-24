@@ -1,13 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from './header'
 import Footer from './footer'
-
+import axios from 'axios'
+import { message, message as MESSAGE } from "antd";
+export const configJSON = require("../components/config");
 function Reset_password() {
+  const [email, setEmail] = useState("")
+  const [isLoader,setIsLoader]=useState(false)
   const navigate = useNavigate()
   const handleLoginRegister = ()=>{
     navigate("/login-register")
   }
+
+ const handleResetPassword = ()=>{
+    setIsLoader(true)
+    const data = {
+      email : `${email}`
+    }
+    axios({
+      url:configJSON.baseUrl + configJSON.reset_password_buyer,
+      method:"post",
+      data : data
+    }).then((res)=>{
+      setIsLoader(false)
+      console.log(res,"response")
+      if(res?.data?.success == true){
+        MESSAGE.success(res?.data?.message)
+        setEmail("")
+      }else{
+        MESSAGE.error(res?.data?.message)
+        setEmail("")
+      }
+    }).catch((error)=>{
+      setIsLoader(false)
+      console.log(error)
+      setEmail("")
+    })
+ }
   return (
     <>
      <svg className="d-none">
@@ -168,19 +198,25 @@ function Reset_password() {
       <h2 className="section-title text-center fs-3 mb-xl-5">Reset Your Password</h2>
       <p>We will send you an email to reset your password</p>
       <div className="reset-form">
-        <form name="reset-form" className="needs-validation" novalidate>
+        {
+          isLoader == true && <div class="custom-loader"></div>
+        }
+        {
+          isLoader == false &&
+        <form  className="needs-validation">
           <div className="form-floating mb-3">
-            <input name="login_email" type="email" className="form-control form-control_gray" id="customerNameEmailInput" placeholder="Email address *" required/>
+            <input name="login_email" type="email" onChange={(e)=>setEmail(e.target.value)} value={email} className="form-control form-control_gray" id="customerNameEmailInput" placeholder="Email address *" required/>
             <label htmlFor="customerNameEmailInput">Email address *</label>
           </div>
 
-          <button className="btn btn-primary w-100 text-uppercase" type="submit">Submit</button>
+          <button className="btn btn-primary w-100 text-uppercase" type="button" onClick={handleResetPassword}>Submit</button>
 
           <div className="customer-option mt-4 text-center">
             <span className="text-secondary">Back to</span>
             <a onClick={()=>handleLoginRegister()} className="btn-text js-show-register"> Login </a>
           </div>
         </form>
+        }
       </div>
     </section>
   </main>

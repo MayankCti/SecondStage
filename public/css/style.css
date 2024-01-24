@@ -43,7 +43,8 @@
 .ct_btn_large {
   width: 150px;
   padding-block: 12px !important;
-  border: 1px solid #be891d;
+  border: 2px solid #be891d;
+  background-color: #333 !important;
 }
 .ct_btn_large:after{
   background:none !important; 
@@ -12356,6 +12357,7 @@ fieldset:disabled .btn {
   margin-right: 0.75rem;
   margin-bottom: 0.75rem;
   border-radius: 50%;
+ 
 }
 .swatch-color:after {
   display: block;
@@ -20730,14 +20732,14 @@ main:before {
   content: "";
   position: absolute;
   left: 0px;
-  top: -26px;
-  background-image: url(../images/left_golden_wave.png);
+  top: 0px;
+  background-image: url(../images/golden_wave_left_12.png);
   background-position: center;
   background-size: cover;
-  max-width: 800px;
+  max-width: 300px;
   max-height: 800px;
   width: 100%;
-  height:100%;
+  height: 100%;
   opacity: 0.5;
   z-index: -1;
 }
@@ -20745,8 +20747,8 @@ main:after {
   content: "";
   position: absolute;
   right: 0px;
-  bottom: -48px;
-  background-image: url(../images/right_golden_wave.png);
+  bottom: 0px;
+  background-image: url(../images/golden_wave_right_12.png);
   background-position: center;
   background-size: cover;
   max-width: 800px;
@@ -21037,7 +21039,6 @@ main:after {
 }
 .ct_quick_link_item  h4{
   text-align: center;
-  margin-top: 10px;
 }
 .ct_lowercase{
   text-transform: capitalize!important;
@@ -21050,4 +21051,80 @@ main:after {
 
 .ct_serach_products2 input.search-field__input {
   border: none;
+}
+.ct_row_inverse{
+  flex-direction: row-reverse;
+}
+
+.ct_quick_link_item .ct_buy_rent_tag {
+  right: -10px;
+  left: auto;
+}
+.ct_quick_link_item .ct_buy_rent_tag h4:before {
+  left: auto;
+  right: 0px;
+  border-right: 10px solid transparent;
+  border-left: unset;
+}
+
+
+
+
+
+.ct_range_calendar{
+  display: none !important;
+}
+.ct_range_calendar.ct_show_calender{
+  display: flex !important;
+}
+
+.ct_buy_rent_tab .nav-link_underscore.active {
+  background-color: #333;
+  color: #fff;
+  border-radius: 2px;
+}
+.ct_buy_rent_tab {
+  gap: 20px;
+}
+.navigation__link span svg {
+  width: 15px;
+  fill: #fff;
+  margin-top: -4px;
+}
+
+.ct_check_input a {
+    text-decoration: underline !important;
+}
+.custom-loader {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  border-radius: 50%;
+  -webkit-mask: radial-gradient(farthest-side,#0000 40%,#000 41%);
+  background: linear-gradient(0deg ,#b9a16b80 50%,#b9a16b 0) center/4px 100%, linear-gradient(90deg,#b9a16b40 50%,#b9a16bbf 0) center/100% 4px;
+  background-repeat: no-repeat;
+  animation: s3 1s infinite steps(12);
+  position: absolute;
+  left: 48%;
+  top: 70%;
+}
+.custom-loader::before,
+.custom-loader::after {
+  content: "";
+  grid-area: 1/1;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.915;
+  transform: rotate(30deg);
+}
+
+.custom-loader::after {
+  opacity: 0.83;
+  transform: rotate(60deg);
+}
+
+@keyframes s3 {
+  100% {
+    transform: rotate(1turn)
+  }
 }

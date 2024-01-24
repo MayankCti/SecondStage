@@ -170,7 +170,7 @@ function Login_register() {
               <a className="nav-link nav-link_underscore active" id="login-tab" data-bs-toggle="tab" href="#tab-item-login" role="tab" aria-controls="tab-item-login" aria-selected="true">Login</a>
             </li>
             <li className="nav-item" role="presentation">
-              <a className="nav-link nav-link_underscore" id="register-tab" data-bs-toggle="tab" href="#tab-item-register" role="tab" aria-controls="tab-item-register" aria-selected="false">Register</a>
+              <a className="nav-link nav-link_underscore" id="register-tab" data-bs-toggle="tab" href="#tab-item-register" role="tab" aria-controls="tab-item-register" aria-selected="false">Register to Buy/Rent</a>
             </li>
           </ul>
           <div className="tab-content pt-2" id="login_register_tab_content">
@@ -182,9 +182,10 @@ function Login_register() {
             </div>
           </div>
         </section>
+        <div className="mb-0 pb-xl-5"></div>
       </main>
 
-      <div className="mb-5 pb-xl-5"></div>
+    
 
       <Footer />
     </>

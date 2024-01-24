@@ -215,7 +215,7 @@ function Accessories() {
                                 </li>
 
                             </ul>
-                            <div className="shop-acs d-flex align-items-center justify-content-between  flex-grow-1 gap-3 mb-2">
+                            <div className="shop-acs ct_row_inverse d-flex align-items-center justify-content-between  flex-grow-1 gap-3 mb-2">
                 <select className="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0 " aria-label="Sort Items" name="total-number">
                   <option selected>Sort by</option>
                   <option value="1">Featured</option>

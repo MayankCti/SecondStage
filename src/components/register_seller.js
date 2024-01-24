@@ -20,11 +20,8 @@ function Register_seller() {
   const [isLocation, setIsLocation] = useState(false)
   const [isSizeTopBottom, setIsSizeTopBottom] = useState(false)
   const [isSizeShow, setIsSizeShow] = useState(false)
-  const [file, setFile] = useState("images/products/product_2.jpg")
-  const handleFile = (e) => {
-    setFile(e.target.files[0]);
+  const [file, setFile] = useState([])
 
-  }
   const [locationOption, setLocationOption] = useState()
   const [lengthRentalOption, setLengthRentalOption] = useState()
   const [paddingOption, setPaddingOption] = useState()
@@ -121,6 +118,18 @@ function Register_seller() {
     }
   };
 
+  const handleFile = (e) => {
+    const selectedFile = e?.target?.files[0];
+    if (selectedFile) {
+      const blob = new Blob([selectedFile], { type: selectedFile.type });
+      setFile([...file, URL.createObjectURL(blob)]);
+    }
+    console.log("file", file);
+  }
+
+  const addProduct = () => {
+    console.log("Selected file :- ", file)
+  }
   return (
     <>
       <svg className="d-none">
@@ -1349,17 +1358,23 @@ function Register_seller() {
                           />
                         </div>
                       </div> */}
-                      <div className="preview-image preview-show-4">
-                        <div className="image-cancel" data-no="4">
-                          x
-                        </div>
-                        <div className="image-zone">
-                          <img
-                            id="pro-img-4"
-                            src={file}
-                          />
-                        </div>
-                      </div>
+                      {
+                        file?.length > 0 &&
+                        file?.map((item, index) => (
+                          <div className="preview-image preview-show-4">
+                            <div className="image-cancel" data-no="4">
+                              x
+                            </div>
+                            <div className="image-zone">
+                              <img
+                                id="pro-img-4"
+                                src={item}
+                                alt="/productImage"
+                              />
+                            </div>
+                          </div>
+                        ))
+                      }
                     </div>
                   </div>
                 </div>
@@ -1379,6 +1394,7 @@ function Register_seller() {
               <button
                 className="btn btn-primary mx-auto d-block mt-4 text-uppercase"
                 type="button"
+                onClick={addProduct}
               >
                 Submit
               </button>

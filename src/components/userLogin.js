@@ -6,6 +6,7 @@ export const configJSON = require("../components/config");
 function UserLogin() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [isLoader,setIsLoader]=useState(false)
 
     const navigate = useNavigate()
     const handleResetPassword = () => {
@@ -13,7 +14,7 @@ function UserLogin() {
       }
 
    const handleLogin = ()=>{
-    
+    setIsLoader(true)
     if (email && password) {
         const data = {
             email: email,
@@ -24,6 +25,7 @@ function UserLogin() {
             method: "post",
             data: data,
         }).then((res) => {
+            setIsLoader(false)
             if (res?.data?.success == true) {
                 MESSAGE.success(res?.data?.message)
                 setPassword("");
@@ -31,6 +33,7 @@ function UserLogin() {
             }
             else {
                 MESSAGE.error(res?.data?.message)
+                setIsLoader(false)
             }
         })
             .catch((error) => {
@@ -40,13 +43,19 @@ function UserLogin() {
             })
     }
     else {
+        setIsLoader(false)
         MESSAGE.error("Field can not be empty!")
     }
    }
     return (
         <>
             <div className="login-form">
-                <form name="login-form" className="needs-validation" novalidate>
+{
+isLoader == true &&
+<div class="custom-loader"></div>
+}
+    { isLoader == false &&
+             <form name="login-form" className="needs-validation" novalidate>
                     <div className="form-floating mb-3">
                         <input name="login_email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control form-control_gray" id="customerNameEmailInput" placeholder="Email address *" required />
                         <label htmlFor="customerNameEmailInput">Email address *</label>
@@ -70,10 +79,11 @@ function UserLogin() {
                     <button className="btn btn-primary w-100 text-uppercase" type="button" onClick={handleLogin}>Log In</button>
 
                     <div className="customer-option mt-4 text-center">
-                        <span className="text-secondary">No account yet?</span>
+                        <span className="text-secondary">No account yet? </span>
                         <a href="#register-tab" className="btn-text js-show-register">Create Account</a>
                     </div>
                 </form>
+            }   
             </div>
         </>
     )
