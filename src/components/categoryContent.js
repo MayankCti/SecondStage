@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import { FaRegHeart } from "react-icons/fa";
+import { IoIosHeart } from "react-icons/io";
 import { message, message as MESSAGE } from "antd";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -17,7 +19,9 @@ function CategoryContent(props) {
     const [isLoader, setIsLoader] = useState(false)
     const [allProduct, setAllProduct] = useState([])
     const [accessToken, setAccessToken] = useState()
-
+    const [cartData, setcartData] = useState([])
+    const [subtotal, setSubTotal] = useState(0)
+    const [isWishlist, setIsWishlist] = useState(false)
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem("token"))
         setAccessToken(token);
@@ -25,6 +29,7 @@ function CategoryContent(props) {
             navigate('/login-register')
         }
         getData()
+        getCartData(token)
     }, [])
     const handleHome = () => {
         navigate("/")
@@ -34,7 +39,7 @@ function CategoryContent(props) {
     }
     const getData = () => {
         setIsLoader(true)
-       axios({
+        axios({
             url: configJSON.baseUrl + props?.apiurl,
             method: "get",
         }).then((res) => {
@@ -46,8 +51,35 @@ function CategoryContent(props) {
                 setAllProduct([])
             }
         }).catch((error) => {
-                setIsLoader(false)
-                console.log(error)
+            setIsLoader(false)
+            console.log(error)
+        })
+    }
+    const getCartData = (val) => {
+        setIsLoader(true)
+        setAccessToken(val)
+        axios({
+            url: configJSON.baseUrl + configJSON.getCartData,
+            method: "get",
+            headers: {
+                'Authorization': `Bearer ${val}`
+            },
+        }).then((res) => {
+            setIsLoader(false)
+            if (res?.data?.success == true) {
+                setcartData(res?.data?.cart)
+                let total = 0
+                res?.data?.cart.map((item) => {
+                    total += item?.cart_price
+                })
+                setSubTotal(total)
+            }
+            else {
+                setcartData([])
+            }
+        }).catch((error) => {
+            setIsLoader(false)
+            console.log(error)
         })
     }
     const addToCart = (product_id) => {
@@ -66,6 +98,7 @@ function CategoryContent(props) {
             setIsLoader(false)
             if (res.data.success == true) {
                 MESSAGE.success("Item added to cart.")
+                props?.onClick();
             } else {
                 MESSAGE.error(res?.data?.message)
             }
@@ -73,6 +106,30 @@ function CategoryContent(props) {
             setIsLoader(false)
             console.log(err)
         })
+    }
+    const addToWishlist = (productId,BuyerId)=>{
+        setIsWishlist(!isWishlist)
+        // setIsLoader(true)
+        const data = {
+            buyer_id:productId,
+            product_id : BuyerId
+        }
+        // axios({
+        //     method: "post",
+        //     url: configJSON.baseUrl + configJSON.add_wishlist,
+        //     data: data,
+            
+        // }).then((res) => {
+        //     setIsLoader(false)
+        //     if (res.data.success == true) {
+        //         MESSAGE.success(res?.data?.message)
+        //     } else {
+        //         MESSAGE.error(res?.data?.message)
+        //     }
+        // }).catch((err) => {
+        //     setIsLoader(false)
+        //     console.log(err)
+        // })
     }
     return (
         <>
@@ -173,9 +230,16 @@ function CategoryContent(props) {
                                                                         <div className="product-card__price d-flex">
                                                                             <span className="money price">${item?.price_sale_lend_price}</span>
                                                                         </div>
-                                                                        <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                                                                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-                                                                        </button>
+                                                                        {
+                                                                                isWishlist == true ?  <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
+                                                                             <IoIosHeart onClick={()=>addToWishlist(item?.id)} /> </button> : <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
+                                                                             <FaRegHeart onClick={()=>addToWishlist(item?.id)}/>
+                                                                                </button>
+                                                                            }
+                                                                            
+                                                                            {/* <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg> */}
+                                                                        
+
                                                                     </div>
                                                                 </div>
                                                             </div>

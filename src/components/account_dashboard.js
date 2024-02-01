@@ -1,11 +1,56 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 import Header from './header'
 import Footer from './footer'
 import List7 from './List7'
-
+export const configJSON = require("../components/config");
 function Account_dashboard() {
   const navigate = useNavigate()
+  const [isCartSidebar, setIsCartSidebar] = useState(false)
+  const [cartData, setCartData] = useState([])
+  const [accessToken, setAccessToken] = useState()
+  const [isLoader, setIsLoader] = useState(false);
+
+useEffect(() => {
+  const token = JSON.parse(localStorage.getItem("token"))
+  if (token == null) {
+      navigate('/login-register')
+  } else {
+      getCartData(token)
+  }
+}, [])
+
+
+const getCartData = (val, val2) => {
+  setIsLoader(true)
+  setAccessToken(val)
+  axios({
+    url: configJSON.baseUrl + configJSON.getCartData,
+    method: "get",
+    headers: {
+      'Authorization': `Bearer ${val}`
+    },
+  }).then((res) => {
+    setIsLoader(false)
+    if (res?.data?.success == true) {
+      setCartData(res?.data?.cart)
+      val2 == true ?
+      setIsCartSidebar(true)
+      : 
+      setIsCartSidebar(false)
+    }
+    else {
+      setCartData([])
+    }
+  }).catch((error) => {
+    setIsLoader(false)
+    console.log(error)
+  })
+}
+const getDataFromChild = () => {
+  getCartData(accessToken,true)
+}
   const handleLoginRegister = ()=>{
     navigate("/login-register")
   }
@@ -20,6 +65,8 @@ const handleAccountEditAddress = ()=>{
 }
   return (
     <>
+    {isLoader == false ?
+      <>
       <svg className="d-none">
         <symbol id="icon_nav" viewBox="0 0 25 18">
           <rect width="25" height="2" /><rect y="8" width="20" height="2" /><rect y="16" width="25" height="2" />
@@ -170,7 +217,7 @@ const handleAccountEditAddress = ()=>{
         </symbol>
       </svg>
 
-      <Header />
+      <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar}/>
 
       <main>
         <div className="mb-4 pb-4"></div>
@@ -191,7 +238,8 @@ const handleAccountEditAddress = ()=>{
       </main>
 
       <div className="mb-5 pb-xl-5"></div>
-      <Footer />
+      <Footer /></>:<div class="custom-loader"></div>
+      }
     </>
   )
 }

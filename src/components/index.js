@@ -1,15 +1,57 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import Header from './header'
 import Footer from './footer'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import Content from './Content';
+export const configJSON = require("../components/config");
 function Index() {
+  const [isCartSidebar, setIsCartSidebar] = useState(false)
+  const [cartData, setCartData] = useState([])
+  const [accessToken, setAccessToken] = useState()
+  const [isLoader, setIsLoader] = useState(false);
 const navigate = useNavigate()
+
+useEffect(() => {
+  const token = JSON.parse(localStorage.getItem("token"))
+  if (token == null) {
+      navigate('/login-register')
+  } else {
+      getCartData(token)
+  }
+}, [])
+
+
+const getCartData = (val, val2) => {
+  setIsLoader(true)
+  setAccessToken(val)
+  axios({
+    url: configJSON.baseUrl + configJSON.getCartData,
+    method: "get",
+    headers: {
+      'Authorization': `Bearer ${val}`
+    },
+  }).then((res) => {
+    setIsLoader(false)
+    if (res?.data?.success == true) {
+      setCartData(res?.data?.cart)
+      val2 == true ?
+      setIsCartSidebar(true)
+      : 
+      setIsCartSidebar(false)
+    }
+    else {
+      setCartData([])
+    }
+  }).catch((error) => {
+    setIsLoader(false)
+    console.log(error)
+  })
+}
+const getDataFromChild = () => {
+  getCartData(accessToken,true)
+  // console.log("hello")
+}
   const handleBikinis=()=>{
     navigate("/bikinis")
   }
@@ -32,7 +74,10 @@ const navigate = useNavigate()
     navigate("/swimsuit")
   }
   return (
+    
     <>
+    {isLoader == false ?
+      <>
     <svg className="d-none">
     <symbol id="icon_nav" viewBox="0 0 25 18">
       <rect width="25" height="2"/><rect y="8" width="20" height="2"/><rect y="16" width="25" height="2"/>
@@ -183,14 +228,13 @@ const navigate = useNavigate()
     </symbol>
   </svg>
 
-  <Header/>
+  <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar}/>
 
   <main>
 
   <div className="mb-5 pt-1"></div>
   
       <section className="instagram container-fluid">
-      
 
       <div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
         <div className="ct_quick_link_item mb-4">
@@ -286,8 +330,6 @@ const navigate = useNavigate()
         </div>
        
       </div>
-     
-
 
     </section>
     <div className="mb-5 pb-5"></div>
@@ -307,72 +349,8 @@ const navigate = useNavigate()
       </ul>
    
       <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Featured <strong>Products</strong></h2>
-
-      {/* <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center" id="collections-tab" role="tablist">
-        <li className="nav-item" role="presentation">
-          <a className="nav-link nav-link_underscore active" id="collections-tab-1-trigger" data-bs-toggle="tab" href="#collections-tab-1" role="tab" aria-controls="collections-tab-1" aria-selected="true">All</a>
-        </li>
-        <li className="nav-item" role="presentation">
-          <a className="nav-link nav-link_underscore" id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true">Buy</a>
-        </li>
-        <li className="nav-item" role="presentation">
-          <a className="nav-link nav-link_underscore" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true">Rent</a>
-        </li>
-   
-      </ul> */}
-      
-
-     
-      <Content/>
-      
+      <Content onClick={getDataFromChild}/>
     </section>
-
-
-    {/* <div className="mb-5 pb-1 pb-xl-4"></div>
-
-    <section className="instagram container">
-      <h2 className="section-title  text-center mb-4 pb-xl-2 mb-xl-4">@Second <strong>Stage</strong></h2>
-
-      <div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
-        <div className="instagram__tile">
-          <a href="#" target="_blank" className="position-relative overflow-hidden d-block effect overlay-plus">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/instagram/insta1.jpg" width="230" height="230" alt="Insta image 1"/>
-          </a>
-        </div>
-        <div className="instagram__tile">
-          <a href="#" target="_blank" className="position-relative overflow-hidden d-block effect overlay-plus">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/instagram/insta2.jpg" width="230" height="230" alt="Insta image 2"/>
-          </a>
-        </div>
-        <div className="instagram__tile">
-          <a href="#" target="_blank" className="position-relative overflow-hidden d-block effect overlay-plus">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/instagram/insta3.jpg" width="230" height="230" alt="Insta image 3"/>
-          </a>
-        </div>
-        <div className="instagram__tile">
-          <a href="#" target="_blank" className="position-relative overflow-hidden d-block effect overlay-plus">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/instagram/insta4.jpg" width="230" height="230" alt="Insta image 4"/>
-          </a>
-        </div>
-        <div className="instagram__tile">
-          <a href="#" target="_blank" className="position-relative overflow-hidden d-block effect overlay-plus">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/instagram/insta5.jpg" width="230" height="230" alt="Insta image 5"/>
-          </a>
-        </div>
-        <div className="instagram__tile">
-          <a href="#" target="_blank" className="position-relative overflow-hidden d-block effect overlay-plus">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/instagram/insta6.jpg" width="230" height="230" alt="Insta image 6"/>
-          </a>
-        </div>
-       
-      </div>
-      <div className="text-center mt-5">
-        <a className="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">Continue Exploring</a>
-      </div>
-
-
-    </section> */}
-
     <section className='mt-5 py-5 ' style={{background:"#f5f5f5"}}>
    <div className='container'>
     <div className='col-md-8 mx-auto'>
@@ -385,17 +363,14 @@ const navigate = useNavigate()
         </form>
       </div>
     </div>
-
    </div>
     </section>
-
-
     {/* <div className="mb-4 pb-4 pb-xl-5 mb-xl-5"></div> */}
-
-
   </main>
 
   <Footer/>
+  </>:<div class="custom-loader"></div>
+      }
     </>
   )
 }

@@ -1,11 +1,59 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from './header'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 import Footer from './footer'
 import CategoryContent from './categoryContent';
 export const configJSON = require("../components/config");
 function Figure() {
+  const [isCartSidebar, setIsCartSidebar] = useState(false)
+    const [cartData, setCartData] = useState([])
+    const [accessToken, setAccessToken] = useState()
+    const [isLoader, setIsLoader] = useState(false);
+    const navigate = useNavigate()
+    useEffect(() => {
+        const token = JSON.parse(localStorage.getItem("token"))
+        if (token == null) {
+            navigate('/login-register')
+        } else {
+            getCartData(token)
+        }
+    }, [])
+
+
+    const getCartData = (val, val2) => {
+        setIsLoader(true)
+        setAccessToken(val)
+        axios({
+          url: configJSON.baseUrl + configJSON.getCartData,
+          method: "get",
+          headers: {
+            'Authorization': `Bearer ${val}`
+          },
+        }).then((res) => {
+          setIsLoader(false)
+          if (res?.data?.success == true) {
+            setCartData(res?.data?.cart)
+            val2 == true ?
+            setIsCartSidebar(true)
+            : 
+            setIsCartSidebar(false)
+          }
+          else {
+            setCartData([])
+          }
+        }).catch((error) => {
+          setIsLoader(false)
+          console.log(error)
+        })
+      }
+      const getDataFromChild = () => {
+        getCartData(accessToken,true)
+      }
   return (
     <>
+    {isLoader == false ?
+        <>
       <svg className="d-none">
         <symbol id="icon_nav" viewBox="0 0 25 18">
           <rect width="25" height="2" /><rect y="8" width="20" height="2" /><rect y="16" width="25" height="2" />
@@ -158,11 +206,13 @@ function Figure() {
           <path d="M5.44444 9.66664H8.55556V8.11109H5.44444V9.66664ZM0 0.333313V1.88887H14V0.333313H0ZM2.33333 5.77776H11.6667V4.2222H2.33333V5.77776Z" fill="currentColor" />
         </symbol>
       </svg>
-      <Header />
+      <Header data={cartData?.length !== 0 && cartData}  isCartSidebar={isCartSidebar}/>
 
-      <CategoryContent home="Figure" apiurl={configJSON.getProductDetails_by_Category_figure} />
+      <CategoryContent home="Figure" apiurl={configJSON.getProductDetails_by_Category_figure} onClick={getDataFromChild}/>
 
-      <Footer />
+      <Footer /></>
+        :<div class="custom-loader"></div>
+            }
 
 
     </>

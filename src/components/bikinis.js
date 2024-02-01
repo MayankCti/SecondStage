@@ -1,16 +1,58 @@
 import React, { useState ,useEffect} from 'react'
 import Header from './header'
 import Footer from './footer'
+import axios from 'axios';
 import CategoryContent from './categoryContent';
+import { useNavigate } from 'react-router-dom'
 export const configJSON = require("../components/config");
 
 function Bikinis(props) {
   const [isCartSidebar,setIsCartSidebar] =useState(false)
-
-  useEffect(()=>{
-    setIsCartSidebar(props.card)
-  },[])
+  const [allProduct, setAllProduct] = useState([])
+  const [accessToken, setAccessToken] = useState()
+  const [isLoader, setIsLoader] = useState(false);
+  const navigate = useNavigate()
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token == null) {
+      navigate('/login-register')
+    } else {
+      setIsCartSidebar(props.card)
+      getCartData(token)
+    }
+  }, [])
+  const getCartData = (val, val2) => {
+    setIsLoader(true)
+    setAccessToken(val)
+    axios({
+      url: configJSON.baseUrl + configJSON.getCartData,
+      method: "get",
+      headers: {
+        'Authorization': `Bearer ${val}`
+      },
+    }).then((res) => {
+      setIsLoader(false)
+      if (res?.data?.success == true) {
+        setAllProduct(res?.data?.cart)
+        val2 == true ?
+        setIsCartSidebar(true)
+        : 
+        setIsCartSidebar(false)
+      }
+      else {
+        setAllProduct([])
+      }
+    }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+    })
+  }
+  const getDataFromChild = () => {
+    getCartData(accessToken,true)
+  }
   return (
+    <>
+    {isLoader == false ?
     <>
       <svg className="d-none">
         <symbol id="icon_nav" viewBox="0 0 25 18">
@@ -165,13 +207,14 @@ function Bikinis(props) {
         </symbol>
       </svg>
 
-      <Header />
+      <Header data={allProduct?.length !== 0 && allProduct} isCartSidebar={isCartSidebar}/>
 
-      <CategoryContent home="Bikini" apiurl={configJSON.getProductDetails_by_Category_biknis} />
+      <CategoryContent home="Bikini" apiurl={configJSON.getProductDetails_by_Category_biknis} onClick={getDataFromChild}/>
 
       <Footer />
-
-     
+      </>:
+     <div class="custom-loader"></div>
+    }
     </>
   )
 }
