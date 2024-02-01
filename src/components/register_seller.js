@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Header from "./header";
 import Footer from "./footer";
+import axios from "axios";
+import { message, message as MESSAGE } from "antd";
+export const configJSON = require("../components/config");
 
 function Register_seller() {
+  const [isLoader, setIsLoader] = useState(false)
   const [isBrandDropdownOpen, setIsBrandDropdownOpen] = useState(false);
   const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
@@ -21,6 +25,7 @@ function Register_seller() {
   const [isSizeTopBottom, setIsSizeTopBottom] = useState(false)
   const [isSizeShow, setIsSizeShow] = useState(false)
   const [file, setFile] = useState([])
+  const [file1, setFile1] = useState([])
 
   const [locationOption, setLocationOption] = useState()
   const [lengthRentalOption, setLengthRentalOption] = useState()
@@ -37,6 +42,9 @@ function Register_seller() {
   const [sizeStandardOption, setSizeStandardOption] = useState(
     "--Select--Standard--"
   )
+  const [description, setDescription] = useState("")
+  const [priceSellLend, setPriceSellLend] = useState("")
+  const [replacementPrice, setReplacementPrice] = useState("")
   const [categoryOption, setCategoryOption] = useState("--Select--Category--");
   const [brandOption, setBrandOption] = useState("--Select--Brand--");
   const [colorData, setColorData] = useState("--Select--Color--");
@@ -120,15 +128,67 @@ function Register_seller() {
 
   const handleFile = (e) => {
     const selectedFile = e?.target?.files[0];
+    file.push({name:selectedFile.name,size:selectedFile.size,type:selectedFile.type})
+
     if (selectedFile) {
-      const blob = new Blob([selectedFile], { type: selectedFile.type });
-      setFile([...file, URL.createObjectURL(blob)]);
+      // Create a Blob object from the selected file
+      const blob = new Blob([selectedFile], { type: selectedFile?.type });
+  
+      // Create a URL for the Blob and update the state
+      setFile1([...file1, URL.createObjectURL(blob)]);
     }
-    console.log("file", file);
+  
   }
 
   const addProduct = () => {
-    console.log("Selected file :- ", file)
+    console.log(file,"file")
+    setIsLoader(true)
+    const data = new FormData();
+    data.append("product_category", categoryOption)
+    data.append("price_sale_lend_price", priceSellLend)
+    data.append("product_replacement_price", replacementPrice)
+    data.append("product_buy_rent", priceBuyOption)
+    data.append("product_rental_period", `${lengthRentalOption}`)
+    data.append("product_color", colorData)
+    data.append("product_brand", brandOption)
+    data.append("style_top", styleTopOption)
+    data.append("style_bottom", styleBottomOption)
+    data.append("billing_type", blingTypeOption)
+    data.append("billing_level", blingLevelOption)
+    data.append("billing_condition", blingConditionOption)
+    data.append("product_padding", paddingOption)
+    data.append("location", locationOption)
+    data.append("files", file)
+    data.append("product_description", description)
+    data.append("size_top", sizeTopOption)
+    data.append("size_bottom", sizeBottomOption)
+    data.append("size_standard", sizeStandardOption)
+   
+    if(categoryOption && priceSellLend && lengthRentalOption && priceBuyOption && lengthRentalOption && colorData&& brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && sizeTopOption && sizeBottomOption && sizeStandardOption){
+
+        axios({
+          url: configJSON.baseUrl + configJSON.add_product,
+          method: "post",
+          data: data,
+          headers: { 'content-type': 'multipart/form-data' },
+        })
+          .then((res) => {
+    setIsLoader(false)
+            if (res?.data?.success == true) {
+              MESSAGE.success(res?.data?.message);
+
+            } else {
+              MESSAGE.error(res?.data?.message);
+            }
+          })
+          .catch((error) => {
+    setIsLoader(false)
+            console.log(error);
+          });
+
+    }else{
+      MESSAGE.error("All fields are mendatory !!!");
+    }
   }
   return (
     <>
@@ -400,632 +460,302 @@ function Register_seller() {
             </div>
           </section>
           <div className="register-form">
-            <form
-              name="register-form"
-              className="needs-validation"
-              novalidate=""
-            >
+            {
+              isLoader == true ?
+                <div class="custom-loader"></div> :
+                <form
+                  name="register-form"
+                  className="needs-validation"
+                  novalidate=""
+                >
 
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="search-field mb-3">
-                    <div
-                      className={
-                        isCategoryDropdownOpen == false
-                          ? "form-label-fixed hover-container"
-                          : "form-label-fixed hover-container js-content_visible"
-                      }
-                    >
-                      <label htmlFor="search-dropdown7" className="form-label">
-                        Category{" "}
-                      </label>
-                      <div
-                        className="js-hover__open"
-                        onClick={onHandleOpenCategory}
-                      >
-                        <input
-                          type="text"
-                          className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                          id="search-dropdown7"
-                          name="search-keyword"
-                          readonly=""
-                          value={categoryOption}
-                        />
-                      </div>
-                      <div
-                        className="filters-container js-hidden-content mt-2"
-                        onClick={onHandleOpenCategory}
-                      >
-                        <ul className="search-suggestion list-unstyled">
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setCategoryOption("Bikini")}
-                          >
-                            <span className="me-auto">Bikini </span>
-                          </li>
-                          <li
-                            className=" search-suggestion__item js-search-select"
-                            onClick={() => setCategoryOption("Figure")}
-                          >
-                            <span className="me-auto">Figure</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setCategoryOption("Swimsuit")}
-                          >
-                            <span className="me-auto">Swimsuit</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setCategoryOption("FMG/WBFF")}
-                          >
-                            <span className="me-auto">FMG/WBFF</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setCategoryOption("Themewear")}
-                          >
-                            <span className="me-auto">Themewear</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() =>
-                              setCategoryOption("Accessories/Shoes")
-                            }
-                          >
-                            <span className="me-auto">Accessories/Shoes</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <div className=" border-0">
-                    <label htmlFor="search-dropdown7" className="form-label">
-                      Price for sale/lend{" "}
-                    </label>
-                    <div className="form-floating ">
-                      <input
-                        name="login_email"
-                        type="email"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email address *"
-                        required=""
-                      />
-                      <label htmlFor="customerNameEmailInput">
-                        Enter Sale/lend Price
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 mb-3">
-                  <div className=" border-0">
-                    <label htmlFor="search-dropdown7" className="form-label">
-                      Replacement Price{" "}
-                    </label>
-
-                    <div className="form-floating">
-                      <input
-                        name="login_email"
-                        type="email"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email address *"
-                        required=""
-                      />
-                      <label htmlFor="customerNameEmailInput">
-                        Enter Replacement Price
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label htmlFor="" className="mb-3">
-                    Sell/Lend
-                  </label>
-                  <div className="search-field mb-3">
-                    <div className={isPriceBuy == false ? "form-label-fixed hover-container" : "form-label-fixed hover-container js-content_visible"}>
-                      <label htmlFor="search-dropdown3" className="form-label">
-                        Buy{" "}
-                      </label>
-                      <div className="js-hover__open" onClick={() => setIsPriceBuy(!isPriceBuy)}>
-                        <input
-                          type="text"
-                          className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                          id="search-dropdown3"
-                          name="search-keyword"
-                          readonly=""
-                          value={priceBuyOption}
-                        />
-                      </div>
-                      <div className="filters-container js-hidden-content mt-2" onClick={() => setIsPriceBuy(!isPriceBuy)}>
-                        <ul className="search-suggestion list-unstyled">
-                          <li className="search-suggestion__item js-search-select" onClick={() => setPriceBuyOption("Buy")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              Buy
-                            </a>
-                          </li>
-                          <li className="search-suggestion__item js-search-select" onClick={() => setPriceBuyOption("Rent")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              Rent
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label htmlFor="" className="mb-3">
-                    &nbsp;
-                  </label>
-                  <div className="search-field mb-3">
-                    <div className={isLengthRental == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                      <label htmlFor="search-dropdown2" className="form-label">
-                        Length of Rental Period{" "}
-                      </label>
-                      <div className="js-hover__open" onClick={() => setIsLengthRental(!isLengthRental)}>
-                        <input
-                          type="text"
-                          className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                          id="search-dropdown2"
-                          name="search-keyword"
-                          readonly=""
-                          value={lengthRentalOption}
-                        />
-                      </div>
-                      <div className="filters-container js-hidden-content mt-2" onClick={() => setIsLengthRental(!isLengthRental)}>
-                        <ul className="search-suggestion list-unstyled">
-                          <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("2 Weeks")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              2 Weeks
-                            </a>
-                          </li>
-                          <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("1 Month")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              1 Month
-                            </a>
-                          </li>
-                          <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("1 Season")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              1 Season
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="search-field mb-3">
-                    <div
-                      className={
-                        isColorDropdownOpen == true
-                          ? "form-label-fixed hover-container js-content_visible"
-                          : "form-label-fixed hover-container"
-                      }
-                    >
-                      <label htmlFor="search-dropdown8" className="form-label">
-                        Colour{" "}
-                      </label>
-                      <div
-                        className="js-hover__open"
-                        onClick={onHandleOpenColor}
-                      >
-                        <input
-                          type="text"
-                          className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                          id="search-dropdown8"
-                          name="search-keyword"
-                          readonly=""
-                          value={colorData}
-                        />
-                      </div>
-                      <div
-                        className="filters-container js-hidden-content mt-2"
-                        onClick={onHandleOpenColor}
-                      >
-                        <ul className="search-suggestion list-unstyled">
-                          <div className="d-flex flex-wrap gap-2">
-                            <a
-                              onClick={() => setColorData("#0a2472")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#0a2472" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#d7bb4f")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#d7bb4f" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#282828")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#282828" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#b1d6e8")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#b1d6e8" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#9c7539")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#9c7539" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#d29b48")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#d29b48" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#e6ae95")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#e6ae95" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#d76b67")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#d76b67" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#bababa")}
-                              className="swatch-color swatch_active js-filter"
-                              style={{ color: "#bababa" }}
-                            ></a>
-                            <a
-                              onClick={() => setColorData("#bfdcc4")}
-                              className="swatch-color js-filter"
-                              style={{ color: "#bfdcc4" }}
-                            ></a>
-                          </div>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="search-field mb-3">
-                    <div
-                      className={
-                        isBrandDropdownOpen == false
-                          ? "form-label-fixed hover-container"
-                          : "form-label-fixed hover-container js-content_visible"
-                      }
-                    >
-                      <label htmlFor="search-dropdown8" className="form-label">
-                        Brand
-                      </label>
-                      <div
-                        className="js-hover__open"
-                        onClick={onHandleOpenBrand}
-                      >
-                        <input
-                          type="text"
-                          value={brandOption}
-                          className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                          id="search-dropdown8"
-                          name="search-keyword"
-                          readonly=""
-
-                          placeholder=""
-                        />
-                      </div>
-                      <div
-                        className="filters-container js-hidden-content mt-2"
-                        onClick={() => setIsBrandDropdownOpen(false)}
-                      >
-                        <ul className="search-suggestion list-unstyled">
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() =>
-                              setBrandOption("Angel Competition Bikinis")
-                            }
-                          >
-                            <span className="me-auto">
-                              Angel Competition Bikinis
-                            </span>
-                          </li>
-                          <li
-                            className=" search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Georgia Rose")}
-                          >
-                            <span className="me-auto">Georgia Rose</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Glamfit")}
-                          >
-                            <span className="me-auto">Glamfit</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Toxic Angels")}
-                          >
-                            <span className="me-auto">Toxic Angels</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("67 Bikinis")}
-                          >
-                            <span className="me-auto">67 Bikinis</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Blackice Bikinis")}
-                          >
-                            <span className="me-auto">Blackice Bikinis</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Season Bikini")}
-                          >
-                            <span className="me-auto">Season Bikini</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Ravishsands")}
-                          >
-                            <span className="me-auto">Ravishsands</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Creative Bikinis")}
-                          >
-                            <span className="me-auto">Creative Bikinis</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() =>
-                              setBrandOption("SY Competition Suits")
-                            }
-                          >
-                            <span className="me-auto">
-                              SY Competition Suits
-                            </span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Kristal Bikinis")}
-                          >
-                            <span className="me-auto">Kristal Bikinis</span>
-                          </li>
-                          <li
-                            className="search-suggestion__item js-search-select"
-                            onClick={() => setBrandOption("Other")}
-                          >
-                            <span className="me-auto">Other</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  {isSizeTopBottom == true && isSizeShow == false &&
-                    <label htmlFor="" className="mb-3">
-                      Size
-                    </label>
-                  }
-                  {isSizeShow == true && isSizeTopBottom == false &&
-                    <label htmlFor="" className="mb-3">
-                      Size
-                    </label>
-                  }
                   <div className="row">
-                    {isSizeShow == true && <div className="col-md-4">
+                    <div className="col-md-12">
                       <div className="search-field mb-3">
-                        <div className={isSizeStandard == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
-                          <label
-                            htmlFor="search-dropdown8"
-                            className="form-label"
-                          >
-                            Standard{" "}
+                        <div
+                          className={
+                            isCategoryDropdownOpen == false
+                              ? "form-label-fixed hover-container"
+                              : "form-label-fixed hover-container js-content_visible"
+                          }
+                        >
+                          <label htmlFor="search-dropdown7" className="form-label">
+                            Category{" "}
                           </label>
-                          <div className="js-hover__open" onClick={onHandleSizeStandard}>
+                          <div
+                            className="js-hover__open"
+                            onClick={onHandleOpenCategory}
+                          >
+                            <input
+                              type="text"
+                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                              id="search-dropdown7"
+                              name="search-keyword"
+                              readonly=""
+                              value={categoryOption}
+                            />
+                          </div>
+                          <div
+                            className="filters-container js-hidden-content mt-2"
+                            onClick={onHandleOpenCategory}
+                          >
+                            <ul className="search-suggestion list-unstyled">
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setCategoryOption("Bikini")}
+                              >
+                                <span className="me-auto">Bikini </span>
+                              </li>
+                              <li
+                                className=" search-suggestion__item js-search-select"
+                                onClick={() => setCategoryOption("Figure")}
+                              >
+                                <span className="me-auto">Figure</span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setCategoryOption("Swimsuit")}
+                              >
+                                <span className="me-auto">Swimsuit</span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setCategoryOption("FMG_WBFF")}
+                              >
+                                <span className="me-auto">FMG_WBFF</span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setCategoryOption("Themewear")}
+                              >
+                                <span className="me-auto">Themewear</span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() =>
+                                  setCategoryOption("Accessories/Shoes")
+                                }
+                              >
+                                <span className="me-auto">Accessories/Shoes</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <div className=" border-0">
+                        <label htmlFor="search-dropdown7" className="form-label">
+                          Price for sale/lend{" "}
+                        </label>
+                        <div className="form-floating ">
+                          <input
+                            name="login_email"
+                            type="number"
+                            className="form-control form-control_gray"
+                            id="customerNameEmailInput"
+                            placeholder="Email address *"
+                            required=""
+                            value={priceSellLend}
+                            onChange={(e) => setPriceSellLend(e.target.value)}
+                          />
+                          <label htmlFor="customerNameEmailInput">
+                            Enter Sale/lend Price
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <div className=" border-0">
+                        <label htmlFor="search-dropdown7" className="form-label">
+                          Replacement Price{" "}
+                        </label>
+
+                        <div className="form-floating">
+                          <input
+                            name="login_email"
+                            type="number"
+                            className="form-control form-control_gray"
+                            id="customerNameEmailInput"
+                            placeholder="Email address *"
+                            required=""
+                            value={replacementPrice}
+                            onChange={(e) => setReplacementPrice(e.target.value)}
+                          />
+                          <label htmlFor="customerNameEmailInput">
+                            Enter Replacement Price
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="" className="mb-3">
+                        Sell/Lend
+                      </label>
+                      <div className="search-field mb-3">
+                        <div className={isPriceBuy == false ? "form-label-fixed hover-container" : "form-label-fixed hover-container js-content_visible"}>
+                          <label htmlFor="search-dropdown3" className="form-label">
+                            Buy{" "}
+                          </label>
+                          <div className="js-hover__open" onClick={() => setIsPriceBuy(!isPriceBuy)}>
+                            <input
+                              type="text"
+                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                              id="search-dropdown3"
+                              name="search-keyword"
+                              readonly=""
+                              value={priceBuyOption}
+                            />
+                          </div>
+                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsPriceBuy(!isPriceBuy)}>
+                            <ul className="search-suggestion list-unstyled">
+                              <li className="search-suggestion__item js-search-select" onClick={() => setPriceBuyOption("Buy")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  Buy
+                                </a>
+                              </li>
+                              <li className="search-suggestion__item js-search-select" onClick={() => setPriceBuyOption("Rent")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  Rent
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="" className="mb-3">
+                        &nbsp;
+                      </label>
+                      <div className="search-field mb-3">
+                        <div className={isLengthRental == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                          <label htmlFor="search-dropdown2" className="form-label">
+                            Length of Rental Period{" "}
+                          </label>
+                          <div className="js-hover__open" onClick={() => setIsLengthRental(!isLengthRental)}>
+                            <input
+                              type="text"
+                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                              id="search-dropdown2"
+                              name="search-keyword"
+                              readonly=""
+                              value={lengthRentalOption}
+                            />
+                          </div>
+                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsLengthRental(!isLengthRental)}>
+                            <ul className="search-suggestion list-unstyled">
+                              <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("2 Weeks")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  2 Weeks
+                                </a>
+                              </li>
+                              <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("1 Month")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  1 Month
+                                </a>
+                              </li>
+                              <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("1 Season")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  1 Season
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="search-field mb-3">
+                        <div
+                          className={
+                            isColorDropdownOpen == true
+                              ? "form-label-fixed hover-container js-content_visible"
+                              : "form-label-fixed hover-container"
+                          }
+                        >
+                          <label htmlFor="search-dropdown8" className="form-label">
+                            Colour{" "}
+                          </label>
+                          <div
+                            className="js-hover__open"
+                            onClick={onHandleOpenColor}
+                          >
                             <input
                               type="text"
                               className="form-control form-control-lg search-field__actor search-field__arrow-down"
                               id="search-dropdown8"
                               name="search-keyword"
                               readonly=""
-                              value={sizeStandardOption}
+                              value={colorData}
                             />
                           </div>
-                          <div className="filters-container js-hidden-content mt-2">
-                            <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XXS")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  XXS
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XS")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  XS
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("S")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  S
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("M")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  M
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("L")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  L
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XL")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  XL
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>}
-                    {isSizeTopBottom == true && <> <div className="col-md-4">
-                      <div className="search-field mb-3">
-                        <div className={isSizeTop == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
-                          <label
-                            htmlFor="search-dropdown7"
-                            className="form-label"
+                          <div
+                            className="filters-container js-hidden-content mt-2"
+                            onClick={onHandleOpenColor}
                           >
-                            Size Top{" "}
-                          </label>
-                          <div className="js-hover__open" onClick={onHandleSizeTop}>
-                            <input
-                              type="text"
-                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                              id="search-dropdown7"
-                              name="search-keyword"
-                              readonly=""
-                              value={sizeTopOption}
-                            />
-                          </div>
-                          <div className="filters-container js-hidden-content mt-2" onClick={onHandleSizeTop}>
                             <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("A/B")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  A/B
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("C")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  C
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("D")} >
-                                <a className=" mb-3 me-3 js-filter">
-                                  D
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("DD & Bigger")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  DD & Bigger
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                      <div className="col-md-4">
-                        <div className="search-field mb-3">
-                          <div className={isSizeBottom == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
-                            <label
-                              htmlFor="search-dropdown7"
-                              className="form-label"
-                            >
-                              Size Bottom{" "}
-                            </label>
-                            <div className="js-hover__open" onClick={onHandleSizeBottom}>
-                              <input
-                                type="text"
-                                className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                                id="search-dropdown7"
-                                name="search-keyword"
-                                readonly=""
-                                value={sizeBottomOption}
-                              />
-                            </div>
-                            <div className="filters-container js-hidden-content mt-2" onClick={onHandleSizeBottom}>
-                              <ul className="search-suggestion list-unstyled">
-                                <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("2")}>
-                                  <a className=" mb-3 me-3 js-filter">
-                                    2
-                                  </a>
-                                </li>
-                                <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("4")}>
-                                  <a className=" mb-3 me-3 js-filter">
-                                    4
-                                  </a>
-                                </li>
-                                <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("6")}>
-                                  <a className=" mb-3 me-3 js-filter">
-                                    6
-                                  </a>
-                                </li>
-                                <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("8")}>
-                                  <a className=" mb-3 me-3 js-filter">
-                                    8
-                                  </a>
-                                </li>
-                                <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("10")}>
-                                  <a className=" mb-3 me-3 js-filter">
-                                    10
-                                  </a>
-                                </li>
-                                <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("Other/combination")}>
-                                  <a className=" mb-3 me-3 js-filter">
-                                    Other/combination
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div> </>}
-
-                  </div>
-                </div>
-                <div className="col-md-12">
-                  <label htmlFor="" className="mb-3">
-                    Style
-                  </label>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="search-field mb-3">
-                        <div className={isStyleTop == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
-                          <label
-                            htmlFor="search-dropdown7"
-                            className="form-label"
-                          >
-                            {" "}
-                            Top{" "}
-                          </label>
-                          <div className="js-hover__open" onClick={onHandleStyleTop}>
-                            <input
-                              type="text"
-                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                              id="search-dropdown7"
-                              name="search-keyword"
-                              readonly=""
-                              value={styleTopOption}
-                            />
-                          </div>
-                          <div className="filters-container js-hidden-content mt-2" onClick={onHandleStyleTop}>
-                            <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Bombshell")}>
-                                <span className="me-auto">Bombshell</span>
-                              </li>
-                              <li className=" search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Slider")}>
-                                <span className="me-auto">Slider</span>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Moulded")}>
-                                <span className="me-auto">Moulded</span>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Other")}>
-                                <span className="me-auto">Other</span>
-                              </li>
+                              <div className="d-flex flex-wrap gap-2">
+                                <a
+                                  onClick={() => setColorData("#0a2472")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#0a2472" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#d7bb4f")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#d7bb4f" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#282828")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#282828" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#b1d6e8")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#b1d6e8" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#9c7539")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#9c7539" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#d29b48")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#d29b48" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#e6ae95")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#e6ae95" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#d76b67")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#d76b67" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#bababa")}
+                                  className="swatch-color swatch_active js-filter"
+                                  style={{ color: "#bababa" }}
+                                ></a>
+                                <a
+                                  onClick={() => setColorData("#bfdcc4")}
+                                  className="swatch-color js-filter"
+                                  style={{ color: "#bfdcc4" }}
+                                ></a>
+                              </div>
                             </ul>
                           </div>
                         </div>
@@ -1033,45 +763,114 @@ function Register_seller() {
                     </div>
                     <div className="col-md-6">
                       <div className="search-field mb-3">
-                        <div className={isStyleBottom == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
-                          <label
-                            htmlFor="search-dropdown7"
-                            className="form-label"
-                          >
-                            Bottom{" "}
+                        <div
+                          className={
+                            isBrandDropdownOpen == false
+                              ? "form-label-fixed hover-container"
+                              : "form-label-fixed hover-container js-content_visible"
+                          }
+                        >
+                          <label htmlFor="search-dropdown8" className="form-label">
+                            Brand
                           </label>
-                          <div className="js-hover__open" onClick={onHandleStyleBottom}>
+                          <div
+                            className="js-hover__open"
+                            onClick={onHandleOpenBrand}
+                          >
                             <input
                               type="text"
+                              value={brandOption}
                               className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                              id="search-dropdown7"
+                              id="search-dropdown8"
                               name="search-keyword"
                               readonly=""
 
-                              value={styleBottomOption}
+                              placeholder=""
                             />
                           </div>
-                          <div className="filters-container js-hidden-content mt-2" onClick={onHandleStyleBottom}>
+                          <div
+                            className="filters-container js-hidden-content mt-2"
+                            onClick={() => setIsBrandDropdownOpen(false)}
+                          >
                             <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Cheeky")}>
-                                <span className="me-auto">Cheeky</span>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() =>
+                                  setBrandOption("Angel Competition Bikinis")
+                                }
+                              >
+                                <span className="me-auto">
+                                  Angel Competition Bikinis
+                                </span>
                               </li>
-                              <li className=" search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Extra Cheeky")}>
-                                <span className="me-auto">Extra Cheeky</span>
+                              <li
+                                className=" search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Georgia Rose")}
+                              >
+                                <span className="me-auto">Georgia Rose</span>
                               </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Brazllian")}>
-                                <span className="me-auto">Brazllian</span>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Glamfit")}
+                              >
+                                <span className="me-auto">Glamfit</span>
                               </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Pro")}>
-                                <span className="me-auto">Pro</span>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Toxic Angels")}
+                              >
+                                <span className="me-auto">Toxic Angels</span>
                               </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Micro Pro")}>
-                                <span className="me-auto">Micro Pro</span>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("67 Bikinis")}
+                              >
+                                <span className="me-auto">67 Bikinis</span>
                               </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Olympian")}>
-                                <span className="me-auto">Olympian</span>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Blackice Bikinis")}
+                              >
+                                <span className="me-auto">Blackice Bikinis</span>
                               </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Other")}>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Season Bikini")}
+                              >
+                                <span className="me-auto">Season Bikini</span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Ravishsands")}
+                              >
+                                <span className="me-auto">Ravishsands</span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Creative Bikinis")}
+                              >
+                                <span className="me-auto">Creative Bikinis</span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() =>
+                                  setBrandOption("SY Competition Suits")
+                                }
+                              >
+                                <span className="me-auto">
+                                  SY Competition Suits
+                                </span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Kristal Bikinis")}
+                              >
+                                <span className="me-auto">Kristal Bikinis</span>
+                              </li>
+                              <li
+                                className="search-suggestion__item js-search-select"
+                                onClick={() => setBrandOption("Other")}
+                              >
                                 <span className="me-auto">Other</span>
                               </li>
                             </ul>
@@ -1079,326 +878,564 @@ function Register_seller() {
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mb-3">
 
-                <div className="col-md-6">
+                  </div>
                   <div className="row">
-                    <label htmlFor="" className="mb-3">
-                      Bling
-                    </label>
-                    <div className="col-md-4">
-                      <div className="search-field mb-3">
-                        <div className={isBlingType == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                          <label
-                            htmlFor="search-dropdown6"
-                            className="form-label"
-                          >
-                            {" "}
-                            Type{" "}
-                          </label>
-                          <div className="js-hover__open" onClick={() => setIsBlingType(!isBlingType)}>
-                            <input
-                              type="text"
-                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                              id="search-dropdown6"
-                              name="search-keyword"
-                              readonly=""
-                              value={blingTypeOption}
-                            />
-                          </div>
-                          <div className="filters-container js-hidden-content mt-2">
-                            <ul className="search-suggestion list-unstyled" onClick={() => setIsBlingType(!isBlingType)}>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Standard Rhinestones")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Standard Rhinestones
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Preciosa")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Preciosa
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Swarovski")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Swarovski
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="search-field mb-3">
-                        <div className={isBlingLevel == false ? "form-label-fixed hover-container" : "form-label-fixed hover-container js-content_visible"} >
-                          <label
-                            htmlFor="search-dropdown5"
-                            className="form-label"
-                          >
-                            Level{" "}
-                          </label>
-                          <div className="js-hover__open" onClick={() => setIsBlingLevel(!isBlingLevel)}>
-                            <input
-                              type="text"
-                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                              id="search-dropdown5"
-                              name="search-keyword"
-                              readonly=""
-                              value={blingLevelOption}
-                            />
-                          </div>
-                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingLevel(!isBlingLevel)}>
-                            <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Plain")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Plain
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Basic")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Basic
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Full")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Full
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="search-field mb-3">
-                        <div className={isBlingCondition == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                          <label
-                            htmlFor="search-dropdown4"
-                            className="form-label"
-                          >
-                            Condition{" "}
-                          </label>
-                          <div className="js-hover__open" onClick={() => setIsBlingCondition(!isBlingCondition)}>
-                            <input
-                              type="text"
-                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                              id="search-dropdown4"
-                              name="search-keyword"
-                              readonly=""
-                              value={blingConditionOption}
-                            />
-                          </div>
-                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
-                            <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("New")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  New
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Worn Once")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Worn Once
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Worn")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Worn
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Needs work")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Needs work
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="" className="mb-3">
-                    &nbsp;
-                  </label>
-                  <div className="search-field mb-3">
-                    <div className={isPadding == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                      <label htmlFor="search-dropdown2" className="form-label">
-                        Padding{" "}
-                      </label>
-                      <div className="js-hover__open" onClick={() => setIsPadding(!isPadding)}>
-                        <input
-                          type="text"
-                          className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                          id="search-dropdown2"
-                          name="search-keyword"
-                          readonly=""
-                          value={paddingOption}
-                        />
-                      </div>
-                      <div className="filters-container js-hidden-content mt-2" onClick={() => setIsPadding(!isPadding)}>
-                        <ul className="search-suggestion list-unstyled">
-                          <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("Single")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              Single
-                            </a>
-                          </li>
-                          <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("Double")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              Double
-                            </a>
-                          </li>
-                          <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("None")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              None
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="search-field mb-3">
-                    <div className={isLocation == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                      <label htmlFor="search-dropdown" className="form-label">
-                        Location
-                      </label>
-                      <div className="js-hover__open" onClick={() => setIsLocation(!isLocation)}>
-                        <input
-                          type="text"
-                          className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                          id="search-dropdown"
-                          name="search-keyword"
-                          readonly=""
-                          value={locationOption}
-                        />
-                      </div>
-                      <div className="filters-container js-hidden-content mt-2" >
-                        <ul className="search-suggestion list-unstyled">
-                          <li className="search-suggestion__item js-search-select">
-                            <a
-
-                              className="mb-0 d-block me-3 js-filter swatch_active"
-                            >
-                              <h4>Item Location</h4>
-                              <input
-                                type="text"
-                                className="search-field__input form-control form-control-sm border-light border-2"
-
-                              />
-                            </a>
-                          </li>
-                          <li className="search-suggestion__item js-search-select" onClick={() => setLocationOption("Posts to")}>
-                            <a className=" mb-3 me-3 js-filter">
-                              Posts to
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-12">
-                  <div className=" mb-3">
-                    <fieldset className="form-control form-control_gray">
-                      <a
-                        href="javascript:void(0)"
-                        onClick="$('#pro-image').click()"
-                      >
-                        Upload Image
-                      </a>
-                      <input
-                        type="file"
-                        id="pro-image"
-                        name="pro-image"
-                        style={{ display: "none;" }}
-                        className="form-control"
-                        multiple
-                        onChange={(e) => handleFile(e)}
-                      />
-                    </fieldset>
-                    <div className="preview-images-zone mt-2">
-                      {/* <div className="preview-image preview-show-1">
-                        <div className="image-cancel" data-no="1">
-                          x
-                        </div>
-                        <div className="image-zone">
-                          <img
-                            id="pro-img-1"
-                            src="images/products/product_1.jpg"
-                          />
-                        </div>
-                      </div>
-                      <div className="preview-image preview-show-2">
-                        <div className="image-cancel" data-no="2">
-                          x
-                        </div>
-                        <div className="image-zone">
-                          <img
-                            id="pro-img-2"
-                            src="images/products/product_2.jpg"
-                          />
-                        </div>
-                      </div>
-                      <div className="preview-image preview-show-3">
-                        <div className="image-cancel" data-no="3">
-                          x
-                        </div>
-                        <div className="image-zone">
-                          <img
-                            id="pro-img-3"
-                            src="images/products/product_3.jpg"
-                          />
-                        </div>
-                      </div> */}
-                      {
-                        file?.length > 0 &&
-                        file?.map((item, index) => (
-                          <div className="preview-image preview-show-4">
-                            <div className="image-cancel" data-no="4">
-                              x
-                            </div>
-                            <div className="image-zone">
-                              <img
-                                id="pro-img-4"
-                                src={item}
-                                alt="/productImage"
-                              />
-                            </div>
-                          </div>
-                        ))
+                    <div className="col-md-12">
+                      {isSizeTopBottom == true && isSizeShow == false &&
+                        <label htmlFor="" className="mb-3">
+                          Size
+                        </label>
                       }
+                      {isSizeShow == true && isSizeTopBottom == false &&
+                        <label htmlFor="" className="mb-3">
+                          Size
+                        </label>
+                      }
+                      <div className="row">
+                        {isSizeShow == true && <div className="col-md-4">
+                          <div className="search-field mb-3">
+                            <div className={isSizeStandard == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
+                              <label
+                                htmlFor="search-dropdown8"
+                                className="form-label"
+                              >
+                                Standard{" "}
+                              </label>
+                              <div className="js-hover__open" onClick={onHandleSizeStandard}>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown8"
+                                  name="search-keyword"
+                                  readonly=""
+                                  value={sizeStandardOption}
+                                />
+                              </div>
+                              <div className="filters-container js-hidden-content mt-2">
+                                <ul className="search-suggestion list-unstyled">
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XXS")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      XXS
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XS")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      XS
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("S")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      S
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("M")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      M
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("L")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      L
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XL")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      XL
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>}
+                        {isSizeTopBottom == true && <> <div className="col-md-4">
+                          <div className="search-field mb-3">
+                            <div className={isSizeTop == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
+                              <label
+                                htmlFor="search-dropdown7"
+                                className="form-label"
+                              >
+                                Size Top{" "}
+                              </label>
+                              <div className="js-hover__open" onClick={onHandleSizeTop}>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown7"
+                                  name="search-keyword"
+                                  readonly=""
+                                  value={sizeTopOption}
+                                />
+                              </div>
+                              <div className="filters-container js-hidden-content mt-2" onClick={onHandleSizeTop}>
+                                <ul className="search-suggestion list-unstyled">
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("A/B")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      A/B
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("C")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      C
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("D")} >
+                                    <a className=" mb-3 me-3 js-filter">
+                                      D
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("DD & Bigger")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      DD & Bigger
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                          <div className="col-md-4">
+                            <div className="search-field mb-3">
+                              <div className={isSizeBottom == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
+                                <label
+                                  htmlFor="search-dropdown7"
+                                  className="form-label"
+                                >
+                                  Size Bottom{" "}
+                                </label>
+                                <div className="js-hover__open" onClick={onHandleSizeBottom}>
+                                  <input
+                                    type="text"
+                                    className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                    id="search-dropdown7"
+                                    name="search-keyword"
+                                    readonly=""
+                                    value={sizeBottomOption}
+                                  />
+                                </div>
+                                <div className="filters-container js-hidden-content mt-2" onClick={onHandleSizeBottom}>
+                                  <ul className="search-suggestion list-unstyled">
+                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("2")}>
+                                      <a className=" mb-3 me-3 js-filter">
+                                        2
+                                      </a>
+                                    </li>
+                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("4")}>
+                                      <a className=" mb-3 me-3 js-filter">
+                                        4
+                                      </a>
+                                    </li>
+                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("6")}>
+                                      <a className=" mb-3 me-3 js-filter">
+                                        6
+                                      </a>
+                                    </li>
+                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("8")}>
+                                      <a className=" mb-3 me-3 js-filter">
+                                        8
+                                      </a>
+                                    </li>
+                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("10")}>
+                                      <a className=" mb-3 me-3 js-filter">
+                                        10
+                                      </a>
+                                    </li>
+                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("Other/combination")}>
+                                      <a className=" mb-3 me-3 js-filter">
+                                        Other/combination
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div> </>}
+
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <label htmlFor="" className="mb-3">
+                        Style
+                      </label>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="search-field mb-3">
+                            <div className={isStyleTop == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
+                              <label
+                                htmlFor="search-dropdown7"
+                                className="form-label"
+                              >
+                                {" "}
+                                Top{" "}
+                              </label>
+                              <div className="js-hover__open" onClick={onHandleStyleTop}>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown7"
+                                  name="search-keyword"
+                                  readonly=""
+                                  value={styleTopOption}
+                                />
+                              </div>
+                              <div className="filters-container js-hidden-content mt-2" onClick={onHandleStyleTop}>
+                                <ul className="search-suggestion list-unstyled">
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Bombshell")}>
+                                    <span className="me-auto">Bombshell</span>
+                                  </li>
+                                  <li className=" search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Slider")}>
+                                    <span className="me-auto">Slider</span>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Moulded")}>
+                                    <span className="me-auto">Moulded</span>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Other")}>
+                                    <span className="me-auto">Other</span>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="search-field mb-3">
+                            <div className={isStyleBottom == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
+                              <label
+                                htmlFor="search-dropdown7"
+                                className="form-label"
+                              >
+                                Bottom{" "}
+                              </label>
+                              <div className="js-hover__open" onClick={onHandleStyleBottom}>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown7"
+                                  name="search-keyword"
+                                  readonly=""
+
+                                  value={styleBottomOption}
+                                />
+                              </div>
+                              <div className="filters-container js-hidden-content mt-2" onClick={onHandleStyleBottom}>
+                                <ul className="search-suggestion list-unstyled">
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Cheeky")}>
+                                    <span className="me-auto">Cheeky</span>
+                                  </li>
+                                  <li className=" search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Extra Cheeky")}>
+                                    <span className="me-auto">Extra Cheeky</span>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Brazllian")}>
+                                    <span className="me-auto">Brazllian</span>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Pro")}>
+                                    <span className="me-auto">Pro</span>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Micro Pro")}>
+                                    <span className="me-auto">Micro Pro</span>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Olympian")}>
+                                    <span className="me-auto">Olympian</span>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Other")}>
+                                    <span className="me-auto">Other</span>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="pb-3">
-                    <textarea
-                      className="form-control form-control_gray"
-                      placeholder="Enter Description"
-                      rows="4"
-                    ></textarea>
-                  </div>
-                </div>
-              </div>
+                  <div className="row mb-3">
 
-              <button
-                className="btn btn-primary mx-auto d-block mt-4 text-uppercase"
-                type="button"
-                onClick={addProduct}
-              >
-                Submit
-              </button>
-            </form>
+                    <div className="col-md-6">
+                      <div className="row">
+                        <label htmlFor="" className="mb-3">
+                          Bling
+                        </label>
+                        <div className="col-md-4">
+                          <div className="search-field mb-3">
+                            <div className={isBlingType == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                              <label
+                                htmlFor="search-dropdown6"
+                                className="form-label"
+                              >
+                                {" "}
+                                Type{" "}
+                              </label>
+                              <div className="js-hover__open" onClick={() => setIsBlingType(!isBlingType)}>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown6"
+                                  name="search-keyword"
+                                  readonly=""
+                                  value={blingTypeOption}
+                                />
+                              </div>
+                              <div className="filters-container js-hidden-content mt-2">
+                                <ul className="search-suggestion list-unstyled" onClick={() => setIsBlingType(!isBlingType)}>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Standard Rhinestones")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Standard Rhinestones
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Preciosa")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Preciosa
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Swarovski")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Swarovski
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="search-field mb-3">
+                            <div className={isBlingLevel == false ? "form-label-fixed hover-container" : "form-label-fixed hover-container js-content_visible"} >
+                              <label
+                                htmlFor="search-dropdown5"
+                                className="form-label"
+                              >
+                                Level{" "}
+                              </label>
+                              <div className="js-hover__open" onClick={() => setIsBlingLevel(!isBlingLevel)}>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown5"
+                                  name="search-keyword"
+                                  readonly=""
+                                  value={blingLevelOption}
+                                />
+                              </div>
+                              <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingLevel(!isBlingLevel)}>
+                                <ul className="search-suggestion list-unstyled">
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Plain")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Plain
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Basic")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Basic
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Full")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Full
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="search-field mb-3">
+                            <div className={isBlingCondition == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                              <label
+                                htmlFor="search-dropdown4"
+                                className="form-label"
+                              >
+                                Condition{" "}
+                              </label>
+                              <div className="js-hover__open" onClick={() => setIsBlingCondition(!isBlingCondition)}>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown4"
+                                  name="search-keyword"
+                                  readonly=""
+                                  value={blingConditionOption}
+                                />
+                              </div>
+                              <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
+                                <ul className="search-suggestion list-unstyled">
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("New")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      New
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Worn Once")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Worn Once
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Worn")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Worn
+                                    </a>
+                                  </li>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Needs work")}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      Needs work
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <label htmlFor="" className="mb-3">
+                        &nbsp;
+                      </label>
+                      <div className="search-field mb-3">
+                        <div className={isPadding == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                          <label htmlFor="search-dropdown2" className="form-label">
+                            Padding{" "}
+                          </label>
+                          <div className="js-hover__open" onClick={() => setIsPadding(!isPadding)}>
+                            <input
+                              type="text"
+                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                              id="search-dropdown2"
+                              name="search-keyword"
+                              readonly=""
+                              value={paddingOption}
+                            />
+                          </div>
+                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsPadding(!isPadding)}>
+                            <ul className="search-suggestion list-unstyled">
+                              <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("Single")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  Single
+                                </a>
+                              </li>
+                              <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("Double")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  Double
+                                </a>
+                              </li>
+                              <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("None")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  None
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="search-field mb-3">
+                        <div className={isLocation == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                          <label htmlFor="search-dropdown" className="form-label">
+                            Location
+                          </label>
+                          <div className="js-hover__open" onClick={() => setIsLocation(!isLocation)}>
+                            <input
+                              type="text"
+                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                              id="search-dropdown"
+                              name="search-keyword"
+                              readonly=""
+                              value={locationOption}
+                            />
+                          </div>
+                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsLocation(!isLocation)}>
+                            <ul className="search-suggestion list-unstyled">
+                              <li className="search-suggestion__item js-search-select">
+                                <a
+
+                                  className="mb-0 d-block me-3 js-filter swatch_active"
+                                >
+                                  <h4>Item Location</h4>
+                                  <input
+                                    type="text"
+                                    className="search-field__input form-control form-control-sm border-light border-2"
+
+                                  />
+                                </a>
+                              </li>
+                              <li className="search-suggestion__item js-search-select" onClick={() => setLocationOption("Posts to")}>
+                                <a className=" mb-3 me-3 js-filter">
+                                  Posts to
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className=" mb-3">
+                        <fieldset className="form-control form-control_gray">
+                          <a
+                            href="javascript:void(0)"
+                            onClick="$('#pro-image').click()"
+                          >
+                            Upload Image
+                          </a>
+                          <input
+                            type="file"
+                            // id="pro-image"
+                            // name="pro-image"
+                            style={{ display: "none;" }}
+                            className="form-control"
+                            multiple  
+                            onChange={(e) => handleFile(e)}
+                          />
+                        </fieldset>
+                        <div className="preview-images-zone mt-2">
+                          {
+                            file1?.length > 0 &&
+                            file1?.map((item, index) => (
+                              <div className="preview-image preview-show-4">
+                                <div className="image-cancel" data-no="4">
+                                  x
+                                </div>
+                                <div className="image-zone">
+                                  <img
+                                    id="pro-img-4"
+                                    src={item}
+                                    alt="/productImage"
+                                  />
+                                </div>
+                              </div>
+                            ))
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="pb-3">
+                        <textarea
+                          className="form-control form-control_gray"
+                          placeholder="Enter Description"
+                          rows="4"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    className="btn btn-primary mx-auto d-block mt-4 text-uppercase"
+                    type="button"
+                    onClick={addProduct}
+                  >
+                    Submit
+                  </button>
+                </form>
+            }
           </div>
         </section>
       </main>

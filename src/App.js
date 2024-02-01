@@ -70,8 +70,7 @@ function App() {
           <Route exact path="/terms" element={<Terms />} />
           <Route exact path="/themewear" element={<Themewear />} />
           <Route exact path="/wbff" element={<WBFF />} />
-          
-
+        
         </Routes>
       </Router>
     </div>

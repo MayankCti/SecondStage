@@ -277,13 +277,15 @@ function Sell() {
           <div className="row">
             <div className="col-md-12 mx-auto">
               <div className="mb-5">
-                <h3 className=" text-center">
+                <h2 className="mb-4 text-center">have a second chance at stage</h2>
+                <h5 className=" text-center">
                   Welcome to Second Stage where you can sell or lend your bikini
                   to another competitor and share the love. We are a marketplace
                   connecting Users so your gorgeous bikini or comp wear can have
                   second chance at stage!
-                </h3>
+                </h5>
               </div>
+             
             </div>
           </div>
           <div className="about-us__content pb-5">
@@ -315,6 +317,23 @@ function Sell() {
                   pages. This is the best way to get the most views and get our
                   bikini front of the most buyers/renters.
                 </p>
+                <div className="ct_second_five_img my-4">
+                  <div>
+                    <img src="images/products/product_1-1.jpg"/>
+                  </div>
+                  <div>
+                    <img src="images/products/product_2.jpg"/>
+                  </div>
+                  <div>
+                    <img src="images/products/product_3.jpg"/>
+                  </div>
+                  <div>
+                    <img src="images/products/product_4.jpg"/>
+                  </div>
+                  <div>
+                    <img src="images/products/product_1.jpg"/>
+                  </div>
+              </div>
                 <h4 className="mt-4">Fees</h4>
                 <p className="ct_fs_16 mb-0">
                   Second Stage take a flat 10% fee from all transactions. The

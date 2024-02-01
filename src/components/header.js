@@ -1,64 +1,166 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-function Header() {
+import axios from 'axios';
+import { message, message as MESSAGE } from "antd";
+export const configJSON = require("../components/config");
+function Header(props) {
     const navigate = useNavigate()
-    
+    const [subtotal, setSubTotal] = useState(0)
     const [isCartSidebar, setIsCartSidebar] = useState(false);
     const [ishome, setIsHome] = useState(false);
-    const [isSearch,setIsSearch] = useState(false);
-    const handleHome = ()=>{
+    const [isSearch, setIsSearch] = useState(false);
+    const [allProduct, setAllProduct] = useState(props?.data ? props?.data : [])
+    const [accessToken, setAccessToken] = useState()
+    const [isLoader, setIsLoader] = useState(false)
+    useEffect(() => {
+        const token = JSON.parse(localStorage.getItem("token"))
+        if (token == null) {
+            navigate('/login-register')
+        } else {
+            console.log(props, "allProduct")
+            setAccessToken(token)
+        }
+    }, [])
+
+    const getCartData = (val) => {
+        console.log(val);
+        axios({
+            url: configJSON.baseUrl + configJSON.getCartData,
+            method: "get",
+            headers: {
+                'Authorization': `Bearer ${val}`
+            },
+        }).then((res) => {
+            setIsLoader(false)
+            if (res?.data?.success == true) {
+                setAllProduct(res?.data?.cart)
+                let total = 0
+                res?.data?.cart.map((item) => {
+                    total += item?.cart_price
+                })
+                setSubTotal(total)
+            }
+            else {
+                setAllProduct([])
+            }
+        }).catch((error) => {
+            setIsLoader(false)
+            console.log(error)
+        })
+    }
+
+    const upDateCartData = (productID, cartQty, cartId, incDec) => {
+        setIsLoader(true)
+        if (incDec == "-") {
+            cartQty = cartQty - 1;
+        } else if (incDec == "+") {
+            cartQty = cartQty + 1;
+        }
+        const data = {
+            product_id: productID,
+            cart_quantity: cartQty
+        }
+        if (cartQty >= 1) {
+            axios({
+                url: configJSON.baseUrl + configJSON.upDateCartData + cartId,
+                method: "post",
+                data: data,
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                },
+            }).then((res) => {
+                setIsLoader(false)
+                console.log(res, "update data")
+                if (res.data.success == true) {
+                    MESSAGE.success(res?.data?.message)
+                    getCartData(accessToken)
+                    props?.onClick();
+                } else {
+                    MESSAGE.error("Unable to update cart item.")
+                }
+            }).catch((error) => {
+                setIsLoader(false)
+                console.log(error)
+            })
+        } else {
+            MESSAGE.error("Minimum one  quantity is required !!!")
+            setIsLoader(false)
+        }
+    }
+
+    const deleteCartData = (cart_id) => {
+        setIsLoader(true)
+        axios({
+            method: "delete",
+            url: configJSON.baseUrl + configJSON.deleteCartData + cart_id,
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            },
+        }).then((res) => {
+            console.log(res)
+            setIsLoader(false)
+            if (res.data.success == true) {
+                MESSAGE.success("Cart item deleted successfully")
+                getCartData(accessToken)
+            } else {
+                MESSAGE.error("Unable to delete cart item.")
+            }
+        }).catch((err) => {
+            setIsLoader(false)
+            console.log(err)
+        })
+    }
+
+    const handleHome = () => {
         navigate("/")
-
-      }
-
-      const homeDropdown = ()=>{
+    }
+    const homeDropdown = () => {
         // navigate("/")
         setIsHome(!ishome)
-      }
-      
-      const handleFaq=()=>{
+    }
+    const handleFaq = () => {
         navigate("/faq")
-      }
-      const handleContact=()=>{
+    }
+    const handleContact = () => {
         navigate("/contact")
-      }
-      const handleLoginRegister = ()=>{
+    }
+    const handleLoginRegister = () => {
         navigate("/login-register")
-      }
-      const handleShopCart = ()=>{
+    }
+    const handleShopCart = () => {
         navigate("/shop-cart")
-      }
-      const handleBikinis=()=>{
+    }
+    const handleBikinis = () => {
         navigate("/bikinis")
-      }
-      const handleFigure=()=>{
+    }
+    const handleFigure = () => {
         navigate("/figure")
-      }
-      const handleSwimsuit=()=>{
+    }
+    const handleSwimsuit = () => {
         navigate("/swimsuit")
-      }
-      const HandleWbff=()=>{
+    }
+    const HandleWbff = () => {
         navigate("/wbff")
-      }
-      const handleThemewear=()=>{
+    }
+    const handleThemewear = () => {
         navigate("/themewear")
-      }
-      const handleAccessories=()=>{
+    }
+    const handleAccessories = () => {
         navigate("/accessories")
-      }
-      const handleSell = ()=>{
+    }
+    const handleSell = () => {
         navigate("/sell")
-        } 
-        const handleShopCheckout = ()=>{
-            navigate("/shop-checkout")
-          }
+    }
+    const handleShopCheckout = () => {
+        navigate("/shop-checkout")
+    }
     return (
         <>
             <header id="header" className="header header_sticky">
                 <div className="container-fluid ct_px_60">
                     <div className="header-desk header-desk_type_1">
                         <div className="logo">
-                            <a onClick={()=>handleHome()}>
+                            <a onClick={() => handleHome()}>
                                 <img src="/second_stage/images/logo.png" alt="Second Stage" className="logo__image d-block" />
                             </a>
                         </div>
@@ -68,47 +170,47 @@ function Header() {
                                     <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" /></svg>
                                 </div>
                                 <li className="navigation__item position-relative">
-                                    <a onClick={()=>handleHome()}  className="navigation__link">Home <span onClick={()=>homeDropdown()}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg></span></a>
-                                   { ishome == true && 
-                                   
-                                   <div className={ ishome == false ?"box-menu" : "box-menu ct_active"} style={{ width: "400px" }}>
-                                        <ul className="sub-menu__list list-unstyled">
-                                            <li className="sub-menu__item"><a href="#" className="menu-link menu-link_us-s">Search</a></li>
-                                            <li className="sub-menu__item"><a onClick={()=>handleLoginRegister()} className="menu-link menu-link_us-s">Registration</a></li>
-                                            <li className="sub-menu__item"><a onClick={()=>handleFaq()} className="menu-link menu-link_us-s">FAQs </a></li>
-                                            <li className="sub-menu__item"><a onClick={()=>handleContact()} className="menu-link menu-link_us-s">Contact</a></li>
-                                            <li className="sub-menu__item">
-                                                <a onClick={()=>handleShopCart()} className="sub-menu__item" >
-                                                    Cart
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>}
+                                    <a onClick={() => handleHome()} className="navigation__link">Home <span onClick={() => homeDropdown()}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" /></svg></span></a>
+                                    {
+                                        ishome == true &&
+                                        <div className={ishome == false ? "box-menu" : "box-menu ct_active"} style={{ width: "400px" }}>
+                                            <ul className="sub-menu__list list-unstyled">
+                                                <li className="sub-menu__item"><a className="menu-link menu-link_us-s">Search</a></li>
+                                                <li className="sub-menu__item"><a onClick={() => handleLoginRegister()} className="menu-link menu-link_us-s">Registration</a></li>
+                                                <li className="sub-menu__item"><a onClick={() => handleFaq()} className="menu-link menu-link_us-s">FAQs </a></li>
+                                                <li className="sub-menu__item"><a onClick={() => handleContact()} className="menu-link menu-link_us-s">Contact</a></li>
+                                                <li className="sub-menu__item">
+                                                    <a onClick={() => handleShopCart()} className="sub-menu__item" >
+                                                        Cart
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>}
 
                                 </li>
 
 
                                 <li className="navigation__item">
-                                    <a onClick={()=>handleBikinis()} className="navigation__link">Bikinis</a>
+                                    <a onClick={() => handleBikinis()} className="navigation__link">Bikinis</a>
                                 </li>
                                 <li className="navigation__item">
-                                    <a onClick={()=>handleFigure()} className="navigation__link">Figure</a>
+                                    <a onClick={() => handleFigure()} className="navigation__link">Figure</a>
                                 </li>
                                 <li className="navigation__item">
-                                    <a onClick={()=>handleSwimsuit()} className="navigation__link">Swimsuit</a>
+                                    <a onClick={() => handleSwimsuit()} className="navigation__link">Swimsuit</a>
                                 </li>
                                 <li className="navigation__item">
-                                    <a onClick={()=>HandleWbff()} className="navigation__link">FMG/WBFF</a>
+                                    <a onClick={() => HandleWbff()} className="navigation__link">FMG/WBFF</a>
                                 </li>
                                 <li className="navigation__item">
-                                    <a onClick={()=>handleThemewear()} className="navigation__link">Themewear</a>
+                                    <a onClick={() => handleThemewear()} className="navigation__link">Themewear</a>
                                 </li>
                                 <li className="navigation__item">
-                                    <a onClick={()=>handleAccessories()} className="navigation__link">Accessories</a>
+                                    <a onClick={() => handleAccessories()} className="navigation__link">Accessories</a>
                                 </li>
                                 <div className="header-tools__item hover-container ct_mobile_login">
 
-                                    <a onClick={()=>handleLoginRegister()} className="ct_mobile_fs14 text-white">
+                                    <a onClick={() => handleLoginRegister()} className="ct_mobile_fs14 text-white">
                                         Login / Register
                                     </a>
 
@@ -120,9 +222,9 @@ function Header() {
 
                         <div className="header-tools d-flex align-items-center">
                             <div className={isSearch == false ? "header-tools__item hover-container" : "header-tools__item hover-container js-content_visible"}>
-                                <div onClick={()=>setIsSearch(!isSearch)} className="js-hover__open position-relative">
-                                    <a className="js-search-popup search-field__actor" href="#">
-                                        <svg className="d-block" width="20" height="20"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_search" /></svg>
+                                <div onClick={() => setIsSearch(!isSearch)} className="js-hover__open position-relative">
+                                    <a className="js-search-popup search-field__actor" >
+                                        <svg className="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_search" /></svg>
                                         <i className="btn-icon btn-close-lg" ></i>
                                     </a>
 
@@ -144,12 +246,12 @@ function Header() {
                                                 <h6 className="sub-menu__title fs-base">Quicklinks</h6>
                                                 <div className="">
                                                     <ul className="sub-menu__list list-unstyled">
-                                                        <li className="sub-menu__item"><a onClick={()=>handleBikinis()} className="menu-link menu-link_us-s">Bikini</a></li>
-                                                        <li className="sub-menu__item"><a onClick={()=>handleFigure()} className="menu-link menu-link_us-s">Figure</a></li>
-                                                        <li className="sub-menu__item"><a onClick={()=>handleSwimsuit()} className="menu-link menu-link_us-s">Swimsuit</a></li>
-                                                        <li className="sub-menu__item"><a onClick={()=>HandleWbff()} className="menu-link menu-link_us-s">FMG/WBFF</a></li>
-                                                        <li className="sub-menu__item"><a onClick={()=>handleThemewear()} className="menu-link menu-link_us-s">Themewear</a></li>
-                                                        <li className="sub-menu__item"><a onClick={()=>handleAccessories()} className="menu-link menu-link_us-s">Accessories</a></li>
+                                                        <li className="sub-menu__item"><a onClick={() => handleBikinis()} className="menu-link menu-link_us-s">Bikini</a></li>
+                                                        <li className="sub-menu__item"><a onClick={() => handleFigure()} className="menu-link menu-link_us-s">Figure</a></li>
+                                                        <li className="sub-menu__item"><a onClick={() => handleSwimsuit()} className="menu-link menu-link_us-s">Swimsuit</a></li>
+                                                        <li className="sub-menu__item"><a onClick={() => HandleWbff()} className="menu-link menu-link_us-s">FMG/WBFF</a></li>
+                                                        <li className="sub-menu__item"><a onClick={() => handleThemewear()} className="menu-link menu-link_us-s">Themewear</a></li>
+                                                        <li className="sub-menu__item"><a onClick={() => handleAccessories()} className="menu-link menu-link_us-s">Accessories</a></li>
                                                     </ul>
 
                                                 </div>
@@ -161,24 +263,24 @@ function Header() {
                                 </div>
                             </div>
 
-                            <a className="header-tools__item" href="#">
+                            <a className="header-tools__item" >
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart"></use></svg>
                             </a>
-                            <a href="#" className="header-tools__item header-tools__cart js-open-aside" onClick={()=>setIsCartSidebar(true)} data-aside="cartDrawer">
+                            <a className="header-tools__item header-tools__cart js-open-aside" onClick={() => setIsCartSidebar(true)} data-aside="cartDrawer">
                                 <svg className="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_cart"></use></svg>
-                                <span className="cart-amount d-block position-absolute js-cart-items-count">3</span>
+                                <span className="cart-amount d-block position-absolute js-cart-items-count">{allProduct?.length}</span>
                             </a>
 
 
 
                             <div className="header-tools__item hover-container ct_desktop_login align-items-center">
 
-                                <a onClick={()=>handleLoginRegister()} className="ct_mobile_fs14 text-white">
+                                <a onClick={() => handleLoginRegister()} className="ct_mobile_fs14 text-white">
                                     Login / Register
                                 </a>
 
-                                <a onClick={()=>handleSell()} className="ct_mobile_fs14 text-white ct_sell_btn ms-3">
-                                Sell/Lend
+                                <a onClick={() => handleSell()} className="ct_mobile_fs14 text-white ct_sell_btn ms-3">
+                                    Sell/Lend
                                 </a>
 
                             </div>
@@ -194,80 +296,46 @@ function Header() {
             </header>
 
 
-            <div className={isCartSidebar == false ? "aside aside_right overflow-hidden cart-drawer" :"aside aside_right overflow-hidden cart-drawer aside_visible" }  id="cartDrawer">
+
+            <div className={isCartSidebar == false ? "aside aside_right overflow-hidden cart-drawer" : "aside aside_right overflow-hidden cart-drawer aside_visible"} id="cartDrawer">
                 <div className="aside-header d-flex align-items-center">
-                    <h3 className="text-uppercase fs-6 mb-0">SHOPPING BAG ( <span className="cart-amount js-cart-items-count">1</span> ) </h3>
-                    <button className="btn-close-lg js-close-aside btn-close-aside ms-auto" onClick={()=>setIsCartSidebar(false)}></button>
+                    <h3 className="text-uppercase fs-6 mb-0">SHOPPING BAG ( <span className="cart-amount js-cart-items-count">{allProduct?.length}</span> ) </h3>
+                    <button className="btn-close-lg js-close-aside btn-close-aside ms-auto" onClick={() => setIsCartSidebar(false)}></button>
                 </div>
 
                 <div className="aside-content cart-drawer-items-list">
-                    <div className="cart-drawer-item d-flex position-relative">
-                        <div className="position-relative">
-                            <img loading="lazy" className="cart-drawer-item__img" src="images/accessories_1.png" />
-                        </div>
-                        <div className="cart-drawer-item__info flex-grow-1">
-                            <h6 className="cart-drawer-item__title fw-normal">Georgia Rose</h6>
-                            <p className="cart-drawer-item__option text-secondary">Color: Yellow</p>
-                            <p className="cart-drawer-item__option text-secondary">Size: L</p>
-                            <div className="d-flex align-items-center justify-content-between mt-1">
-                                <div className="qty-control position-relative">
-                                    <input type="number" name="quantity" value="1" min="1" className="qty-control__number border-0 text-center" />
-                                    <div className="qty-control__reduce text-start">-</div>
-                                    <div className="qty-control__increase text-end">+</div>
-                                </div>
-                                <span className="cart-drawer-item__price money price">$99</span>
-                            </div>
-                        </div>
+                    {
 
-                        <button className="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
-                    </div>
+                        isLoader == true ?
+                            <div class="custom-loader"></div> :
+                            allProduct?.length != 0 ?
+                                allProduct?.map((item) => (
+                                    <>
+                                        <div className="cart-drawer-item d-flex position-relative">
+                                            <div className="position-relative">
+                                                <img loading="lazy" className="cart-drawer-item__img" src={item?.product_images[0]} />
+                                            </div>
+                                            <div className="cart-drawer-item__info flex-grow-1">
+                                                <h6 className="cart-drawer-item__title fw-normal">Georgia Rose</h6>
+                                                <p className="cart-drawer-item__option text-secondary">Color: {item?.product_colors[0]}</p>
+                                                <p className="cart-drawer-item__option text-secondary">Size: L</p>
+                                                <div className="d-flex align-items-center justify-content-between mt-1">
+                                                    <div className="qty-control position-relative">
+                                                        <input type="number" name="quantity" value={item?.cart_quantity} min="1" className="qty-control__number border-0 text-center" />
+                                                        <div className="qty-control__reduce text-start" onClick={() => upDateCartData(item?.product_id, item?.cart_quantity, item?.cart_id, "-")}>-</div>
+                                                        <div className="qty-control__increase text-end" onClick={() => upDateCartData(item?.product_id, item?.cart_quantity, item?.cart_id, "+")}>+</div>
+                                                    </div>
+                                                    <span className="cart-drawer-item__price money price">${item?.cart_price}</span>
+                                                </div>
+                                            </div>
+                                            <button type='button' onClick={() => deleteCartData(item?.cart_id)} className="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
+                                        </div>
 
-                    <hr className="cart-drawer-divider" />
-
-                    <div className="cart-drawer-item d-flex position-relative">
-                        <div className="position-relative">
-                            <img loading="lazy" className="cart-drawer-item__img" src="images/accessories_3.png" />
-                        </div>
-                        <div className="cart-drawer-item__info flex-grow-1">
-                            <h6 className="cart-drawer-item__title fw-normal">Season Bikini</h6>
-                            <p className="cart-drawer-item__option text-secondary">Color: Black</p>
-                            <p className="cart-drawer-item__option text-secondary">Size: XS</p>
-                            <p className="cart-drawer-item__option text-secondary">Selected Date For Rent : <span>22 - 02 - 2024</span> to <span>25 - 02 - 2024</span>  </p>
-                            <div className="d-flex align-items-center justify-content-between mt-1">
-                                <div className="qty-control position-relative">
-                                    <input type="number" name="quantity" value="4" min="1" className="qty-control__number border-0 text-center" />
-                                    <div className="qty-control__reduce text-start">-</div>
-                                    <div className="qty-control__increase text-end">+</div>
-                                </div>
-                                <span className="cart-drawer-item__price money price">$89</span>
-                            </div>
-                        </div>
-
-                        <button className="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
-                    </div>
-
-                    <hr className="cart-drawer-divider" />
-
-                    <div className="cart-drawer-item d-flex position-relative">
-                        <div className="position-relative">
-                            <img loading="lazy" className="cart-drawer-item__img" src="images/accessories_4.png" />
-                        </div>
-                        <div className="cart-drawer-item__info flex-grow-1">
-                            <h6 className="cart-drawer-item__title fw-normal">Ravishsands</h6>
-                            <p className="cart-drawer-item__option text-secondary">Color: Green</p>
-                            <p className="cart-drawer-item__option text-secondary">Size: L</p>
-                            <div className="d-flex align-items-center justify-content-between mt-1">
-                                <div className="qty-control position-relative">
-                                    <input type="number" name="quantity" value="3" min="1" className="qty-control__number border-0 text-center" />
-                                    <div className="qty-control__reduce text-start">-</div>
-                                    <div className="qty-control__increase text-end">+</div>
-                                </div>
-                                <span className="cart-drawer-item__price money price">$129</span>
-                            </div>
-                        </div>
-
-                        <button className="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
-                    </div>
+                                        <hr className="cart-drawer-divider" />
+                                    </>
+                                ))
+                                : <h3>Empty Cart !!!</h3>
+                    }
 
                 </div>
 
@@ -275,10 +343,10 @@ function Header() {
                     <hr className="cart-drawer-divider" />
                     <div className="d-flex justify-content-between">
                         <h6 className="fs-base fw-medium">SUBTOTAL:</h6>
-                        <span className="cart-subtotal fw-medium">$176.00</span>
+                        <span className="cart-subtotal fw-medium">${subtotal}</span>
                     </div>
-                    <a onClick={()=>handleShopCart()} className="btn btn-light mt-3 d-block">View Cart</a>
-                    <a onClick={()=>handleShopCheckout()} className="btn btn-primary mt-3 d-block">Checkout</a>
+                    <a onClick={() => handleShopCart()} className="btn btn-light mt-3 d-block">View Cart</a>
+                    <a onClick={() => handleShopCheckout()} className="btn btn-primary mt-3 d-block">Checkout</a>
                 </div>
             </div>
 
@@ -343,7 +411,7 @@ function Header() {
                                                 <input type="radio" name="size" id="swatch-5" />
                                                 <label className="swatch js-swatch" htmlFor="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="Extra Large">XL</label>
                                             </div>
-                                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+                                            <a className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
                                         </div>
                                         <div className="product-swatch color-swatches">
                                             <label>Color</label>
@@ -367,7 +435,7 @@ function Header() {
                                     </div>
                                 </form>
                                 <div className="product-single__addtolinks">
-                                    <a href="#" className="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg><span>Add to Wishlist</span></a>
+                                    <a className="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg><span>Add to Wishlist</span></a>
                                     <share-button className="share-button">
                                         <button className="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
                                             <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_sharing" /></svg>

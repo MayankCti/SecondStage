@@ -1,24 +1,10 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
 import Header from './header'
 import Footer from './footer'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import FilterBy from './filterBy';
-import Content from './Content';
+import CategoryContent from './categoryContent';
+export const configJSON = require("../components/config");
 function WBFF() {
-  const [isFilter, setIsFilter] = useState(false)
-  const navigate = useNavigate()
 
-  const handleProduct1Simple = () => {
-    navigate("/product1-simple")
-  }
-  const handleHome = () => {
-    navigate("/")
-  }
   return (
     <>
       <svg className="d-none">
@@ -176,82 +162,7 @@ function WBFF() {
 
       <Header />
 
-      <main>
-
-        <div className="mb-4 pb-lg-3"></div>
-
-        <section className="shop-main container d-flex">
-          <div className={isFilter == false ? "shop-sidebar side-sticky bg-body" : "shop-sidebar side-sticky bg-body aside_visible"} id="shopFilter">
-            <div className="aside-header d-flex pt-5 mt-5  align-items-center">
-              <h3 className="text-uppercase fs-6 mb-0">Filter By</h3>
-              <button className="btn-close-lg js-close-aside btn-close-aside ms-auto" onClick={() => setIsFilter(false)}></button>
-            </div>
-            <FilterBy />
-
-          </div>
-
-          <div className="shop-list flex-grow-1">
-            <div className="d-flex justify-content-between mb-4 pb-md-2">
-              <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                <a onClick={() => handleHome()} className="menu-link menu-link_us-s text-uppercase fw-medium" >Home</a>
-                <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                <a href="javascript:void(0)" className="menu-link menu-link_us-s text-uppercase fw-medium" >FMG / WBFF</a>
-              </div>
-
-             
-            </div>
-
-
-            <section className="products-grid container">
-              <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4"><strong>Fmg/Wbff</strong></h2>
-
-              <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center" id="collections-tab" role="tablist">
-                <li className="nav-item" role="presentation">
-                  <a className="nav-link nav-link_underscore active" id="collections-tab-1-trigger" data-bs-toggle="tab" href="#collections-tab-1" role="tab" aria-controls="collections-tab-1" aria-selected="true">All</a>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <a className="nav-link nav-link_underscore" id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true">Buy</a>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <a className="nav-link nav-link_underscore" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true">Rent</a>
-                </li>
-
-              </ul>
-              <div className="shop-acs ct_row_inverse d-flex align-items-center justify-content-between  flex-grow-1 gap-3 mb-2">
-                <select className="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0 " aria-label="Sort Items" name="total-number">
-                  <option selected>Sort by</option>
-                  <option value="1">Featured</option>
-                  <option value="3">newest/oldest</option>
-                  <option value="6">price high/low, </option>
-                  <option value="7">Price, low/high</option>
-                  {/* <option value="3">Date, new to old</option> */}
-                </select>
-
-
-
-
-
-                <div className="shop-filter d-flex align-items-center order-0 order-md-3">
-                  <button className="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside" onClick={() => setIsFilter(true)} data-aside="shopFilter">
-                    <svg className="d-inline-block align-middle me-2" width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_filter" /></svg>
-                    <span className="text-uppercase fw-medium d-inline-block align-middle">Filter</span>
-                  </button>
-                </div>
-              </div>
-
-              <Content/>
-            </section>
-
-
-
-            <div className="text-center mt-2">
-              <a className="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">Load More</a>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <div className="mb-5 pb-xl-5"></div>
+      <CategoryContent home="Fmg/Wbff" apiurl={configJSON.getProductDetails_by_Category_fmg_wbff} />
 
       <Footer />
 

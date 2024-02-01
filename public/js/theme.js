@@ -743,7 +743,7 @@ function pureFadeOut(e) {
           this.$header?.classList?.remove(this.selectors.stickyActiveClass);
           this.$header?.classList?.add('position-absolute');
         } else if (currentScrollTop > this.stickyMinPos) {
-          this.$header.classList.add(this.selectors.stickyActiveClass);
+          this.$header.classList?.add(this.selectors.stickyActiveClass);
           this.$header.classList.remove('position-absolute');
         }
 

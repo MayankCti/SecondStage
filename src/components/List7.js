@@ -7,10 +7,10 @@ function List7(props) {
     const navigate = useNavigate()
 
     const handleAccountEditAddress = ()=>{
-        navigate("account-edit-address")
+        navigate("/account-edit-address")
       }
       const handleAccountEdit = ()=>{
-        navigate("account-edit")
+        navigate("/account-edit")
       }
       const handleAccountOrders = ()=>{
         navigate("/account-orders")

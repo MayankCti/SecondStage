@@ -21128,3 +21128,16 @@ main:after {
     transform: rotate(1turn)
   }
 }
+
+.ct_second_five_img{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.ct_second_five_img img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border: 1px solid #d8d8d8;
+}
