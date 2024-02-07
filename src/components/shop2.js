@@ -212,14 +212,14 @@ function Shop2() {
               <div className="accordion-body px-0 pb-0 pt-3">
                 <ul className="list list-inline mb-0">
                   <li className="list-item mb-2">
-                    <a href="#" className="menu-link py-1">
+                    <a  className="menu-link py-1">
                       <label className="cyberpunk-checkbox-label">
                         <input type="radio" name="rent" className="cyberpunk-checkbox"/>
                        </label>
                       Buy</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">
+                    <a  className="menu-link py-1">
                       <label className="cyberpunk-checkbox-label">
                         <input type="radio" name="rent" className="cyberpunk-checkbox"/>
                        </label>
@@ -248,7 +248,7 @@ function Shop2() {
               <div className="accordion-body px-0 pb-0 pt-3">
                 <ul className="list list-inline mb-0 ps-3">
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1"><h5>Bikini/Fitness</h5></a>
+                    <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a>
                     <ul className="mb-3">
                       <h6>Top</h6>
                       <ul className="ct_list_style_none">
@@ -316,7 +316,7 @@ function Shop2() {
                     </ul>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Angels/Theme Wear</a>
+                    <a  className="menu-link py-1">Angels/Theme Wear</a>
                     <ul className="ct_list_style_none">
                       <li>
                           <label className="cyberpunk-checkbox-label">
@@ -331,19 +331,19 @@ function Shop2() {
                     </ul>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Figure</a>
+                    <a  className="menu-link py-1">Figure</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">WBFF/FMG</a>
+                    <a  className="menu-link py-1">WBFF/FMG</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Swimwear/Onepiece</a>
+                    <a  className="menu-link py-1">Swimwear/Onepiece</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Jewellery/Accessories</a>
+                    <a  className="menu-link py-1">Jewellery/Accessories</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Shoes</a>
+                    <a  className="menu-link py-1">Shoes</a>
                     <ul className="ct_list_style_none">
                       <li>
                           <label className="cyberpunk-checkbox-label">
@@ -473,16 +473,16 @@ function Shop2() {
             <div id="accordion-color-2" className="accordion-collapse collapse border-0" aria-labelledby="accordion-color-1" data-bs-parent="#color-filters">
               <div className="accordion-body px-0 pb-0">
                 <div className="d-flex flex-wrap">
-                  <a href="#" className="swatch-color js-filter" style={{color: "#0a2472"}}></a>
-                  <a href="#" className="swatch-color js-filter" style={{color: "#d7bb4f"}}></a>
-                  <a href="#" className="swatch-color js-filter" style={{color: "#282828"}}></a>
-                  <a href="#" className="swatch-color js-filter" style={{color: "#b1d6e8"}}></a>
-                  <a href="#" className="swatch-color js-filter" style={{color: "#9c7539"}}></a>
-                  <a href="#" className="swatch-color js-filter" style={{color: "#d29b48"}}></a>
-                  <a href="#" className="swatch-color js-filter" style={{color: "#e6ae95"}}></a>
-                  <a href="#" className="swatch-color js-filter" style={{color: "#d76b67"}}></a>
-                  <a href="#" className="swatch-color swatch_active js-filter" style={{color: "#bababa"}}></a>
-                  <a href="#" className="swatch-color js-filter" style={{color: "#bfdcc4"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#0a2472"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#d7bb4f"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#282828"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#b1d6e8"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#9c7539"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#d29b48"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#e6ae95"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#d76b67"}}></a>
+                  <a  className="swatch-color swatch_active js-filter" style={{color: "#bababa"}}></a>
+                  <a  className="swatch-color js-filter" style={{color: "#bfdcc4"}}></a>
                 </div>
               </div>
             </div>
@@ -504,16 +504,16 @@ function Shop2() {
               <div className="accordion-body px-0 pb-0 pt-3">
                 <ul className="list list-inline mb-0">
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">A/B</a>
+                    <a  className="menu-link py-1">A/B</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">C</a>
+                    <a  className="menu-link py-1">C</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">D</a>
+                    <a  className="menu-link py-1">D</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">DD & Bigger</a>
+                    <a  className="menu-link py-1">DD & Bigger</a>
                   </li>
                 </ul>
               </div>
@@ -536,22 +536,22 @@ function Shop2() {
               <div className="accordion-body px-0 pb-0 pt-3">
                 <ul className="list list-inline mb-0">
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">2</a>
+                    <a  className="menu-link py-1">2</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">4</a>
+                    <a  className="menu-link py-1">4</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">6</a>
+                    <a  className="menu-link py-1">6</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">8</a>
+                    <a  className="menu-link py-1">8</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">10</a>
+                    <a  className="menu-link py-1">10</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Other/combination</a>
+                    <a  className="menu-link py-1">Other/combination</a>
                   </li>
                 </ul>
               </div>
@@ -575,12 +575,12 @@ function Shop2() {
             <div id="accordion-filter-size" className="accordion-collapse collapse border-0" aria-labelledby="accordion-heading-size" data-bs-parent="#size-filters">
               <div className="accordion-body px-0 pb-0">
                 <div className="d-flex flex-wrap">
-                  <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XS</a>
-                  <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">S</a>
-                  <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">M</a>
-                  <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">L</a>
-                  <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XL</a>
-                  <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XXL</a>
+                  <a  className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XS</a>
+                  <a  className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">S</a>
+                  <a  className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">M</a>
+                  <a  className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">L</a>
+                  <a  className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XL</a>
+                  <a  className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XXL</a>
                 </div>
               </div>
             </div>
@@ -602,13 +602,13 @@ function Shop2() {
               <div className="accordion-body px-0 pb-0 pt-3">
                 <ul className="list list-inline mb-0">
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Plain</a>
+                    <a  className="menu-link py-1">Plain</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Basic</a>
+                    <a  className="menu-link py-1">Basic</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Full</a>
+                    <a  className="menu-link py-1">Full</a>
                   </li>
                 </ul>
               </div>
@@ -631,13 +631,13 @@ function Shop2() {
               <div className="accordion-body px-0 pb-0 pt-3">
                 <ul className="list list-inline mb-0">
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Standard Rhinestones</a>
+                    <a  className="menu-link py-1">Standard Rhinestones</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Preciosa</a>
+                    <a  className="menu-link py-1">Preciosa</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Swarovski</a>
+                    <a  className="menu-link py-1">Swarovski</a>
                   </li>
                 </ul>
               </div>
@@ -660,16 +660,16 @@ function Shop2() {
               <div className="accordion-body px-0 pb-0 pt-3">
                 <ul className="list list-inline mb-0">
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">New</a>
+                    <a  className="menu-link py-1">New</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Worn Once</a>
+                    <a  className="menu-link py-1">Worn Once</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Worn</a>
+                    <a  className="menu-link py-1">Worn</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">Needs work</a>
+                    <a  className="menu-link py-1">Needs work</a>
                   </li>
                 </ul>
               </div>
@@ -721,21 +721,21 @@ function Shop2() {
               <div className="accordion-body px-0 pb-0 pt-3">
                 <ul className="list list-inline mb-0">
                   <li className="list-item mb-2">
-                    <a href="#" className="menu-link py-1">
+                    <a  className="menu-link py-1">
                       <label className="cyberpunk-checkbox-label">
                         <input type="checkbox" className="cyberpunk-checkbox"/>
                        </label>
                       Single</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">
+                    <a  className="menu-link py-1">
                        <label className="cyberpunk-checkbox-label">
                         <input type="checkbox" className="cyberpunk-checkbox"/>
                        </label>
                       Double</a>
                   </li>
                   <li className="list-item">
-                    <a href="#" className="menu-link py-1">
+                    <a  className="menu-link py-1">
                        <label className="cyberpunk-checkbox-label">
                         <input type="checkbox" className="cyberpunk-checkbox"/>
                        </label>
@@ -793,11 +793,11 @@ function Shop2() {
             </h5>
             <div id="accordion-filter-location" className="accordion-collapse collapse border-0" aria-labelledby="accordion-heading_location" data-bs-parent="#location">
               <div className="accordion-body ps-0">
-                <a href="#" className="mb-3 d-block me-3 js-filter">
+                <a  className="mb-3 d-block me-3 js-filter">
                   <h4>Item Location</h4>
                   <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Location" />
                 </a>
-                <a href="#" className=" mb-3 me-3 js-filter">
+                <a  className=" mb-3 me-3 js-filter">
                   Posts to
                 </a>
               </div>
@@ -811,9 +811,9 @@ function Shop2() {
       <div className="shop-list flex-grow-1">
         <div className="d-flex justify-content-between mb-4 pb-md-2">
           <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-            <a href="#" className="menu-link menu-link_us-s text-uppercase fw-medium" >Home</a>
+            <a  className="menu-link menu-link_us-s text-uppercase fw-medium" >Home</a>
             <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-            <a href="#" className="menu-link menu-link_us-s text-uppercase fw-medium" >The Shop</a>
+            <a  className="menu-link menu-link_us-s text-uppercase fw-medium" >The Shop</a>
           </div>
 
           <div className="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1 gap-3">
@@ -1118,7 +1118,7 @@ function Shop2() {
         </div>
 
         <div className="text-center mt-2">
-          <a className="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">Load More</a>
+          <a className="btn-link btn-link_lg default-underline text-uppercase fw-medium" >Load More</a>
         </div>
       </div>
     </section>

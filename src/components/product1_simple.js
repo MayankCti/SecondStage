@@ -1,7 +1,9 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./header";
 import Footer from "./footer";
+import axios from "axios";
+import { message, message as MESSAGE } from "antd";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useState } from "react";
@@ -9,18 +11,26 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "react-date-range/dist/styles.css"; // main style file
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { DateRangePicker } from "react-date-range";
 import { addDays } from "date-fns";
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Calendar } from "react-date-range";
+export const configJSON = require("../components/config");
 
-function Product1_simple() {
+function Product1_simple(props) {
   const navigate = useNavigate();
-
-  const handleProduct1Simple = () => {
-    navigate("/product1-simple");
-  };
-
+  const productId = localStorage.getItem("productID")
+  const [product, setProduct] = useState([])
+  const [cartData, setCartData] = useState([])
+  const [isCartSidebar, setIsCartSidebar] = useState(false)
+  const [showCalender, setshowCalender] = useState(false);
+  const [accessToken, setAccessToken] = useState();
+  const [qty, setQty] = useState(1)
+  const [allProduct, setAllProduct] = useState([])
+  const [isLoader, setIsLoader] = useState(false);
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -29,10 +39,166 @@ function Product1_simple() {
     },
   ]);
 
-  const [showCalender, setshowCalender] = useState(false);
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    setAccessToken(token);
+    if (token == null) {
+      navigate("/login-register");
+    } else {
+      getCartData(token)
+      getProduct()
+    }
+  }, [])
+
+  const getCartData = (val, val2) => {
+    setIsLoader(true)
+    setAccessToken(val)
+    axios({
+      url: configJSON.baseUrl + configJSON.getCartData,
+      method: "get",
+      headers: {
+        'Authorization': `Bearer ${val}`
+      },
+    }).then((res) => {
+      setIsLoader(false)
+      if (res?.data?.success == true) {
+        setCartData(res?.data?.cart)
+        val2 == true ?
+          setIsCartSidebar(true)
+          :
+          setIsCartSidebar(false)
+      }
+      else {
+        setCartData([])
+      }
+    }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+    })
+  }
+  const getDataFromChild = () => {
+    getCartData(accessToken, true)
+  }
+  const hanleDate = (item) => {
+    console.log(item)
+    setState([item.selection])
+  }
+  const getProduct = () => {
+
+    var id = localStorage.getItem("productID")
+    setIsLoader(true);
+    axios({
+      url: configJSON.baseUrl + configJSON.getProductDetails_by_id + id,
+      method: "get",
+    })
+      .then((res) => {
+
+        console.log(res, "response")
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          setProduct(res?.data?.data[0]);
+          getData(res?.data?.data[0].product_category)
+        } else {
+          setProduct([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoader(false);
+      });
+  }
   const handleClickRent = () => {
     setshowCalender(!showCalender);
   };
+
+  const handleProduct1Simple = (productId) => {
+    localStorage.setItem("productID", productId)
+    getProduct()
+  };
+
+  const addToWishlist = (productId) => {
+    console.log(productId, "the id")
+    setIsLoader(true)
+    const data = {
+      product_id: productId,
+    };
+    axios({
+      method: "post",
+      url: configJSON.baseUrl + configJSON.add_wishlist,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((res) => {
+      setIsLoader(false)
+      if (res.data.success == true) {
+        MESSAGE.success(res?.data?.message)
+        getProduct()
+      } else {
+        MESSAGE.error(res?.data?.message)
+      }
+    }).catch((err) => {
+      setIsLoader(false)
+      console.log(err)
+    })
+  };
+  const addToCart = (product_id, val) => {
+    setIsLoader(true);
+    const data = {
+      product_id: product_id,
+      cart_quantity: val
+    };
+    axios({
+      method: "post",
+      url: configJSON.baseUrl + configJSON.add_cart,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+        setIsLoader(false);
+        getCartData(accessToken);
+        if (res.data.success == true) {
+          MESSAGE.success("Item added to cart.");
+          // props?.onClick()
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
+      })
+      .catch((err) => {
+        setIsLoader(false);
+        console.log(err);
+      });
+  };
+  const qtyInc = () => {
+    setQty(qty + 1)
+  }
+  const qtyDnc = () => {
+    if (qty >= 2) {
+
+      setQty(qty - 1)
+    }
+  }
+
+  const getData = (val) => {
+    setIsLoader(true)
+    axios({
+      url: configJSON.baseUrl + configJSON.getProductDetails_by_Category + val,
+      method: "get",
+    }).then((res) => {
+      setIsLoader(false)
+      if (res?.data?.success == true) {
+        setAllProduct(res?.data?.data)
+      }
+      else {
+        setAllProduct([])
+      }
+    }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+    })
+  }
   return (
     <>
       <svg className="d-none">
@@ -291,546 +457,442 @@ function Product1_simple() {
           />
         </symbol>
       </svg>
-
-      <Header />
-
+      {isLoader == false ?
+        <Header data={cartData?.length !== 0 && cartData} onClick={getDataFromChild} isCartSidebar={isCartSidebar} />
+        : <div class="custom-loader"></div>
+      }
       <main>
         <div className="mb-md-1 pb-md-3"></div>
-        <section className="product-single container">
-          <div className="row">
-            <div className="col-lg-7">
-              <div
-                className="product-single__media"
-                data-media-type="vertical-thumbnail"
-              >
-                <Swiper
-                  className="mySwiper product-single__media vertical-thumbnail ct_product_zoom"
-                  // spaceBetween={30}
-                  loop={true}
-                  pagination={{
-                    clickable: false,
-                  }}
-                  navigation={true}
-                  modules={[Pagination, Navigation]}
+        {isLoader == true ?
+          <div class="custom-loader"></div> :
+          <section className="product-single container">
+            <div className="row">
+              <div className="col-lg-7">
+                <div
+                  className="product-single__media"
+                  data-media-type="vertical-thumbnail"
                 >
-                  <SwiperSlide>
-                    {" "}
-                    <div className=" product-single__image-item">
-                      <img
-                        loading="lazy"
-                        className="h-auto"
-                        src="images/products/product_1-1.jpg"
-                        width="674"
-                        height="674"
-                        alt=""
-                      />
-                      <a
-                        href="images/products/product_1.jpg"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="left"
-                        title="Zoom"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <use href="#icon_zoom" />
-                        </svg>
-                      </a>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    {" "}
-                    <div className=" product-single__image-item">
-                      <img
-                        loading="lazy"
-                        className="h-auto"
-                        src="images/products/product_1.jpg"
-                        width="674"
-                        height="674"
-                        alt=""
-                      />
-                      <a
-                        href="images/products/product_1.jpg"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="left"
-                        title="Zoom"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <use href="#icon_zoom" />
-                        </svg>
-                      </a>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    {" "}
-                    <div className=" product-single__image-item">
-                      <img
-                        loading="lazy"
-                        className="h-auto"
-                        src="images/products/product_2.jpg"
-                        width="674"
-                        height="674"
-                        alt=""
-                      />
-                      <a
-                        href="images/products/product_1.jpg"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="left"
-                        title="Zoom"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <use href="#icon_zoom" />
-                        </svg>
-                      </a>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    {" "}
-                    <div className=" product-single__image-item">
-                      <img
-                        loading="lazy"
-                        className="h-auto"
-                        src="images/products/product_3.jpg"
-                        width="674"
-                        height="674"
-                        alt=""
-                      />
-                      <a
-                        href="images/products/product_1.jpg"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="left"
-                        title="Zoom"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <use href="#icon_zoom" />
-                        </svg>
-                      </a>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    {" "}
-                    <div className=" product-single__image-item">
-                      <img
-                        loading="lazy"
-                        className="h-auto"
-                        src="images/products/product_4.jpg"
-                        width="674"
-                        height="674"
-                        alt=""
-                      />
-                      <a
-                        href="images/products/product_1.jpg"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="left"
-                        title="Zoom"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <use href="#icon_zoom" />
-                        </svg>
-                      </a>
-                    </div>
-                  </SwiperSlide>
-                </Swiper>
-                <div className="product-single__image">
-                  <div className="swiper-container">
-                    <div className="swiper-button-prev">
-                      <svg
-                        width="7"
-                        height="11"
-                        viewBox="0 0 7 11"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_prev_sm" />
-                      </svg>
-                    </div>
-                    <div className="swiper-button-next">
-                      <svg
-                        width="7"
-                        height="11"
-                        viewBox="0 0 7 11"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_next_sm" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="product-single__thumbnail">
-                  <div className="swiper-container">
-                    {/* <div className="swiper-wrapper">
-
- 
-
-                      <div className="swiper-slide product-single__image-item"><img loading="lazy" className="h-auto" src="images/products/product_1-1.jpg" width="104" height="104" alt="" /></div>
-                      <div className="swiper-slide product-single__image-item"><img loading="lazy" className="h-auto" src="images/products/product_1.jpg" width="104" height="104" alt="" /></div>
-                      <div className="swiper-slide product-single__image-item"><img loading="lazy" className="h-auto" src="images/products/product_2.jpg" width="104" height="104" alt="" /></div>
-                      <div className="swiper-slide product-single__image-item"><img loading="lazy" className="h-auto" src="images/products/product_3.jpg" width="104" height="104" alt="" /></div>
-                    </div> */}
-                    <div className="ct_custom_verticle_slider">
-                      <div className="ct_slidr_item">
-                        <img src="images/products/product_1-1.jpg" alt="" />
-                      </div>
-                      <div className="ct_slidr_item">
-                        <img src="images/products/product_1.jpg" alt="" />
-                      </div>
-                      <div className="ct_slidr_item">
-                        <img src="images/products/product_2.jpg" alt="" />
-                      </div>
-                      <div className="ct_slidr_item">
-                        <img src="images/products/product_3.jpg" alt="" />
-                      </div>
-                      <div className="ct_slidr_item">
-                        <img src="images/products/product_4.jpg" alt="" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-5">
-              <div className="d-flex justify-content-between mb-4 pb-md-2">
-                <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                  <a
-                    href="#"
-                    className="menu-link menu-link_us-s text-uppercase fw-medium"
+                  <Swiper
+                    className="mySwiper product-single__media vertical-thumbnail ct_product_zoom"
+                    // spaceBetween={30}
+                    loop={true}
+                    pagination={{
+                      clickable: false,
+                    }}
+                    navigation={true}
+                    modules={[Pagination, Navigation]}
                   >
-                    Home
-                  </a>
-                  <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">
-                    /
-                  </span>
-                  <a
-                    href="#"
-                    className="menu-link menu-link_us-s text-uppercase fw-medium"
-                  >
-                    The Shop
-                  </a>
-                </div>
-              </div>
-
-             
-
-              <div className="product-single__details-tab mt-4">
-            <ul
-              className="nav nav-tabs ct_buy_rent_tab justify-content-start"
-              id="myTab"
-              role="tablist"
-            >
-              <li className="nav-item" role="presentation">
-                <a
-                  className="nav-link nav-link_underscore active"
-                  id="tab-buy-tab"
-                  data-bs-toggle="tab"
-                  href="#tab-buy"
-                  role="tab"
-                  aria-controls="tab-buy"
-                  aria-selected="true"
-                >
-                  Buy
-                </a>
-              </li>
-              <li className="nav-item" role="presentation">
-                <a
-                  className="nav-link nav-link_underscore"
-                  id="tab-additional-rent-tab"
-                  data-bs-toggle="tab"
-                  href="#tab-additional-rent"
-                  role="tab"
-                  aria-controls="tab-additional-rent"
-                  aria-selected="false"
-                >
-                 Rent
-                </a>
-              </li>
-            </ul>
-            <div className="tab-content">
-              <div
-                className="tab-pane fade show active"
-                id="tab-buy"
-                role="tabpanel"
-                aria-labelledby="tab-buy-tab"
-              >
-                 <div>
-                <h1 className="product-single__name">Bikini</h1>
-
-                <div className="product-single__price">
-                  <span className="current-price">$449</span>
-                </div>
-                <div className="product-single__short-desc">
-                  <p>
-                    Phasellus sed volutpat orci. Fusce eget lore mauris vehicula
-                    elementum gravida nec dui. Aenean aliquam varius ipsum, non
-                    ultricies tellus sodales eu. Donec dignissim viverra nunc,
-                    ut aliquet magna posuere eget.
-                  </p>
-                </div>
-                
-                <form name="addtocart-form" method="post">
-                  <div className="product-single__addtocart">
-                    <div className="qty-control position-relative">
-                      <input
-                        type="number"
-                        name="quantity"
-                        value="1"
-                        min="1"
-                        className="qty-control__number text-center"
-                      />
-                      <div className="qty-control__reduce">-</div>
-                      <div className="qty-control__increase">+</div>
-                    </div>
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-addtocart js-open-aside"
-                      data-aside="cartDrawer"
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
-                </form>
-
-                <div className="product-single__addtolinks">
-                  <a
-                    href="#"
-                    className="menu-link menu-link_us-s add-to-wishlist pb-0"
-                  >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <use href="#icon_heart" />
-                    </svg>
-                    <span>Add to Wishlist</span>
-                  </a>
-                 
-                  <script src="js/details-disclosure.js" defer="defer"></script>
-                  <script src="js/share.js" defer="defer"></script>
-                </div>
-
-                <div className="product-single__meta-info">
-                  <div className="meta-item">
-                    <label>SKU:</label>
-                    <span>N/A</span>
-                  </div>
-                  <div className="meta-item">
-                    <label>Categories:</label>
-                    <span>Casual & Urban Wear, Jackets, Men</span>
-                  </div>
-                </div>
-              </div>
-                
-              </div>
-              <div
-                className="tab-pane fade"
-                id="tab-additional-rent"
-                role="tabpanel"
-                aria-labelledby="tab-additional-rent-tab"
-              >
-
-<div>
-                <h1 className="product-single__name">Bikini<small className="ms-2 ct_fs_14">1 Week</small></h1>
-
-                <div className="product-single__price">
-                  <span className="current-price">$9</span>
-                </div>
-                <div className="product-single__short-desc">
-                  <p>
-                    Phasellus sed volutpat orci. Fusce eget lore mauris vehicula
-                    elementum gravida nec dui. Aenean aliquam varius ipsum, non
-                    ultricies tellus sodales eu. Donec dignissim viverra nunc,
-                    ut aliquet magna posuere eget.
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <div className="mb-4">
-                    <button
-                      className="ct_mobile_fs14 text-white ct_sell_btn"
-                      onClick={() => setshowCalender(!showCalender)}
-                    >
-                      Select Date for Rent
-                    </button>
-                  </div>
-                  <DateRangePicker
-                    className={
-                      showCalender != true
-                        ? "ct_range_calendar"
-                        : "ct_range_calendar ct_show_calender"
+                    {
+                      product?.product_images?.map((item) => (
+                        <SwiperSlide>
+                          {" "}
+                          <div className=" product-single__image-item">
+                            <img
+                              loading="lazy"
+                              className="h-auto"
+                              src={item}
+                              width="674"
+                              height="674"
+                              alt=""
+                            />
+                            <a
+                              href="images/products/product_1.jpg"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="left"
+                              title="Zoom"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                xmlns={item}
+                              >
+                                <use href="#icon_zoom" />
+                              </svg>
+                            </a>
+                          </div>
+                        </SwiperSlide>
+                      ))
                     }
-                    onChange={(item) => setState([item.selection])}
-                    showSelectionPreview={true}
-                    moveRangeOnFirstSelection={false}
-                    months={1}
-                    ranges={state}
-                    rangeColors={"red"}
-                    direction="horizontal"
-                  />
-                </div>
-                <form name="addtocart-form" method="post">
-                  <div className="product-single__addtocart">
-                    <div className="qty-control position-relative">
-                      <input
-                        type="number"
-                        name="quantity"
-                        value="1"
-                        min="1"
-                        className="qty-control__number text-center"
-                      />
-                      <div className="qty-control__reduce">-</div>
-                      <div className="qty-control__increase">+</div>
+
+
+                  </Swiper>
+                  <div className="product-single__image">
+                    <div className="swiper-container">
+                      <div className="swiper-button-prev">
+                        <svg
+                          width="7"
+                          height="11"
+                          viewBox="0 0 7 11"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <use href="#icon_prev_sm" />
+                        </svg>
+                      </div>
+                      <div className="swiper-button-next">
+                        <svg
+                          width="7"
+                          height="11"
+                          viewBox="0 0 7 11"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <use href="#icon_next_sm" />
+                        </svg>
+                      </div>
                     </div>
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-addtocart js-open-aside"
-                      data-aside="cartDrawer"
-                    >
-                      Add to Cart
-                    </button>
                   </div>
-                </form>
+                  <div className="product-single__thumbnail">
+                    <div className="swiper-container">
 
-                <div className="product-single__addtolinks">
-                  <a
-                    href="#"
-                    className="menu-link menu-link_us-s add-to-wishlist pb-0"
+                      <div className="ct_custom_verticle_slider">
+                        {
+                          product?.product_images?.map((item) => (
+                            <div className="ct_slidr_item">
+                              <img src={item} alt="" />
+                            </div>
+                          ))}
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-5">
+                <div className="d-flex justify-content-between mb-4 pb-md-2">
+                  <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
+                    <a
+
+                      className="menu-link menu-link_us-s text-uppercase fw-medium"
+                    >
+                      Home
+                    </a>
+                    <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">
+                      /
+                    </span>
+                    <a
+
+                      className="menu-link menu-link_us-s text-uppercase fw-medium"
+                    >
+                      The Shop
+                    </a>
+                  </div>
+                </div>
+
+
+
+                <div className="product-single__details-tab mt-4">
+                  <ul
+                    className="nav nav-tabs ct_buy_rent_tab justify-content-start"
+                    id="myTab"
+                    role="tablist"
                   >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <use href="#icon_heart" />
-                    </svg>
-                    <span>Add to Wishlist</span>
-                  </a>
-                  <share-button className="share-button">
-                    <button className="menu-link menu-link_us-s to-share border-0 gap-2 bg-transparent d-flex align-items-center">
-                      <svg
-                        width="16"
-                        height="19"
-                        viewBox="0 0 16 19"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                    {product?.product_buy_rent == "buy" && <li className="nav-item" role="presentation">
+                      <a
+                        className="nav-link nav-link_underscore active"
+                        id="tab-buy-tab"
+                        data-bs-toggle="tab"
+                        href="#tab-buy"
+                        role="tab"
+                        aria-controls="tab-buy"
+                        aria-selected="true"
                       >
-                        <use href="#icon_sharing" />
-                      </svg>
-                      <span>Share</span>
-                    </button>
-                 
-                  </share-button>
-                  <script src="js/details-disclosure.js" defer="defer"></script>
-                  <script src="js/share.js" defer="defer"></script>
+                        Buy
+                      </a>
+                    </li>}
+                    {product?.product_buy_rent == "rent" && <li className="nav-item" role="presentation">
+                      <a
+                        className="nav-link nav-link_underscore active"
+                        id="tab-additional-rent-tab"
+                        data-bs-toggle="tab"
+                        href="#tab-additional-rent"
+                        role="tab"
+                        aria-controls="tab-additional-rent"
+                        aria-selected="false"
+                      >
+                        Rent
+                      </a>
+                    </li>}
+                  </ul>
+                  <div className="tab-content">
+                    {product?.product_buy_rent == "buy" && <div
+                      className="tab-pane fade show active"
+                      id="tab-buy"
+                      role="tabpanel"
+                      aria-labelledby="tab-buy-tab">
+                      <div>
+                        <h1 className="product-single__name">{product?.product_category}</h1>
+
+                        <div className="product-single__price">
+                          <span className="current-price">${product?.price_sale_lend_price}</span>
+                        </div>
+                        <div className="product-single__short-desc">
+                          <p>
+                            {product?.product_description}
+                          </p>
+                        </div>
+
+                        <form >
+                          <div className="product-single__addtocart">
+                            <div className="qty-control position-relative">
+                              <input
+                                type="number"
+                                name="quantity"
+                                value={qty}
+                                min={1}
+                                className="qty-control__number text-center"
+                              />
+                              <div className="qty-control__reduce" onClick={() => qtyDnc()}>-</div>
+                              <div className="qty-control__increase" onClick={() => qtyInc()}>+</div>
+                            </div>
+                            <button
+                              type="button"
+                              className="btn btn-primary btn-addtocart js-open-aside"
+                              data-aside="cartDrawer"
+                              onClick={() => addToCart(product?.id, qty)}
+                            >
+                              Add to Cart
+                            </button>
+                          </div>
+                        </form>
+
+                        <div className="product-single__addtolinks">
+                          <a
+                            className="menu-link menu-link_us-s add-to-wishlist pb-0"
+                          >
+                            
+                            {
+                              product?.wishlist_like == 0 ? (
+                                <button
+                                  onClick={() => addToWishlist(product?.id)}
+                                  className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
+                                  title="Add To Wishlist"
+                                >
+                                  <i
+                                    class="fa-regular fa-heart"
+
+                                  ></i>{" "}
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => addToWishlist(product?.id)}
+                                  className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
+                                  title="Add To Wishlist"
+                                >
+                                  <i
+                                    class="fa-solid fa-heart"
+                                    style={{ color: "red" }}
+
+                                  ></i>
+                                </button>
+                              )}
+                            <span>Add to Wishlist</span>
+                          </a>
+
+                          <script src="js/details-disclosure.js" defer="defer"></script>
+                          <script src="js/share.js" defer="defer"></script>
+                        </div>
+
+                        <div className="product-single__meta-info">
+                          {/* <div className="meta-item">
+                          <label>SKU:</label>
+                          <span>N/A</span>
+                        </div> */}
+                          <div className="meta-item">
+                            <label>Categories:</label>
+                            <span>{product?.product_category}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>}
+                    {product?.product_buy_rent == "rent" && <div
+                      className="tab-pane fade show active"
+                      id="tab-additional-rent"
+                      role="tabpanel"
+                      aria-labelledby="tab-additional-rent-tab"
+                    >
+
+                      <div>
+                        <h1 className="product-single__name">{product?.product_category}<small className="ms-2 ct_fs_14">1 Week</small></h1>
+
+                        <div className="product-single__price">
+                          <span className="current-price">${product?.price_sale_lend_price}</span>
+                        </div>
+                        <div className="product-single__short-desc">
+                          <p>
+                          {product?.product_description}
+                          </p>
+                        </div>
+                        <div className="mb-4">
+                          <div className="mb-4">
+                            <button
+                              className="ct_mobile_fs14 text-white ct_sell_btn"
+                              onClick={() => setshowCalender(!showCalender)}
+                            >
+                              Select Date for Rent
+                            </button>
+                          </div>
+                          <DateRangePicker
+                            className={
+                              showCalender != true
+                                ? "ct_range_calendar"
+                                : "ct_range_calendar ct_show_calender"
+                            }
+                            onChange={(item) => hanleDate(item)}
+                            showSelectionPreview={true}
+                            moveRangeOnFirstSelection={false}
+                            months={1}
+                            ranges={state}
+                            rangeColors={"red"}
+                            direction="horizontal"
+                          />
+                        </div>
+                        <form name="addtocart-form" >
+                          <div className="product-single__addtocart">
+                            <div className="qty-control position-relative">
+                              <input
+                                type="number"
+                                name="quantity"
+                                value={qty}
+                                min={1}
+                                className="qty-control__number text-center"
+                              />
+                              <div className="qty-control__reduce" onClick={() => qtyDnc()}>-</div>
+                              <div className="qty-control__increase" onClick={() => qtyInc()}>+</div>
+                            </div>
+                            <button
+                              type="button"
+                              className="btn btn-primary btn-addtocart js-open-aside"
+                              data-aside="cartDrawer"
+                            >
+                              Add to Cart
+                            </button>
+                          </div>
+                        </form>
+
+                        <div className="product-single__addtolinks">
+                          <a
+                            className="menu-link menu-link_us-s add-to-wishlist pb-0"
+                          >
+                            
+                            {
+                              product?.wishlist_like == 0 ? (
+                                <button
+                                 
+                                  className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
+                                  title="Add To Wishlist"
+                                >
+                                  <i
+                                    class="fa-regular fa-heart"
+
+                                  ></i>{" "}
+                                </button>
+                              ) : (
+                                <button
+                                  
+                                  className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
+                                  title="Add To Wishlist"
+                                >
+                                  <i
+                                    class="fa-solid fa-heart"
+                                    style={{ color: "red" }}
+
+                                  ></i>
+                                </button>
+                              )}
+                            <span>Add to Wishlist</span>
+                          </a>
+
+                          <script src="js/details-disclosure.js" defer="defer"></script>
+                          <script src="js/share.js" defer="defer"></script>
+                        
+                          <share-button className="share-button">
+                            <button className="menu-link menu-link_us-s to-share border-0 gap-2 bg-transparent d-flex align-items-center">
+                              <svg
+                                width="16"
+                                height="19"
+                                viewBox="0 0 16 19"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <use href="#icon_sharing" />
+                              </svg>
+                              <span>Share</span>
+                            </button>
+
+                          </share-button>
+                          <script src="js/details-disclosure.js" defer="defer"></script>
+                          <script src="js/share.js" defer="defer"></script>
+                        </div>
+
+                        <div className="product-single__meta-info">
+                          {/* <div className="meta-item">
+                            <label>SKU:</label>
+                            <span>N/A</span>
+                          </div> */}
+                          <div className="meta-item">
+                            <label>Categories:</label>
+                            <span>{product?.product_category}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>}
+                  </div>
                 </div>
 
-                <div className="product-single__meta-info">
-                  <div className="meta-item">
-                    <label>SKU:</label>
-                    <span>N/A</span>
-                  </div>
-                  <div className="meta-item">
-                    <label>Categories:</label>
-                    <span>Casual & Urban Wear, Jackets, Men</span>
-                  </div>
-                </div>
-              </div>
-                
+
               </div>
             </div>
-          </div>
-
-
-            </div>
-          </div>
-          <div className="product-single__details-tab">
-            <ul
-              className="nav nav-tabs justify-content-start"
-              id="myTab"
-              role="tablist"
-            >
-              <li className="nav-item" role="presentation">
-                <a
-                  className="nav-link nav-link_underscore active"
-                  id="tab-description-tab"
-                  data-bs-toggle="tab"
-                  href="#tab-description"
-                  role="tab"
-                  aria-controls="tab-description"
-                  aria-selected="true"
-                >
-                  Description
-                </a>
-              </li>
-              <li className="nav-item" role="presentation">
-                <a
-                  className="nav-link nav-link_underscore"
-                  id="tab-additional-rent-tab"
-                  data-bs-toggle="tab"
-                  href="#tab-additional-info"
-                  role="tab"
-                  aria-controls="tab-additional-info"
-                  aria-selected="false"
-                >
-                  Additional Information
-                </a>
-              </li>
-            </ul>
-            <div className="tab-content">
-              <div
-                className="tab-pane fade show active"
-                id="tab-description"
-                role="tabpanel"
-                aria-labelledby="tab-description-tab"
+            <div className="product-single__details-tab">
+              <ul
+                className="nav nav-tabs justify-content-start"
+                id="myTab"
+                role="tablist"
               >
-                <div className="product-single__description">
-                  <h3 className="block-title mb-4">
+                <li className="nav-item" role="presentation">
+                  <a
+                    className="nav-link nav-link_underscore active"
+                    id="tab-description-tab"
+                    data-bs-toggle="tab"
+                    href="#tab-description"
+                    role="tab"
+                    aria-controls="tab-description"
+                    aria-selected="true"
+                  >
+                    Description
+                  </a>
+                </li>
+                <li className="nav-item" role="presentation">
+                  <a
+                    className="nav-link nav-link_underscore"
+                    id="tab-additional-rent-tab"
+                    data-bs-toggle="tab"
+                    href="#tab-additional-info"
+                    role="tab"
+                    aria-controls="tab-additional-info"
+                    aria-selected="false"
+                  >
+                    Additional Information
+                  </a>
+                </li>
+              </ul>
+              <div className="tab-content">
+                <div
+                  className="tab-pane fade show active"
+                  id="tab-description"
+                  role="tabpanel"
+                  aria-labelledby="tab-description-tab"
+                >
+                  <div className="product-single__description">
+                    {/* <h3 className="block-title mb-4">
                     Sed do eiusmod tempor incididunt ut labore
-                  </h3>
-                  <p className="content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum. Sed ut perspiciatis
-                    unde omnis iste natus error sit voluptatem accusantium
-                    doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-                    illo inventore veritatis et quasi architecto beatae vitae
-                    dicta sunt explicabo.
-                  </p>
-                  <div className="row">
+                  </h3> */}
+                    <p className="content">
+                      {product?.product_description}
+                    </p>
+                    {/* <div className="row">
                     <div className="col-lg-6">
                       <h3 className="block-title">Why choose product?</h3>
                       <ul className="list text-list">
@@ -855,49 +917,105 @@ function Product1_simple() {
                   <h3 className="block-title mb-0">Lining</h3>
                   <p className="content">
                     100% Polyester, Main: 100% Polyester.
-                  </p>
+                  </p> */}
+                  </div>
                 </div>
-              </div>
-              <div
-                className="tab-pane fade"
-                id="tab-additional-info"
-                role="tabpanel"
-                aria-labelledby="tab-additional-info-tab"
-              >
-                <div className="product-single__addtional-info">
-                  <div className="item">
+                <div
+                  className="tab-pane fade"
+                  id="tab-additional-info"
+                  role="tabpanel"
+                  aria-labelledby="tab-additional-info-tab"
+                >
+                  <div className="product-single__addtional-info">
+                    {/* <div className="item">
                     <label className="h6">Weight</label>
                     <span>1.25 kg</span>
                   </div>
                   <div className="item">
                     <label className="h6">Dimensions</label>
                     <span>90 x 60 x 90 cm</span>
-                  </div>
-                  <div className="item">
-                    <label className="h6">Size</label>
-                    <span>XS, S, M, L, XL</span>
-                  </div>
-                  <div className="item">
-                    <label className="h6">Color</label>
-                    <span>Black, Orange, White</span>
-                  </div>
-                  <div className="item">
+                  </div> */}
+                    <div className="item">
+                      <label className="h6">Size</label>
+                      <span>{product?.size_top},{product?.size_bottom}</span>
+                    </div>
+                    <div className="item">
+                      <label className="h6">Color</label>
+                      <span>{product?.product_color}</span>
+                    </div>
+                    {/* <div className="item">
                     <label className="h6">Storage</label>
                     <span>Relaxed fit shirt-style dress with a rugged</span>
+                  </div> */}
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-        <section className="products-carousel container">
-          <h2 className="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">
-            Related <strong>Products</strong>
-          </h2>
+          </section>
+        }
+        <section class="products-carousel container">
+          <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">Related <strong>Products</strong></h2>
 
-          <div id="related_products" className="position-relative">
-            <div
-              className="swiper-container js-swiper-slider"
+          <div id="related_products" class="position-relative">
+            {
+              isLoader == true ?
+                <div class="custom-loader"></div> :
+                allProduct.length != 0 &&
+                <OwlCarousel className='owl-theme' margin={5} nav items={4}>
+
+                  {
+                    allProduct?.map((item, i) => (
+                      <div class='item'>
+                        <div class="ct_swiper_slide swiper-slide product-card">
+                          <div class="pc__img-wrapper">
+                            <a onClick={() => handleProduct1Simple(item?.id)}>
+                              <img loading="lazy" src={item.product_images[0]} width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img" />
+                              {/* <img loading="lazy" src="images/products/product_3-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img pc__img-second"> */}
+                            </a>
+                            <button onClick={() => addToCart(item?.id, "1")} type="button" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                          </div>
+
+                          <div class="pc__info position-relative">
+                            <p class="pc__category">Dresses</p>
+                            <h6 class="pc__title"><a onClick={() => handleProduct1Simple(item?.id)}>{item?.product_category}</a></h6>
+                            <div class="product-card__price d-flex">
+                              <span class="money price">${item?.price_sale_lend_price}</span>
+                            </div>
+
+                            {
+                              item?.wishlist_like == 0 ? (
+                                <button
+                                  onClick={() => addToWishlist(item?.id)}
+                                  className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                  title="Add To Wishlist"
+                                >
+                                  <i
+                                    class="fa-regular fa-heart"
+
+                                  ></i>{" "}
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => addToWishlist(item?.id)}
+                                  className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                  title="Add To Wishlist"
+                                >
+                                  <i
+                                    class="fa-solid fa-heart"
+                                    style={{ color: "red" }}
+
+                                  ></i>
+                                </button>
+                              )}
+                          </div>
+                        </div>
+                      </div>
+
+
+                    ))}
+                </OwlCarousel>
+            }
+            <div class="swiper-container js-swiper-slider"
               data-settings='{
             "autoplay": false,
             "slidesPerView": 4,
@@ -930,428 +1048,35 @@ function Product1_simple() {
                 "spaceBetween": 30
               }
             }
-          }'
-            >
-              <div className="swiper-wrapper">
-                <div className="swiper-slide product-card">
-                  <div className="pc__img-wrapper">
-                    <a onClick={() => handleProduct1Simple()}>
-                      <img
-                        loading="lazy"
-                        src="images/products/product_3.jpg"
-                        width="330"
-                        height="400"
-                        alt="Cropped Faux leather Jacket"
-                        className="pc__img"
-                      />
-                    </a>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer"
-                      title="Add To Cart"
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
+          }'>
+              <div class="swiper-wrapper">
 
-                  <div className="pc__info position-relative">
-                    <p className="pc__category">Dresses</p>
-                    <h6 className="pc__title">
-                      <a onClick={() => handleProduct1Simple()}>
-                        Kirby T-Shirt
-                      </a>
-                    </h6>
-                    <div className="product-card__price d-flex">
-                      <span className="money price">$17</span>
-                    </div>
 
-                    <button
-                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
 
-                <div className="swiper-slide product-card">
-                  <div className="pc__img-wrapper">
-                    <a onClick={() => handleProduct1Simple()}>
-                      <img
-                        loading="lazy"
-                        src="images/products/product_3.jpg"
-                        width="330"
-                        height="400"
-                        alt="Cropped Faux leather Jacket"
-                        className="pc__img"
-                      />
-                    </a>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer"
-                      title="Add To Cart"
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
 
-                  <div className="pc__info position-relative">
-                    <p className="pc__category">Dresses</p>
-                    <h6 className="pc__title">
-                      <a onClick={() => handleProduct1Simple()}>
-                        Cropped Faux Leather Jacket
-                      </a>
-                    </h6>
-                    <div className="product-card__price d-flex">
-                      <span className="money price">$29</span>
-                    </div>
 
-                    <button
-                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
 
-                <div className="swiper-slide product-card">
-                  <div className="pc__img-wrapper">
-                    <a onClick={() => handleProduct1Simple()}>
-                      <img
-                        loading="lazy"
-                        src="images/products/product_2.jpg"
-                        width="330"
-                        height="400"
-                        alt="Cropped Faux leather Jacket"
-                        className="pc__img"
-                      />
-                    </a>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer"
-                      title="Add To Cart"
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
-
-                  <div className="pc__info position-relative">
-                    <p className="pc__category">Dresses</p>
-                    <h6 className="pc__title">
-                      <a onClick={() => handleProduct1Simple()}>
-                        Calvin Shorts
-                      </a>
-                    </h6>
-                    <div className="product-card__price d-flex">
-                      <span className="money price">$62</span>
-                    </div>
-
-                    <button
-                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="swiper-slide product-card">
-                  <div className="pc__img-wrapper">
-                    <a onClick={() => handleProduct1Simple()}>
-                      <img
-                        loading="lazy"
-                        src="images/products/product_3.jpg"
-                        width="330"
-                        height="400"
-                        alt="Cropped Faux leather Jacket"
-                        className="pc__img"
-                      />
-                    </a>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer"
-                      title="Add To Cart"
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
-
-                  <div className="pc__info position-relative">
-                    <p className="pc__category">Dresses</p>
-                    <h6 className="pc__title">
-                      <a onClick={() => handleProduct1Simple()}>
-                        Shirt In Botanical Cheetah Print
-                      </a>
-                    </h6>
-                    <div className="product-card__price d-flex">
-                      <span className="money price">$62</span>
-                    </div>
-
-                    <button
-                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="swiper-slide product-card">
-                  <div className="pc__img-wrapper">
-                    <a onClick={() => handleProduct1Simple()}>
-                      <img
-                        loading="lazy"
-                        src="images/products/product_1.jpg"
-                        width="330"
-                        height="400"
-                        alt="Cropped Faux leather Jacket"
-                        className="pc__img"
-                      />
-                    </a>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer"
-                      title="Add To Cart"
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
-
-                  <div className="pc__info position-relative">
-                    <p className="pc__category">Dresses</p>
-                    <h6 className="pc__title">
-                      <a onClick={() => handleProduct1Simple()}>
-                        Cotton Jersey T-Shirt
-                      </a>
-                    </h6>
-                    <div className="product-card__price d-flex">
-                      <span className="money price">$17</span>
-                    </div>
-
-                    <button
-                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="swiper-slide product-card">
-                  <div className="pc__img-wrapper">
-                    <a onClick={() => handleProduct1Simple()}>
-                      <img
-                        loading="lazy"
-                        src="images/products/product_4.jpg"
-                        width="330"
-                        height="400"
-                        alt="Cropped Faux leather Jacket"
-                        className="pc__img"
-                      />
-                    </a>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer"
-                      title="Add To Cart"
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
-
-                  <div className="pc__info position-relative">
-                    <p className="pc__category">Dresses</p>
-                    <h6 className="pc__title">
-                      <a onClick={() => handleProduct1Simple()}>
-                        Cableknit Shawl
-                      </a>
-                    </h6>
-                    <div className="product-card__price d-flex">
-                      <span className="money price price-old">$129</span>
-                      <span className="money price price-sale">$99</span>
-                    </div>
-
-                    <button
-                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="swiper-slide product-card">
-                  <div className="pc__img-wrapper">
-                    <a onClick={() => handleProduct1Simple()}>
-                      <img
-                        loading="lazy"
-                        src="images/products/product_2.jpg"
-                        width="330"
-                        height="400"
-                        alt="Cropped Faux leather Jacket"
-                        className="pc__img"
-                      />
-                    </a>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer"
-                      title="Add To Cart"
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
-
-                  <div className="pc__info position-relative">
-                    <p className="pc__category">Dresses</p>
-                    <h6 className="pc__title">
-                      <a onClick={() => handleProduct1Simple()}>
-                        Colorful Jacket
-                      </a>
-                    </h6>
-                    <div className="product-card__price d-flex">
-                      <span className="money price">$29</span>
-                    </div>
-
-                    <button
-                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="swiper-slide product-card">
-                  <div className="pc__img-wrapper">
-                    <a onClick={() => handleProduct1Simple()}>
-                      <img
-                        loading="lazy"
-                        src="images/products/product_3.jpg"
-                        width="330"
-                        height="400"
-                        alt="Cropped Faux leather Jacket"
-                        className="pc__img"
-                      />
-                    </a>
-                    <button
-                      className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer"
-                      title="Add To Cart"
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
-
-                  <div className="pc__info position-relative">
-                    <p className="pc__category">Dresses</p>
-                    <h6 className="pc__title">
-                      <a onClick={() => handleProduct1Simple()}>
-                        Zessi Dresses
-                      </a>
-                    </h6>
-                    <div className="product-card__price d-flex">
-                      <span className="money price price-old">$129</span>
-                      <span className="money price price-sale">$99</span>
-                    </div>
-
-                    <button
-                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              </div>{/* /.swiper-wrapper */}
             </div>
 
-            <div className="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
-              <svg
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <use href="#icon_prev_md" />
-              </svg>
-            </div>
-            <div className="products-carousel__next position-absolute top-50 d-flex align-items-center justify-content-center">
-              <svg
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <use href="#icon_next_md" />
-              </svg>
-            </div>
 
-            <div className="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
-          </div>
+
+
+
+
+
+
+            {/* <div class="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
+          <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg>
+        </div>/.products-carousel__prev */}
+            {/* <div class="products-carousel__next position-absolute top-50 d-flex align-items-center justify-content-center">
+          <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg>
+        </div>/.products-carousel__next */}
+
+            <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
+            {/* /.products-pagination */}
+          </div>{/* /.position-relative */}
+
         </section>
       </main>
 
@@ -1401,52 +1126,52 @@ function Product1_simple() {
                 <div className="accordion-body px-0 pb-0">
                   <ul className="list list-inline row row-cols-2 mb-0">
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Dresses
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Shorts
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Sweatshirts
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Swimwear
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Jackets
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         T-Shirts & Tops
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Jeans
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Trousers
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Men
                       </a>
                     </li>
                     <li className="list-item">
-                      <a href="#" className="menu-link py-1">
+                      <a className="menu-link py-1">
                         Jumpers & Cardigans
                       </a>
                     </li>
@@ -1491,52 +1216,52 @@ function Product1_simple() {
                 <div className="accordion-body px-0 pb-0">
                   <div className="d-flex flex-wrap">
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#0a2472" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#d7bb4f" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#282828" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#b1d6e8" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#9c7539" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#d29b48" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#e6ae95" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#d76b67" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color swatch_active js-filter"
                       style={{ color: "#bababa" }}
                     ></a>
                     <a
-                      href="#"
+
                       className="swatch-color js-filter"
                       style={{ color: "#bfdcc4" }}
                     ></a>
@@ -1581,37 +1306,37 @@ function Product1_simple() {
                 <div className="accordion-body px-0 pb-0">
                   <div className="d-flex flex-wrap">
                     <a
-                      href="#"
+
                       className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
                     >
                       XS
                     </a>
                     <a
-                      href="#"
+
                       className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
                     >
                       S
                     </a>
                     <a
-                      href="#"
+
                       className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
                     >
                       M
                     </a>
                     <a
-                      href="#"
+
                       className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
                     >
                       L
                     </a>
                     <a
-                      href="#"
+
                       className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
                     >
                       XL
                     </a>
                     <a
-                      href="#"
+
                       className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
                     >
                       XXL

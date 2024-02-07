@@ -621,7 +621,7 @@ const navigate = useNavigate()
       </div>
 
       <div className="text-center">
-        <a className="btn btn-primary text-uppercase fw-medium fs-base" href="#">Show More</a>
+        <a className="btn btn-primary text-uppercase fw-medium fs-base" >Show More</a>
       </div>
     </section>
   </main>

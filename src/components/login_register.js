@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from './header'
 import Footer from './footer'
 import UserRegister from './userRegister'
 import UserLogin from './userLogin'
+import HeaderVisitor from './HeaderVisitor'
 
 function Login_register() {
-  
+  const [isHome,setIsHome] = useState(false)
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token == null) {
+      setIsHome(false)
+    } else {
+      setIsHome(true)
+        
+    }
+  }, [])
   
   return (
     <>
@@ -159,8 +169,10 @@ function Login_register() {
           <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor" />
         </symbol>
       </svg>
-
-      <Header />
+{
+  isHome == true ? <Header /> : <HeaderVisitor/>
+}
+      
 
       <main>
         <div className="mb-4 pb-4"></div>

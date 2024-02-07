@@ -173,7 +173,7 @@ function Account_edit_address() {
               <div className="my-account__address-item">
                 <div className="my-account__address-item__title">
                   <h5>Billing Address</h5>
-                  <a href="#">Edit</a>
+                  <a >Edit</a>
                 </div>
                 <div className="my-account__address-item__detail">
                   <p>Daniel Robinson</p>
@@ -187,7 +187,7 @@ function Account_edit_address() {
               <div className="my-account__address-item">
                 <div className="my-account__address-item__title">
                   <h5>Shipping Address</h5>
-                  <a href="#">Edit</a>
+                  <a >Edit</a>
                 </div>
                 <div className="my-account__address-item__detail">
                   <p>Daniel Robinson</p>

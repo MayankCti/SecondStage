@@ -15,12 +15,16 @@ function UserRegister() {
 
   const handleRegister = () => {
     setIsLoader(true)
+
     const data = {
-      buyer_name: userName,
+      buyer_name: name,
+      user_name: userName,
       email: email,
       phone_number: phone,
+      license_state: licenseState,
+      license_number: licenseNumber
     };
-    if (userName && email && phone) {
+    if (userName && email && phone && name && licenseState && licenseNumber) {
       axios({
         url: configJSON.baseUrl + configJSON.signUp_buyer,
         method: "post",
@@ -30,20 +34,29 @@ function UserRegister() {
           setIsLoader(false)
           if (res?.data?.success == true) {
             MESSAGE.success(res?.data?.message);
-            setEmail("");
-            setPhone("");
-            setUserName("");
+            setName("")
+            setUserName("")
+            setEmail("")
+            setPhone("")
+            setLicenseNumber("")
+            setLicenseState("")
+            setIsLoader("")
             navigate("/login-register");
           } else {
             MESSAGE.error(res?.data?.message);
+            setName("")
+            setUserName("")
+            setEmail("")
+            setPhone("")
+            setLicenseNumber("")
+            setLicenseState("")
+            setIsLoader("")
           }
         })
         .catch((error) => {
           setIsLoader(false)
           console.log(error);
-          setEmail("");
-          setPhone("");
-          setUserName("");
+
         });
     } else {
       MESSAGE.error(" Please Fill All The fields");
@@ -69,7 +82,7 @@ function UserRegister() {
                         name="login_email"
                         type="text"
                         value={name}
-                        onChange={(e)=>setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                         className="form-control form-control_gray"
                         id="customerNameEmailInput"
                         placeholder="Email Name*"
@@ -131,7 +144,7 @@ function UserRegister() {
                         name="login_email"
                         type="number"
                         value={licenseNumber}
-                        onChange={(e)=>setLicenseNumber(e.target.value)}
+                        onChange={(e) => setLicenseNumber(e.target.value)}
                         className="form-control form-control_gray"
                         id="customerNameEmailInput"
                         placeholder="Email Licence Number *"
@@ -148,7 +161,7 @@ function UserRegister() {
                         name="login_email"
                         type="number"
                         value={licenseState}
-                        onChange={(e)=>setLicenseState(e.target.value)}
+                        onChange={(e) => setLicenseState(e.target.value)}
                         className="form-control form-control_gray"
                         id="customerNameEmailInput"
                         placeholder="Email Licence Number *"
@@ -159,12 +172,12 @@ function UserRegister() {
                       </label>
                     </div>
                   </div>
-                  
+
                 </div>
 
                 <div className="d-flex align-items-center mb-3 pb-2">
                   <div className="form-check ct_check_input mb-0">
-                    <input
+                     {/*<input
                       name="remember"
                       className="form-check-input form-check-input_fill "
                       type="checkbox"
@@ -179,7 +192,7 @@ function UserRegister() {
                       <a onClick={() => navigate("/terms")}>
                         Terms and Conditions
                       </a>{" "}
-                    </label>
+                    </label> */}
                   </div>
                 </div>
                 <button

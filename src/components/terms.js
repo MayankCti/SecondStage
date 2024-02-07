@@ -165,22 +165,506 @@ function Terms() {
     <div className="mb-5 pb-4"></div>
     <section className="container mw-930 lh-30">
       <h2 className="section-title text-uppercase fw-bold mb-5">Terms & Conditions</h2>
-      <h6 className="mb-3">Your use of this is governed by these terms of use</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">Use of the content on this website</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">How long will It take to get my package</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">Will I receive the same product that see the picture</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">Limitation of liability</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">Governing Law & Jurisdiction</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+      <h5 className="mb-3">INTRODUCTION</h5>
+      <p className="mb-4 pb-3">These Terms and Conditions (the Terms) set out your rights and responsibilities as a user of this Site and constitute a binding legal agreement between you, the User, and Second Stage. By using the Site, you the User (buyer, seller, renter or lender) is agreeing to the Terms in their entirety and acknowledge the limitations and exclusions set out herein, including but not limited to the agreed legal jurisdiction, dispute resolution processes and various associated legal obligations and regulations. By using the Site you the User agree to comply with and be legally bound by the terms and conditions as set out in the Terms, whether or not you become a registered user of the Services. Use of the Site is dependent upon your agreement to the Terms. Failure to use the Site in accordance with the Terms may subject you to civil and criminal penalties.</p>
+      <h5 className="mb-3">GENERAL</h5>
+      <p className="mb-4 pb-3">The Terms and any dispute arising out of the use of this Site is governed by the laws of the Australian Capital Territory, Australia. 
+      <br/>Each party submits to the non-exclusive jurisdiction of the courts of the Australian Capital Territory and courts of appeal from them, in respect of any proceedings arising out of the Terms or the use of the Site. 
+      <br/>
+      By using the Site, you are contracting with ABN 97352637341 trading as Second Stage Bikini, referred to as "Second Stage", "we", "us", or "our". You acknowledge and agree that by accessing the Site or using the Services (buying, selling, renting or lending) you have read and agree with the Terms, either as an individual or as an authorised agent or representative of a company or organisation and will be bound by the Terms as set out herein. The terms ‘User’, ‘you’ and ‘your’ refer to you as the User or you as the authorised agent or representative of the company or organisation you confirm you are authorised to represent by using the Site as their representative.
+      <br/>
+      Second Stage may modify the Site, Terms or Services at any time. Any modifications will be posted on the Site at the earliest reasonable opportunity. By continuing to access or use the Site or Services after a modification has been made and advised, you agree to be bound by the modified Terms.
+      <br/>
+      By using the Site, Users are required and agree to provide accurate descriptions and photographs of any Product they offer for sale or rent and a failure to accurately describe their Product may result in a claim made by a buyer or renter against the User, as well as a cancellation of the User’s Site registration and their ability to sell or lend on the Site may be revoked. 
+      <br/>
+      Second Stage provides no endorsement of any image, product or service offered on the Site by any User.  Second Stage does not have access to any product and cannot confirm the accuracy or quality of any photograph or Product. Second Stage will perform various checks and processes designed to help verify the identities of Users, however we do not make any representations about their identity. It is recommend that you exercise due diligence and care when deciding whether to buy/sell/rent/lend a Product from another User, or to have any other interaction with any other User.
+      <br/>
+      Any legal remedy or liability arising from the use of the Site or Services is limited to claims against other Users. Second Stage accepts no liability for the acts or omissions of any Users. To rectify any issues, Users should make direct contact with each other in the first instance. In the event no agreement can be made Second Stage will attempt to mediate any dispute and facilitate agreement between the parties. You acknowledge that the ability of Second Stage to impose any rectification measures upon another User is limited to the payment of late or damage fees as set out under Issues below.
+      </p>
+      <h5>
+      USERS’ RESPONSIBILITIES
+      </h5>
+      <p>
+      As a User, you acknowledge and confirm that you understand you are individually responsible for complying with all laws, rules, regulations, and Tax obligations that may now or in the future apply to the use of the Site or any Services. You agree to the following limitations on your use of the Site or Services:
+      </p>
+      <h6>As a seller/lender you must:</h6>
+      <ul>
+        <li>Warrant that you are entitled to use the Site or Services;</li>
+        <li>Warrant that you are the legal owner of any Product you offer for sale or lease or have the appropriate authority of the owner to offer the Product for sale or lease;</li>
+        <li>Own the intellectual property in any image you upload to the Site or have the appropriate authority or approval to use the image;</li>
+        <li>Provide accurate descriptions of any Product you offer for sale or lease;</li>
+        <li>Provide accurate photos of any Product you offer for sale or lease, including stage photos (if Product has been used) and any other photo to show the colour and level of bling;</li>
+        <li>Ensure speedy delivery of any product;</li>
+        <li>Maintain insurance on any Product you offer for sale or lease, in the absence of which acknowledge you will be liable to a buyer/renter in the event the Product fails to arrive in time or at all or is returned in poor condition or not at all;</li>
+        <li>Ensure any Product you offer for sale or lease is clean and fit for purpose;</li>
+        <li>Ensure that the price you list is accurate and there are no additional costs for the buyer/renter other than postage as advertised.</li>
+      </ul>
+      <h6>As a buyer/renter you must:</h6>
+      <ul>
+        <li>Provide accurate personal details and a valid credit card;</li>
+        <li>Only offer to buy or rent product that you are willing and able to buy or rent;</li>
+        <li>Only buy or rent Product for your personal use;</li>
+        <li>Treat any rental Product with utmost care and return the Product to the User on time, clean and in exactly the same condition as when it was received, in the event this does not occur agree to be liable for the cost of any cleaning and/or repair required to bring the Product back to the required condition;</li>
+      </ul>
+    <h6>
+    You may not:
+    </h6>
+    <ul>
+        <li>use the Site for any purposes expressly permitted by the Terms and no other purpose;</li>
+        <li>access, copy or store any information from the Site for any purpose other than those expressly permitted by the Terms;</li>
+        <li>breach any intellectual property laws or rights of other Users or third parties</li>
+        <li>violate any local, state, national, or other law or regulation, or any order of a court, including, without limitation, Tax regulations;</li>
+        <li>contact another User for any purpose other than to enquire, clarify or solve any issue relating to a Product being offered for sale or lease on the Site. Contact must limited to reasonable contact related the Product and not constitute abuse or harassment;</li>
+        <li>contact another User outside of the Site for the purpose of payment for the sale or lease of any Product offered for sale or lease on the Site;</li>
+        <li>infringe on the rights of another User or any third party including but not limited to intellectual property, privacy, contractual or other legal rights;</li>
+        <li>be abusive or aggressive to any other User or any staff of Second Stage either through messaging, email or phone;</li>
+        <li>use manual or automated software, devices, scripts, robots or other means or processes to access, “scrape,” “crawl” or “spider” any web pages or other services contained in the Site, Services or Collective Content;</li>
+        <li>interfere with or damage our Site or Services, including, without limitation, through the use of viruses, cancel bots, Trojan horses, harmful code, flood pings, denial-of-service attacks, packet or IP spoofing, forged routing or electronic mail address information or similar methods or technology;</li>
+        <li>use our Site or Services to transmit, distribute, post or submit any information concerning any other person or entity, including without limitation, photographs of others without their permission, personal contact information or credit, debit, calling card or account numbers;</li>
+        <li>use our Site, Services or Collective Content in connection with the distribution of unsolicited commercial email ("spam") or advertisements unrelated to the sale or rental of your Products;</li>
+        <li>register for more than one Second Stage Account or register for a Second Stage Account on behalf of an individual other than yourself;</li>
+        <li>recruit or otherwise solicit any Buyer/Seller/Renter or Lender or other User to join third-party services or websites that are competitive to Second Stage, without Second Stage’s prior written approval;</li>
+        <li>impersonate any person or entity, or falsify or otherwise misrepresent yourself or your affiliation with any person or entity;</li>
+        <li>use automated scripts to collect information from or otherwise interact with the Site, Services or Collective Content;</li>
+        <li>use the Site, Services or Collective Content to find a Buyer/Seller/Lender or Renter and then complete a purchase or rental of a Product independent of the Site or Services, in order to circumvent the obligation to pay any Service Fees related to Second Stage’s provision of the Services or for any other reasons;</li>
+        <li>post, upload, publish, submit or transmit any Content that: (i) infringes, misappropriates or violates a third party’s patent, copyright, trademark, trade secret, moral rights or other intellectual property rights, or rights of publicity or privacy; (ii) violates, or encourages any conduct that would violate, any applicable law or regulation or would give rise to civil liability; (iii) is fraudulent, false, misleading or deceptive; (iv) is defamatory, obscene, pornographic, vulgar or offensive; (v) promotes discrimination, bigotry, racism, hatred, harassment or harm against any individual or group; (vi) is violent or threatening or promotes violence or actions that are threatening to any other person; or (vii) promotes illegal or harmful activities or substances;</li>
+        <li>systematically retrieve data or other content from our Site or Services to create or compile, directly or indirectly, in single or multiple downloads, a collection, compilation, database, directory or the like, whether by manual methods, through the use of bots, crawlers, or spiders, or otherwise;</li>
+        <li>use, display, mirror or frame the Site, Services or Collective Content, or any individual element within the Site, Services or Collective Content, Second Stage’s name, any Second Stage trademark, logo or other proprietary information, or the layout and design of any page or form contained on a page in the Site or Services, without Second Stage’s express written consent;</li>
+        <li>access, tamper with, or use non-public areas of the Site or Services, Second Stage’s computer systems, or the technical delivery systems of Second Stage’s providers;</li>
+        <li>attempt to probe, scan, or test the vulnerability of any Second Stage system or network or breach any security or authentication measures;</li>
+        <li>avoid, bypass, remove, deactivate, impair, descramble, or otherwise circumvent any technological measure implemented by Second Stage or any of Second Stage’s providers or any other third party (including another User) to protect the Site, Services or Collective Content;</li>
+        <li>forge any TCP/IP packet header or any part of the header information in any email or newsgroup posting, or in any way use the Site, Services or Collective Content to send altered, deceptive or false source-identifying information;</li>
+        <li>attempt to decipher, decompile, disassemble or reverse engineer any of the software used to provide the Site, Services or Collective Content;</li>
+        <li>advocate, encourage, or assist any third party in doing any of the foregoing.</li>
+      </ul>
+      <h6>Last Updated: January 2024</h6>
+
+      <h5 className="mb-3 mt-4">DEFINITIONS</h5>
+      <p>
+        <strong>“Buyer”</strong>means a User who purchases Product on the Site from a Seller
+      </p>
+      <p>
+        <strong>“Buyer Fees”</strong>means the fee that Second Stage charges a Purchaser for the use of its online platform, which is calculated as 15% of the applicable Purchase Fees. The Purchaser Fees will be displayed to the Purchaser when the Purchaser is asked whether to send a purchase request to a Lender.  
+      </p>
+      <p>
+        <strong>“Collective Content”</strong>means all combined content of both Users and Second Stage.
+      </p>
+      <p>
+        <strong>“Content” </strong>means text, graphics, images, music, software, audio, video, information or other materials.
+      </p>
+
+      <p>
+        <strong>“Damage Fee”  </strong>means any fees charged to a Renter on behalf of a Lender for any damage caused to a Product which includes but is not limited to a failure to clean the Product properly, damage to or loss of crystals and damage to any connectors
+      </p>
+      <p>
+        <strong>“Issue”  </strong>Means an issue with the receipt of a Product either for Rental or Sale including but not limited to late receipt, non-receipt, damaged, unclean or not fit for purpose.
+      </p>
+      <p>
+        <strong>“Issue Request”  </strong>means a formal submission made by a User relating any Issue and seeking reparation.
+      </p>
+      <p>
+        <strong>“Late/Non-Return Fee”  </strong>means daily fees charged to the Renter on behalf of a Lender when a Renter fails to return Product by the end of the Rental Period or at all. 
+      </p>
+      <p>
+        <strong>“Lender”  </strong>means a User who creates a Listing via the Site  to lend their Product to a Renter.
+      </p>
+      <p>
+        <strong>"Lender Fees"  </strong>means the fee that Second Stage charges a Lender for the use of its online platform, which is calculated as 16.5% of the applicable Rental Fees.
+      </p>
+
+      <p>
+        <strong>“Listing”  </strong>means a fashion Product that is listed by a Lender as available for rental via the Site or Services.
+      </p>
+      <p>
+        <strong>“Product”  </strong>means any competitive bodybuilding bikini, accessory or other stage material offered by a User for sale or lease on the Site
+      </p>
+
+      <p>
+        <strong>“Postage Fees”  </strong>means the fee the Renter and/or Lender pays for use of the Courier Services. These fees are based on capacity. If a package is larger than what you selected initially you will be charged for the additional amounts incurred by Second Stage.
+      </p>
+      <p>
+        <strong>“Postage Services”  </strong>means the integrated third party door-to-door courier service provided through Second Stage.
+      </p>
+      <p>
+        <strong>“Renter”  </strong>means a User who rents Product via the Site from a Lender.
+      </p>
+      <p>
+        <strong>“Rental Fees” </strong> means the amounts that are due and payable by a Renter in exchange for that Renter’s rental of Product. The Lender alone, and not Second Stage, determines these amounts. The Lender may in his or her sole discretion decide to include in these amounts a cleaning fee or any other fee permitted on Second Stage platform.
+      </p>
+      <p>
+        <strong>“Rental Request Period”  </strong> means the time period starting from the time when a rental is requested by a Renter (as determined by Second Stage in its sole discretion), within which a Lender may decide whether to confirm or reject that rental request, as stated on the Site or Services.
+      </p>
+      <p>
+        <strong>“Sale Fee”  </strong>mean the fee charged by a User for the sale of any Product.
+      </p>
+      <p>
+        <strong>“Second Stage Content”  </strong>means all Content that Second Stage makes available through the Site, or Services, including any Content licensed from a third party, but excluding User Content.
+      </p>
+      <p>
+        <strong>“Second Stage Lender Insurance” </strong>means the optional insurance provided to Lenders who comply with these Terms as described under ‘Second Stage Lender Insurance’ below.
+      </p>
+      <p>
+        <strong>“Seller” </strong>means a User who offers for sale Product on the Site.
+      </p>
+      <p>
+        <strong>“Services” </strong>means the advertising, sale, lending, purchasing or renting of any Product on the Site.
+      </p>
+      <p>
+        <strong>“Service Fees”  </strong>means the transaction fee charged by Second Stage for the use of the Site and Services which is applied to all transactions completed through the Site, applies to the sale or rental fee charged by the User but excludes any postage costs.
+      </p>
+      <p>
+        <strong>“Tax” or “Taxes”  </strong>mean any sales taxes, value added taxes (VAT), goods and services taxes (GST), that Lenders may be required by law to collect and remit to governmental agencies, and other similar municipal, state, federal and national indirect or other withholding and personal or corporate income taxes.
+      </p>
+      <p>
+        <strong>“Total Fees”  </strong>means collectively the Rental Fees, Service Fees, Renter Fees and Courier Fees.
+      </p>
+      <p>
+        <strong>“User”  </strong>means a registered buyer, seller, lender or renter using the Site 
+      </p>
+      <p>
+        <strong>“User Content” </strong>means all Content that a User posts, uploads, publishes, submits or transmits to be made available through the Site or Services.
+      </p>
+      <h5 class="mb-3 mt-4">WHAT WE DO</h5>
+      <p className='mb-1'>Second Stage is an online marketplace providing a platform to connect Sellers and Lenders of competitive bodybuilding apparel and accessories  (Product) with Buyers and Renters seeking to buy and rent the Product ( collectively known as the Services),  on the Site accessed at <a href='www.secondstagebikini.com'>www.secondstagebikini.com</a> and any other websites or social media through which Second Stage makes the Services available (the Site). </p>
+      <p className='mb-1'>The Site and Services are to facilitate the advertising, sale and rental of the User’s Product. You may only sell, lend, buy or rent Product if you are a registered user of the Site, however you may view listings of Product as an unregistered visitor to the Site and Services.</p>
+      <p>Second Stage is not an owner or dealer of any Product, nor is it a provider of any Product and Second Stage does not own, sell, resell, provide, rent, re-rent, manage and/or control any Product, including courier or other delivery services. Second Stage has engaged the service of a courier company on behalf of its Users. However, Second Stage does not provide these Courier Services and accepts no liability for any damage or loss caused in any way through or by the Courier Service. It is a condition that the Courier Service will be used to deliver the Product to the buyer or renter and return the Product to the Lender if rented. If a User does not wish to use the Courier Service, they must not use the Site or Services.</p>
+      <h5 class="mb-3 mt-4">SERVICE FEES</h5>
+      <p className='mb-1'>In consideration for the use of Second Stage’s online marketplace and platform, Second Stage charges a flat rate of 10% per transaction for Service Fees to the Seller/Lender. The 10% is applied to the sale or rental fee total excluding any postage costs. Where applicable, Taxes (such as VAT in Europe or GST in Australia) may also be charged in respect of any Fees, dependent upon the taxation status of the Seller/Lender. Second Stage deducts the Service Fees before remitting the balance to the Seller/Lender as described in these Terms. </p>
+      <p className='mb-1'>
+      Balances will be remitted by Second Stage to Seller/Lenders via (in Second Stage’s sole discretion) payment methods described on the Site or via the Application, depending upon the selections the Seller/Lender makes via their registration details on the Site, Application and Services. Amounts may be rounded up or down to the nearest 1AUD.
+      </p>
+      <p>Except as otherwise provided herein, Service Fees are non-refundable.</p>
+      <h5 class="mb-3 mt-4">Appointment of Second Stage as Limited Payment Collection Agent for Lender</h5>
+      <p className='mb-1'>Each Seller/Lender hereby appoints Second Stage as the Seller’s/Lender’s limited payment collection agent solely for the purpose of accepting the Total Fees from Buyers/Renters.</p>
+      <p>Each Seller/Lender agrees that payment made by a Buyer/Renter through Second Stage shall be considered the same as a payment made directly to the Seller/Lender, and the Seller/Lender will make the Product available to the Buyer/Renter in the agreed-upon manner as if the Seller/Lender has received the Total Fees. Each Seller/Lender agrees that Second Stage may, in accordance with the cancellation policy selected by the Seller/Lender and reflected in the relevant Listing:</p>
+      <ul>
+        <li>Permit the Buyer/Renter to cancel the purchase/rental;</li>
+        <li>Refund to the Buyer/Renter that portion of the Total Fees specified in the applicable cancellation policy. </li>
+        <li>Each Seller/Lender understands that as Second Stage accepts payments from Buyers/Renters as the Seller’s/Lender’s limited payment collection agent, Second Stage’s obligation to pay the Seller/Lender is subject to and conditional upon Second Stage successfully receiving the payments from Buyers/Renters.</li>
+        <li>Second Stage does not guarantee payments to Sellers/Lenders for amounts that have not been successfully received from Buyers/Renters. </li>
+        <li>In accepting appointment as the limited authorised agent of the Seller/Lender, Second Stage assumes no liability for any acts or omissions of the Seller/Lender.</li>
+      </ul>
+      <p>Please note that Second Stage does not currently charge fees for the creation of Listings. However, you as a Seller/Lender acknowledge and agree that Second Stage reserves the right, in its sole discretion, to charge you for and collect fees from you for the creation of Listings. Please note that Second Stage will provide notice of any Listing fee collection via the Site, Application and Services, prior to implementing such a Listing fee feature.</p>
+      <h5 class="mb-3 mt-4">REGISTRATION</h5>
+      <p className='mb-1'>In order to access certain features of the Site and sell, buy, rent or lend Product, you must register to create an account (“Second Stage Account”) and become a User. You may register to join the Services only via the Site.</p>
+      <p>Your Second Stage Account and your Second Stage Account profile page for your use of the Site will be based upon the personal information you provide to us. You may not have more than one active Second Stage Account. When completing the registration process, you must provide accurate and  complete information and update such information to keep it accurate and complete. Second Stage reserves the right to suspend or terminate your Second Stage Account and your access to the Site and Services if you create more than one Second Stage Account or if any information provided during the registration process or during any update proves to be inaccurate or incomplete. You are responsible for any activities or actions under your Second Stage Account, whether or not you have authorized such activities or actions. You agree to immediately notify Second Stage of any unauthorized use of your Second Stage Account.</p>
+      <h5 class="mb-3 mt-4">GENERAL CONDITIONS OF LISTING</h5>
+      <p className='mb-1'>
+      As a User, you may create Listings. To create a Listing, you will be asked a variety of questions about the Product to be listed, including, but not limited to, your location, category, style, size, colour, bling, replacement value and sale or rental price. Descriptions must be accurate for all Listings. If descriptions prove to be inaccurate the buyer/renter may be entitled to a partial or full refund at the sole discretion of Second Stage. A Seller/Lender will not be entitled to a refund of any Service Fees paid if any refund (partial or full) is issued based on a failure of a User to accurately list their Product. Listings will be made publicly available via the Site and Services. Other Users will be able to buy or rent the Product via the Site and Services based upon the information provided in your Listing. You understand and agree that once a Buyer or Renter requests the purchase or rental of your Product, you may not request the Buyer or Renter pay a higher price than inlcuded in the Listing.
+      </p>
+      <p>You acknowledge and agree that you are responsible for any and all Listings you post. Accordingly, you represent and warrant that any Listing you post and the purchase or rental of Product in a Listing you post:</p>
+      <ul>
+        <li>Will not breach any agreements you have entered into with any third parties;</li>
+        <li>Will be in compliance with all applicable laws, Tax requirements, and rules and regulations that may apply;</li>
+        <li>Will not infringe the rights of third parties;</li>
+      </ul>
+      <p className='mb-1'>Please note that Second Stage assumes no responsibility for a Seller’s or Lender’s compliance with any agreements with or duties to third parties, applicable laws, rules and regulations. </p>
+      <p>Second Stage reserves the right, at any time and without prior notice, to remove or disable access to any User or remove a Listing for any reason, including Listings that Second Stage, in its sole discretion, considers to be objectionable for any reason, in violation of these Terms or Second Stage’s policies or otherwise harmful to the Site or Services.</p>
+      <h5 class="mb-3 mt-4">LENDING</h5>
+      <p className='mb-1'>
+      Lenders, not Second Stage, are solely responsible for honouring any confirmed rentals and making available any Product offered for rent through the Site. 
+      </p>
+
+      <p className='mb-1'>
+      If you are a Lender, you understand and agree that Second Stage does not act as an insurer or as your contracting agent. If a Renter requests the rental of your Product and rents your Product, any agreement you enter into with such Renter is between you and the Renter and Second Stage is not a party to the transaction or agreement. Notwithstanding that, Second Stage serves as the limited authorized payment collection agent of the Lender for the purpose of accepting, on behalf of the Lender, payments from Renters of such amounts stipulated by the Lender.
+      </p>
+      <p className='mb-1'>
+      If you are a Lender, Second Stage makes certain tools available to you to help you to make informed decisions about which Users you choose to confirm for renting your Product. You acknowledge and agree that, as a Lender, you are responsible for your own acts and omissions. 
+      </p>
+      <p className='mb-1'>
+      Second Stage recommends that Lenders obtain appropriate insurance for their Product. Please review any insurance policy that you may have for your Product carefully, and in particular please make sure that you are familiar with and understand any exclusions to, and any deductibles that may apply for, such insurance policy, including, but not limited to, whether or not your insurance policy will cover the actions or inactions of Renters while renting your Product. 
+      </p>
+      <p className='mb-1'>
+      Lenders are responsible for the cleaning of their Product before each new rental. 
+      </p>
+      <p className='mb-1'>
+      Both Renters and Lenders agree to cooperate with and assist Second Stage in good faith, and to provide Second Stage with such information and take such actions as may be reasonably requested by Second Stage, in connection with any complaints or claims made by Users relating to Product or with respect to any investigation undertaken by Second Stage or a representative of Second Stage regarding use or abuse of the Site or the Services. Second Stage has up to 90 days to resolve each claim. 
+      </p>
+      <p className='mb-1'>
+      You as a Lender understand and agree that you are solely responsible for determining (i) your applicable Tax reporting requirements, and (ii) the Taxes that should be included, and for including Taxes to be collected or obligations relating to applicable Taxes in Listings. You are also solely responsible for remitting to the relevant authority any Taxes included or received by you. Second Stage cannot and does not offer Tax-related advice to any Users.
+      </p>
+      <p className='mb-1'>
+      To submit a late fee charge request, lenders must provide the return tracking information for the order. Second Stage has up to 60 days to retrieve the owed amount. Please note that while Second Stage will work in every way possible to make sure these reimbursements are received, we are not liable for the payment of these. In case only a partial of the total amount is retrieved, whatever amount was collected will be transferred to the lender after 60 days and the case will be closed. 
+      </p>
+      <p className='mb-1'>
+      As a Lender, in the event of a late or non-return or damage to your Product by a Renter, you agree to contact the Renter in the first instance and within either the earlier of 48 hours of the completion of the Rental Period or the receipt of the damaged or late Product, to resolve any issue and seek suitable recompense.  If agreement has been reached, you must advise Second Stage to enable processing of any additional fees to be paid by the Renter, noting that a Service Fee will be deducted. In the event agreement cannot be reached between the Lender and the Renter, you as the Lender agree to lodge an issue with Second Stage within ten days of the completion of the Rental Period. The failure lodge an issue within the 10 days of the completion of the Rental Period, will result in the release of any approval or pre authorisation held on the Renter’s credit card and you acknowledge you will forfeit any claim against the Renter. Second Stage takes no responsibility and accepts no liability for either the damage to or the late or non-return of your Product nor for any loss incurred by your failure to lodge an issue within the prescribed period.
+      </p>
+      <h5 class="mb-3 mt-4">RENTING </h5>
+      <p className='mb-1'>
+      If you, as a Renter, choose to enter into a transaction with a Lender for the rental of Product, you agree and understand that you will be required to enter into an agreement with the Lender and you agree to accept any terms, conditions, rules and restrictions associated with the rental of such Product as imposed by the Lender. You acknowledge and agree that you, and not Second Stage, will be responsible for performing the obligations of any such agreements, that Second Stage is not a party to such agreements, and that, with the exception of its payment obligations hereunder, Second Stage accepts no liability arising from or related to any agreements made between a Lender and a Renter. You acknowledge and agree that, notwithstanding the fact that Second Stage is not a party to the agreement between you and the Lender, Second Stage acts as the Lender’s payment collection agent for the limited purpose of accepting payments from you on behalf of the Lender. Upon your payment of the Total Fees to Second Stage, your payment obligation to the Lender for the Total Fees is extinguished, and Second Stage is responsible for providing the Product Fees (less Second Stage’s Lender Fees and relevant Courier Fee), in the manner described in these Terms. In the event that Second Stage does not remit any such amounts as described in these Terms, such Lender will have recourse only against Second Stage. You acknowledge and agree that you will remain liable for any Late/Non-Return Fees or Damage Fees.
+      </p>
+      <p className='mb-1'>
+      The Total Fees payable will be displayed on the Site and accessible by the Renter before a commitment is entered into, including disclosure of the maximum Replacement Value of the Product in the event of serious damage or late or non-return. A Renter will submit a Rental Request to the Lender and the Lender has the opportunity to accept or reject a Rental Request at which time the Rental Request will be approved and payment processed or rejected and the Rental Request will be cancelled at no cost to either the Renter or the Lender. A Rental Request will include the price, proposed rental period, Replacement Value and postage costs.  
+Upon acceptance of a Rental Request, you agree to pay, via Second Stage, the Total Fees for any rental requested. You understand and agree that Second Stage, on behalf of the Lender, reserves the right, in its sole discretion, to:
+      </p>
+     <ul>
+      <li>
+      Obtain a pre-authorisation via your credit card for the Total Fees; or
+      </li>
+      <li>Charge your credit card a nominal amount, not to exceed one dollar ($1), or a similar sum in the currency in which you are transacting (e.g. one euro or one British pound), to verify your credit card;</li>
+      <li>Obtain a pre-authorisation for the Replacement Value of the Product.</li>
+     </ul>
+     <p className='mb-1'>Once Second Stage receives confirmation of your rental from the applicable Lender, Second Stage will collect the Total Fees in accordance with these Terms and the pricing terms set forth in the applicable Listing. Please note that Second Stage cannot control any fees that may be charged to a Renter by his or her bank related to Second Stage’s collection of the Total Fees, and Second Stage disclaims all liability in this regard.</p>
+     <p className='mb-1'>In connection with your requested rental, you will be asked to provide standard billing information such as name, billing address and credit card information either to Second Stage and/or its third-party payment processor. You agree to pay Second Stage for any confirmed rentals made in connection with your Second Stage Account in accordance with these Terms by one of the methods described on the Site or Application, e.g. by credit card. You hereby authorize the collection of such amounts by charging the credit card provided as part of requesting the rental, either directly by Second Stage or indirectly, via a third-party online payment processor or by one of the payment methods described on the Site or Application. </p>
+     <p className='mb-1'>In relation to any approved Rental Request, you also authorize Second Stage to charge your credit card for damage caused to Product as contemplated under “Damage to Products” below or for late or non-return of any Product. The maximum value of any pre-authorisation to be held on or charged to your credit card will be equal to or less than the Replacement Value as nominated by the Lender and advised to the Renter prior to the submission of a Rental Request. This pre-authorisation or approval will be held until the Lender confirms return of the Product in good condition or ten days from the conclusion of the Rental Period, whichever is the earliest. If the Lender raises an ‘Issue’ with the transaction, the pre-authorisation or approval will be continued until the matter is resolved to the satisfaction of the Lender or in the case of an unreasonable delay of such approval, when Second Stage deems the matter to be closed with or without the need for such charges to be paid.</p>
+     <p className='mb-1'>If you are directed to Second Stage’s third-party payment processor, you may be subject to terms and conditions governing use of that third party’s service and that third party’s personal information collection practices. Please review such terms and conditions and privacy policy before using the services. Once your confirmed rental transaction is complete you will receive a confirmation email summarizing your confirmed rental.</p>
+     <p className='mb-1'>As a Renter, you are responsible for returning the Product in the condition it was in when you received it. You are responsible for cleaning the Product (see cleaning conditions below). You are responsible for ensuring the Product is returned to the Lender prior to the end of the Rental Period. You acknowledge and agree that, as a Renter, you are responsible for your own acts and omissions and are also responsible for the acts and omissions of any individuals whom you allow to access the Product. In the event that a Lender claims damage or late/non return and may provide evidence of damage or late or non-return, including but not limited to photographs, you agree to pay the Lender the requisite Late/Non-Return Fee or Damage Fee up to a maximum of the advised Replacement Value of the Product advised to you prior to submitting a Rental Request. After being notified of the lodgement of an issue you will be given forty eight (48) hours to respond and provide evidence to contradict a claim, in the absence of which the payment as requested by the Lender will be charged to and taken from the credit card on file in your Second Stage Account. Second Stage also reserves the right to charge the credit card on file in your Second Stage Account, or otherwise collect payment from you and pursue any avenues available to Second Stage in this regard, in situations in which you have been determined, in Second Stage’s sole discretion, to have damaged any Product, or failed to return any Product, including, but not limited to, in relation to any payments made by Second Stage to Lenders. If you as the Renter, submit a response to a claim made by a Lender, no payment will be taken from your credit card until either:</p>
+     <ul>
+      <li>
+      you and the Lender come to an agreement as to a suitable amount to settle a claim and advise Second Stage of such agreement;
+      </li>
+      <li>you and the Lender cannot come to an agreement within a period of 72 hours from the time you lodge a valid response to a claim and a determination by Second Stage, in its sole discretion, has been made and advised to both the Lender and the Renter.</li>
+     </ul>
+     <p>If we are unable to charge the credit card on file or otherwise collect payment from you, you agree to remit payment for any damage to the Product to the applicable Lender or to Second Stage (if applicable) in an alternative format and understand that if you fail to do so any unpaid fees may be remitted to third party debt collection agency, be removed from Second Stage as a User. </p>
+     <h5 class="mb-3 mt-4">SELLING </h5>
+     <p className='mb-1'>If you are a Seller, you understand and agree that Second Stage does not act as an insurer or as your contracting agent. If a Buyer requests the purchase of your Product and buys your Product, any agreement you enter into with such Buyer is between you and the Buyer and Second Stage is not a party to the transaction or agreement. Notwithstanding that, Second Stage serves as the limited authorized payment collection agent of the Seller for the purpose of accepting, on behalf of the Seller, payments from a Buyer of such amounts stipulated by the Seller.</p>
+     <p className='mb-1'>
+     If you are a Seller, Second Stage makes certain tools available to you to help you to make informed decisions about which Users you choose to confirm for buying your Product. You acknowledge and agree that, as a Seller, you are responsible for your own acts and omissions. 
+     </p>
+     <p className='mb-1'>
+     Second Stage recommends that Sellers obtain appropriate insurance for their Product. Please review any insurance policy that you may have for your Product carefully, and in particular please make sure that you are familiar with and understand any exclusions to, and any deductibles that may apply for, such insurance policy, including, but not limited to, whether or not your insurance policy will cover the actions or inactions of Buyers while purchasing your Product. 
+     </p>
+     <p className='mb-1'>
+     Sellers are responsible for the cleaning of their Product before any sale and ensure the Product is in fit for purpose condition. It is recommended Sellers provide accurate descriptions in their Listing. It is HIGHLY recommended you take photographs of your Product prior to postage to provide evidence in the event a Buyer makes a claim that the Product was not in fit for purpose condition or was not clean on receipt.
+     </p>
+     <p>
+     You as a Seller understand and agree that you are solely responsible for determining (i) your applicable Tax reporting requirements, and (ii) the Taxes that should be included, and for including Taxes to be collected or obligations relating to applicable Taxes in Listings. You are also solely responsible for remitting to the relevant authority any Taxes included or received by you. Second Stage cannot and does not offer Tax-related advice to any Users.
+     </p>
+     <h5 class="mb-3 mt-4">BUYING</h5>
+     <p>
+     As a Buyer, you acknowledge and accept that Second Stage will charge the credit card on file in your Second Stage Account the Total Fees as contained within the Listing. 
+     </p>
+     <h5 class="mb-2 mt-4">ISSUES</h5>
+     <h6 className='mb-3'>Late/Non-Return Fees</h6>
+     <p className='mb-1'>
+     All Users must comply with a standardized Late/Non-Return Fee Policy (Late Fees)that Second Stage will enforce to protect both Renter and Lender alike. Second Stage relies on both Lenders and Renters sending and returning Products in a timely manner.
+     </p>
+     <p className='mb-1'>
+     If a Product is returned late (after the conclusion of the Rental Period) an additional $22 per day (including Service Fees) will be charged for each day the Product is not returned. Renters agree to this policy every time they request a booking. Late fees will be capped at 4 weeks up to a maximum of the Replacement Value as determined by the Lender and provided to the Renter prior to the submission of a Rental Request, unless otherwise determined by Second Stage in their sole discretion.
+     </p>
+     <p className='mb-1'>
+     Second Stage also reserves the right to charge the credit card on file in the Renter’s Second Stage Account, or otherwise collect payment from the Renter and pursue any avenues available to Second Stage in this regard, in situations in which the Renter has been determined, in Second Stage’s sole discretion, to have returned Product late or failed to return Product to the Lender. If we are unable to charge the credit card on file or otherwise collect payment from the Renter, the Renter agrees to remit payment for the additional rental period to the applicable Lender or to Second Stage (if applicable). Unpaid invoices will be passed on to a debt-collection service with collection costs recoverable including additional service fees applicable.
+     </p>
+     <p className='mb-1'>
+     Calculation of late fees starts from the completion of the Rental Period until the exact date the Product is collected by the nominated courier. A Renter will not be liable for late fees if the delay on the return is outside their control, such as unexpected delays by the Courier and can provide evidence to support their claim (confirmation of collection from the Courier and tracking information). 
+     </p>
+     <h5 class="mb-2 mt-4">Damage Fees</h5>
+     <p className='mb-1'>
+     All Users must comply with a standardized Damage Fee Policy that Second Stage will enforce to protect both Renter and Lender alike. Second Stage relies on both Lenders and Renters sending and returning Product in fit for purpose and clean condition.
+     </p>
+     <p className='mb-1'>
+     If Product is returned damaged or dirty an additional Damage Fee will be charged to a maximum of the Replacement Value of the Product as follows:
+     </p>
+     <ul>
+      <li>Standard cleaning Fee - $50</li>
+      <li>Standard crystal replacement Fee - $50</li>
+      <li>Complex crystal replacement Fee - $100</li>
+      <li>Standard connector replacement Fee - $50</li>
+      <li>Additional damage – as determined by Lender</li>
+     </ul>
+     <p className='mb-1'>
+     Renters and Lenders should take accurate photographs of the Product before postage to protect from false claims and to ensure evidence is available to support claims. Renters and Lenders should communicate with each other in the first instance to resolve any issues around cleaning or damage to Product. In the event Lenders and Renters cannot agree on the appropriate Damage Fee,  Second Stage will in its sole discretion, make a determination based on the evidence and statements of Lenders and Renters in the event an Issue Request is lodged. 
+     </p>
+     <p className='mb-1'>
+     Second Stage reserves the right to charge the credit card on file in a Renter’s Second Stage Account, or otherwise collect payment from a Renter and pursue any avenues available to Second Stage in this regard, in situations in which the Renter has been determined, in Second Stage’s sole discretion, to have returned Product damaged or dirty. If we are unable to charge the credit card on file or otherwise collect payment from the Renter, the Renter agrees to remit payment for the cleaning or replacement fee to the applicable Lender or to Second Stage (if applicable). Unpaid invoices will be passed on to a debt-collection service with collection costs recoverable.
+     </p>
+     <p className='mb-1'>
+     To submit a Damage Fee request, a Lender must submit an Issue Request outlining the alleged damage to the Product. Photographs of damage and claim value must be submitted within ten days of receipt of the damaged Product as required within the Issue Request form. Second Stage has up to 60 days to retrieve the owed amount. Please note that while Second Stage will work in every way possible to make sure these reimbursements are received, we are not liable for any amounts not able to be retrieved. In case only a partial retrieval of the total amount is received, whatever amount was collected will be transferred to the Lender after 60 days and the case will be closed less the applicable Service Fee.
+     </p>
+
+     <h5 class="mb-2 mt-4">Lost / Unreturned Products Claim</h5>
+     <p className='mb-1'>
+     If you have attempted to contact the Renter regarding the return of your Product but have not received a reply for 48hours, please lodge an Issue Request.
+     </p>
+     <p className='mb-1'>
+     Products are deemed lost or stolen if unreturned one month after the end date of the Rental Period. Please note that Second Stage does not take responsibility for loss or damage of Products sold or rented out through the platform. Second Stage simply provides an online marketplace for Sellers/Lenders and Buyers/Renters to connect. Although Second Stage will work in every way possible to make sure these reimbursements are received, we are not liable for the payment of these.
+     </p>
+     <p className='mb-1'>
+     To process the claim, Lenders must provide supporting documents. This includes, but are not limited to a copy of a police report (for stolen Products), Statutory Declaration, and proof of original purchase (receipt or bank statement) of the lost Product. If the Product was purchased second hand on a marketplace, proof of payment (bank transfer receipt, PayPal, etc.) must be provided.
+     </p>
+     <p className='mb-1'>
+     Second Stage has up to 90 days to resolve each claim. Within this period, Buyers/Renters and Sellers/Lenders agree to cooperate with and assist Second Stage in good faith, and to provide Second Stage with such information and take such actions as may be reasonably requested by Second Stage.
+     </p>
+     <p>
+     If a Product is confirmed delivered and is stolen on the property of the Buyer/Renter, the Buyer/Renter agrees to make necessary steps to assist in the attempt to recover the Product including filling a police report. If the Buyer/Renter is located in a high-theft area or busy street, they must make the Seller/Lender aware of this and ask for signature upon delivery right after submitting the order. The Buyer/Renter shall be liable for the replacement of the stolen Product if is confirmed delivered on their property.
+     </p>
+
+     <h5 class="mb-2 mt-4">Cancellation of Rental</h5>
+     <p className='mb-1'>
+     Renters may cancel the Rental Request if it is more than 14 days prior to the rental start date, with a full refund less 10% Service Fee automatically returned to you. If your request to cancel falls inside the 14 days before your hire period, you must liaise with the Lender directly to have the cancellation and refund approved. It is entirely up to the Lender whether to agree to a cancellation and partial or full refund. 
+     </p>
+     <p className='mb-1'>
+     The Service Fee is non-refundable regardless of the cancellation policy selected by the Lender. 
+     </p>
+     <p className='mb-1'>If a Lender cancels an approved Rental Request Second Stage will refund the Total Fees for such rental to the applicable Renter at the earliest opportunity and the Renter may receive an email or other communication from Second Stage containing alternative Listings and other related information. </p>
+     <p className='mb-1'>
+     If, as a Lender, you cancel an approved Rental Request, Second Stage may apply penalties or consequences to you or your Listing, including an automated review on your Listing indicating that a previously approved reservation was cancelled and/or imposing a Cancellation Fee. You will be notified of the situations in which a Cancellation Fee applies before you decide to cancel. If this occurs on two or more occasions, your registration to Second Stage may be cancelled in addition to a Cancellation Fee being charged.
+     </p>
+     <p className='mb-1'>Second Stage can, in its sole discretion, cancel an approved Rental Request made via the Site and Services. If this occurs, both the Lender and the Renter will receive a full refund of any amount paid or charged.</p>
+     <h5 class="mb-2 mt-4">Refunds</h5>
+     <p className='mb-1'>
+     It is the Lender’s responsibility to ensure any Product description is accurate. In the event Product is received and is substantially different from the description contained in the Listing, the Renter may be entitled to a partial or full refund at the sole discretion of Second Stage. The Renter and Lender should work together in the first instance to resolve any issue and agree on a suitable refund amount. In the event agreement cannot be reached, the Renter should submit an Issue Request and Second Stage may, in its sole discretion make a determination regarding an appropriate refund amount, if any. The Users agree to abide by any decision made by Second Stage. 
+     </p>
+     <p className='mb-1'>
+     It is the Lenders responsibility to ensure any Product is provided to the Renter fit for purpose and in a suitably clean condition. In the event Product is received and is not considered fit for purpose or is unclean, the Renter may be entitled to a partial or full refund. The Renter and Lender should work together in the first instance to resolve any issue and agree on a suitable refund amount. In the event agreement cannot be reached, the Renter should submit an Issue Request and Second Stage may, in its sole discretion make a determination regarding an appropriate refund amount, if any. The Users agree to abide by any decision made by Second Stage. 
+     </p>
+     <p className='mb-1'>It is the Lenders responsibility to ensure any Product is sent with sufficient time to arrive to the Renter for the commencement of the Rental Period. In the event Product is received late or not at all, the Renter may be entitled to a partial or full refund. The Renter and Lender should work together in the first instance to resolve any issue and agree on a suitable refund amount. In the event agreement cannot be reached, the Renter should submit and Issue Request and Second Stage may, in its sole discretion make a determination regarding an appropriate refund amount, if any. The Users agree to abide by any decision made by Second Stage. If the Renter wishes to seek a full refund the Product should be posted on the same day it is received and not worn otherwise only a partial refund will be considered.</p>
+     <p className='mb-1'>
+     To submit an Issue Request for a rental issue, a Renter is required to bring the issue to the attention of the Lender within 24 hours of receiving the Product and have used reasonable efforts to try to remedy the Issue with the Lender prior to making a claim.
+     </p>
+     <p className='mb-1'>
+     Any refunds will be credited (Renter) and/or debited (Lender) (as appropriate) the same payment method used for the original payout to or payment by the User, so that User receives or pays the correct amount less any applicable Service Fees.
+     </p>
+
+     <h5 class="mb-2 mt-4">PRIVACY AND INFORMATION HANDLING </h5>
+     <p className='mb-1'>Second Stage may access, preserve and disclose any of your information if we are required to do so by law, or if we believe in good faith that it is reasonably necessary to </p>
+     <ul>
+      <li>Respond to claims asserted against Second Stage or to comply with legal process (for example, subpoenas or warrants);</li>
+      <li>Enforce or administer our agreements with users, such as these Terms;</li>
+      <li>For fraud prevention, risk assessment, investigation, customer support, product development and de-bugging purposes;</li>
+      <li>To protect the rights, property or safety of Second Stage, its users, or Users of the public . You acknowledge that Second Stage has no obligation to monitor your access to or use of the Site, Services or Collective Content or to review or edit any User Content, but has the right to do so for the purpose of operating and improving the Site, Application and Services (including without limitation for fraud prevention, risk assessment, investigation and customer support purposes), to ensure your compliance with these Terms, to comply with applicable law or the order or requirement of a court, administrative agency or other governmental body, to respond to content that it determines is otherwise objectionable or as set forth in these Terms. Second Stage reserves the right, at any time and without prior notice, to remove or disable access to any Collective Content that Second Stage, at its sole discretion, considers to be objectionable for any reason, in violation of these Terms or otherwise harmful to the Site or Services.</li>
+     </ul>
+     <h5 class="mb-2 mt-4">POSTAGE</h5>
+     <p className='mb-1'>Second Stage provides Users access to an integrated third party door-to-door courier service. Note that all transactions are subject to a shipment contract. This means that the risk of loss and title for such Products passes between the Seller/Lender and the Buyer/Renter. Second Stage is not a party to such shipment contract. Second Stage disclaims any loss or liability whatsoever arising from the user any such Courier Services.</p>
+     <p className='mb-1'>
+     Courier Fees are based on the size of the package selected by the Seller/Lender. If it is deemed by Second Stage, in its absolute discretion, that the package does not comply with the dimensions selected, Second Stage is entitled to claim additional fees from the User. For the avoidance of doubt, these additional fees may include any additional amounts that would have been payable by the Buyer/Renter if the Seller/Lender uses the incorrect packaging size.
+     </p>
+     <p className='mb-1'>
+     It is the Lenders responsibility to include a labelled return satchel for each order. If a satchel is not included, the cost will be deducted from the Lenders account. 
+     </p>
+     <p className='mb-1'>
+     Second Stage provide Sellers/Lenders with optional satchel sizes and come in packs of 10, 20 or 50. Seller/Lenders can order additional satchels at any time from the Site.
+     </p>
+     <h5 class="mb-2 mt-4">OWNERSHIP</h5>
+     <p>
+     The Site, Services, and Collective Content are protected by intellectual property, copyright, trademark, and any other applicable laws of Australia and any foreign countries in which the Site or Services are accessed. You, the User, acknowledge and agree that the Site, Services and Collective Content, including all associated intellectual property rights, are the exclusive property of Second Stage and its licensors. You will not remove, alter or obscure any copyright, trademark, service mark or other proprietary rights notices incorporated in or accompanying the Site, Services, or Collective Content.
+     </p>
+     <h5 class="mb-2 mt-4">Copyright Policy</h5>
+     <p>
+     Second Stage respects copyright law and expects its users to do the same. It is Second Stage’s policy to terminate in appropriate circumstances the Second Stage Accounts of Users or other account holders who repeatedly infringe or are believed to be repeatedly infringing the rights of copyright holders.
+     </p>
+     <h5 class="mb-2 mt-4">Second Stage Content and User Content License</h5>
+     <p>
+     Subject to your compliance with the terms and conditions of these Terms, Second Stage grants you a limited, non-exclusive, non-transferable license to:
+     </p>
+     <ul>
+      <li>
+      Access and view any Second Stage Content solely for your personal and non-commercial purposes;
+      </li>
+      <li>
+      Access and view any User Content to which you are permitted access, solely for your personal and non-commercial purposes. 
+      </li>
+     </ul>
+     <p>
+     You have no right to sublicense the license rights granted in this section. You will not use, copy, adapt, modify, prepare derivative works based upon, distribute, license, sell, transfer, publicly display, publicly perform, transmit, broadcast or otherwise exploit the Site, Application, Services, or Collective Content, except as expressly permitted in these Terms. No licenses or rights are granted to you by implication or otherwise under any intellectual property rights owned or controlled by Second Stage or its licensors, except for the licenses and rights expressly granted in these Terms.
+     </p>
+     <h5 class="mb-2 mt-4">
+     User Content
+     </h5>
+     <p>
+     We may, in our sole discretion, permit you to post, upload, publish, submit or transmit User Content. By making available any User Content on or through the Site, Application and Services, you hereby grant to Second Stage a worldwide, irrevocable, perpetual, non-exclusive, transferable, royalty-free license, with the right to sublicense, to use, view, copy, adapt, modify, distribute, license, sell, transfer, publicly display, publicly perform, transmit, stream, broadcast, access, view, and otherwise exploit such User Content on, through, by means of or to promote or market the Site, and Services or the Product. Second Stage does not claim any ownership rights in any such User Content and nothing in these Terms will be deemed to restrict any rights that you may have to use and exploit any such User Content.
+     </p>
+     <p>
+     You acknowledge and agree that you are solely responsible for all User Content that you make available through the Site and Services. Accordingly, you represent and warrant that: 
+     </p>
+     <ul>
+      <li>
+      You either are the sole and exclusive owner of all User Content that you make available through the Site, Application and Services; or 
+      </li>
+      <li>
+      you have all rights, licenses, consents and releases that are necessary to grant to Second Stage the rights in such User Content, as contemplated under these Terms; and 
+      </li>
+      <li>Neither the User Content nor your posting, uploading, publication, submission or transmittal of the User Content or Second Stage’s use of the User Content (or any portion thereof) on, through or by means of the Site and the Services will infringe, misappropriate or violate a third party’s patent, copyright, trademark, trade secret, moral rights or other proprietary or intellectual property rights, or rights of publicity or privacy, or result in the violation of any applicable law or regulation.</li>
+     </ul>
+     <h5 class="mb-2 mt-4">
+     Links
+     </h5>
+     <p className='mb-1'>
+     The Site, Application and Services may contain links to third-party websites or resources. You acknowledge and agree that Second Stage is not responsible or liable for: 
+     </p>
+     <ul>
+      <li>
+      The availability or accuracy of such websites or resources; or 
+      </li>
+      <li>
+      The content, products, or services on or available from such websites or resources. 
+      </li>
+     </ul>
+     <p>
+     Links to such websites or resources do not imply any endorsement by Second Stage of such websites or resources or the content, products, or services available from such websites or resources. You acknowledge sole responsibility for and assume all risk arising from your use of any such websites or resources or the Content, products or services on or available from such websites or resources.
+     </p>
+     <h5 class="mb-2 mt-4">
+     Suspension, Termination and Second Stage Account Cancellation
+     </h5>
+     <p>
+     We may, in our discretion, with or without cause, with or without prior notice and at any time, decide to limit, suspend, deactivate or cancel your Second Stage Account. If we exercise our discretion under the Terms to do so, any or all of the following can occur with or without prior notice or explanation to you:
+     </p>
+     <ul>
+      <li>Your Second Stage Account will be deactivated or suspended, your password will be disabled, and you will not be able to access the Site, Services, your Second Stage Account, your User Content, or receive assistance from Second Stage Customer Service;</li>
+      <li>Any pending or accepted future rentals as either Lender or Renter will be immediately terminated;</li>
+      <li>We may communicate to your Renters or Lenders that a potential or confirmed rental has been cancelled;</li>
+      <li>We may refund your Renters in full for any and all confirmed transactions, irrespective of pre-existing cancellation policies;</li>
+      <li>We may contact your Renters to inform them about potential alternate Products with other Lenders that may be available on the Site, Application and Services; and </li>
+      <li>
+      You will not be entitled to any compensation for any rentals (even if confirmed) that were cancelled as a result of a suspension, deactivation or termination of your Second Stage Account. 
+      </li>
+      <li>
+      You may cancel your Second Stage Account at any time via the “Cancel Account” feature of the Services or by sending an email. Please note that if your Second Stage Account is cancelled, we do not have an obligation to delete or return to you any Content you have posted to the Site and Services, including, but not limited to, any reviews or Feedback.
+      </li>
+     </ul>
+     <h5 class="mb-2 mt-4">
+     Disclaimers
+     </h5>
+     <h6>
+     Limitation of Liability
+     </h6>
+     <p className='mb-1'>
+     You acknowledge and agree that, to the maximum extent permitted by law, the entire risk arising out of your use of the Site, in whatever way you use it, remains with you. Neither Second Stage nor any third party involved in creating, producing, or delivering the Site will be liable for any incidental, special, exemplary or consequential damages, including lost profits, loss of data or loss of goodwill, service interruption, computer damage or system failure or the cost of substitute products or services, or for any damages for personal or bodily injury or emotional distress arising out of or in connection with these Terms, from the use of or inability to use the Site from any communications, interactions or meetings with other Users of the Site or other persons with whom you communicate or interact as a result of your use of the Site from your listing or rental of any product via the Site whether based on warranty, contract, tort (including negligence), product liability or any other legal theory, and whether or not Second Stage has been informed of the possibility of such damage, even if a limited remedy set forth herein is found to have failed of its essential purpose.
+     </p>
+     <p>
+     Except for our obligations to pay amounts to applicable Sellers/Lenders pursuant to the Terms, in no event will Second Stage’s aggregate liability arising out of or in connection with the Terms and your use of the Site including, but not limited to, from your Listing or Sale or Rental of any Product via the Site or from the use of or inability to use the Site and in connection with any Product or interactions with any other Users, exceed the amounts you have paid/owe/received or are owed for purchases, sales or rentals via the Site as a Buyer/Seller/Lender or Renter in the twelve (12) month period prior to the event giving rise to the liability. The limitations of damages set forth above are fundamental elements of the basis of the bargain between Second Stage and the User. Some jurisdictions do not allow the exclusion or limitation of liability for consequential or incidental damages, so the above limitation may not apply to you.
+     </p>
+     <h5 class="mb-3 mt-4">
+     Indemnification
+     </h5>
+     <p>
+     You agree to release, defend, indemnify, and hold Second Stage and its affiliates and subsidiaries, and their officers, directors, employees and agents, harmless from and against any claims, liabilities, damages, losses, and expenses, including, without limitation, reasonable legal and accounting fees, arising out of or in any way connected with:
+     </p>
+     <ul>
+      <li>
+      Your access to or use of the Site, Services, or Collective Content or your violation of these Terms; 
+      </li>
+      <li>Your User Content; </li>
+      <li>
+      Your 
+      <ol>
+        <li>
+        Interaction with any User; 
+        </li>
+        <li>
+        Rental of an Product, or 
+        </li>
+        <li>Creation of a Listing; </li>
+      </ol>
+      </li>
+      <li>The use, condition or rental of an Product by you, including but not limited to any injuries, losses, or damages (compensatory, direct, incidental, consequential or otherwise) of any kind arising in connection with or as a result of a rental, rental or use of an Product.</li>
+     </ul>
+     <h5 class="mb-3 mt-4">Entire Agreement</h5>
+     <p>
+     These Terms constitute the entire and exclusive understanding and agreement between Second Stage and the User regarding the Site, Services, Collective Content, and any sales, rentals or Listings of Product made via the Site and the Terms supersede and replace any and all prior oral or written understandings or agreements between Second Stage and the User regarding sale, rentals or listings of Product, the Site, Services and Collective Content.
+     </p>
+     <h5 class="mb-3 mt-4">General</h5>
+     <p>
+     The failure of Second Stage to enforce any right or provision of these Terms will not constitute a waiver of future enforcement of that right or provision. The waiver of any such right or provision will be effective only if in writing and signed by a duly authorised representative of Second Stage. Except as expressly set forth in the Terms, the exercise by either party of any of its remedies under the Terms will be without prejudice to its other remedies under the Terms or otherwise. If for any reason an arbitrator or a court of competent jurisdiction finds any provision of the Terms invalid or unenforceable, that provision will be severable and all other provisions of the Terms will remain in full force and effect.
+     </p>
     </section>
+
+
+
+    <div className="mb-0 pb-xl-5"></div>
   </main>
 
-  <div className="mb-5 pb-xl-5"></div>
+
 
   <Footer/>
   

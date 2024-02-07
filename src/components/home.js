@@ -1,92 +1,51 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
-import Header from './header'
-import Footer from './footer'
-import Content from './Content';
-import Home from './home';
+import React, { useEffect, useState } from 'react'
+import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import Header from './header';
+import Footer from './footer';
+import HeaderVisitor from './HeaderVisitor';
+import { useNavigate } from 'react-router-dom';
 export const configJSON = require("../components/config");
-function Index() {
-  const [isCartSidebar, setIsCartSidebar] = useState(false)
-  const [cartData, setCartData] = useState([])
-  const [accessToken, setAccessToken] = useState()
-  const [isHome,setIsHome] = useState(false)
-  const [quickSearch,setQuickSearch] = useState("")
-  const [isLoader, setIsLoader] = useState(false);
-const navigate = useNavigate()
+function Home() {
+    const navigate = useNavigate()
+    const [isLoader, setIsLoader] = useState(false);
+    const [allProduct, setAllProduct] = useState([]);
+    const [isHome,setIsHome] = useState(false)
+    const [show,setShow] = useState("buy")
+    useEffect(()=>{
+        
+        setTimeout(() => {
+            getAllProduct();
+          }, 1000);
+    },[])
 
-useEffect(() => {
-  const token = JSON.parse(localStorage.getItem("token"))
-  if (token == null) {
-      navigate('/login-register')
-  } else {
-    setIsHome(true)
-      getCartData(token)
-  }
-}, [])
-
-
-const getCartData = (val, val2) => {
-  setIsLoader(true)
-  setAccessToken(val)
-  axios({
-    url: configJSON.baseUrl + configJSON.getCartData,
-    method: "get",
-    headers: {
-      'Authorization': `Bearer ${val}`
-    },
-  }).then((res) => {
-    setIsLoader(false)
-    if (res?.data?.success == true) {
-      setCartData(res?.data?.cart)
-      val2 == true ?
-      setIsCartSidebar(true)
-      : 
-      setIsCartSidebar(false)
-    }
-    else {
-      setCartData([])
-    }
-  }).catch((error) => {
-    setIsLoader(false)
-    console.log(error)
-  })
-}
-const getDataFromChild = () => {
-  getCartData(accessToken,true)
-  // console.log("hello")
-}
-  const handleBikinis=()=>{
-    navigate("/bikinis")
-  }
-  const handleFigure=()=>{
-    navigate("/figure")
-  }
-  const HandleWbff=()=>{
-    navigate("/wbff")
-  }
-  const handleThemewear=()=>{
-    navigate("/themewear")
-  }
-  const handleAccessories=()=>{
-    navigate("/accessories")
-  }
-  const handleProduct1Simple = ()=>{
-    navigate("/product1-simple")
-  }
-  const handleSwimsuit=()=>{
-    navigate("/swimsuit")
-  }
-  const searchPage = (val)=>{
-    const data = val.toLowerCase()
-    
-  }
+    const getAllProduct = () => {
+        setIsLoader(true);
+        axios({
+          url: configJSON.baseUrl + configJSON.product_details+"guest",
+          method: "get",
+        })
+          .then((res) => {
+            setIsLoader(false);
+            if (res?.data?.success == true) {
+              setAllProduct(res?.data?.products);
+            } else {
+              setAllProduct([]);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            setIsLoader(false);
+          });
+      };
   return (
+    <div onClick={()=>navigate("/login-register")}>
     
-    <>
-    {isLoader == false ?
-      <>
-    <svg className="d-none">
+      <svg className="d-none">
     <symbol id="icon_nav" viewBox="0 0 25 18">
       <rect width="25" height="2"/><rect y="8" width="20" height="2"/><rect y="16" width="25" height="2"/>
     </symbol>
@@ -235,144 +194,255 @@ const getDataFromChild = () => {
       <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor"/>
     </symbol>
   </svg>
-
-  <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar}/>
-
-  <main>
-
-  <div className="mb-5 pt-1"></div>
+<div >
+  <HeaderVisitor />
+</div>
   
-      <section className="instagram container-fluid">
+    <main >
+    <div className="mb-5 pt-1"></div>
+   <section className="instagram container-fluid">
 
-      <div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
-        <div className="ct_quick_link_item mb-4">
-          <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_3.jpg" width="150" height="150" alt="Insta image 1"/>
-            <div class="ct_buy_rent_tag"><h4 class="mb-0">Bikini</h4></div>
-            <div className="ct_serach_products2">
-                  <div className="ct_overflow_center">
-                 
-                  <a  className='text-white ct_fs_24 ct_Blacksword_font' onClick={()=>handleBikinis()}>Bikini</a>
-                  
-                  </div>
-                </div> 
-          </a>
-        
-        </div>
-        <div className="ct_quick_link_item mb-4">
-          <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_1.jpg" width="180" height="180" alt="Insta image 2"/>
-            <div class="ct_buy_rent_tag"><h4 class="mb-0">Figure</h4></div>
+<div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
+  <div className="ct_quick_link_item mb-4">
+    <a  className="position-relative d-block effect ">
+      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_3.jpg" width="150" height="150" alt="Insta image 1"/>
+      <div class="ct_buy_rent_tag"><h4 class="mb-0">Bikini</h4></div>
+      <div className="ct_serach_products2">
+            <div className="ct_overflow_center">
+           
+            <a  className='text-white ct_fs_24 ct_Blacksword_font' >Bikini</a>
+            
+            </div>
+          </div> 
+    </a>
+  
+  </div>
+  <div className="ct_quick_link_item mb-4">
+    <a  className="position-relative d-block effect ">
+      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_1.jpg" width="180" height="180" alt="Insta image 2"/>
+      <div class="ct_buy_rent_tag"><h4 class="mb-0">Figure</h4></div>
 
-            <div className="ct_serach_products2">
-                  <div className="ct_overflow_center">
-                 
-                  {/* <div class="search-field__input-wrapper mb-3">
-                    <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
-                  <a  className='text-white ct_fs_24 ct_Blacksword_font' onClick={()=>handleFigure()}>Figure</a>
-                  </div>
-                </div> 
-          </a>
+      <div className="ct_serach_products2">
+            <div className="ct_overflow_center">
+           
+            {/* <div class="search-field__input-wrapper mb-3">
+              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+            <a  className='text-white ct_fs_24 ct_Blacksword_font' >Figure</a>
+            </div>
+          </div> 
+    </a>
+    
+  </div>
+  <div className="ct_quick_link_item mb-4">
+    <a  className="position-relative d-block effect ">
+      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_2.jpg" width="180" height="180" alt="Insta image 3"/>
+      <div class="ct_buy_rent_tag"><h4 class="mb-0">Swimsuit</h4></div>
+
+      <div className="ct_serach_products2">
+            <div className="ct_overflow_center">
+           
+            <a  className='text-white ct_fs_24 ct_Blacksword_font'>Swimsuit</a>
+            {/* <div class="search-field__input-wrapper mb-3">
+              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+            </div>
+          </div> 
+    </a>
+   
+  </div>
+  <div className="ct_quick_link_item mb-4">
+    <a  className="position-relative d-block effect ">
+      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_3.jpg" width="180" height="180" alt="Insta image 4"/>
+      <div class="ct_buy_rent_tag"><h4 class="mb-0">Fmg/Wbff</h4></div>
+      <div className="ct_serach_products2">
+            <div className="ct_overflow_center">
+           
+            <a  className='text-white ct_fs_24 ct_Blacksword_font' >Fmg/Wbff</a>
+            {/* <div class="search-field__input-wrapper mb-3">
+              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+            </div>
+          </div> 
+    </a>
+   
+  </div>
+  <div className="ct_quick_link_item mb-4">
+    <a  className="position-relative d-block effect ">
+      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_2.jpg" width="180" height="180" alt="Insta image 5"/>
+      <div class="ct_buy_rent_tag"><h4 class="mb-0">Themewear</h4></div>
+      <div className="ct_serach_products2">
+            <div className="ct_overflow_center">
+           
+            <a className='text-white ct_fs_24 ct_Blacksword_font'>Themewear</a>
+            {/* <div class="search-field__input-wrapper mb-3">
+              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+            </div>
+          </div> 
+    </a>
+  
+  </div>
+  <div className="ct_quick_link_item mb-4">
+    <a  className="position-relative d-block effect">
+      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_1.jpg" width="180" height="180" alt="Insta image 6"/>
+      <div class="ct_buy_rent_tag"><h4 class="mb-0">Accessories</h4></div>
+      <div className="ct_serach_products2">
+            <div className="ct_overflow_center">
+           
+            {/* <div class="search-field__input-wrapper mb-3">
+              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+               <a   className='text-white ct_fs_24 ct_Blacksword_font' >Accessories</a>
+            </div>
+          </div> 
+    </a>
+   
+  </div>
+ 
+</div>
+
+</section>
+<section className="products-grid container">
+    <div>
+      <div className="tab-content pt-2" id="collections-tab-content">
+        {isLoader == true ? (
+          <div class="custom-loader"></div>
+        ) : allProduct?.length != 0 ? (
+
+          <>
+          <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
+        <li className="nav-item" role="presentation">
+          <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={()=>setShow("buy")}>Buy</a>
+        </li>
+        <li className="nav-item" role="presentation">
+          <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true" onClick={()=>setShow("rent")}>Rent</a>
+        </li>
+   
+      </ul>
+   
+      <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Featured <strong>Products</strong></h2>
           
-        </div>
-        <div className="ct_quick_link_item mb-4">
-          <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_2.jpg" width="180" height="180" alt="Insta image 3"/>
-            <div class="ct_buy_rent_tag"><h4 class="mb-0">Swimsuit</h4></div>
+          <div
+            className="tab-pane fade show active"
+            id="collections-tab-1"
+            role="tabpanel"
+            aria-labelledby="collections-tab-1-trigger"
+          >
+            <div
+              className="products-grid row row-cols-2 row-cols-md-4"
+              id="products-grid"
+            >
+              {
+                allProduct?.map((item) => (
+                  item?.product_buy_rent == show &&
+                  <div className="product-card-wrapper">
+                    <div className="product-card mb-3 mb-md-4 mb-xxl-5">
+                      <div className="pc__img-wrapper">
+                        <div
+                          className="swiper-container background-img js-swiper-slider"
+                          data-settings='{"resizeObserver": true}'
+                        >
+                          <Swiper
+                            spaceBetween={30}
+                            centeredSlides={true}
+                            autoplay={{
+                              delay: 30000,
+                              disableOnInteraction: false,
+                            }}
+                            pagination={{
+                              clickable: true,
+                            }}
+                            navigation={true}
+                            modules={[Autoplay, Pagination, Navigation]}
+                            className="mySwiper"
+                          >
+                            {item?.product_images?.map((obj, i) => (
+                              <SwiperSlide>
+                                <a >
+                                  <img src={obj} />
+                                </a>
+                              </SwiperSlide>
+                            ))}
+                          </Swiper>
+                        </div>
+                        <div className="ct_buy_rent_tag">
+                          <h4 className="mb-0">{item.product_buy_rent.charAt(0).toUpperCase() + item.product_buy_rent.slice(1)}</h4>
+                        </div>
+                        <button
+                          
+                          className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
+                          data-aside="cartDrawer"
+                          title="Add To Cart"
+                        >
+                          Add To Cart
+                        </button>
+                      </div>
+                      <div className="pc__info position-relative">
+                        <p className="pc__category">Featured Products</p>
+                        <h6 className="pc__title">
+                          <a >
+                            {item?.product_description}
+                          </a>
+                        </h6>
+                        <div className="product-card__price d-flex">
+                          <span className="money price">
+                            ${item?.price_sale_lend_price}
+                          </span>
+                        </div>
 
-            <div className="ct_serach_products2">
-                  <div className="ct_overflow_center">
-                 
-                  <a  className='text-white ct_fs_24 ct_Blacksword_font' onClick={()=>handleSwimsuit()}>Swimsuit</a>
-                  {/* <div class="search-field__input-wrapper mb-3">
-                    <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+                        {
+                          item?.wishlist_like == 0 ? (
+                            <button
+                           
+                              className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                              title="Add To Wishlist"
+                            >
+                              <i
+                                class="fa-regular fa-heart"
+                                
+                              ></i>{" "}
+                            </button>
+                          ) : (
+                            <button
+                           
+                              className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                              title="Add To Wishlist"
+                            >
+                              <i
+                                class="fa-solid fa-heart"
+                                style={{ color: "red" }}
+                                
+                              ></i>
+                            </button>
+                          )}
+                      </div>
+                    </div>
                   </div>
-                </div> 
-          </a>
-         
-        </div>
-        <div className="ct_quick_link_item mb-4">
-          <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_3.jpg" width="180" height="180" alt="Insta image 4"/>
-            <div class="ct_buy_rent_tag"><h4 class="mb-0">Fmg/Wbff</h4></div>
-            <div className="ct_serach_products2">
-                  <div className="ct_overflow_center">
-                 
-                  <a  className='text-white ct_fs_24 ct_Blacksword_font' onClick={()=>HandleWbff()}>Fmg/Wbff</a>
-                  {/* <div class="search-field__input-wrapper mb-3">
-                    <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
-                  </div>
-                </div> 
-          </a>
-         
-        </div>
-        <div className="ct_quick_link_item mb-4">
-          <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_2.jpg" width="180" height="180" alt="Insta image 5"/>
-            <div class="ct_buy_rent_tag"><h4 class="mb-0">Themewear</h4></div>
-            <div className="ct_serach_products2">
-                  <div className="ct_overflow_center">
-                 
-                  <a className='text-white ct_fs_24 ct_Blacksword_font' onClick={()=>handleThemewear()}>Themewear</a>
-                  {/* <div class="search-field__input-wrapper mb-3">
-                    <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
-                  </div>
-                </div> 
-          </a>
-        
-        </div>
-        <div className="ct_quick_link_item mb-4">
-          <a  className="position-relative d-block effect">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_1.jpg" width="180" height="180" alt="Insta image 6"/>
-            <div class="ct_buy_rent_tag"><h4 class="mb-0">Accessories</h4></div>
-            <div className="ct_serach_products2">
-                  <div className="ct_overflow_center">
-                 
-                  {/* <div class="search-field__input-wrapper mb-3">
-                    <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
-                     <a   className='text-white ct_fs_24 ct_Blacksword_font' onClick={()=>handleAccessories()}>Accessories</a>
-                  </div>
-                </div> 
-          </a>
-         
-        </div>
-       
+                ))}
+            </div>
+          </div>
+          </>
+        ) : (
+          <h3>There is no product !!!</h3>
+        )}
       </div>
-
-    </section>
-    <div className="mb-5 pb-5"></div>
-    <section className="products-grid container">
-
-  
-      
-      <Content onClick={getDataFromChild}/> 
-
-  
-    </section>
-    <section className='mt-5 py-5 ' style={{background:"#f5f5f5"}}>
+    </div>
+</section>
+<section className='mt-5 py-5 ' style={{background:"#f5f5f5"}}>
    <div className='container'>
     <div className='col-md-8 mx-auto'>
     <div class="block-newsletter">
         <h3 class="block__title text-center ">Quick Search</h3>
         {/* <p>Get the latest products and news update daily in fastest.</p> */}
         <form action="./" class="block-newsletter__form">
-          <input value={quickSearch} onChange={(e)=>setQuickSearch(e.target.value)} class="form-control" type="email" name="email" placeholder="Search "/>
-          <button class="btn btn-secondary fw-medium" type="button" onClick={()=>searchPage(quickSearch)}>Submit</button>
+          <input  class="form-control" type="email" name="email" placeholder="Search "/>
+          <button class="btn btn-secondary fw-medium" type="button">Submit</button>
         </form>
       </div>
     </div>
    </div>
     </section>
-    {/* <div className="mb-4 pb-4 pb-xl-5 mb-xl-5"></div> */}
-  </main>
+    </main>
 
-  <Footer/>
-  </>:<div className='ct_center_loader'>
-  <div class="cssload-loader">Second Stage</div>
-  </div>
-      }
-    </>
+    <Footer/>
+    </div>
   )
 }
 
-export default Index
+export default Home

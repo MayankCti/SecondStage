@@ -299,14 +299,14 @@ function Product6_outofstock() {
             <div className="col-lg-5">
               <div className="d-flex justify-content-between mb-4 pb-md-2">
                 <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                  <a href="#" className="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
+                  <a  className="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
                   <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                  <a href="#" className="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
+                  <a  className="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
                 </div>
 
                 {/* <div className="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-                  <a href="#" className="text-uppercase fw-medium"><svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg><span className="menu-link menu-link_us-s">Prev</span></a>
-                  <a href="#" className="text-uppercase fw-medium"><span className="menu-link menu-link_us-s">Next</span><svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg></a>
+                  <a  className="text-uppercase fw-medium"><svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg><span className="menu-link menu-link_us-s">Prev</span></a>
+                  <a  className="text-uppercase fw-medium"><span className="menu-link menu-link_us-s">Next</span><svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg></a>
                 </div> */}
               </div>
               {/* <h1 className="product-single__name">Lightweight Puffer Jacket With a Hood</h1>
@@ -406,7 +406,7 @@ function Product6_outofstock() {
 
                 <div className="product-single__addtolinks">
                   <a
-                    href="#"
+                    
                     className="menu-link menu-link_us-s add-to-wishlist pb-0"
                   >
                     <svg
@@ -508,7 +508,7 @@ function Product6_outofstock() {
 
                 <div className="product-single__addtolinks">
                   <a
-                    href="#"
+                    
                     className="menu-link menu-link_us-s add-to-wishlist pb-0"
                   >
                     <svg
@@ -562,7 +562,7 @@ function Product6_outofstock() {
                 </div>
               </form>
               <div className="product-single__addtolinks">
-                <a href="#" className="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg><span>Add to Wishlist</span></a>
+                <a  className="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg><span>Add to Wishlist</span></a>
                 <share-button className="share-button">
                   <button className="menu-link menu-link_us-s to-share border-0 gap-2 bg-transparent d-flex align-items-center">
                     <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_sharing" /></svg>

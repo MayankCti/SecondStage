@@ -1,17 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from './header'
 import Footer from './footer'
 import axios from 'axios'
 import { message, message as MESSAGE } from "antd";
+import HeaderVisitor from './HeaderVisitor'
 export const configJSON = require("../components/config");
 function Reset_password() {
   const [email, setEmail] = useState("")
   const [isLoader,setIsLoader]=useState(false)
+  const [isHome,setIsHome] = useState(false)
   const navigate = useNavigate()
   const handleLoginRegister = ()=>{
     navigate("/login-register")
   }
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token == null) {
+      setIsHome(false)
+    } else {
+      setIsHome(true)
+        
+    }
+  }, [])
+  
 
  const handleResetPassword = ()=>{
     setIsLoader(true)
@@ -190,8 +202,9 @@ function Reset_password() {
     </symbol>
   </svg>
 
-  <Header/>
-
+  {
+  isHome == true ? <Header /> : <HeaderVisitor/>
+}
   <main>
     <div className="mb-4 pb-4"></div>
     <section className="login-register container">

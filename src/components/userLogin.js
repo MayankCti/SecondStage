@@ -18,7 +18,8 @@ function UserLogin() {
         if (email && password) {
             const data = {
                 email: email,
-                password: password
+                password: password,
+                
             }
             axios({
                 url: configJSON.baseUrl + configJSON.login_buyer,
@@ -29,12 +30,16 @@ function UserLogin() {
                 if (res?.data?.success == true) {
                     MESSAGE.success(res?.data?.message)
                     localStorage.setItem("token", JSON.stringify(res?.data?.token))
+                    localStorage.setItem("user_id", JSON.stringify(res?.data?.user_id))
                     setPassword("");
                     setEmail("");
+                    navigate("/")
                 }
                 else {
                     MESSAGE.error(res?.data?.message)
                     setIsLoader(false)
+                    setPassword("");
+                    setEmail("");
                 }
             })
                 .catch((error) => {

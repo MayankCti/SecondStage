@@ -159,138 +159,506 @@ function Faq() {
 
   <main>
     <div className="mb-5 pb-4"></div>
-    <section className="container mw-930 lh-30">
+    <section className="container  lh-30">
       <h2 className="section-title text-uppercase fw-bold mb-5">FREQUENTLY ASKED QUESTIONS</h2>
-      <h3 className="mb-4">Orders</h3>      
       <div id="faq_accordion" className="faq-accordion accordion mb-5">
-        <div className="accordion-item">
+        <div className='row'>
+          <div className='col-md-6'>
+          <div className="accordion-item">
           <h5 className="accordion-header" id="faq-accordion-heading-1">
             <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-1" aria-expanded="true" aria-controls="faq-accordion-collapse-1">
-              Bring of had which their whose you're it own?
+            How do I list my bikinis for sale or rent?
               <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
             </button>
           </h5>
           <div id="faq-accordion-collapse-1" className="accordion-collapse collapse show" aria-labelledby="faq-accordion-heading-1" data-bs-parent="#faq_accordion">
             <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+              <p>Once you have created your account, you click on the sell/lend button at the top right and follow the instructions. You should ensure you add in as much detail about the bikini as you can and make sure your description is accurate to prevent both bad reviews and unhappy buyers/Renters!</p>
             </div>
           </div>
         </div>
         <div className="accordion-item">
           <h5 className="accordion-header" id="faq-accordion-heading-2">
             <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-2" aria-expanded="false" aria-controls="faq-accordion-collapse-2">
-              Over shall air can't subdue fly divide him?
+            How much does it cost to list?
               <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
             </button>
           </h5>
           <div id="faq-accordion-collapse-2" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-2" data-bs-parent="#faq_accordion">
             <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+              <p>It is free to list for sale or rent on Second Stage. You will be charged a 10% Service Fee on all transactions, excluding postage costs. </p>
             </div>
           </div>
         </div>
         <div className="accordion-item">
           <h5 className="accordion-header" id="faq-accordion-heading-3">
             <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-3" aria-expanded="false" aria-controls="faq-accordion-collapse-3">
-              Waters one you'll creeping?
+            How do I list the size?
               <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
             </button>
           </h5>
           <div id="faq-accordion-collapse-3" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-3" data-bs-parent="#faq_accordion">
             <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+              <p>As you know bikinis come in various sizes. If it is a swimsuit or one piece, you can choose standard sizing. If a bikini, you will be required to choose a size for the bottoms (2-4-6-8etc) and a cup size for the tops. You should include further detail such as hip measurements in the description to make sure people order the perfect fit.  </p>
             </div>
           </div>
         </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-4">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-4" aria-expanded="false" aria-controls="faq-accordion-collapse-4">
+            Where do you ship to?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-4" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-4" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>All items on Second Stage may be available to be shipped anywhere in Australia.  It is at a seller/Lender’s discretion as to whether or not they would like to offer international shipping for sale bikinis, but we strongly advise rentals are not sent internationally due to cost and time restrictions. </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-5">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-5" aria-expanded="false" aria-controls="faq-accordion-collapse-5">
+            How long will it take for my bikini to arrive?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-5" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-5" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>You can choose either Standard or Express Courier. You need to factor in your location, their location and the type of postage you choose when ordering. This is especially important for rentals. Most urban areas will have next day delivery. </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-6">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-6" aria-expanded="false" aria-controls="faq-accordion-collapse-6">
+            I need a bikini at the last minute!
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-6" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-6" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>You should choose a provider as close to your as possible (ie. same city) and choose express or find a seller/Lender who offers local pickup. There are no guarantees that it will arrive as no one can control the post!  </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-7">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-7" aria-expanded="false" aria-controls="faq-accordion-collapse-7">
+            Can I book a rental in advance?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-7" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-7" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>It is up to the Lender if they want to offer pre-bookings.   </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-8">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-8" aria-expanded="false" aria-controls="faq-accordion-collapse-8">
+            What if it doesn’t fit?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-8" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-8" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>Provided the listing is accurate in terms of sizing, and the seller/Lender has answered any questions regarding fit honestly and to the best of their ability, no refunds will be offered for bikinis that do not fit perfectly. </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-9">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-9" aria-expanded="false" aria-controls="faq-accordion-collapse-9">
+            How do I return my bikini?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-9" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-9" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>The Lender will provide you with a pre-paid return envelope with your order. Just pop it in there and post! </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-10">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-10" aria-expanded="false" aria-controls="faq-accordion-collapse-10">
+            Do I need to clean my bikini?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-10" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-10" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>The seller/Lender is required to send a clean bikini. A Renter should clean it before returning. Standard care instructions are to soak the bikini immediately after use in diluted sensitive/wool washing liquid to remove any tan and marks. </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-11">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-11" aria-expanded="false" aria-controls="faq-accordion-collapse-11">
+            What if I accidentally damage the bikini?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-11" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-11" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>We understand that accidents happen, including staining and damage of items. If this occurs during your hire, you must contact the Lender immediately to arrange a resolution. You will be charged for any specialist cleaning or repairs (including jewel or connector replacements) necessary as outlined in the Terms and Conditions available on the Site. If a dispute between the Lender and the Renter arises, an Issue Request must be lodged with Second Stage immediately or at the latest within ten days of the completion of the Rental Period and we will help resolve the issue. Our final decision will be binding on both the Lender and the Renter so make sure you take photos and keep your tracking information so you have evidence to back up or defend against any claims.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-12">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-12" aria-expanded="false" aria-controls="faq-accordion-collapse-12">
+            Why am I asked to complete a review?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-12" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-12" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>Honest reviews help other Sellers/Lenders and Buyers/Renters know who they are dealing with and over time will help to fill you with confidence that you are dealing with someone who provides quality bikinis or a Renter is someone who will take care of your precious bikini.  Any reviews that violate our Standard Policy will be removed.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-13">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-13" aria-expanded="false" aria-controls="faq-accordion-collapse-13">
+            A Lender has asked me to pay them directly outside of Second Stage – is that okay?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-13" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-13" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>If you choose to finalise a transaction off the platform, you do so at your own risk. You will not have any of the support or security which the platform provides you. If someone asks you to do this, odds are they are doing so for a reason! If Second Stage becomes aware of offsite transactions, your registration and access to the Site may be cancelled.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-14">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-14" aria-expanded="false" aria-controls="faq-accordion-collapse-14">
+            How long can I hire a bikini for?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-14" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-14" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>Through Second Stage, you have the option of hiring for 1 week, 1 month or 3 months. 1 week hire has a risk that you will be unable to return the bikini in time, especially if it is not a close location. Consider the risk and the possible late fees you may incur if it is returned late.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-15">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-15" aria-expanded="false" aria-controls="faq-accordion-collapse-15">
+            When will my credit card be charged?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-15" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-15" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>This depends upon whether you are buying or renting. Purchases are charged immediately. If renting, a pre-authorisation will be held on your card to the full value of the bikini. You will be charged the Total Fees once the Lender confirms the booking. In addition, by renting through Second Stage, you are agreeing that if the bikini is not returned, returned late or damaged, the full replacement cost of the bikini may be charged as set out in the Terms and Conditions.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-16">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-16" aria-expanded="false" aria-controls="faq-accordion-collapse-16">
+            What if my rental ends on a Sunday or holiday?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-16" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-16" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>Couriers and Australia Post do not generally operate on Sundays and public holidays, if your return date falls on one of these, please post your item back by 12pm the next business day.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-17">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-17" aria-expanded="false" aria-controls="faq-accordion-collapse-17">
+            What if I return my bikini late or don’t return it at all?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-17" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-17" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>You will be charged $22 per day via your credit card up to the full value of the bikini. If the bikini is not returned within four weeks of the return date, you will be charged the full Replacement Value of the bikini. If you fail to pay late fees or maintain adequate contact the matter will be passed on to an external debt-collection agency for recovery.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-18">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-18" aria-expanded="false" aria-controls="faq-accordion-collapse-18">
+            Can I cancel my booking?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-18" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-18" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>You can cancel your rental booking if it is more than 14 days prior to the rental start date. You will be entitled to a refund less 10% Service Fee. You will be unable to receive a refund within 14 days of your booking date as the Lender will likely be unable to re-rent their bikini to someone else, unless they agree otherwise.</p>
+            </div>
+          </div>
+        </div>
+          </div>
+          <div className='col-md-6'>
+          <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-19">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-19" aria-expanded="false" aria-controls="faq-accordion-collapse-19">
+            I didn't receive the bikini on time or at all, do I get a refund?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-19" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-19" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>Yes, if it does not arrive in time (or not at all), you are entitled to a full refund. However, you must post the bikini back to your Lender by the next business day after receipt and it must be returned unworn, otherwise your refund will be forfeited. If it arrives late but you are still able to use it, you may be entitled to a partial refund. You should contact the Lender in the first instance and raise an Issue Request if that is unsuccessful.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-20">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-20" aria-expanded="false" aria-controls="faq-accordion-collapse-20">
+            I am under 18 – can I be a seller/Lender?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-20" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-20" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>No, you will need to sell/buy/rent through a parent or guardian and they become liable.</p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-21">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-21" aria-expanded="false" aria-controls="faq-accordion-collapse-21">
+            What photos do I upload of my item?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-21" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-21" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p className='mb-1'>Here is a list of the type of photos that are appropriate to attach to your item listing:</p>
+              <ul className='mb-2'>
+                <li>Photos of you wearing the bikini on stage</li>
+                <li>Photos of the bikini boxed/up close</li>
+                <li>Professional photos </li>
+              </ul>
+              <p className='mb-1'>Do not attach:</p>
+              <ul>
+                <li>Photos your friends took of you on stage</li>
+                <li>Copyright photos from the bikini provider</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-22">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-22" aria-expanded="false" aria-controls="faq-accordion-collapse-22">
+            Are there any restrictions on what can be listed?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-22" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-22" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>Bikinis must be in good condition, not stained, not missing beading or jewels and the connectors should be in good condition. There is no limit on value.
+                <br/>Second Stage reserves the right to remove listings they do not feel meet the above.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-23">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-23" aria-expanded="false" aria-controls="faq-accordion-collapse-23">
+            How do I know when to send the bikini?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-23" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-23" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>If it has been purchased it should be sent the next working day. If rented you should ensure it is sent with enough time to reach the Renter in time for their event and in compliance with their Rental Period. If the bikini does not arrive in time  for them to wear, a full or partial refund may be due.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-23">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-23" aria-expanded="false" aria-controls="faq-accordion-collapse-23">
+            When are Lenders paid out for hires?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-23" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-23" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>All Lenders are paid once payment of the Total Fees are received from the Renter for the Rental Period. Renters also provide pre-authorisation to charge their credit card for up to the maximum replacement value of the bikini. This pre-authorisation will expire ten days after the completion of the Rental Period unless the Lender lodges an Issue Request with Second Stage. If you feel there has been a delay in you hire being paid out to you, please contact the Support Team. 
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-24">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-24" aria-expanded="false" aria-controls="faq-accordion-collapse-24">
+            Do I have to include a return postal satchel?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-24" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-24" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>Yes. 
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-25">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-25" aria-expanded="false" aria-controls="faq-accordion-collapse-25">
+            Is there a limit to how many items I can upload?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-25" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-25" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>No 
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-26">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-26" aria-expanded="false" aria-controls="faq-accordion-collapse-26">
+            My bikini is high value, what should I do?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-26" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-26" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>It is advisable to sell or if you choose to rent, to take out postage insurance to protect your bikini. You can also choose to send it in a bikini case or box to protect it. You will need to ensure this is considered when you set your postage costs.  
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-27">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-27" aria-expanded="false" aria-controls="faq-accordion-collapse-27">
+            What happens if someone doesn’t return my bikini?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-27" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-27" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>You should contact the Renter in the first instance to check if it has been posted. If you don’t receive a response within 2 days contact us and we will help you resolve the issue. Either by contacting the Renter on your behalf, or enforcing the late fee/non return fee.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-28">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-28" aria-expanded="false" aria-controls="faq-accordion-collapse-28">
+            Who is responsible for cleaning?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-28" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-28" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>Both parties need to clean the bikini before it is posted. Standard cleaning is to soak the bikini in diluted sensitive/wool washing liquid. If you have specific requests for cleaning you need to communicate this in the description of the bikini and communicate this clearly to the Renter prior to finalising the booking. 
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-29">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-29" aria-expanded="false" aria-controls="faq-accordion-collapse-29">
+            My bikini has returned damaged - what do I do?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-29" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-29" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>We highly recommend you take photos of your bikini before you send it to show the condition clearly. If it is damaged, we will work with you and the Renter to come up with a suitable solution and agreed cost for repair. We do not take responsibility for loss or damage of your bikini but will work with you to ensure the damage is rectified or that you are compensated. The Lender needs to lodge an Issue Request within ten days of the receipt of the bikini and in the event agreement cannot be reached directly with the Renter.  
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-30">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-30" aria-expanded="false" aria-controls="faq-accordion-collapse-30">
+            What if there is a dispute?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-30" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-30" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>You should always try to resolve any issues between yourselves in the first instance. If you cannot come to an agreement, you must lodge an Issue Request and our support staff will be here to help mediate. You will be required to provide whatever evidence (pictures, emails, messages etc) to demonstrate what the issue and clearly state what solution you are seeking. 
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-30">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-30" aria-expanded="false" aria-controls="faq-accordion-collapse-30">
+            They are refusing to pay late/damage fees?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-30" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-30" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>We will contact the Renter on your behalf and give them seven days to make the payment required. If they do not, it will be transferred to a debt collection agency.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-31">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-31" aria-expanded="false" aria-controls="faq-accordion-collapse-31">
+            The courier has lost my parcel - what do I do?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-31" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-31" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>It is recommended you take out insurance when sending any package. The risk for lost items is borne by you the Seller/Lender. 
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-32">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-32" aria-expanded="false" aria-controls="faq-accordion-collapse-32">
+            How do ratings work?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-32" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-32" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>All Users are able to lodge reviews of other Users. Any lodged review can be protested by the User against which the claim is made. Second Stage will review both claims and make a decision as to whether the review should be maintained. Second Stage is also able to upload reviews based on Issues raised or claims made which in the opinion and sole discretion of Second Stage have been verified.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="accordion-item">
+          <h5 className="accordion-header" id="faq-accordion-heading-33">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-33" aria-expanded="false" aria-controls="faq-accordion-collapse-33">
+            What happens when I click the button?
+              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
+            </button>
+          </h5>
+          <div id="faq-accordion-collapse-33" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-33" data-bs-parent="#faq_accordion">
+            <div className="accordion-body">
+              <p>If you are new to Second Stage, you will receive an email once you have registered. Once registered you can start shopping, or you can choose to upload a Listing.
+              </p>
+            </div>
+          </div>
+        </div>
+            </div>
+
+        </div>
+       
+        
       </div>
-      <h3 className="mb-4">Shipping</h3>      
-      <div id="faq_accordion_2" className="faq-accordion accordion mb-5">
-        <div className="accordion-item">
-          <h5 className="accordion-header" id="faq-accordion-heading-2-1">
-            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-2-1" aria-expanded="true" aria-controls="faq-accordion-collapse-2-1">
-              Bring of had which their whose you're it own?
-              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
-            </button>
-          </h5>
-          <div id="faq-accordion-collapse-2-1" className="accordion-collapse collapse show" aria-labelledby="faq-accordion-heading-2-1" data-bs-parent="#faq_accordion_2">
-            <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-            </div>
-          </div>
-        </div>
-        <div className="accordion-item">
-          <h5 className="accordion-header" id="faq-accordion-heading-2-2">
-            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-2-2" aria-expanded="false" aria-controls="faq-accordion-collapse-2-2">
-              Over shall air can't subdue fly divide him?
-              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
-            </button>
-          </h5>
-          <div id="faq-accordion-collapse-2-2" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-2-2" data-bs-parent="#faq_accordion_2">
-            <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-            </div>
-          </div>
-        </div>
-        <div className="accordion-item">
-          <h5 className="accordion-header" id="faq-accordion-heading-2-3">
-            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-2-3" aria-expanded="false" aria-controls="faq-accordion-collapse-2-3">
-              Waters one you'll creeping?
-              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
-            </button>
-          </h5>
-          <div id="faq-accordion-collapse-2-3" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-2-3" data-bs-parent="#faq_accordion_2">
-            <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <h3 className="mb-4">Payment</h3>      
-      <div id="faq_accordion_3" className="faq-accordion accordion mb-5">
-        <div className="accordion-item">
-          <h5 className="accordion-header" id="faq-accordion-heading-3-1">
-            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-3-1" aria-expanded="true" aria-controls="faq-accordion-collapse-3-1">
-              Bring of had which their whose you're it own?
-              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
-            </button>
-          </h5>
-          <div id="faq-accordion-collapse-3-1" className="accordion-collapse collapse show" aria-labelledby="faq-accordion-heading-3-1" data-bs-parent="#faq_accordion_3">
-            <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-            </div>
-          </div>
-        </div>
-        <div className="accordion-item">
-          <h5 className="accordion-header" id="faq-accordion-heading-3-2">
-            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-3-2" aria-expanded="false" aria-controls="faq-accordion-collapse-3-2">
-              Over shall air can't subdue fly divide him?
-              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
-            </button>
-          </h5>
-          <div id="faq-accordion-collapse-3-2" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-3-2" data-bs-parent="#faq_accordion_3">
-            <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-            </div>
-          </div>
-        </div>
-        <div className="accordion-item">
-          <h5 className="accordion-header" id="faq-accordion-heading-3-3">
-            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-accordion-collapse-3-3" aria-expanded="false" aria-controls="faq-accordion-collapse-3-3">
-              Waters one you'll creeping?
-              <svg className="accordion-button__icon" viewBox="0 0 14 14"><g aria-hidden="true" stroke="none" fill-rule="evenodd"><path className="svg-path-vertical" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path><path className="svg-path-horizontal" d="M14,6 L14,8 L0,8 L0,6 L14,6"></path></g></svg>
-            </button>
-          </h5>
-          <div id="faq-accordion-collapse-3-3" className="accordion-collapse collapse" aria-labelledby="faq-accordion-heading-3-3" data-bs-parent="#faq_accordion_3">
-            <div className="accordion-body">
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-            </div>
-          </div>
-        </div>
-      </div>
+   
+     
     </section>
+    <div className="mb-0 pb-xl-5"></div>
   </main>
 
-  <div className="mb-5 pb-xl-5"></div>
+  
 
   <Footer/>
     

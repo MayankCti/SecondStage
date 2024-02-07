@@ -40,6 +40,9 @@
 *::after {
   box-sizing: border-box;
 }
+a{
+  cursor: pointer;
+}
 .ct_btn_large {
   width: 150px;
   padding-block: 12px !important;
@@ -48,6 +51,9 @@
 }
 .ct_btn_large:after{
   background:none !important; 
+}
+.ct_list_none{
+  list-style: none;
 }
 @media (prefers-reduced-motion: no-preference) {
   :root {
@@ -10846,7 +10852,7 @@ img {
 .faq-accordion .accordion-button {
   border: 0;
   border-bottom: 1px solid #e4e4e4;
-  padding: 0.625rem 0;
+  padding: 0.625rem 15px;
   text-align: left;
 }
 .faq-accordion .accordion-collapse {
@@ -13262,6 +13268,7 @@ textarea.form-control.is-invalid {
   background-repeat: no-repeat;
   background-size: 16px 12px;
   cursor: pointer;
+  caret-color: transparent;
 }
 
 .filters-container {
@@ -21140,4 +21147,60 @@ main:after {
   height: 180px;
   object-fit: cover;
   border: 1px solid #d8d8d8;
+}
+
+.ct_buyer_profile{
+  width: 40px;
+  height:40px;
+  object-fit: contain;
+}
+.ct_main_dropdown {
+  position: relative;
+}
+
+.ct_dropdown-menu {
+  background-color: #fff;
+  position: absolute;
+  padding-left: 0px;
+  margin-bottom: 0px;
+  list-style: none;
+  top: 87px;
+  border-radius: 5px;
+  left: auto;
+  width: 200px;
+  right: 0;
+}
+.ct_dropdown-menu:before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  transform: rotate(45deg);
+  right: 5px;
+  z-index: -1;
+}
+
+.ct_dropdown-menu li a {
+  padding-block: 8px;
+  border-bottom: 1px dashed #f5f5f5;
+}
+.ct_click_dropdown > p {
+  white-space: nowrap;
+  margin-left: -12px;
+  margin-top: 3px;
+}
+.ct_swiper_slide.swiper-slide.product-card {
+    width: 100%;
+}
+.ct_center_loader{
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+@media screen and (max-width:767px){
+  .ct_click_dropdown > p {
+    display: none !important;
+  }
 }

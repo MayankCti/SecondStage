@@ -1,10 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios, { all } from 'axios'
+import { message, message as MESSAGE } from "antd";
 import Header from './header'
 import Footer from './footer'
-
+export const configJSON = require("../components/config");
 function Shop_checkout() {
+  
+  const [isLoader, setIsLoader] = useState(false);
+  const [fname,setFname] = useState("")
+  const [lname,setLname] = useState("")
+  const [companyName,setCompanyName] = useState("")
+  const [contryRegion,setContryRegion] = useState("")
+  const [streetAddress,setStreetAddress] = useState("")
+  const [townCity,setTownCity] = useState("")
+  const [postZipCode,setPostZipCode] = useState("")
+  const [province,setProvince] = useState("")
+  const [phone,setPhone] = useState("")
+  const [email,setEmail] = useState("")
+  const [orderNotes,setOrderNotes] = useState("")
+  const [accessToken, setAccessToken] = useState();
+  const [isCountry,setIsCountry] = useState(false)
+  const [subtotal, setSubTotal] = useState(0);
 const navigate = useNavigate()
+const [allProduct, setAllProduct] = useState([])
+
+useEffect(()=>{
+  const token = JSON.parse(localStorage.getItem("token"));
+  if (token == null) {
+    navigate("/login-register");
+  } else {
+    setAccessToken(token);
+    getCartData(token)
+  }
+},[])
+const getCartData = (val) => {
+  setIsLoader(true);
+  axios({
+      url: configJSON.baseUrl + configJSON.getCartData,
+      method: "get",
+      headers: {
+          'Authorization': `Bearer ${val}`
+      },
+  }).then((res) => {
+      setIsLoader(false)
+      if (res?.data?.success == true) {
+          setAllProduct(res?.data?.cart)
+          let total = 0;
+          res?.data?.cart.map((item) => (total += item?.cart_price));
+          setSubTotal(total);
+      }
+      else {
+          setAllProduct([])
+      }
+  }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+  })
+}
   const handleShopCart = ()=>{
     navigate("/shop-cart")
   }
@@ -18,6 +71,54 @@ const navigate = useNavigate()
   }
   const handleTerms=()=>{
     navigate("/terms")
+  }
+
+  const placeOrder = ()=>{
+    setIsLoader(true);
+    const data = {
+      first_name :fname,
+      last_name : lname,
+      company_name : companyName,
+      country_region : contryRegion,
+      street_address : streetAddress,
+      town_city : townCity,
+      postcode_zip : postZipCode,
+      province : province,
+      phone :phone,
+      mail : email,
+      order_notes : orderNotes
+    };
+    if(fname && lname && contryRegion && streetAddress && townCity && postZipCode && province && phone && email){
+      axios({
+        method: "post",
+        url: configJSON.baseUrl + configJSON.add_shipping_details,
+        data: data,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+        .then((res) => {
+          console.log(res,"the res")
+          setIsLoader(false);
+          if (res.data.success == true) {
+            MESSAGE.success(res?.data?.message);
+            
+          } else {
+            MESSAGE.error(res?.data?.message);
+          }
+        })
+        .catch((err) => {
+          setIsLoader(false);
+          console.log(err);
+        });
+    }else{
+      MESSAGE.error("Fill all the BILLING DETAILS!!!")
+    }
+    
+
+
+
+    // navigate("/shop-order-complete")
   }
   return (
     <>
@@ -192,7 +293,8 @@ const navigate = useNavigate()
             <em>Checkout Your Items List</em>
           </span>
         </a>
-        <a onClick={()=>handleShopOrderComplete()} className="checkout-steps__item">
+        {/*  onClick={()=>handleShopOrderComplete()} */}
+        <a  className="checkout-steps__item">
           <span className="checkout-steps__item-number">03</span>
           <span className="checkout-steps__item-title">
             <span>Confirmation</span>
@@ -207,39 +309,39 @@ const navigate = useNavigate()
             <div className="row">
               <div className="col-md-6">
                 <div className="form-floating my-3">
-                  <input type="text" className="form-control" id="checkout_first_name" placeholder="First Name"/>
+                  <input onChange={(e)=>setFname(e.target.value)} value={fname} type="text" className="form-control" id="checkout_first_name" placeholder="First Name"/>
                   <label htmlFor="checkout_first_name">First Name</label>
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="form-floating my-3">
-                  <input type="text" className="form-control" id="checkout_last_name" placeholder="Last Name"/>
+                  <input onChange={(e)=>setLname(e.target.value)} value={lname} type="text" className="form-control" id="checkout_last_name" placeholder="Last Name"/>
                   <label htmlFor="checkout_last_name">Last Name</label>
                 </div>
               </div>
               <div className="col-md-12">
                 <div className="form-floating my-3">
-                  <input type="text" className="form-control" id="checkout_company_name" placeholder="Company Name (optional)"/>
+                  <input onChange={(e)=>setCompanyName(e.target.value)} value={companyName} type="text" className="form-control" id="checkout_company_name" placeholder="Company Name (optional)"/>
                   <label htmlFor="checkout_company_name">Company Name (optional)</label>
                 </div>
               </div>
               <div className="col-md-12">
                 <div className="search-field my-3">
-                  <div className="form-label-fixed hover-container">
+                  <div className={isCountry == true? "form-label-fixed hover-container js-content_visible":"form-label-fixed hover-container"}>
                     <label htmlFor="search-dropdown" className="form-label">Country / Region*</label>
-                    <div className="js-hover__open">
-                      <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down" id="search-dropdown" name="search-keyword" readonly href="#" placeholder="Choose a location..."/>
+                    <div className="js-hover__open" onClick={()=>setIsCountry(!isCountry)}>
+                      <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down" id="search-dropdown" name="search-keyword" readonly  placeholder="Choose a location..."/>
                     </div>
                     <div className="filters-container js-hidden-content mt-2">
                       <div className="search-field__input-wrapper">
                         <input type="text" className="search-field__input form-control form-control-sm bg-lighter border-lighter" placeholder="Search" />
                       </div>
-                      <ul className="search-suggestion list-unstyled">
-                        <li className="search-suggestion__item js-search-select">Australia</li>
-                        <li className="search-suggestion__item js-search-select">Canada</li>
-                        <li className="search-suggestion__item js-search-select">United Kingdom</li>
-                        <li className="search-suggestion__item js-search-select">United States</li>
-                        <li className="search-suggestion__item js-search-select">Turkey</li>
+                      <ul className="search-suggestion list-unstyled" onClick={()=>setIsCountry(!isCountry)}>
+                        <li onClick={(e)=>setContryRegion("Australia")} className="search-suggestion__item js-search-select">Australia</li>
+                        <li onClick={(e)=>setContryRegion("Canada")} className="search-suggestion__item js-search-select">Canada</li>
+                        <li onClick={(e)=>setContryRegion("United Kingdom")} className="search-suggestion__item js-search-select">United Kingdom</li>
+                        <li onClick={(e)=>setContryRegion("United States")} className="search-suggestion__item js-search-select">United States</li>
+                        <li onClick={(e)=>setContryRegion("Turkey")} className="search-suggestion__item js-search-select">Turkey</li>
                       </ul>
                     </div>
                   </div>
@@ -247,40 +349,37 @@ const navigate = useNavigate()
               </div>
               <div className="col-md-12">
                 <div className="form-floating mt-3 mb-3">
-                  <input type="text" className="form-control" id="checkout_street_address" placeholder="Street Address *"/>
+                  <input onChange={(e)=>setStreetAddress(e.target.value)} value={streetAddress} type="text" className="form-control" id="checkout_street_address" placeholder="Street Address *"/>
                   <label htmlFor="checkout_company_name">Street Address *</label>
-                </div>
-                <div className="form-floating mt-3 mb-3">
-                  <input type="text" className="form-control" id="checkout_street_address_2"/>
                 </div>
               </div>
               <div className="col-md-12">
                 <div className="form-floating my-3">
-                  <input type="text" className="form-control" id="checkout_city" placeholder="Town / City *"/>
+                  <input onChange={(e)=>setTownCity(e.target.value)} value={townCity} type="text" className="form-control" id="checkout_city" placeholder="Town / City *"/>
                   <label htmlFor="checkout_city">Town / City *</label>
                 </div>
               </div>
               <div className="col-md-12">
                 <div className="form-floating my-3">
-                  <input type="text" className="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *"/>
+                  <input onChange={(e)=>setPostZipCode(e.target.value)} value={postZipCode} type="text" className="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *"/>
                   <label htmlFor="checkout_zipcode">Postcode / ZIP *</label>
                 </div>
               </div>
               <div className="col-md-12">
                 <div className="form-floating my-3">
-                  <input type="text" className="form-control" id="checkout_province" placeholder="Province *"/>
+                  <input onChange={(e)=>setProvince(e.target.value)} value={province} type="text" className="form-control" id="checkout_province" placeholder="Province *"/>
                   <label htmlFor="checkout_province">Province *</label>
                 </div>
               </div>
               <div className="col-md-12">
                 <div className="form-floating my-3">
-                  <input type="text" className="form-control" id="checkout_phone" placeholder="Phone *"/>
+                  <input onChange={(e)=>setPhone(e.target.value)} value={phone} type="text" className="form-control" id="checkout_phone" placeholder="Phone *"/>
                   <label htmlFor="checkout_phone">Phone *</label>
                 </div>
               </div>
               <div className="col-md-12">
                 <div className="form-floating my-3">
-                  <input type="email" className="form-control" id="checkout_email" placeholder="Your Mail *"/>
+                  <input onChange={(e)=>setEmail(e.target.value)} value={email} type="email" className="form-control" id="checkout_email" placeholder="Your Mail *"/>
                   <label htmlFor="checkout_email">Your Mail *</label>
                 </div>
               </div>
@@ -297,7 +396,7 @@ const navigate = useNavigate()
             </div>
             <div className="col-md-12">
               <div className="mt-3">
-                <textarea className="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
+                <textarea onChange={(e)=>setOrderNotes(e.target.value)} value={orderNotes} className="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
               </div>
             </div>
           </div>
@@ -313,47 +412,45 @@ const navigate = useNavigate()
                     </tr>
                   </thead>
                   <tbody>
+                    {
+                      allProduct?.map((item)=>(
+
                     <tr>
                       <td>
-                        Georgia Rose
+                        {item?.product_brands}
                       </td>
                       <td align="right">
-                        $32.50
+                        ${item?.cart_price}
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        Season Bikini
-                      </td>
-                      <td align="right">
-                        $29.90
-                      </td>
-                    </tr>
+                      ))
+                    }
+                    
                   </tbody>
                 </table>
                 <table className="checkout-totals">
                   <tbody>
                     <tr>
                       <th>SUBTOTAL</th>
-                      <td align="right">$62.40</td>
+                      <td align="right">${subtotal}</td>
                     </tr>
                     <tr>
                       <th>SHIPPING</th>
                       <td align="right">Free shipping</td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <th>VAT</th>
                       <td align="right">$19</td>
-                    </tr>
+                    </tr> */}
                     <tr>
                       <th>TOTAL</th>
-                      <td align="right">$81.40</td>
+                      <td align="right">${subtotal}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div className="checkout__payment-methods">
-                <div className="form-check">
+                {/* <div className="form-check">
                   <input className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_1" checked/>
                   <label className="form-check-label" htmlFor="checkout_payment_method_1">
                     Direct bank transfer
@@ -361,7 +458,7 @@ const navigate = useNavigate()
                       Make your payment directly into our bank account. Please use your Order ID as the payment reference.Your order will not be shipped until the funds have cleared in our account.
                     </p>
                   </label>
-                </div>
+                </div> 
                 <div className="form-check">
                   <input className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_2"/>
                   <label className="form-check-label" htmlFor="checkout_payment_method_2">
@@ -370,7 +467,7 @@ const navigate = useNavigate()
                       Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
                     </p>
                   </label>
-                </div>
+                </div>*/}
                 <div className="form-check">
                   <input className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_3"/>
                   <label className="form-check-label" htmlFor="checkout_payment_method_3">
@@ -383,7 +480,7 @@ const navigate = useNavigate()
                 <div className="form-check">
                   <input className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_4"/>
                   <label className="form-check-label" htmlFor="checkout_payment_method_4">
-                    Paypal
+                    Stripe
                     <p className="option-detail">
                       Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
                     </p>
@@ -393,7 +490,7 @@ const navigate = useNavigate()
                   Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a onClick={()=>handleTerms()} target="_blank">privacy policy</a>.
                 </div>
               </div>
-              <button className="btn btn-primary btn-checkout">PLACE ORDER</button>
+              <button className="btn btn-primary btn-checkout" type='button' onClick={()=>placeOrder()}>PLACE ORDER</button>
             </div>
           </div>
         </div>

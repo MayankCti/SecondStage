@@ -168,12 +168,12 @@ function About() {
           <img loading="lazy" className="w-100 h-auto d-block" src="images/about/bg-banner-112.png" width="1410" height="550" alt="" />
         </p>
         <div className="">
-          <h3 className="mb-4">OUR STORY</h3>
-          <p className="fs-6 fw-medium mb-4">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          <p className="mb-4">Saw wherein fruitful good days image them, midst, waters upon, saw. Seas lights seasons. Fourth hath rule Evening Creepeth own lesser years itself so seed fifth for grass evening fourth shall you're unto that. Had. Female replenish for yielding so saw all one to yielding grass you'll air sea it, open waters subdue, hath. Brought second Made. Be. Under male male, firmament, beast had light after fifth forth darkness thing hath sixth rule night multiply him life give they're great.</p>
-        
+          {/* <h3 className="mb-4">OUR STORY</h3> */}
+          <p className="fs-6 mb-4">Anyone who has competed, or planned to compete, knows just how expensive it can become. Between trainers, posing coaches, prep coaches, registration and comp costs, tans and everything else in between, it really adds up. But the one place you don’t want to skimp is on your bikini. We all want the perfect colour, the best cut and the most glam. But not many of us can afford it. We certainly can’t afford to wear a new bikini every time we step on stage…until NOW!</p>
+          <p className="mb-4 fs-6">I know, that like me, most competitors have gorgeous bikinis sitting in the back of their closet that they wore once or twice. Like a statement dress, its such a shame they are worn and then left in hiding never to grace the stage again. Why not sell it to another competitor, or rent it to many, and let your bikini have a second chance at the spotlight.</p>
+        <p className='fs-6 mb-0'>At Second Stage, we want every bikini to live her best life, get back on that stage and shine. We developed a central marketplace to link buyers and sellers, renters and lenders to give you, the competitor, a chance to either recoup some of your costs or get the perfect bikini without paying $1000’s. </p>
         </div>
-        <div className=" d-lg-flex align-items-lg-center">
+        {/* <div className=" d-lg-flex align-items-lg-center">
           <div className="image-wrapper col-lg-4">
             <img className="h-auto" loading="lazy" src="images/about/about-2.jpg" width="450" height="500" alt=""/  >
           </div>
@@ -182,7 +182,7 @@ function About() {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet sapien dignissim a elementum. Sociis metus, hendrerit mauris id in. Quis sit sit ultrices tincidunt euismod luctus diam. Turpis sodales orci etiam phasellus lacus id leo. Amet turpis nunc, nulla massa est viverra interdum. Praesent auctor nulla morbi non posuere mattis. Arcu eu id maecenas cras.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet sapien dignissim a elementum. Sociis metus, hendrerit mauris id in. Quis sit sit ultrices tincidunt euismod luctus diam. Turpis sodales orci etiam phasellus lacus id leo. Amet turpis nunc, nulla massa est viverra interdum. Praesent auctor nulla morbi non posuere mattis. Arcu eu id maecenas cras.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet sapien dignissim a elementum. Sociis metus, hendrerit mauris id in. Quis sit sit ultrices tincidunt euismod luctus diam. Turpis sodales orci etiam phasellus lacus id leo. Amet turpis nunc, nulla massa est viverra interdum. Praesent auctor nulla morbi non posuere mattis. Arcu eu id maecenas cras.</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   </main>

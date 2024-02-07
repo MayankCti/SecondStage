@@ -32,13 +32,14 @@ import Swimsuit from "./components/swimsuit";
 import Terms from "./components/terms";
 import Themewear from "./components/themewear";
 import WBFF from "./components/WBFF";
+import CheckHome from "./components/checkHome";
 
 function App() {
   return (
     <div className="App">
       <Router basename="/second_stage">
         <Routes>
-          <Route exact path='/' element={<Index />} />
+        <Route exact path='/' element={<CheckHome />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/accessories" element={<Accessories />} />
           <Route exact path="/account-dashboard" element={<Account_dashboard />} />

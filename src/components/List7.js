@@ -15,10 +15,6 @@ function List7(props) {
       const handleAccountOrders = ()=>{
         navigate("/account-orders")
       }
-      const handleLoginRegister = ()=>{
-        navigate("/login-register")
-      }
-
       const handleAccountWishlist = ()=>{
         navigate("/account-wishlist")
       }
@@ -38,7 +34,7 @@ const handleAccountDashboard = ()=>{
                     <li><a onClick={()=>handleAccountEditAddress()} className={active == "account-edit-address" ?"menu-link menu-link_us-s menu-link_active" :"menu-link menu-link_us-s" }>Addresses</a></li>
                     <li><a onClick={()=>handleAccountEdit()} className={active == "account-edit" ?"menu-link menu-link_us-s menu-link_active" :"menu-link menu-link_us-s" }>Account Details</a></li>
                     <li><a onClick={()=>handleAccountWishlist()} className={active == "account-wishlist" ?"menu-link menu-link_us-s menu-link_active" :"menu-link menu-link_us-s" }>Wishlist</a></li>
-                    <li><a onClick={()=>handleLoginRegister()} className={active == "login-register" ?"menu-link menu-link_us-s menu-link_active" :"menu-link menu-link_us-s" }>Logout</a></li>
+                   
                 </ul>
             </div>
         </>

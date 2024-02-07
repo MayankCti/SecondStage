@@ -164,22 +164,56 @@ function Privacy() {
     <div className="mb-5 pb-4"></div>
     <section className="container mw-930 lh-30">
       <h2 className="section-title text-uppercase fw-bold mb-5">Privacy & Policy</h2>
-      <h6 className="mb-3">Your use of this is governed by these terms of use</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">Use of the content on this website</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">How long will It take to get my package</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">Will I receive the same product that see the picture</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">Limitation of liability</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-      <h6 className="mb-3">Governing Law & Jurisdiction</h6>
-      <p className="mb-4 pb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+      <h6 className="mb-3">Last Updated: January 2024</h6>
+      <p className="mb-4 pb-3">This Privacy Policy outlines how we collect, use, disclose, and protect your information when you use the Site and Services</p>
+      <h6 className="mb-3">1. Information We Collect:</h6>
+      <ul className="ct_list_none">
+        <li>1.1 Personal Information: We may collect personal information such as your name, email address, and payment details when you create an account or make a purchase.</li>
+        <li>1.2 Non-Personal Information: We may collect non-personal information, including browser type, IP address, and device information, to enhance your user experience.</li>
+        <li>1.3 Photographs and digital images of you and/or your Product</li>
+      </ul>
+      <h6 className="mb-3">2. How We Use Your Information:</h6>
+      <ul>
+        <li>2.1 Provide Services: We use your information to deliver and improve our services, process transactions, and respond to your inquiries.</li>
+        <li>2.2 Personalization: Your data helps us personalize your experience, recommend products, and tailor our content to your preferences.</li>
+        <li>2.3 Communication: We may use your contact information to send updates, promotions, and important notices.</li>
+        <li>2.4 Advertisement and promotion on the Site including associated social media pages.</li>
+      </ul>
+      <h6 className="mb-3">3. Information Sharing:</h6>
+      <ul className="ct_list_none">
+        <li>3.1 Third-Party Partners: We may share your information with trusted third-party partners to facilitate transactions, provide customer support, or improve our services.</li>
+        <li>3.2 Legal Compliance: We may disclose information to comply with legal obligations, protect our rights, or respond to lawful requests.</li>
+      
+      </ul>
+      <h6 className="mb-3">4. Data Security:</h6>
+      <ul className="ct_list_none">
+        <li>4.1 Security Measures: We implement security measures to protect your information from unauthorized access, disclosure, or alteration.</li>
+        <li>4.2 Encryption: Our website uses industry-standard encryption to safeguard sensitive data during transmission.</li>
+      </ul>
+      <h6 className="mb-3">5. Cookies:</h6>
+      <ul className="ct_list_none">
+        <li>5.1 Cookies Usage: We use cookies to enhance user experience, analyze website traffic, and personalize content. You can adjust cookie preferences in your browser settings.</li>
+      </ul>
+      <h6 className="mb-3">6. Your Choices:</h6>
+      <ul className="ct_list_none">
+        <li>6.1 Account Settings: You can review and update your account information through your profile settings.</li>
+        <li>6.2 Marketing Preferences: You can opt-out of marketing communications by adjusting your preferences or using the unsubscribe link in our emails.</li>
+      </ul>
+      <h6 className="mb-3">7. Children's Privacy:</h6>
+      <ul className="ct_list_none">
+        <li>7.1 Not Intended for Minors: Our services are not directed towards individuals under the age of 18. We do not knowingly collect personal information from minors.</li>
+      </ul>
+      <h6 className="mb-3">8. Changes to Privacy Policy:</h6>
+      <ul className="ct_list_none">
+        <li>8.1 Updates: We may update this Privacy Policy periodically. Please review the latest version to stay informed about how we handle your information.</li>
+      </ul>
+      <p>By using the Site you agree to the terms outlined in this Privacy Policy.</p>
+    
     </section>
+    <div className=" pb-xl-5"></div>
   </main>
 
-  <div className="mb-5 pb-xl-5"></div>
+ 
 
   <Footer/>
 
