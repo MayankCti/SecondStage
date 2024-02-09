@@ -41,7 +41,7 @@ function Product1_simple(props) {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
-    setAccessToken(token);
+    setAccessToken(token)
     if (token == null) {
       navigate("/login-register");
     } else {
@@ -51,8 +51,8 @@ function Product1_simple(props) {
   }, [])
 
   const getCartData = (val, val2) => {
-    setIsLoader(true)
     setAccessToken(val)
+    setIsLoader(true)
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
       method: "get",
@@ -84,12 +84,15 @@ function Product1_simple(props) {
     setState([item.selection])
   }
   const getProduct = () => {
-
+    const token = JSON.parse(localStorage.getItem("token"));
     var id = localStorage.getItem("productID")
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.getProductDetails_by_id + id,
       method: "get",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
 
@@ -182,14 +185,19 @@ function Product1_simple(props) {
   }
 
   const getData = (val) => {
+    const token = JSON.parse(localStorage.getItem("token"));
     setIsLoader(true)
     axios({
       url: configJSON.baseUrl + configJSON.getProductDetails_by_Category + val,
       method: "get",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+
     }).then((res) => {
       setIsLoader(false)
       if (res?.data?.success == true) {
-        setAllProduct(res?.data?.data)
+        setAllProduct(res?.data?.product_by_category)
       }
       else {
         setAllProduct([])
@@ -632,6 +640,8 @@ function Product1_simple(props) {
                           </p>
                         </div>
 
+
+
                         <form >
                           <div className="product-single__addtocart">
                             <div className="qty-control position-relative">
@@ -645,6 +655,15 @@ function Product1_simple(props) {
                               <div className="qty-control__reduce" onClick={() => qtyDnc()}>-</div>
                               <div className="qty-control__increase" onClick={() => qtyInc()}>+</div>
                             </div>
+                            {/* <div className="d-flex flex-wrap">
+                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XS</a>
+                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">S</a>
+                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">M</a>
+                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">L</a>
+                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XL</a>
+                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XXL</a>
+                            </div> */}
+
                             <button
                               type="button"
                               className="btn btn-primary btn-addtocart js-open-aside"
@@ -660,7 +679,7 @@ function Product1_simple(props) {
                           <a
                             className="menu-link menu-link_us-s add-to-wishlist pb-0"
                           >
-                            
+
                             {
                               product?.wishlist_like == 0 ? (
                                 <button
@@ -721,9 +740,17 @@ function Product1_simple(props) {
                         </div>
                         <div className="product-single__short-desc">
                           <p>
-                          {product?.product_description}
+                            {product?.product_description}
                           </p>
                         </div>
+                        {/* <div className="d-flex flex-wrap">
+                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XS</a>
+                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">S</a>
+                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">M</a>
+                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">L</a>
+                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XL</a>
+                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XXL</a>
+                        </div> */}
                         <div className="mb-4">
                           <div className="mb-4">
                             <button
@@ -775,26 +802,28 @@ function Product1_simple(props) {
                           <a
                             className="menu-link menu-link_us-s add-to-wishlist pb-0"
                           >
-                            
+
                             {
                               product?.wishlist_like == 0 ? (
                                 <button
-                                 
+
                                   className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
                                   title="Add To Wishlist"
                                 >
                                   <i
+                                  onClick={() => addToWishlist(product?.id)}
                                     class="fa-regular fa-heart"
 
                                   ></i>{" "}
                                 </button>
                               ) : (
                                 <button
-                                  
+
                                   className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
                                   title="Add To Wishlist"
                                 >
                                   <i
+                                  onClick={() => addToWishlist(product?.id)}
                                     class="fa-solid fa-heart"
                                     style={{ color: "red" }}
 
@@ -806,7 +835,7 @@ function Product1_simple(props) {
 
                           <script src="js/details-disclosure.js" defer="defer"></script>
                           <script src="js/share.js" defer="defer"></script>
-                        
+
                           <share-button className="share-button">
                             <button className="menu-link menu-link_us-s to-share border-0 gap-2 bg-transparent d-flex align-items-center">
                               <svg
@@ -1303,7 +1332,7 @@ function Product1_simple(props) {
                 aria-labelledby="accordion-heading-size"
                 data-bs-parent="#size-filters"
               >
-                <div className="accordion-body px-0 pb-0">
+                {/* <div className="accordion-body px-0 pb-0">
                   <div className="d-flex flex-wrap">
                     <a
 
@@ -1342,7 +1371,7 @@ function Product1_simple(props) {
                       XXL
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

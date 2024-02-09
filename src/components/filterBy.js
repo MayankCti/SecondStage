@@ -2,21 +2,35 @@ import { Slider } from "antd";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 export const configJSON = require("../components/config");
-function FilterBy() {
+function FilterBy(props) {
   const [filterContent, setFilterContent] = useState([])
   const [isLoader, setIsLoader] = useState(false);
-  const [Price, setPrice] = useState([20, 50]);
-  const [leasePrice, setLeasePrice] = useState([30, 70]);
+  const [buyPrice, setBuyPrice] = useState([0, 500]);
+  const [rentPrice, setRentPrice] = useState([0, 500]);
+  const [styleTop, setStyleTop] = useState([])
+  const [styleBottom, setStyleBottom] = useState([])
+  const [category, setCategory] = useState([])
+  const [brand, setBrand] = useState([])
+  const [color, setColor] = useState([])
+  const [sizeStandard, setSizeStandard] = useState([])
+  const [sizeTop, setSizeTop] = useState([])
+  const [sizeBottom, setSizeBottom] = useState([])
+  const [bilingLevel, setBilingLevel] = useState([])
+  const [bilingType, setBilingType] = useState([])
+  const [bilingCondition, setBilingCondition] = useState([])
+  const [padding, setPadding] = useState([])
+  const [location, setLocation] = useState([])
+
   useEffect(() => {
+    
     getFilterContent()
   }, [])
-  const handleRange = (e) => {
-    setPrice(e);
+  const handleBuyPrice = (e) => {
+    setBuyPrice(e);
   };
-  const handleLeasePrice = (e) => {
-    setLeasePrice(e);
+  const handleRentPrice = (e) => {
+    setRentPrice(e);
   };
-
   const getFilterContent = () => {
     setIsLoader(true);
     axios({
@@ -36,6 +50,121 @@ function FilterBy() {
         setIsLoader(false);
       });
   };
+
+  const handleStyleTop = (val) => {
+    if (styleTop.includes(val)) {
+      setStyleTop(styleTop => styleTop.filter(item => item != val));
+    } else {
+      setStyleTop([...styleTop, val]);
+    }
+  }
+  const handleStyleBottom = (val) => {
+    if (styleBottom.includes(val)) {
+      setStyleBottom(styleBottom => styleBottom.filter(item => item != val));
+    } else {
+      setStyleBottom([...styleBottom, val]);
+    }
+  }
+  const handleCategory = (val) => {
+    if (category.includes(val)) {
+      setCategory(category => category.filter(item => item != val));
+    } else {
+      setCategory([...category, val])
+    }
+  }
+  const handleBrand = (val) => {
+    if (brand.includes(val)) {
+      setBrand(brand => brand.filter(item => item != val));
+    } else {
+      setBrand([...brand, val])
+    }
+  }
+  const handleColor = (val) => {
+    if (color.includes(val)) {
+      setColor(color => color.filter(item => item != val));
+    } else {
+      setColor([...color, val])
+    }
+  }
+  const handleSizeStandard = (val) => {
+    if (sizeStandard.includes(val)) {
+      setSizeStandard(sizeStandard => sizeStandard.filter(item => item != val));
+    } else {
+      setSizeStandard([...sizeStandard, val])
+    }
+  }
+  const handleSizeTop = (val) => {
+    if (sizeTop.includes(val)) {
+      setSizeTop(sizeTop => sizeTop.filter(item => item != val));
+    } else {
+      setSizeTop([...sizeTop, val])
+    }
+  }
+  const handleSizeBottom = (val) => {
+    if (sizeBottom.includes(val)) {
+      setSizeBottom(sizeBottom => sizeBottom.filter(item => item != val));
+    } else {
+      setSizeBottom([...sizeBottom, val])
+    }
+  }
+  const handleBilingLevel = (val) => {
+    if (bilingLevel.includes(val)) {
+      setBilingLevel(bilingLevel => bilingLevel.filter(item => item != val));
+    } else {
+      setBilingLevel([...bilingLevel, val])
+    }
+  }
+  const handleBilingType = (val) => {
+    if (bilingType.includes(val)) {
+      setBilingType(bilingType => bilingType.filter(item => item != val));
+    } else {
+      setBilingType([...bilingType, val])
+    }
+  }
+  const handleBilingCondition = (val) => {
+    if (bilingCondition.includes(val)) {
+      setBilingCondition(bilingCondition => bilingCondition.filter(item => item != val));
+    } else {
+      setBilingCondition([...bilingCondition, val])
+    }
+  }
+  const handlePadding = (val) => {
+    if (padding.includes(val)) {
+      setPadding(padding => padding.filter(item => item != val));
+    } else {
+      setPadding([...padding, val])
+    }
+  }
+  const handleLocation = (val) => {
+    if (location.includes(val)) {
+      setLocation(location => location.filter(item => item != val));
+    } else {
+      setLocation([...location, val])
+    }
+  }
+  const filter = () => {
+    const data = {
+      style_top: styleTop,
+      style_bottom: styleBottom,
+      product_category: category,
+      product_brand: brand,
+      product_color: color,
+      size_standard: sizeStandard,
+      size_top: sizeTop,
+      size_bottom: sizeBottom,
+      billing_level: bilingLevel,
+      billing_type: bilingType,
+      billing_condition: bilingCondition,
+      price_sale_lend_price_min: [buyPrice[0]],
+      price_sale_lend_price_max: [buyPrice[1]],
+      price_sale_lend_price_min_rent: [rentPrice[0]],
+      price_sale_lend_price_max_rent: [rentPrice[1]],
+      product_padding: padding,
+      location: location,
+  }
+
+    props.handlefilter(data)
+  }
   return (
     <>
       {
@@ -88,11 +217,12 @@ function FilterBy() {
                             <ul className="ct_list_style_none">
                               {
                                 filterContent?.styleTop?.map((item) => (
-                                  <li>
+                                  <li >
                                     <label className="cyberpunk-checkbox-label">
                                       <input
                                         type="checkbox"
                                         className="cyberpunk-checkbox"
+                                        onChange={() => handleStyleTop(item)}
                                       />
                                     </label>
                                     {item}
@@ -113,6 +243,7 @@ function FilterBy() {
                                       <input
                                         type="checkbox"
                                         className="cyberpunk-checkbox"
+                                        onChange={() => handleStyleBottom(item)}
                                       />
                                     </label>
                                     {item}
@@ -122,7 +253,6 @@ function FilterBy() {
                             </ul>
                           </ul>
                         </li>
-
                       </ul>
                     </div>
                   </div>
@@ -163,7 +293,7 @@ function FilterBy() {
                           filterContent?.product_categories?.map((item) => (
                             <li className="list-item d-flex align-items-center">
                               <label className="cyberpunk-checkbox-label">
-                                <input type="checkbox" className="cyberpunk-checkbox" />
+                                <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleCategory(item)} />
                               </label>
                               {item}
                               {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
@@ -226,15 +356,13 @@ function FilterBy() {
                           filterContent?.product_brand?.map((item) => (
                             <li className="search-suggestion__item js-search-select d-flex align-items-center py-0">
                               <label className="cyberpunk-checkbox-label">
-                                <input type="checkbox" className="cyberpunk-checkbox" />
+                                <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleBrand(item)} />
                               </label>
                               <span className="me-auto">{item}</span>
                               <span className="text-secondary">2</span>
                             </li>
                           ))
                         }
-
-
                       </ul>
                     </div>
                   </div>
@@ -275,16 +403,13 @@ function FilterBy() {
                           filterContent?.productColor?.map((item) => (
 
                             <a
-                              
-                              className="swatch-color js-filter"
+                              onClick={() => handleColor(item)}
+                              className={color.includes(item) == true ? "swatch-color js-filter ct_select_clr_active" : "swatch-color js-filter"}
                               style={{ color: `${item}` }}
                             >
                             </a>
                           ))
                         }
-
-
-
                       </div>
                     </div>
                   </div>
@@ -349,19 +474,26 @@ function FilterBy() {
                           data-bs-parent="#size-filters"
                         >
                           <div className="accordion-body px-0 pb-0">
-                            <div className="d-flex flex-wrap">
+                            <ul className="d-flex flex-wrap ct_list_style_none ps-2">
                               {
                                 filterContent?.sizeStandard?.map((item) => (
-                                  <a
-                                    
-                                    className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
-                                  >
+                                  <li className="list-item d-flex align-items-center">
+                                    <label className="cyberpunk-checkbox-label">
+                                      <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleSizeStandard(item)} />
+                                    </label>
                                     {item}
-                                  </a>
+                                    {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
+                                  </li>
+                                  // <a
+                                  //   onClick={() => handleSizeStandard(item)}
+                                  //   className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
+                                  // >
+                                  //   {item}
+                                  // </a>
                                 ))
                               }
 
-                            </div>
+                            </ul>
                           </div>
                         </div>
                       </div>
@@ -396,14 +528,17 @@ function FilterBy() {
                           data-bs-parent="#categories-list6"
                         >
                           <div className="accordion-body px-0 pb-0 pt-3">
-                            <ul className="list list-inline mb-0">
+                            <ul className="list list-inline mb-0 ct_list_style_none ps-2">
                               {
                                 filterContent?.sizeTop?.map((item) => (
-                                  <li className="list-item">
-                                    <a  className="menu-link py-1">
-                                      {item}
-                                    </a>
+                                  <li className="list-item d-flex align-items-center">
+                                    <label className="cyberpunk-checkbox-label">
+                                      <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleSizeTop(item)} />
+                                    </label>
+                                    {item}
+                                    {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
                                   </li>
+
                                 ))
                               }
 
@@ -443,18 +578,19 @@ function FilterBy() {
                           data-bs-parent="#categories-list7"
                         >
                           <div className="accordion-body px-0 pb-0 pt-3">
-                            <ul className="list list-inline mb-0">
+                            <ul className="list list-inline mb-0 ct_list_style_none ps-2">
                               {
-                                filterContent?.styleBottom?.map((item) => (
-                                  <li className="list-item">
-                                    <a  className="menu-link py-1">
-                                      {item}
-                                    </a>
+                                filterContent?.sizeBottom?.map((item) => (
+                                  <li className="list-item d-flex align-items-center">
+                                    <label className="cyberpunk-checkbox-label">
+                                      <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleSizeBottom(item)} />
+                                    </label>
+                                    {item}
+                                    {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
                                   </li>
+
                                 ))
                               }
-
-
                             </ul>
                           </div>
                         </div>
@@ -522,18 +658,19 @@ function FilterBy() {
                           data-bs-parent="#categories-list"
                         >
                           <div className="accordion-body px-0 pb-0 pt-3">
-                            <ul className="list list-inline mb-0">
+                            <ul className="list list-inline mb-0 ct_list_style_none ps-2">
                               {
                                 filterContent?.billingLevel?.map((item) => (
-                                  <li className="list-item">
-                                    <a  className="menu-link py-1">
-                                      {item}
-                                    </a>
+                                  <li className="list-item d-flex align-items-center">
+                                    <label className="cyberpunk-checkbox-label">
+                                      <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleBilingLevel(item)} />
+                                    </label>
+                                    {item}
+                                    {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
                                   </li>
+
                                 ))
                               }
-
-
                             </ul>
                           </div>
                         </div>
@@ -569,14 +706,17 @@ function FilterBy() {
                           data-bs-parent="#categories-list4"
                         >
                           <div className="accordion-body px-0 pb-0 pt-3">
-                            <ul className="list list-inline mb-0">
+                            <ul className="list list-inline mb-0 ct_list_style_none ps-2">
                               {
                                 filterContent?.billingType?.map((item) => (
-                                  <li className="list-item">
-                                    <a  className="menu-link py-1">
-                                      {item}
-                                    </a>
+                                  <li className="list-item d-flex align-items-center">
+                                    <label className="cyberpunk-checkbox-label">
+                                      <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleBilingType(item)} />
+                                    </label>
+                                    {item}
+                                    {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
                                   </li>
+
                                 ))
                               }
 
@@ -619,20 +759,19 @@ function FilterBy() {
                     data-bs-parent="#categories-list5"
                   >
                     <div className="accordion-body pe-0 ps-3 pb-0 pt-3">
-                      <ul className="list list-inline mb-0">
-
-
+                      <ul className="list list-inline mb-0 ct_list_style_none ps-0">
                         {
                           filterContent?.billingCondition?.map((item) => (
-                            <li className="list-item">
-                              <a  className="menu-link py-1">
-                                {item}
-                              </a>
+                            <li className="list-item d-flex align-items-center">
+                              <label className="cyberpunk-checkbox-label">
+                                <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleBilingCondition(item)} />
+                              </label>
+                              {item}
+                              {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
                             </li>
+
                           ))
                         }
-
-
                       </ul>
                     </div>
                   </div>
@@ -702,18 +841,20 @@ function FilterBy() {
                           {/* <input className="price-range-slider" type="text" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]" data-currency="$" /> */}
                           <Slider
                             range
-                            defaultValue={[20, 50]}
-                            onChange={(e) => handleRange(e)}
+                            defaultValue={[0, 500]}
+                            min={0}
+                            max={1000}
+                            onChange={(e) => handleBuyPrice(e)}
                           />
 
                           <div className="price-range__info d-flex align-items-center mt-2">
                             <div className="me-auto">
                               <span className="text-secondary">Min Price: </span>
-                              <span className="price-range__min">${Price[0]}</span>
+                              <span className="price-range__min">${buyPrice[0]}</span>
                             </div>
                             <div>
                               <span className="text-secondary">Max Price: </span>
-                              <span className="price-range__max">${Price[1]}</span>
+                              <span className="price-range__max">${buyPrice[1]}</span>
                             </div>
                           </div>
                         </div>
@@ -750,17 +891,19 @@ function FilterBy() {
                         >
                           <Slider
                             range
-                            defaultValue={[30, 70]}
-                            onChange={(e) => handleLeasePrice(e)}
+                            defaultValue={[0, 500]}
+                            min={0}
+                            max={1000}
+                            onChange={(e) => handleRentPrice(e)}
                           />
                           <div className="price-range__info d-flex align-items-center mt-2">
                             <div className="me-auto">
                               <span className="text-secondary">Min Price: </span>
-                              <span className="price-range__min">${leasePrice[0]}</span>
+                              <span className="price-range__min">${rentPrice[0]}</span>
                             </div>
                             <div>
                               <span className="text-secondary">Max Price: </span>
-                              <span className="price-range__max">${leasePrice[1]}</span>
+                              <span className="price-range__max">${rentPrice[1]}</span>
                             </div>
                           </div>
                           <small>(Per week/month or season)</small>
@@ -800,13 +943,13 @@ function FilterBy() {
                     data-bs-parent="#categories-list2"
                   >
                     <div className="accordion-body px-0 pb-0 pt-3">
-                      <ul className="list list-inline mb-0">
+                      <ul className="list list-inline mb-0 ps-2">
                         {
                           filterContent?.padding?.map((item) => (
                             <li className="list-item py-0">
-                              <a  className="menu-link py-1">
+                              <a className="menu-link py-1">
                                 <label className="cyberpunk-checkbox-label">
-                                  <input type="checkbox" className="cyberpunk-checkbox" />
+                                  <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handlePadding(item)} />
                                 </label>
                                 {item}
                               </a>
@@ -849,19 +992,29 @@ function FilterBy() {
                     aria-labelledby="accordion-heading_location"
                     data-bs-parent="#location"
                   >
-                    <div className="accordion-body ps-0">
-                      {
-                        filterContent?.location?.map((item) => (
-                          <a  className=" mb-3 me-3 js-filter">
-                            {item}
-                          </a>
-                        ))
-                      }
+                    <div className="accordion-body ps-0 pt-2">
+                      <ul className="ct_list_style_none ps-2">
+                        {
+                          filterContent?.location?.map((item) => (
+                            <li className="list-item py-0">
+                              <a className="menu-link py-1">
+                                <label className="cyberpunk-checkbox-label">
+                                  <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleLocation(item)} />
+                                </label>
+                                {item}
+                              </a>
+                            </li>
+
+                          ))
+                        }
+                      </ul>
 
                     </div>
                   </div>
                 </div>
               </div>
+              <button type='buton'className="btn btn-primary w-100 text-uppercase" onClick={filter}>Save Filtered</button>
+
             </> : <h3>Please try after some time !!!</h3>
       }
 

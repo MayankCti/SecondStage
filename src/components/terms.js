@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './header'
 import Footer from './footer'
+import { useNavigate } from 'react-router-dom'
+import HeaderVisitor from './HeaderVisitor'
 
 function Terms() {
+
+  const navigate = useNavigate()
+    const [isHome,setIsHome] = useState(false)
+    useEffect(() => {
+        const token = JSON.parse(localStorage.getItem("token"))
+        if (token == null) {
+            
+        } else {
+          setIsHome(true)
+        }
+      }, [])
   return (
     <>
      <svg className="d-none">
@@ -158,8 +171,14 @@ function Terms() {
     </symbol>
   </svg>
 
-
-  <Header/>
+  {
+      isHome == true ?
+      <Header/> :
+      <div onClick={()=>navigate("/login-register")}>
+      <HeaderVisitor/>
+      </div>
+    }
+ 
 
   <main>
     <div className="mb-5 pb-4"></div>
@@ -663,10 +682,9 @@ Upon acceptance of a Rental Request, you agree to pay, via Second Stage, the Tot
 
     <div className="mb-0 pb-xl-5"></div>
   </main>
-
-
-
+<div onClick={()=>navigate("/login-register")}>
   <Footer/>
+</div>
   
     </>
   )

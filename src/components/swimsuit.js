@@ -207,7 +207,7 @@ function Swimsuit() {
             </symbol>
           </svg>
 
-          <Header data={cartData?.length !== 0 && cartData}  isCartSidebar={isCartSidebar}/>
+          <Header data={cartData?.length !== 0 && cartData}  isCartSidebar={isCartSidebar} active="swimsuit"/>
 
           <CategoryContent home="Swimsuit" apiurl={configJSON.getProductDetails_by_Category_swimsuit} onClick={getDataFromChild}/>
 

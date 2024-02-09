@@ -5,19 +5,18 @@ import Footer from './footer'
 import UserRegister from './userRegister'
 import UserLogin from './userLogin'
 import HeaderVisitor from './HeaderVisitor'
-
 function Login_register() {
-  const [isHome,setIsHome] = useState(false)
+  const [isHome, setIsHome] = useState(false)
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     if (token == null) {
       setIsHome(false)
     } else {
       setIsHome(true)
-        
+
     }
   }, [])
-  
+
   return (
     <>
       <svg className="d-none">
@@ -169,12 +168,12 @@ function Login_register() {
           <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor" />
         </symbol>
       </svg>
-{
-  isHome == true ? <Header /> : <HeaderVisitor/>
-}
-      
+      {
+        isHome == true ? <Header /> : <HeaderVisitor />
+      }
 
       <main>
+
         <div className="mb-4 pb-4"></div>
         <section className="login-register container">
           <ul className="nav nav-tabs mb-5" id="login_register" role="tablist">
@@ -187,17 +186,17 @@ function Login_register() {
           </ul>
           <div className="tab-content pt-2" id="login_register_tab_content">
             <div className="tab-pane fade show active" id="tab-item-login" role="tabpanel" aria-labelledby="login-tab">
-              <UserLogin/>
+              <UserLogin />
             </div>
             <div className="tab-pane fade" id="tab-item-register" role="tabpanel" aria-labelledby="register-tab">
-              <UserRegister/>
+              <UserRegister />
             </div>
           </div>
         </section>
         <div className="mb-0 pb-xl-5"></div>
       </main>
 
-    
+
 
       <Footer />
     </>

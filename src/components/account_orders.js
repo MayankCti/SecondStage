@@ -1,9 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './header'
 import Footer from './footer'
 import List7 from './List7'
 
 function Account_orders() {
+  const [data,setData] = useState([])
+  const [isLoader, setIsLoader] = useState(false);
+  useEffect(()=>{
+    const token = JSON.parse(localStorage.getItem("token"));
+    // if (token == null) {
+    //   navigate("/login-register");
+    // } else {
+    // getOrders(token)
+    // }
+  },[])
+const getOrders = (val)=>{
+  // setIsLoader(true);
+  //   axios({
+  //     url: configJSON.baseUrl + configJSON.allOrders,
+  //     method: "get",
+  //     headers: {
+  //       Authorization: `Bearer ${val}`,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res, "response")
+  //       setIsLoader(false);
+  //       if (res?.data?.success == true) {
+  //         setData(res?.data?.data);
+  //       } else {
+  //         setData([]);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setIsLoader(false);
+  //     });
+}
   return (
     <>
     <svg className="d-none">
@@ -166,7 +199,11 @@ function Account_orders() {
         <List7 data="account-orders"/>
         <div className="col-lg-9">
           <div className="page-content my-account__orders-list">
-            <table className="orders-table">
+            {
+              isLoader == true ?
+              <div class="custom-loader"></div> :
+              data?.length!=0 ? 
+              <table className="orders-table">
               <thead>
                 <tr>
                   <th>Order</th>
@@ -206,7 +243,8 @@ function Account_orders() {
                   <td><button className="btn btn-primary">VIEW</button></td>
                 </tr>
               </tbody>
-            </table>
+            </table> : <h3> No Orderes.!</h3>
+            }
           </div>
         </div>
       </div>

@@ -30,7 +30,7 @@ function CategoryContent(props) {
         if (token == null) {
             navigate('/login-register')
         }
-        getData()
+        getData(token)
         getCartData(token)
     }, [])
     const handleHome = () => {
@@ -40,15 +40,19 @@ function CategoryContent(props) {
         localStorage.setItem("productID",productId)
         navigate("/product1-simple");
       };
-    const getData = () => {
+    const getData = (val) => {
         setIsLoader(true)
         axios({
             url: configJSON.baseUrl + props?.apiurl,
             method: "get",
+            headers: {
+                'Authorization': `Bearer ${val}`
+            },
+
         }).then((res) => {
             setIsLoader(false)
             if (res?.data?.success == true) {
-                setAllProduct(res?.data?.data)
+                setAllProduct(res?.data?.product_by_category)
             }
             else {
                 setAllProduct([])
@@ -58,9 +62,7 @@ function CategoryContent(props) {
             console.log(error)
         })
     }
-
     const filteredData = showProduct === "all" ? allProduct : allProduct.filter(item => item.product_buy_rent === showProduct);
-
     const getCartData = (val) => {
         setIsLoader(true)
         setAccessToken(val)
@@ -129,7 +131,7 @@ function CategoryContent(props) {
             setIsLoader(false)
             if (res.data.success == true) {
                 MESSAGE.success(res?.data?.message)
-                getData()
+                getData(accessToken)
             } else {
                 MESSAGE.error(res?.data?.message)
             }
@@ -138,6 +140,34 @@ function CategoryContent(props) {
             console.log(err)
         })
     };
+    const filterProducts = (val)=>{
+        console.log(val)
+        const token = JSON.parse(localStorage.getItem("token"))
+        setIsLoader(true)
+        axios({
+            url: configJSON.baseUrl + configJSON.filterAllProduct,
+            method: "get",
+            data : val,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+        }).then((res)=>{
+            console.log(res,"the data")
+            setIsLoader(false)
+            if(res?.data?.success == true){
+                MESSAGE.success(res?.data?.message)
+                setAllProduct(res?.data?.formattedProducts)
+
+            }else{
+                MESSAGE.error(res?.data?.message)
+
+            }
+        }).catch((err)=>{
+            console.log(err)
+            setIsLoader(false)
+        })
+    }
+
     return (
         <>
             <main>
@@ -145,10 +175,10 @@ function CategoryContent(props) {
                 <section className="shop-main container d-flex">
                     <div className={isFilter == false ? "shop-sidebar side-sticky bg-body" : "shop-sidebar side-sticky bg-body aside_visible"} id="shopFilter">
                         <div className="aside-header d-flex pt-5 mt-5 align-items-center">
-                            <h3 className="text-uppercase fs-6 mb-0">Filter By</h3>
+                            <h3 className="text-uppercase fs-6 mb-0">Filter By </h3>
                             <button className="btn-close-lg js-close-aside btn-close-aside ms-auto" onClick={() => setIsFilter(false)}></button>
                         </div>
-                        <FilterBy />
+                        <FilterBy handlefilter={(val)=>filterProducts(val)}/>
 
                     </div>
 

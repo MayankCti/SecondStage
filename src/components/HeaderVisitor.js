@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-function HeaderVisitor() {
+function HeaderVisitor(props) {
     const navigate = useNavigate();
     const [ishome, setIsHome] = useState(false);
     const [accessToken, setAccessToken] = useState();
@@ -19,7 +19,7 @@ function HeaderVisitor() {
         navigate("/");
       };
       const handleLoginRegister = () => {
-        
+       
         navigate("/login-register");
       };
     return (
@@ -55,7 +55,7 @@ function HeaderVisitor() {
                                     </svg>
                                 </div>
                                 <li className="navigation__item position-relative">
-                                    <a className="navigation__link" onClick={() => handleHome()}>
+                                    <a className={props.data =="home" ?"navigation__link ct_active" :"navigation__link" } onClick={() => handleHome()}>
                                         Home{" "}
                                         <span onClick={() => homeDropdown()}>
                                             <svg

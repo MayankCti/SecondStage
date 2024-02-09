@@ -207,7 +207,7 @@ function Accessories() {
                         </symbol>
                     </svg>
 
-                    <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} />
+                    <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="accessories"/>
 
                     <CategoryContent home="Accessories" apiurl={configJSON.getProductDetails_by_Category_accessories} onClick={getDataFromChild}/>
 

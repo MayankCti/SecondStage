@@ -26,6 +26,7 @@ useEffect(() => {
 }, [])
 
 
+
 const getCartData = (val, val2) => {
   setIsLoader(true)
   setAccessToken(val)
@@ -236,7 +237,7 @@ const getDataFromChild = () => {
     </symbol>
   </svg>
 
-  <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar}/>
+  <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="home"/>
 
   <main>
 

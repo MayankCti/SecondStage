@@ -2,8 +2,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true,
 });
 // live url 
-export const baseUrl = "http://192.168.1.140:4005/web/"
-
+export const baseUrl = "http://192.168.1.33:4005/web/"
+// export const baseUrl = "http://localhost:4005/web/"
 export const signUp_buyer = "signUp/buyer"
 export const login_buyer = "login/buyer"
 export const product_details = "product_details/"
@@ -18,6 +18,17 @@ export const get_wishlist = "get_wishlist"
 export const fetch_categories = "fetch_categories"
 export const getProductDetails_by_id = "getProductDetails_by_id/"
 export const add_shipping_details = "add_shipping_details"
+export const myProfile_buyer = "myProfile/buyer"
+export const editProfile_buyer = "editProfile/buyer/"
+export const changePassword_buyer = "changePassword/buyer"
+export const fetch_shipping_details ="fetch_shipping_details"
+export const add_checkout = "add_checkout"
+export const filterAllProduct = "filterAllProduct"
+
+export const getOrderStatus = "getOrderStatus"
+export const getShopCartData = "getShopCartData"
+export const allOrders = "allOrders"
+
 export const getProductDetails_by_Category = "getProductDetails_by_Category/"
 export const  getProductDetails_by_Category_biknis= "getProductDetails_by_Category/biknis"
 export const  getProductDetails_by_Category_figure= "getProductDetails_by_Category/figure"

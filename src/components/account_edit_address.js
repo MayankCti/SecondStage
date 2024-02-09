@@ -1,9 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './header'
 import Footer from './footer'
 import List7 from './List7'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
+export const configJSON = require("../components/config");
 
 function Account_edit_address() {
+    const navigate = useNavigate()
+    const [address,setAddress] = useState([])
+  const [isLoader, setIsLoader] = useState(false);
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"))
+    
+    if (token == null) 
+        navigate('/login-register')
+    else
+      getData(token)
+}, [])
+const getData = (val)=>{
+  setIsLoader(true)
+  axios({
+      url: configJSON.baseUrl + configJSON.fetch_shipping_details,
+      method: "get",
+      headers: {
+          'Authorization': `Bearer ${val}`
+      },
+
+  }).then((res) => {
+    console.log("hello",res)
+      setIsLoader(false)
+      if (res?.data?.success == true) {
+          setAddress(res?.data?.shipping_details)
+      }
+      else {
+          setAddress([])
+      }
+  }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+  })
+}
   return (
     <>
     <svg className="d-none">
@@ -167,39 +204,42 @@ function Account_edit_address() {
 <List7 data="account-edit-address"/>
 
         <div className="col-lg-9">
-          <div className="page-content my-account__address">
+          {
+            isLoader == true ? 
+            <div class="custom-loader"></div>
+            : 
+            address?.length !=0 ?
+            <div className="page-content my-account__address">
             <p className="notice">The following addresses will be used on the checkout page by default.</p>
             <div className="my-account__address-list">
-              <div className="my-account__address-item">
+              {/* <div className="my-account__address-item">
                 <div className="my-account__address-item__title">
                   <h5>Billing Address</h5>
-                  <a >Edit</a>
+               
                 </div>
                 <div className="my-account__address-item__detail">
-                  <p>Daniel Robinson</p>
-                  <p>1418 xyx, CA 9622</p>
-                  <p>United States</p>
-                  <br />
-                  <p>Support@secondstagebikini.com</p>
-                  <p>+1 246-345-0695</p>
+                  <p>Cash on delivery</p>
+                
                 </div>
-              </div>
+              </div> */}
               <div className="my-account__address-item">
                 <div className="my-account__address-item__title">
                   <h5>Shipping Address</h5>
-                  <a >Edit</a>
+                
                 </div>
                 <div className="my-account__address-item__detail">
-                  <p>Daniel Robinson</p>
-                  <p>1418 xyx, CA 9622</p>
-                  <p>United States</p>
+                  <p>{address[0]?.first_name} {address[0]?.last_name},</p>
+                  <p>{address[0]?.street_address},</p>
+                  <p>{address[0]?.town_city},{address[0]?.country_region}.</p>
                   <br />
-                  <p>Support@secondstagebikini.com</p>
-                  <p>+1 246-345-0695</p>
+                  <p>{address[0]?.mail}</p>
+                  <p>{address[0]?.phone}</p>
                 </div>
               </div>
             </div>
-          </div>
+          </div> : <h3>No SHIPPING ADDRESS !!!</h3>
+          }
+          
         </div>
       </div>
     </section>

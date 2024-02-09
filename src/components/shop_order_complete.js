@@ -1,10 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from './header'
 import Footer from './footer'
+import axios, { all } from 'axios'
+import { message, message as MESSAGE } from "antd";
+export const configJSON = require("../components/config");
 
 function Shop_order_complete() {
 const navigate = useNavigate()
+const [orderData,setOrderData] = useState([])
+const [isLoader, setIsLoader] = useState(false);
+useEffect(()=>{
+  const token = JSON.parse(localStorage.getItem("token"));
+  // if (token == null) {
+  //   navigate("/login-register");
+  // } else {
+  // getOrderStatus(token)
+  // }
+},[])
+
+const getOrderStatus = (val)=>{
+  // setIsLoader(true);
+  //   axios({
+  //     url: configJSON.baseUrl + configJSON.getOrderStatus,
+  //     method: "get",
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res, "response")
+  //       setIsLoader(false);
+  //       if (res?.data?.success == true) {
+  //         setOrderData(res?.data?.data[0]);
+  //       } else {
+  //         setOrderData([]);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setIsLoader(false);
+  //     });
+}
   const handleShopCart = ()=>{
     navigate("/shop-cart")
   }

@@ -51,16 +51,17 @@ function Account_dashboard() {
     getCartData(accessToken, true)
   }
   const handleLoginRegister = () => {
+    localStorage.clear()
     navigate("/login-register")
   }
   const handleAccountOrders = () => {
     navigate("/account-orders")
   }
   const handleAccountEdit = () => {
-    navigate("account-edit")
+    navigate("/account-edit")
   }
   const handleAccountEditAddress = () => {
-    navigate("account-edit-address")
+    navigate("/account-edit-address")
   }
   return (
     <>

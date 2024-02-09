@@ -248,7 +248,9 @@ a {
 a:hover {
   color: #c19728;
 }
-
+.ct_active{
+  color: #c19728 !important;
+}
 a:not([href]):not([class]),
 a:not([href]):not([class]):hover {
   color: inherit;
@@ -16009,8 +16011,20 @@ textarea.form-control.is-invalid {
   transition: width 0.28s cubic-bezier(0.47, 0, 0.745, 0.715);
   background-color: currentColor;
 }
-.navigation__link:hover:after {
+.navigation__link:hover:after ,.ct_active:after {
   width: 2em;
+}
+.ct_efit_profile_btn .btn.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 10px 25px;
+  height: 40px;
+  margin-left: auto;
+}
+.ct_fw_600{
+  font-weight: 500;
 }
 @media (min-width: 992px) {
   .navigation__link {
@@ -20348,6 +20362,12 @@ a.add-to-wishlist.active .flaticon.flaticon-heart {
   max-width: 100%;
   padding: 0 4.6875rem;
 }
+.ct_pass_eye{
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
 @media (max-width: 767.98px) {
   .login-register {
     padding: 0 1rem;
@@ -21188,8 +21208,14 @@ main:after {
 }
 .ct_click_dropdown > p {
   white-space: nowrap;
-  margin-left: -12px;
+  margin-left: 0;
   margin-top: 3px;
+  text-align: center;
+  vertical-align: middle;
+  position: absolute;
+  bottom: -23px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .ct_swiper_slide.swiper-slide.product-card {
     width: 100%;
@@ -21198,6 +21224,49 @@ main:after {
   display: flex;
   align-items: center;
   height: 100vh;
+}
+
+.ct_profile_main {
+    background-color: #fff;
+    padding: 50px 30px;
+    box-shadow: 0px 0px 25px rgba(0,0,0,0.09);
+}
+.ct_profile_img {
+  position: relative;
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 100px;
+  margin-inline: auto;
+}
+.ct_profile_img img{
+  width: 150px;
+  height: 150px;
+  border-radius: 100px;
+  object-fit: cover;
+
+}
+.ct_edit_img_icon{
+  position: absolute;
+  right:15px;
+  bottom:15px;
+  width: 30px;
+  height:30px;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.ct_select_clr_active {
+  border: 2px solid;
+}
+.ct_click_dropdown img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 100px;
+    object-position: top;
 }
 @media screen and (max-width:767px){
   .ct_click_dropdown > p {

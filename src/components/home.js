@@ -195,7 +195,7 @@ function Home() {
     </symbol>
   </svg>
 <div >
-  <HeaderVisitor />
+  <HeaderVisitor data="home"/>
 </div>
   
     <main >

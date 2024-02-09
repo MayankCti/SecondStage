@@ -12,7 +12,7 @@
   "use strict";
 
   window.console = window.console || {
-    info: function (stuff) {}
+    info: function (stuff) { }
   };
 
   // If there's no jQuery, fancyBox can't work
@@ -600,13 +600,13 @@
       // Create markup from base template, it will be initially hidden to
       // avoid unnecessary work like painting while initializing is not complete
       $container = $(
-          self.translate(
-            self,
-            firstItemOpts.baseTpl
+        self.translate(
+          self,
+          firstItemOpts.baseTpl
             .replace("{{buttons}}", buttonStr)
             .replace("{{arrows}}", firstItemOpts.btnTpl.arrowLeft + firstItemOpts.btnTpl.arrowRight)
-          )
         )
+      )
         .attr("id", "fancybox-container-" + self.id)
         .addClass(firstItemOpts.baseClass)
         .data("FancyBox", self)
@@ -1177,9 +1177,9 @@
           // Animate the slide
           $.fancybox.animate(
             slide.$slide, {
-              top: 0,
-              left: (slide.pos - current.pos) * slidePos.width + (slide.pos - current.pos) * slide.opts.gutter
-            },
+            top: 0,
+            left: (slide.pos - current.pos) * slidePos.width + (slide.pos - current.pos) * slide.opts.gutter
+          },
             duration,
             function () {
               slide.$slide
@@ -1318,11 +1318,11 @@
 
       $.fancybox.animate(
         $content, {
-          top: posY,
-          left: posX,
-          scaleX: scaleX,
-          scaleY: scaleY
-        },
+        top: posY,
+        left: posX,
+        scaleX: scaleX,
+        scaleY: scaleY
+      },
         duration || 366,
         function () {
           self.isAnimating = false;
@@ -1358,11 +1358,11 @@
 
       $.fancybox.animate(
         $content, {
-          top: end.top,
-          left: end.left,
-          scaleX: end.width / $content.width(),
-          scaleY: end.height / $content.height()
-        },
+        top: end.top,
+        left: end.left,
+        scaleX: end.width / $content.width(),
+        scaleY: end.height / $content.height()
+      },
         duration || 366,
         function () {
           self.isAnimating = false;
@@ -1521,10 +1521,10 @@
 
       $.fancybox.animate(
         $slide, {
-          top: 0,
-          left: 0,
-          opacity: 1
-        },
+        top: 0,
+        left: 0,
+        opacity: 1
+      },
         duration === undefined ? 0 : duration,
         function () {
           // Clean up
@@ -1722,9 +1722,9 @@
           self.setContent(
             slide,
             slide.opts.video.tpl
-            .replace(/\{\{src\}\}/gi, slide.src)
-            .replace("{{format}}", slide.opts.videoFormat || slide.opts.video.format || "")
-            .replace("{{poster}}", slide.thumb || "")
+              .replace(/\{\{src\}\}/gi, slide.src)
+              .replace("{{format}}", slide.opts.videoFormat || slide.opts.video.format || "")
+              .replace("{{poster}}", slide.thumb || "")
           );
 
           break;
@@ -2026,7 +2026,7 @@
           try {
             $contents = $iframe.contents();
             $body = $contents.find("body");
-          } catch (ignore) {}
+          } catch (ignore) { }
 
           // Calculate content dimensions, if it is accessible
           if ($body && $body.length && $body.children().length) {
@@ -2071,7 +2071,7 @@
             .hide()
             .unbind()
             .attr("src", "//about:blank");
-        } catch (ignore) {}
+        } catch (ignore) { }
 
         $(this)
           .off("refresh.fb")
@@ -3016,10 +3016,10 @@
 
       this.$refs.container.removeClass(
         arr
-        .map(function (i) {
-          return "fancybox-show-" + i;
-        })
-        .join(" ")
+          .map(function (i) {
+            return "fancybox-show-" + i;
+          })
+          .join(" ")
       );
 
       this.hasHiddenControls = true;
@@ -3378,9 +3378,9 @@
     } else {
       this.off("click.fb-start").on(
         "click.fb-start", {
-          items: this,
-          options: options
-        },
+        items: this,
+        options: options
+      },
         _run
       );
     }
@@ -4419,9 +4419,9 @@
       // Continue vertical movement
       $.fancybox.animate(
         self.instance.current.$slide, {
-          top: self.sliderStartPos.top + self.distanceY + self.velocityY * 150,
-          opacity: 0
-        },
+        top: self.sliderStartPos.top + self.distanceY + self.velocityY * 150,
+        opacity: 0
+      },
         200
       );
       ret = self.instance.close(true, 250);
@@ -4590,9 +4590,9 @@
     } else if (
       instance.current.$content &&
       instance.current.$content
-      .find($target)
-      .addBack()
-      .filter($target).length
+        .find($target)
+        .addBack()
+        .filter($target).length
     ) {
       where = "Content";
     } else {
@@ -5039,18 +5039,18 @@
   // Make sure there are default values
   $.fancybox.defaults = $.extend(
     true, {
-      btnTpl: {
-        thumbs: '<button data-fancybox-thumbs class="fancybox-button fancybox-button--thumbs" title="{{THUMBS}}">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.59 14.59h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76H5.65v-3.76zm8.94-4.47h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76H5.65v-3.76zm8.94-4.47h3.76v3.76h-3.76V5.65zm-4.47 0h3.76v3.76h-3.76V5.65zm-4.47 0h3.76v3.76H5.65V5.65z"/></svg>' +
-          "</button>"
-      },
-      thumbs: {
-        autoStart: false, // Display thumbnails on opening
-        hideOnClose: true, // Hide thumbnail grid when closing animation starts
-        parentEl: ".fancybox-container", // Container is injected into this element
-        axis: "y" // Vertical (y) or horizontal (x) scrolling
-      }
+    btnTpl: {
+      thumbs: '<button data-fancybox-thumbs class="fancybox-button fancybox-button--thumbs" title="{{THUMBS}}">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.59 14.59h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76H5.65v-3.76zm8.94-4.47h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76H5.65v-3.76zm8.94-4.47h3.76v3.76h-3.76V5.65zm-4.47 0h3.76v3.76h-3.76V5.65zm-4.47 0h3.76v3.76H5.65V5.65z"/></svg>' +
+        "</button>"
     },
+    thumbs: {
+      autoStart: false, // Display thumbnails on opening
+      hideOnClose: true, // Hide thumbnail grid when closing animation starts
+      parentEl: ".fancybox-container", // Container is injected into this element
+      axis: "y" // Vertical (y) or horizontal (x) scrolling
+    }
+  },
     $.fancybox.defaults
   );
 
@@ -5110,9 +5110,9 @@
         // Create main element
         self.$grid = $('<div class="' + CLASS + " " + CLASS + "-" + self.opts.axis + '"></div>').appendTo(
           instance.$refs.container
-          .find(parentEl)
-          .addBack()
-          .filter(parentEl)
+            .find(parentEl)
+            .addBack()
+            .filter(parentEl)
         );
 
         // Add "click" event that performs gallery navigation
@@ -5150,9 +5150,9 @@
           parseInt(self.$grid.css("padding-right"), 10) +
           instance.group.length *
           self.$list
-          .children()
-          .eq(0)
-          .outerWidth(true)
+            .children()
+            .eq(0)
+            .outerWidth(true)
         );
       }
     },
@@ -5179,8 +5179,8 @@
       // Check if need to scroll to make current thumb visible
       if (self.opts.axis === "y" && (thumbPos.top < 0 || thumbPos.top > $list.height() - thumb.outerHeight())) {
         $list.stop().animate({
-            scrollTop: $list.scrollTop() + thumbPos.top
-          },
+          scrollTop: $list.scrollTop() + thumbPos.top
+        },
           duration
         );
       } else if (
@@ -5191,8 +5191,8 @@
           .parent()
           .stop()
           .animate({
-              scrollLeft: thumbPos.left
-            },
+            scrollLeft: thumbPos.left
+          },
             duration
           );
       }
@@ -5557,8 +5557,8 @@
       // Find last fancyBox instance that has "hash"
       $.each(
         $(".fancybox-container")
-        .get()
-        .reverse(),
+          .get()
+          .reverse(),
         function (index, value) {
           var tmp = $(value).data("FancyBox");
 

@@ -13,12 +13,17 @@ function Shop_cart() {
   const [accessToken, setAccessToken] = useState()
   const [isLoader, setIsLoader] = useState(false);
   const [isCartSidebar, setIsCartSidebar] = useState(false);
+  const [shipingtipe, setShipingtipe] = useState("Free Shipping");
+  const [vat,setVal] = useState(16)
+  const [allTotal, setAllTotal] = useState(0);
+  const [shopCartData,setShopCartData] = useState([])
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     if (token == null) {
       navigate('/login-register')
     } else {
       getCartData(token)
+      // getShopCart(token)
     }
   }, [])
 
@@ -44,6 +49,7 @@ function Shop_cart() {
           total += item?.cart_price
         })
         setSubTotal(total)
+        setAllTotal(total+(parseInt(total/100)*vat))
       }
       else {
         setAllProduct([])
@@ -127,8 +133,31 @@ function Shop_cart() {
   }
 const toChekout = ()=>{
   if(allProduct.length !=0){
-    navigate("/shop-checkout")
+    navigate("/shop-checkout", {state:{shopCartData:shopCartData}} )
   }
+}
+const getShopCart = (val)=>{
+// setIsLoader(true);
+  //   axios({
+  //     url: configJSON.baseUrl + configJSON.getShopCartData,
+  //     method: "get",
+  //     headers: {
+  //       Authorization: `Bearer ${val}`,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res, "response")
+  //       setIsLoader(false);
+  //       if (res?.data?.success == true) {
+  //         setShopCartData(res?.data?.data[0]);
+  //       } else {
+  //         setShopCartData([]);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setIsLoader(false);
+  //     });
 }
   return (
     <>
@@ -398,7 +427,7 @@ const toChekout = ()=>{
                               <td>
                                 <div className="form-check">
                                   <input checked={true} className="form-check-input form-check-input_fill" type="checkbox" value="" id="free_shipping" />
-                                  <label className="form-check-label" htmlFor="free_shipping">Free shipping</label>
+                                  <label className="form-check-label" htmlFor="free_shipping">{shipingtipe}</label>
                                 </div>
                                 {/* <div className="form-check">
                                   <input className="form-check-input form-check-input_fill" type="checkbox" value="" id="flat_rate" />
@@ -408,19 +437,19 @@ const toChekout = ()=>{
                                   <input className="form-check-input form-check-input_fill" type="checkbox" value="" id="local_pickup" />
                                   <label className="form-check-label" htmlFor="local_pickup">Local pickup: $8</label>
                                 </div> */}
-                                <div>Shipping to AL.</div>
+                                {/* <div>Shipping to AL.</div>
                                 <div>
                                   <a className="menu-link menu-link_us-s">CHANGE ADDRESS</a>
-                                </div>
+                                </div> */}
                               </td>
                             </tr>
-                            {/* <tr>
+                            <tr>
                               <th>VAT</th>
-                              <td>$19</td>
-                            </tr> */}
+                              <td>{vat} %</td>
+                            </tr>
                             <tr>
                               <th>Total</th>
-                              <td>${subtotal}</td>
+                              <td>${allTotal}</td>
                             </tr>
                           </tbody>
                         </table>

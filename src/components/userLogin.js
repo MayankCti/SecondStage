@@ -7,7 +7,8 @@ function UserLogin() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoader, setIsLoader] = useState(false)
-
+    const [eye, setEye] = useState(false)
+    const [type,setType] = useState("password")
     const navigate = useNavigate()
     const handleResetPassword = () => {
         navigate("/reset-password")
@@ -19,7 +20,7 @@ function UserLogin() {
             const data = {
                 email: email,
                 password: password,
-                
+
             }
             axios({
                 url: configJSON.baseUrl + configJSON.login_buyer,
@@ -27,6 +28,7 @@ function UserLogin() {
                 data: data,
             }).then((res) => {
                 setIsLoader(false)
+
                 if (res?.data?.success == true) {
                     MESSAGE.success(res?.data?.message)
                     localStorage.setItem("token", JSON.stringify(res?.data?.token))
@@ -53,6 +55,10 @@ function UserLogin() {
             MESSAGE.error("Field can not be empty!")
         }
     }
+    const handleEye = (val)=>{
+        setType(val)
+        setEye(!eye)
+    }
     return (
         <>
             <div className="login-form">
@@ -69,8 +75,15 @@ function UserLogin() {
 
                         <div className="pb-3"></div>
 
-                        <div className="form-floating mb-3">
-                            <input name="login_password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required />
+                        <div className="form-floating mb-3 position-relative">
+
+                            <input name="login_password" type={type} value={password} onChange={(e) => setPassword(e.target.value)} className="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required />
+                           {
+                            eye !=true ?<i class="fa-solid fa-eye-slash ct_pass_eye" onClick={()=>handleEye("text") }></i>
+                            :  <i class="fa-solid fa-eye ct_pass_eye" onClick={()=>handleEye("password") }></i>
+                           } 
+                          
+                           
                             <label htmlFor="customerPasswodInput">Password *</label>
                         </div>
 

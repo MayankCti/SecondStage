@@ -177,7 +177,7 @@ function UserRegister() {
 
                 <div className="d-flex align-items-center mb-3 pb-2">
                   <div className="form-check ct_check_input mb-0">
-                     {/*<input
+                     <input
                       name="remember"
                       className="form-check-input form-check-input_fill "
                       type="checkbox"
@@ -192,7 +192,7 @@ function UserRegister() {
                       <a onClick={() => navigate("/terms")}>
                         Terms and Conditions
                       </a>{" "}
-                    </label> */}
+                    </label>
                   </div>
                 </div>
                 <button

@@ -207,7 +207,7 @@ function Bikinis(props) {
         </symbol>
       </svg>
 
-      <Header data={allProduct?.length !== 0 && allProduct} isCartSidebar={isCartSidebar}/>
+      <Header data={allProduct?.length !== 0 && allProduct} isCartSidebar={isCartSidebar} active="bikinis"/>
 
       <CategoryContent home="Bikini" apiurl={configJSON.getProductDetails_by_Category_biknis} onClick={getDataFromChild}/>
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import { message, message as MESSAGE } from "antd";
 export const configJSON = require("../components/config");
 function Header(props) {
+
   const navigate = useNavigate();
   const [subtotal, setSubTotal] = useState(0);
   const [isCartSidebar, setIsCartSidebar] = useState(
@@ -13,6 +14,7 @@ function Header(props) {
   const [isSearch, setIsSearch] = useState(false);
   const [allProduct, setAllProduct] = useState(props?.data ? props?.data : []);
 
+  const [profileData, setProfileData] = useState([])
   const [accessToken, setAccessToken] = useState();
   const [isLoader, setIsLoader] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
@@ -25,9 +27,32 @@ function Header(props) {
     } else {
       setAccessToken(token);
       getCartData(token);
-  
+      getMyProfile(token)
     }
   }, []);
+
+  const getMyProfile = (val) => {
+    setIsLoader(true)
+    axios({
+      url: configJSON.baseUrl + configJSON.myProfile_buyer,
+      method: "get",
+      headers: {
+        'Authorization': `Bearer ${val}`
+      },
+    }).then((res) => {
+      setIsLoader(false)
+      console.log(res, "the res")
+      if (res?.data?.success == true) {
+        setProfileData(res?.data?.user_info[0])
+      }
+      else {
+        setProfileData([])
+      }
+    }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+    })
+  }
 
   const getCartData = (val) => {
     console.log(val);
@@ -136,6 +161,7 @@ function Header(props) {
     navigate("/contact");
   };
   const handleLoginRegister = () => {
+    localStorage.clear()
     navigate("/login-register");
   };
   const handleShopCart = () => {
@@ -165,14 +191,14 @@ function Header(props) {
   const handleShopCheckout = () => {
     navigate("/shop-checkout");
   };
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     localStorage.clear();
     navigate("/login-register")
   }
-  const handleWishList = ()=>{
+  const handleWishList = () => {
     navigate("/account-wishlist")
   }
-  
+
   return (
     <>
       <header
@@ -207,7 +233,7 @@ function Header(props) {
                   </svg>
                 </div>
                 <li className="navigation__item position-relative">
-                  <a onClick={() => handleHome()} className="navigation__link">
+                  <a onClick={() => handleHome()} className={props.active == "home" ? "navigation__link ct_active" : "navigation__link"}>
                     Home{" "}
                     <span onClick={() => homeDropdown()}>
                       <svg
@@ -269,7 +295,7 @@ function Header(props) {
                 <li className="navigation__item">
                   <a
                     onClick={() => handleBikinis()}
-                    className="navigation__link"
+                    className={props.active == "bikinis" ? "navigation__link ct_active" : "navigation__link"}
                   >
                     Bikinis
                   </a>
@@ -277,7 +303,7 @@ function Header(props) {
                 <li className="navigation__item">
                   <a
                     onClick={() => handleFigure()}
-                    className="navigation__link"
+                    className={props.active == "figure" ? "navigation__link ct_active" : "navigation__link"}
                   >
                     Figure
                   </a>
@@ -285,20 +311,20 @@ function Header(props) {
                 <li className="navigation__item">
                   <a
                     onClick={() => handleSwimsuit()}
-                    className="navigation__link"
+                    className={props.active == "swimsuit" ? "navigation__link ct_active" : "navigation__link"}
                   >
                     Swimsuit
                   </a>
                 </li>
                 <li className="navigation__item">
-                  <a onClick={() => HandleWbff()} className="navigation__link">
+                  <a onClick={() => HandleWbff()} className={props.active == "fmg/wbff" ? "navigation__link ct_active" : "navigation__link"}>
                     FMG/WBFF
                   </a>
                 </li>
                 <li className="navigation__item">
                   <a
                     onClick={() => handleThemewear()}
-                    className="navigation__link"
+                    className={props.active == "themewear" ? "navigation__link ct_active" : "navigation__link"}
                   >
                     Themewear
                   </a>
@@ -306,7 +332,7 @@ function Header(props) {
                 <li className="navigation__item">
                   <a
                     onClick={() => handleAccessories()}
-                    className="navigation__link"
+                    className={props.active == "accessories" ? "navigation__link ct_active" : "navigation__link"}
                   >
                     Accessories
                   </a>
@@ -449,7 +475,7 @@ function Header(props) {
                 </div>
               </div>
 
-              <a className="header-tools__item" onClick={()=>handleWishList()}>
+              <a className="header-tools__item" onClick={() => handleWishList()}>
                 <svg
                   width="20"
                   height="20"
@@ -487,12 +513,12 @@ function Header(props) {
                       className="ct_click_dropdown   "
                       onClick={() => setDropdown(!isdropdown)}
                     >
-                      <img src="/second_stage/images/buyer_profile.png" />
-                      <p className="mb-0">Mia Toretto</p>
+                      <img src={props?.data_value?.profile_image? props?.data_value?.profile_image :profileData?.profile_image ? profileData?.profile_image : "/second_stage/images/buyer_profile.png"} />
+                      <p className="mb-0">{profileData?.user_name ? profileData?.user_name : ""}</p>
                     </div>
                     {isdropdown && (
                       <ul class="ct_dropdown-menu">
-                        <li onClick={()=>navigate("/account-dashboard")}>
+                        <li onClick={() => navigate("/account-edit")}>
                           <a class="dropdown-item" >
                             Profile
                           </a>

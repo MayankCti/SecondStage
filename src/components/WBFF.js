@@ -207,7 +207,7 @@ function WBFF() {
         </symbol>
       </svg>
 
-      <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar}/>
+      <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="fmg/wbff"/>
 
       <CategoryContent home="Fmg/Wbff" apiurl={configJSON.getProductDetails_by_Category_fmg_wbff} onClick={getDataFromChild}/>
 
