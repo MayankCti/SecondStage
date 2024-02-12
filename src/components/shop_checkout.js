@@ -6,7 +6,7 @@ import Header from './header'
 import Footer from './footer'
 export const configJSON = require("../components/config");
 function Shop_checkout() {
-  const shopCartData = useLocation().state.shopCartData
+  const shopCartData = useLocation().state?.shopCartData
   const [isLoader, setIsLoader] = useState(false);
   const [fname, setFname] = useState("")
   const [lname, setLname] = useState("")
@@ -22,10 +22,10 @@ function Shop_checkout() {
   const [paymentMethod, setPaymentMethod] = useState("")
   const [accessToken, setAccessToken] = useState();
   const [isCountry, setIsCountry] = useState(false)
-  const [subtotal, setSubTotal] = useState(0);
-  const [allTotal, setAllTotal] = useState(0);
-  const [vat, setVal] = useState(16)
-  const [shipingtype, setShipingtype] = useState("Free Shipping");
+  const [shipingtype, setShipingtype] = useState(shopCartData[0]?.shipping);
+  const [subtotal, setSubTotal] = useState(shopCartData[0]?.subtotal);
+  const [allTotal, setAllTotal] = useState(shopCartData[0]?.vat_sub_total);
+  const [vat, setVal] = useState(shopCartData[0]?.vat_percentage)
   const navigate = useNavigate()
   const [allProduct, setAllProduct] = useState([])
 
@@ -50,10 +50,6 @@ function Shop_checkout() {
       setIsLoader(false)
       if (res?.data?.success == true) {
         setAllProduct(res?.data?.cart)
-        let total = 0;
-        res?.data?.cart.map((item) => (total += item?.cart_price));
-        setSubTotal(total);
-        setAllTotal(total + (parseInt(total / 100) * vat))
       }
       else {
         setAllProduct([])
@@ -93,6 +89,7 @@ function Shop_checkout() {
       mail: email,
       order_notes: orderNotes
     };
+
     if (fname && lname && contryRegion && streetAddress && townCity && postZipCode && province && phone && email) {
       axios({
         method: "post",
@@ -118,38 +115,38 @@ function Shop_checkout() {
         });
     } else {
       MESSAGE.error("Fill all the BILLING DETAILS!!!")
-      navigate("/shop-order-complete")
+
     }
- // navigate("/shop-order-complete")
   }
   const addCheckout = () => {
-    // setIsLoader(true);
+    const token = JSON.parse(localStorage.getItem("token"));
+    setIsLoader(true);
     const data = {
-      shipping: "Free Shipping",
-      vat: vat,
-      total: allTotal,
-      payment_method: paymentMethod
+      payment_method: paymentMethod,
+      cart_id: shopCartData[0]?.cart_details[0]?.cart_id
     }
     if (paymentMethod) {
-      // axios({
-      //     url: configJSON.baseUrl + configJSON.add_checkout,
-      //     method: "get",
-      //     headers: {
-      //         'Authorization': `Bearer ${val}`
-      //     },
-      // }).then((res) => {
-      //     setIsLoader(false)
-      //     if (res?.data?.success == true) {
-      //  MESSAGE.success(res?.data?.message);
-      // navigate("/shop-order-complete")
-      //     }
-      //     else {
-      //  MESSAGE.error(res?.data?.message)
-      //     }
-      // }).catch((error) => {
-      //     setIsLoader(false)
-      //     console.log(error)
-      // })
+      axios({
+        url: configJSON.baseUrl + configJSON.add_checkout,
+        method: "post",
+        data: data,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      }).then((res) => {
+        console.log(res, "the checkout")
+        setIsLoader(false)
+        if (res?.data?.success == true) {
+          MESSAGE.success(res?.data?.message);
+          navigate("/shop-order-complete")
+        }
+        else {
+          MESSAGE.error(res?.data?.message)
+        }
+      }).catch((error) => {
+        setIsLoader(false)
+        console.log(error)
+      })
     } else {
       MESSAGE.error("Please select payment method")
       setIsLoader(false)
@@ -314,14 +311,14 @@ function Shop_checkout() {
         <section className="shop-checkout container">
           <h2 className="page-title">Shipping and Checkout</h2>
           <div className="checkout-steps">
-            <a onClick={() => handleShopCart()} className="checkout-steps__item active">
+            <a  className="checkout-steps__item active">
               <span className="checkout-steps__item-number">01</span>
               <span className="checkout-steps__item-title">
                 <span>Shopping Bag</span>
                 <em>Manage Your Items List</em>
               </span>
             </a>
-            <a onClick={() => handleShopCheckout()} className="checkout-steps__item active">
+            <a className="checkout-steps__item active">
               <span className="checkout-steps__item-number">02</span>
               <span className="checkout-steps__item-title">
                 <span>Shipping and Checkout</span>
@@ -448,11 +445,12 @@ function Shop_checkout() {
                       </thead>
                       <tbody>
                         {
-                          allProduct?.map((item) => (
+                          shopCartData &&
+                          shopCartData[0]?.cart_details?.map((item) => (
 
                             <tr>
                               <td>
-                                {item?.product_brands}
+                                {item?.product_brand}
                               </td>
                               <td align="right">
                                 ${item?.cart_price}
@@ -475,7 +473,7 @@ function Shop_checkout() {
                         </tr>
                         <tr>
                           <th>VAT</th>
-                          <td align="right">{vat} %</td>
+                          <td align="right">{vat} </td>
                         </tr>
                         <tr>
                           <th>TOTAL</th>

@@ -13,6 +13,8 @@ function Index() {
   const [isHome,setIsHome] = useState(false)
   const [quickSearch,setQuickSearch] = useState("")
   const [isLoader, setIsLoader] = useState(false);
+  const [allProduct, setAllProduct] = useState([]);
+  const [searchData,setSearchProduct] = useState([])
 const navigate = useNavigate()
 
 useEffect(() => {
@@ -22,9 +24,32 @@ useEffect(() => {
   } else {
     setIsHome(true)
       getCartData(token)
+     
+        getAllProduct();
+     
   }
 }, [])
 
+const getAllProduct = () => {
+  setIsLoader(true);
+  const user_id = JSON.parse(localStorage.getItem("user_id"));
+  axios({
+    url: configJSON.baseUrl + configJSON.product_details+user_id,
+    method: "get",
+  })
+    .then((res) => {
+      setIsLoader(false);
+      if (res?.data?.success == true) {
+        setAllProduct(res?.data?.products);
+      } else {
+        setAllProduct([]);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      setIsLoader(false);
+    });
+};
 
 
 const getCartData = (val, val2) => {
@@ -80,7 +105,15 @@ const getDataFromChild = () => {
   }
   const searchPage = (val)=>{
     const data = val.toLowerCase()
+
     
+  }
+  const searchProducts = (val)=>{
+    const data = allProduct.filter((item) => {
+      if (item?.product_brands?.includes(val?.toLowerCase())) { return item; }
+  })
+  setSearchProduct(data)
+  console.log(data,"the data")
   }
   return (
     
@@ -237,7 +270,7 @@ const getDataFromChild = () => {
     </symbol>
   </svg>
 
-  <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="home"/>
+  <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="home" searchProducts={(val)=>searchProducts(val)}/>
 
   <main>
 
@@ -248,7 +281,7 @@ const getDataFromChild = () => {
       <div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
         <div className="ct_quick_link_item mb-4">
           <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_3.jpg" width="150" height="150" alt="Insta image 1"/>
+            <img loading="lazy" className="instagram__img" src="images/products/product_3.jpg" width="150" height="150" alt="Insta image 1"/>
             <div class="ct_buy_rent_tag"><h4 class="mb-0">Bikini</h4></div>
             <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
@@ -262,7 +295,7 @@ const getDataFromChild = () => {
         </div>
         <div className="ct_quick_link_item mb-4">
           <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_1.jpg" width="180" height="180" alt="Insta image 2"/>
+            <img loading="lazy" className="instagram__img" src="images/products/product_1.jpg" width="180" height="180" alt="Insta image 2"/>
             <div class="ct_buy_rent_tag"><h4 class="mb-0">Figure</h4></div>
 
             <div className="ct_serach_products2">
@@ -278,7 +311,7 @@ const getDataFromChild = () => {
         </div>
         <div className="ct_quick_link_item mb-4">
           <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_2.jpg" width="180" height="180" alt="Insta image 3"/>
+            <img loading="lazy" className="instagram__img" src="images/products/product_2.jpg" width="180" height="180" alt="Insta image 3"/>
             <div class="ct_buy_rent_tag"><h4 class="mb-0">Swimsuit</h4></div>
 
             <div className="ct_serach_products2">
@@ -294,7 +327,7 @@ const getDataFromChild = () => {
         </div>
         <div className="ct_quick_link_item mb-4">
           <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_3.jpg" width="180" height="180" alt="Insta image 4"/>
+            <img loading="lazy" className="instagram__img" src="images/products/product_3.jpg" width="180" height="180" alt="Insta image 4"/>
             <div class="ct_buy_rent_tag"><h4 class="mb-0">Fmg/Wbff</h4></div>
             <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
@@ -309,7 +342,7 @@ const getDataFromChild = () => {
         </div>
         <div className="ct_quick_link_item mb-4">
           <a  className="position-relative d-block effect ">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_2.jpg" width="180" height="180" alt="Insta image 5"/>
+            <img loading="lazy" className="instagram__img" src="images/products/product_2.jpg" width="180" height="180" alt="Insta image 5"/>
             <div class="ct_buy_rent_tag"><h4 class="mb-0">Themewear</h4></div>
             <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
@@ -324,7 +357,7 @@ const getDataFromChild = () => {
         </div>
         <div className="ct_quick_link_item mb-4">
           <a  className="position-relative d-block effect">
-            <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_1.jpg" width="180" height="180" alt="Insta image 6"/>
+            <img loading="lazy" className="instagram__img" src="images/products/product_1.jpg" width="180" height="180" alt="Insta image 6"/>
             <div class="ct_buy_rent_tag"><h4 class="mb-0">Accessories</h4></div>
             <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
@@ -346,7 +379,7 @@ const getDataFromChild = () => {
 
   
       
-      <Content onClick={getDataFromChild}/> 
+      <Content onClick={getDataFromChild} data={searchData}/> 
 
   
     </section>
@@ -356,7 +389,7 @@ const getDataFromChild = () => {
     <div class="block-newsletter">
         <h3 class="block__title text-center ">Quick Search</h3>
         {/* <p>Get the latest products and news update daily in fastest.</p> */}
-        <form action="./" class="block-newsletter__form">
+        <form class="block-newsletter__form">
           <input value={quickSearch} onChange={(e)=>setQuickSearch(e.target.value)} class="form-control" type="email" name="email" placeholder="Search "/>
           <button class="btn btn-secondary fw-medium" type="button" onClick={()=>searchPage(quickSearch)}>Submit</button>
         </form>

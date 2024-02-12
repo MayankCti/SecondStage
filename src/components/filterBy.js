@@ -162,7 +162,7 @@ function FilterBy(props) {
       product_padding: padding,
       location: location,
   }
-
+console.log(data,"data")
     props.handlefilter(data)
   }
   return (

@@ -37,7 +37,7 @@ import CheckHome from "./components/checkHome";
 function App() {
   return (
     <div className="App">
-      <Router basename="/second_stage">
+      <Router basename="/">
         <Routes>
         <Route exact path='/' element={<CheckHome />} />
           <Route exact path="/about" element={<About />} />

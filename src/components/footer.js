@@ -56,7 +56,7 @@ const HandleWbff=()=>{
         <div className="footer-column footer-store-info mb-4 mb-lg-0">
           <div className="logo">
             <a onClick={()=>handleHome()}>
-              <img src="/second_stage/images/logo.png" alt="Second Stage" className="logo__image d-block" />
+              <img src="images/logo.png" alt="Second Stage" className="logo__image d-block" />
             </a>
           </div>
           <p className="m-0">
@@ -134,7 +134,7 @@ const HandleWbff=()=>{
           <div className="mt-4 pt-3">
             <strong className="fw-medium">Secure payments</strong>
             <p className="mt-2">
-              <img loading="lazy" src="/second_stage/images/payment-options.png" alt="Acceptable payment gateways" className="mw-100"/>
+              <img loading="lazy" src="images/payment-options.png" alt="Acceptable payment gateways" className="mw-100"/>
             </p>
           </div>
         </div>

@@ -97,10 +97,7 @@ function UserLogin() {
 
                         <button className="btn btn-primary w-100 text-uppercase" type="button" onClick={handleLogin}>Log In</button>
 
-                        <div className="customer-option mt-4 text-center">
-                            <span className="text-secondary">No account yet? </span>
-                            <a href="#register-tab" className="btn-text js-show-register">Create Account</a>
-                        </div>
+                       
                     </form>
                 }
             </div>

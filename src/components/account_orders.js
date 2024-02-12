@@ -2,40 +2,46 @@ import React, { useEffect, useState } from 'react'
 import Header from './header'
 import Footer from './footer'
 import List7 from './List7'
-
+import moment from 'moment';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+export const configJSON = require("../components/config");
 function Account_orders() {
+  const navigate = useNavigate()
   const [data,setData] = useState([])
   const [isLoader, setIsLoader] = useState(false);
   useEffect(()=>{
     const token = JSON.parse(localStorage.getItem("token"));
-    // if (token == null) {
-    //   navigate("/login-register");
-    // } else {
-    // getOrders(token)
-    // }
+    if (token == null) {
+      navigate("/login-register");
+    } else {
+    getOrders()
+    }
   },[])
-const getOrders = (val)=>{
-  // setIsLoader(true);
-  //   axios({
-  //     url: configJSON.baseUrl + configJSON.allOrders,
-  //     method: "get",
-  //     headers: {
-  //       Authorization: `Bearer ${val}`,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       console.log(res, "response")
-  //       setIsLoader(false);
-  //       if (res?.data?.success == true) {
-  //         setData(res?.data?.data);
-  //       } else {
-  //         setData([]);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setIsLoader(false);
-  //     });
+const getOrders = ()=>{
+  const token = JSON.parse(localStorage.getItem("token"));
+
+  setIsLoader(true);
+    axios({
+      url: configJSON.baseUrl + configJSON.order_list,
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res, "response")
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          setData(res?.data?.products);
+        } else {
+          setData([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoader(false);
+      });
 }
   return (
     <>
@@ -214,34 +220,20 @@ const getOrders = (val)=>{
                 </tr>
               </thead>
               <tbody>
+                {
+                  data?.map((item)=>(
+
                 <tr>
-                  <td>#2416</td>
-                  <td>October 1, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
+                  <td>{item?.order_number}</td>
+                  <td>{moment(item?.order_date).format('MMM DD YYYY')}</td>
+                  <td>{item?.status == "1" ? "Success" : "Pending" }</td>
+                  <td>${item?.vat_sub_total} for {item?.cart_details?.length} items</td>
                   <td><button className="btn btn-primary">VIEW</button></td>
                 </tr>
-                <tr>
-                  <td>#2417</td>
-                  <td>October 2, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
-                  <td><button className="btn btn-primary">VIEW</button></td>
-                </tr>
-                <tr>
-                  <td>#2418</td>
-                  <td>October 3, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
-                  <td><button className="btn btn-primary">VIEW</button></td>
-                </tr>
-                <tr>
-                  <td>#2419</td>
-                  <td>October 4, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
-                  <td><button className="btn btn-primary">VIEW</button></td>
-                </tr>
+                  ))
+                }
+               
+               
               </tbody>
             </table> : <h3> No Orderes.!</h3>
             }

@@ -8,22 +8,22 @@ export const configJSON = require("../components/config");
 
 function Shop_cart() {
   const navigate = useNavigate()
-  const [subtotal, setSubTotal] = useState(0)
+  const [subtotal, setSubTotal] = useState()
   const [allProduct, setAllProduct] = useState([])
   const [accessToken, setAccessToken] = useState()
   const [isLoader, setIsLoader] = useState(false);
   const [isCartSidebar, setIsCartSidebar] = useState(false);
-  const [shipingtipe, setShipingtipe] = useState("Free Shipping");
-  const [vat,setVal] = useState(16)
+  const [shipingtipe, setShipingtipe] = useState();
+  const [vat, setVal] = useState()
   const [allTotal, setAllTotal] = useState(0);
-  const [shopCartData,setShopCartData] = useState([])
+  const [shopCartData, setShopCartData] = useState([])
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     if (token == null) {
       navigate('/login-register')
     } else {
       getCartData(token)
-      // getShopCart(token)
+      getShopCart(token)
     }
   }, [])
 
@@ -41,15 +41,10 @@ function Shop_cart() {
       if (res?.data?.success == true) {
         setAllProduct(res?.data?.cart)
         val2 == true ?
-        setIsCartSidebar(true)
-        : 
-        setIsCartSidebar(false)
-        let total = 0
-        res?.data?.cart.map((item) => {
-          total += item?.cart_price
-        })
-        setSubTotal(total)
-        setAllTotal(total+(parseInt(total/100)*vat))
+          setIsCartSidebar(true)
+          :
+          setIsCartSidebar(false)
+       
       }
       else {
         setAllProduct([])
@@ -91,6 +86,7 @@ function Shop_cart() {
       product_id: productID,
       cart_quantity: cartQty
     }
+    console.log(cartQty,"qty")
     if (cartQty >= 1) {
       axios({
         url: configJSON.baseUrl + configJSON.upDateCartData + cartId,
@@ -122,49 +118,54 @@ function Shop_cart() {
     navigate("/shop-cart")
   }
   const handleShopCheckout = () => {
-    navigate("/shop-checkout")
+    if (allProduct?.length != 0)
+      navigate("/shop-checkout")
   }
   const handleShopOrderComplete = () => {
     navigate("/shop-order-complete")
 
   }
   const getDataFromChild = () => {
-    getCartData(accessToken,true)
+    getCartData(accessToken, true)
   }
-const toChekout = ()=>{
-  if(allProduct.length !=0){
-    navigate("/shop-checkout", {state:{shopCartData:shopCartData}} )
+  const toChekout = () => {
+    if (shopCartData.length != 0) {
+      navigate("/shop-checkout", { state: { shopCartData: shopCartData } })
+    }
   }
-}
-const getShopCart = (val)=>{
-// setIsLoader(true);
-  //   axios({
-  //     url: configJSON.baseUrl + configJSON.getShopCartData,
-  //     method: "get",
-  //     headers: {
-  //       Authorization: `Bearer ${val}`,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       console.log(res, "response")
-  //       setIsLoader(false);
-  //       if (res?.data?.success == true) {
-  //         setShopCartData(res?.data?.data[0]);
-  //       } else {
-  //         setShopCartData([]);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setIsLoader(false);
-  //     });
-}
+  const getShopCart = (val) => {
+    setIsLoader(true);
+    axios({
+      url: configJSON.baseUrl + configJSON.fetch_checkout,
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${val}`,
+      },
+    })
+      .then((res) => {
+        console.log(res?.data?.products, "response shop")
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          setShopCartData(res?.data?.products);
+          setShipingtipe(res?.data?.products[0]?.shipping)
+          setSubTotal(res?.data?.products[0]?.subtotal)
+          setAllTotal(res?.data?.products[0]?.vat_sub_total)
+          setVal(res?.data?.products[0]?.vat_percentage)
+        } else {
+          setShopCartData([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoader(false);
+      });
+  }
   return (
     <>
-    {isLoader == true ?
-                <div class="custom-loader"></div> :
+      {isLoader == true ?
+        <div class="custom-loader"></div> :
         <div>
-      
+
           <svg className="d-none">
             <symbol id="icon_nav" viewBox="0 0 25 18">
               <rect width="25" height="2" /><rect y="8" width="20" height="2" /><rect y="16" width="25" height="2" />
@@ -314,9 +315,9 @@ const getShopCart = (val)=>{
               <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor" />
             </symbol>
           </svg>
-         
-          <Header data={allProduct?.length != 0 && allProduct} onClick={getDataFromChild} isCartSidebar={isCartSidebar}/>
-            
+
+          <Header data={allProduct?.length != 0 && allProduct} onClick={getDataFromChild} isCartSidebar={isCartSidebar} />
+
           <main>
             <div className="mb-4 pb-4"></div>
             <section className="shop-checkout container">
@@ -329,7 +330,8 @@ const getShopCart = (val)=>{
                     <em>Manage Your Items List</em>
                   </span>
                 </a>
-                <a onClick={() => handleShopCheckout()} className="checkout-steps__item">
+                {/* onClick={() => handleShopCheckout()}  */}
+                <a className="checkout-steps__item">
                   <span className="checkout-steps__item-number">02</span>
                   <span className="checkout-steps__item-title">
                     <span>Shipping and Checkout</span>
@@ -337,7 +339,7 @@ const getShopCart = (val)=>{
                   </span>
                 </a>
                 {/* onClick={() => handleShopOrderComplete()} */}
-                <a  className="checkout-steps__item">
+                <a className="checkout-steps__item">
                   <span className="checkout-steps__item-number">03</span>
                   <span className="checkout-steps__item-title">
                     <span>Confirmation</span>
@@ -347,7 +349,7 @@ const getShopCart = (val)=>{
               </div>
               {isLoader == true ?
                 <div class="custom-loader"></div> :
-                allProduct?.length != 0 ? <div className="shopping-cart">
+                shopCartData?.length != 0 ? <div className="shopping-cart">
                   <div className="cart-table__wrapper">
                     <table className="cart-table">
                       <thead>
@@ -362,19 +364,21 @@ const getShopCart = (val)=>{
                       </thead>
                       <tbody>
                         {
-                          allProduct?.map((item) => (
+                          shopCartData &&
+                          
+                          shopCartData[0]?.cart_details?.map((item) => (
                             <tr>
                               <td>
                                 <div className="shopping-cart__product-item">
-                                  <img loading="lazy" src={item?.product_images[0]} width="120" height="120" alt="" />
+                                  <img loading="lazy" src={item?.product_image} width="120" height="120" alt="" />
                                 </div>
                               </td>
                               <td>
                                 <div className="shopping-cart__product-item__detail">
-                                  <h4>{item?.product_brands[0]}</h4>
+                                  <h4>{item?.product_brand}</h4>
                                   <ul className="shopping-cart__product-item__options">
-                                    <li>Color: {item?.product_colors[0]}</li>
-                                    <li>Size: {item?.product_size[0].size_top}</li>
+                                    <li>Color: {item?.product_colors}</li>
+                                    <li>Size: {item?.size_top}</li>
                                   </ul>
                                 </div>
                               </td>
@@ -383,16 +387,16 @@ const getShopCart = (val)=>{
                               </td>
                               <td>
                                 <div className="qty-control position-relative">
-                                  <input type="number" name="quantity" value={item?.cart_quantity} min="1" className="qty-control__number text-center" />
-                                  <div className="qty-control__reduce" onClick={() => upDateCartData(item?.product_id, item?.cart_quantity, item?.cart_id, "-")}>-</div>
-                                  <div className="qty-control__increase" onClick={() => upDateCartData(item?.product_id, item?.cart_quantity, item?.cart_id, "+")}>+</div>
+                                  <input type="number" name="quantity" value={item?.product_quantity} min="1" className="qty-control__number text-center" />
+                                  <div className="qty-control__reduce" onClick={() => upDateCartData(item?.product_id, item?.product_quantity, item?.cart_id, "-")}>-</div>
+                                  <div className="qty-control__increase" onClick={() => upDateCartData(item?.product_id, item?.product_quantity, item?.cart_id, "+")}>+</div>
                                 </div>
                               </td>
                               <td>
                                 <span className="shopping-cart__subtotal">${item?.cart_price}</span>
                               </td>
                               <td>
-                                <a className="remove-cart" onClick={() => deleteCartData(item?.cart_id)}>
+                                <a className="remove-cart" onClick={() => deleteCartData(item?.new_cart_id)}>
                                   <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
                                     <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
@@ -405,12 +409,12 @@ const getShopCart = (val)=>{
 
                       </tbody>
                     </table>
-                    <div className="cart-table-footer">
+                    {/* <div className="cart-table-footer">
                       <form action="#" className="position-relative bg-body">
                         <input className="form-control" type="text" name="coupon_code" placeholder="Coupon Code" />
                         <input className="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit" value="APPLY COUPON" />
                       </form>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="shopping-cart__totals-wrapper">
                     <div className="sticky-content">
@@ -445,7 +449,7 @@ const getShopCart = (val)=>{
                             </tr>
                             <tr>
                               <th>VAT</th>
-                              <td>{vat} %</td>
+                              <td>{vat} </td>
                             </tr>
                             <tr>
                               <th>Total</th>
@@ -456,7 +460,7 @@ const getShopCart = (val)=>{
                       </div>
                       <div className="mobile_fixed-btn_wrapper">
                         <div className="button-wrapper container">
-                          <button className="btn btn-primary btn-checkout" onClick={()=>toChekout()}>PROCEED TO CHECKOUT</button>
+                          <button className="btn btn-primary btn-checkout" onClick={() => toChekout()}>PROCEED TO CHECKOUT</button>
                         </div>
                       </div>
                     </div>
@@ -470,7 +474,7 @@ const getShopCart = (val)=>{
           <div className="mb-5 pb-xl-5"></div>
 
           <Footer />
-        </div> }
+        </div>}
     </>
   )
 }

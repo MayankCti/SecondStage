@@ -141,12 +141,13 @@ function CategoryContent(props) {
         })
     };
     const filterProducts = (val)=>{
-        console.log(val)
+      
         const token = JSON.parse(localStorage.getItem("token"))
         setIsLoader(true)
+      
         axios({
             url: configJSON.baseUrl + configJSON.filterAllProduct,
-            method: "get",
+            method: "post",
             data : val,
             headers: {
                 'Authorization': `Bearer ${token}`

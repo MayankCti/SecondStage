@@ -205,7 +205,7 @@ function Home() {
 <div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
   <div className="ct_quick_link_item mb-4">
     <a  className="position-relative d-block effect ">
-      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_3.jpg" width="150" height="150" alt="Insta image 1"/>
+      <img loading="lazy" className="instagram__img" src="/images/products/product_3.jpg" width="150" height="150" alt="Insta image 1"/>
       <div class="ct_buy_rent_tag"><h4 class="mb-0">Bikini</h4></div>
       <div className="ct_serach_products2">
             <div className="ct_overflow_center">
@@ -219,7 +219,7 @@ function Home() {
   </div>
   <div className="ct_quick_link_item mb-4">
     <a  className="position-relative d-block effect ">
-      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_1.jpg" width="180" height="180" alt="Insta image 2"/>
+      <img loading="lazy" className="instagram__img" src="/images/products/product_1.jpg" width="180" height="180" alt="Insta image 2"/>
       <div class="ct_buy_rent_tag"><h4 class="mb-0">Figure</h4></div>
 
       <div className="ct_serach_products2">
@@ -235,7 +235,7 @@ function Home() {
   </div>
   <div className="ct_quick_link_item mb-4">
     <a  className="position-relative d-block effect ">
-      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_2.jpg" width="180" height="180" alt="Insta image 3"/>
+      <img loading="lazy" className="instagram__img" src="/images/products/product_2.jpg" width="180" height="180" alt="Insta image 3"/>
       <div class="ct_buy_rent_tag"><h4 class="mb-0">Swimsuit</h4></div>
 
       <div className="ct_serach_products2">
@@ -251,7 +251,7 @@ function Home() {
   </div>
   <div className="ct_quick_link_item mb-4">
     <a  className="position-relative d-block effect ">
-      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_3.jpg" width="180" height="180" alt="Insta image 4"/>
+      <img loading="lazy" className="instagram__img" src="/images/products/product_3.jpg" width="180" height="180" alt="Insta image 4"/>
       <div class="ct_buy_rent_tag"><h4 class="mb-0">Fmg/Wbff</h4></div>
       <div className="ct_serach_products2">
             <div className="ct_overflow_center">
@@ -266,7 +266,7 @@ function Home() {
   </div>
   <div className="ct_quick_link_item mb-4">
     <a  className="position-relative d-block effect ">
-      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_2.jpg" width="180" height="180" alt="Insta image 5"/>
+      <img loading="lazy" className="instagram__img" src="/images/products/product_2.jpg" width="180" height="180" alt="Insta image 5"/>
       <div class="ct_buy_rent_tag"><h4 class="mb-0">Themewear</h4></div>
       <div className="ct_serach_products2">
             <div className="ct_overflow_center">
@@ -281,7 +281,7 @@ function Home() {
   </div>
   <div className="ct_quick_link_item mb-4">
     <a  className="position-relative d-block effect">
-      <img loading="lazy" className="instagram__img" src="/second_stage/images/products/product_1.jpg" width="180" height="180" alt="Insta image 6"/>
+      <img loading="lazy" className="instagram__img" src="/images/products/product_1.jpg" width="180" height="180" alt="Insta image 6"/>
       <div class="ct_buy_rent_tag"><h4 class="mb-0">Accessories</h4></div>
       <div className="ct_serach_products2">
             <div className="ct_overflow_center">

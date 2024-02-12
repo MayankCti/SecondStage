@@ -18,7 +18,7 @@ function Header(props) {
   const [accessToken, setAccessToken] = useState();
   const [isLoader, setIsLoader] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
-
+const [searchProduct,setSearchProduct] = useState()
   const [isdropdown, setDropdown] = useState(false);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -164,6 +164,9 @@ function Header(props) {
     localStorage.clear()
     navigate("/login-register");
   };
+  const handleRegistration = () => {
+    navigate("/sell");
+  };
   const handleShopCart = () => {
     navigate("/shop-cart");
   };
@@ -198,7 +201,10 @@ function Header(props) {
   const handleWishList = () => {
     navigate("/account-wishlist")
   }
-
+const handleSearchProduct = ()=>{
+  props?.searchProducts(searchProduct)
+  setIsSearch(!isSearch)
+}
   return (
     <>
       <header
@@ -214,7 +220,7 @@ function Header(props) {
             <div className="logo">
               <a onClick={() => handleHome()}>
                 <img
-                  src="/second_stage/images/logo.png"
+                  src="images/logo.png"
                   alt="Second Stage"
                   className="logo__image d-block"
                 />
@@ -257,7 +263,7 @@ function Header(props) {
                         </li>
                         <li className="sub-menu__item">
                           <a
-                            onClick={() => handleLoginRegister()}
+                            onClick={() => handleRegistration()}
                             className="menu-link menu-link_us-s"
                           >
                             Registration
@@ -390,10 +396,13 @@ function Header(props) {
                         type="text"
                         name="search-keyword"
                         placeholder="Search products"
+                        value={searchProduct}
+                        onChange={(e) => setSearchProduct(e.target.value)}
                       />
                       <button
+                        onClick={() => handleSearchProduct()}
                         className="btn-icon search-popup__submit"
-                        type="submit"
+                        type="button"
                       >
                         <svg
                           className="d-block"
@@ -513,7 +522,7 @@ function Header(props) {
                       className="ct_click_dropdown   "
                       onClick={() => setDropdown(!isdropdown)}
                     >
-                      <img src={props?.data_value?.profile_image? props?.data_value?.profile_image :profileData?.profile_image ? profileData?.profile_image : "/second_stage/images/buyer_profile.png"} />
+                      <img src={props?.data_value?.profile_image ? props?.data_value?.profile_image : profileData?.profile_image ? profileData?.profile_image : "/images/buyer_profile.png"} />
                       <p className="mb-0">{profileData?.user_name ? profileData?.user_name : ""}</p>
                     </div>
                     {isdropdown && (
@@ -655,7 +664,7 @@ function Header(props) {
                   </div>
                   <button
                     type="button"
-                    onClick={() => deleteCartData(item?.cart_id)}
+                    onClick={() => deleteCartData(item?.new_cart_id)}
                     className="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"
                   ></button>
                 </div>
@@ -680,12 +689,12 @@ function Header(props) {
           >
             View Cart
           </a>
-          <a
+          {/* <a
             onClick={() => handleShopCheckout()}
             className="btn btn-primary mt-3 d-block"
           >
             Checkout
-          </a>
+          </a> */}
         </div>
       </div>
 

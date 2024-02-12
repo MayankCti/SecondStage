@@ -36,7 +36,7 @@ function HeaderVisitor(props) {
                         <div className="logo">
                             <a >
                                 <img
-                                    src="/second_stage/images/logo.png"
+                                    src="/images/logo.png"
                                     alt="Second Stage"
                                     className="logo__image d-block"
                                 />
@@ -332,7 +332,7 @@ function HeaderVisitor(props) {
                                             className="ct_click_dropdown   "
 
                                         >
-                                            <img src="/second_stage/images/buyer_profile.png" />
+                                            <img src="/images/buyer_profile.png" />
                                             <p className="mb-0">Mia Toretto</p>
                                         </div>
                                         {isdropdown && (

@@ -158,12 +158,15 @@ function Register_seller() {
     data.append("billing_condition", blingConditionOption)
     data.append("product_padding", paddingOption)
     data.append("location", locationOption)
-    data.append("files", file)
     data.append("product_description", description)
     data.append("size_top", sizeTopOption)
     data.append("size_bottom", sizeBottomOption)
     data.append("size_standard", sizeStandardOption)
-   
+
+    for (let i = 0; i < file.length; i++) {
+      data.append("files", file[i]);
+    }
+
     if(categoryOption && priceSellLend && lengthRentalOption && priceBuyOption && lengthRentalOption && colorData&& brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && sizeTopOption && sizeBottomOption && sizeStandardOption){
 
         axios({
