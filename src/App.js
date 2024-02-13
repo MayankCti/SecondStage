@@ -8,7 +8,6 @@ import Account_edit from "./components/account_edit";
 import Account_orders from "./components/account_orders";
 import Account_wishlist from "./components/account_wishlist";
 import Bikinis from "./components/bikinis";
-import Buy_accessories from "./components/buy_accessories";
 import Coming_soon from "./components/coming_soon";
 import Contact from "./components/contact";
 import Faq from "./components/faq";
@@ -33,13 +32,16 @@ import Terms from "./components/terms";
 import Themewear from "./components/themewear";
 import WBFF from "./components/WBFF";
 import CheckHome from "./components/checkHome";
+import LenderForm from "./components/lender-issue-response-form";
+import BuyerForm from "./components/buyer-issue-response-form"
+import RenterFrom from "./components/renter-issue-response-form"
 
 function App() {
   return (
     <div className="App">
       <Router basename="/">
         <Routes>
-        <Route exact path='/' element={<CheckHome />} />
+          <Route exact path='/' element={<CheckHome />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/accessories" element={<Accessories />} />
           <Route exact path="/account-dashboard" element={<Account_dashboard />} />
@@ -48,7 +50,6 @@ function App() {
           <Route exact path="/account-orders" element={<Account_orders />} />
           <Route exact path="/account-wishlist" element={<Account_wishlist />} />
           <Route exact path="/bikinis" element={<Bikinis />} />
-          <Route exact path="/buy-accessories" element={<Buy_accessories />} />
           <Route exact path="/coming-soon" element={<Coming_soon />} />
           <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/faq" element={<Faq />} />
@@ -71,7 +72,17 @@ function App() {
           <Route exact path="/terms" element={<Terms />} />
           <Route exact path="/themewear" element={<Themewear />} />
           <Route exact path="/wbff" element={<WBFF />} />
-        
+          <Route exact path="/lenderform" element={<LenderForm />} />
+          <Route exact path="/buyerform" element={<BuyerForm />} />
+          <Route exact path="/renterform" element={<RenterFrom />} />
+
+          <Route exact path="/lenderform" element={<LenderForm />} />
+          <Route exact path="/buyerform" element={<BuyerForm />} />
+          <Route exact path="/renterform" element={<RenterFrom />} />
+
+
+
+
         </Routes>
       </Router>
     </div>

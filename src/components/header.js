@@ -532,6 +532,21 @@ const handleSearchProduct = ()=>{
                             Profile
                           </a>
                         </li>
+                        <li>
+                          <a class="dropdown-item" onClick={()=> navigate("/lenderform")}>
+                          Lender issue response form
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item"  onClick={()=> navigate("/buyerform")}>
+                          Buyer issue response form
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" onClick={()=> navigate("/renterform")}>
+                          Renter issue response form
+                          </a>
+                        </li>
                         <li onClick={handleLogout}>
                           <a class="dropdown-item" >
                             Log Out
@@ -615,11 +630,28 @@ const handleSearchProduct = ()=>{
                     <h6 className="cart-drawer-item__title fw-normal">
                       Georgia Rose
                     </h6>
+                   
                     <p className="cart-drawer-item__option text-secondary">
-                      Color: {item?.product_colors[0]}
+                      {/* Color:  */}
+                      <label>Color</label>
+                                      <select className="form-control ct_cart_select">
+                                        <option>{item?.product_colors[0]}</option>
+                                      </select>
+                      {/* {item?.product_colors[0]} */}
                     </p>
                     <p className="cart-drawer-item__option text-secondary">
-                      Size: L
+                      {/* Size: {item?.product_size[0]?.size_bottom} */}
+                      <label>Size Top</label>
+                        <select className="form-control ct_cart_select">
+                          <option>Size top: {item?.product_size[0]?.size_top}</option>
+                        </select>
+                    </p>
+                    <p className="cart-drawer-item__option text-secondary">
+                      {/* Size: {item?.product_size[0]?.size_bottom} */}
+                      <label>Size bottom</label>
+                        <select className="form-control ct_cart_select">
+                          <option>Size bottom: {item?.product_size[0]?.size_bottom}</option>
+                        </select>
                     </p>
                     <div className="d-flex align-items-center justify-content-between mt-1">
                       <div className="qty-control position-relative">

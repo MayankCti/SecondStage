@@ -67,9 +67,27 @@ function CartData(props) {
                                                 <img loading="lazy" className="cart-drawer-item__img" src={item?.product_images[0]} />
                                             </div>
                                             <div className="cart-drawer-item__info flex-grow-1">
-                                                <h6 className="cart-drawer-item__title fw-normal">Georgia Rose</h6>
-                                                <p className="cart-drawer-item__option text-secondary">Color: {item?.product_colors[0]}</p>
-                                                <p className="cart-drawer-item__option text-secondary">Size: L</p>
+                                                <h6 className="cart-drawer-item__title fw-normal mb-2">Georgia Rose</h6>
+                                                <p className="cart-drawer-item__option text-secondary"  style={{marginBottom:"4px"}}>
+                                                <label>Color:</label>
+                                                    <select className='form-control ct_cart_select'>
+                                                        {
+                                                            item?.product_colors?.map((item)=>(
+                                                                <option>{item}</option>
+                                                            ))
+                                                        }
+                                                     
+                                                    </select>
+                                                 </p>
+                                                <p className="cart-drawer-item__option text-secondary " style={{marginBottom:"4px"}}>
+                                                    <label>Size</label>
+                                                    <select className='form-control ct_cart_select'>
+                                                        <option>M</option>
+                                                        <option>L</option>
+                                                        <option>Xl</option>
+                                                        <option>XXl</option>
+                                                    </select>
+                                                </p>
                                                 <div className="d-flex align-items-center justify-content-between mt-1">
                                                     <div className="qty-control position-relative">
                                                         <input type="number" name="quantity" value={item?.cart_quantity} min="1" className="qty-control__number border-0 text-center" />

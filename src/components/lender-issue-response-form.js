@@ -1,20 +1,10 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
 import Header from './header'
-import Footer from './footer'
-
-function Buy_accessories() {
-const navigate = useNavigate()
-  const handleHome = ()=>{
-    navigate("/")
-  }
-  const handleProduct1Simple = ()=>{
-    navigate("/product1-simple")
-  }
- 
+import Footer from "./footer";
+const LenderForm = () => {
   return (
-    <>
-    <svg className="d-none">
+    <div>
+       <svg className="d-none">
     <symbol id="icon_nav" viewBox="0 0 25 18">
       <rect width="25" height="2"/><rect y="8" width="20" height="2"/><rect y="16" width="25" height="2"/>
     </symbol>
@@ -39,9 +29,9 @@ const navigate = useNavigate()
         <path d="M19.7618 18.6122L15.1006 13.9509C14.783 13.6333 14.2686 13.6333 13.951 13.9509C13.6334 14.2683 13.6334 14.7832 13.951 15.1005L18.6122 19.7618C18.771 19.9206 18.9789 20 19.187 20C19.3949 20 19.603 19.9206 19.7618 19.7618C20.0795 19.4444 20.0795 18.9295 19.7618 18.6122Z" fill="currentColor"/>
       </g>
       <defs>
-        <clipPath id="clip0_6_7">
+        <clip-path id="clip0_6_7">
           <rect width="20" height="20" fill="white"/>
-        </clipPath>
+        </clip-path>
       </defs>
     </symbol>
     <symbol id="icon_user" viewBox="0 0 20 20">
@@ -50,9 +40,9 @@ const navigate = useNavigate()
         <path d="M10 0C7.23969 0 5.1582 2.12336 5.1582 4.93895C5.1582 7.83699 7.33023 10.1944 10 10.1944C12.6698 10.1944 14.8419 7.83699 14.8419 4.93918C14.8419 2.12336 12.7604 0 10 0ZM10 8.7348C8.13508 8.7348 6.61805 7.03211 6.61805 4.93918C6.61805 2.92313 8.04043 1.45984 10 1.45984C11.9283 1.45984 13.382 2.95547 13.382 4.93918C13.382 7.03211 11.865 8.7348 10 8.7348Z" fill="currentColor"/>
       </g>
       <defs>
-        <clipPath id="clip0_6_29">
+        <clip-path id="clip0_6_29">
           <rect width="20" height="20" fill="white"/>
-        </clipPath>
+        </clip-path>
       </defs>
     </symbol>
     <symbol id="icon_cart" viewBox="0 0 20 20">
@@ -63,9 +53,9 @@ const navigate = useNavigate()
         <path d="M18.3932 3.30806C16.218 1.13348 12.6795 1.13348 10.5049 3.30806L9.99983 3.81285L9.49504 3.30806C7.32046 1.13319 3.78163 1.13319 1.60706 3.30806C-0.523361 5.43848 -0.537195 8.81542 1.57498 11.1634C3.50142 13.3041 9.18304 17.929 9.4241 18.1248C9.58775 18.2578 9.78467 18.3226 9.9804 18.3226C9.98688 18.3226 9.99335 18.3226 9.99953 18.3223C10.202 18.3317 10.406 18.2622 10.575 18.1248C10.816 17.929 16.4982 13.3041 18.4253 11.1631C20.5371 8.81542 20.5233 5.43848 18.3932 3.30806ZM17.1125 9.98188C15.6105 11.6505 11.4818 15.0919 9.99953 16.3131C8.51724 15.0922 4.38944 11.6511 2.88773 9.98218C1.41427 8.34448 1.40044 6.01214 2.85564 4.55693C3.59885 3.81402 4.57488 3.44227 5.5509 3.44227C6.52693 3.44227 7.50295 3.81373 8.24616 4.55693L9.3564 5.66718C9.48856 5.79934 9.65516 5.87822 9.82999 5.90589C10.1137 5.96682 10.4216 5.88764 10.6424 5.66747L11.7532 4.55693C13.2399 3.07082 15.6582 3.07111 17.144 4.55693C18.5992 6.01214 18.5854 8.34448 17.1125 9.98188Z" fill="currentColor"/>
       </g>
       <defs>
-        <clipPath id="clip0_6_54">
+        <clip-path id="clip0_6_54">
           <rect width="20" height="20" fill="white"/>
-        </clipPath>
+        </clip-path>
       </defs>
     </symbol>
     <symbol id="icon_star" viewBox="0 0 9 9">
@@ -90,9 +80,9 @@ const navigate = useNavigate()
         <path d="M29.7242 21.9775L23.7051 27.9966L22.0713 26.3629C21.4755 25.767 20.5094 25.767 19.9135 26.3629C19.318 26.9588 19.318 27.9248 19.9135 28.5203L22.6264 31.2332C22.9243 31.5311 23.3147 31.6799 23.7051 31.6799C24.0954 31.6799 24.4858 31.5311 24.7838 31.2332L31.882 24.1349C32.4775 23.539 32.4775 22.573 31.882 21.9775C31.2862 21.3812 30.3201 21.3812 29.7242 21.9775Z" fill="currentColor"/>
       </g>
       <defs>
-        <clipPath id="clip0_23_87">
+        <clip-path id="clip0_23_87">
           <rect width="52" height="52" fill="white"/>
-        </clipPath>
+        </clip-path>
       </defs>
     </symbol>
     <symbol id="icon_headphone" viewBox="0 0 53 52">
@@ -106,9 +96,9 @@ const navigate = useNavigate()
         <path d="M17.6977 8.0467L16.1771 6.66115V2.06683C16.1771 1.77451 15.9401 1.53748 15.6477 1.53748H11.9874C11.6951 1.53748 11.4581 1.77447 11.4581 2.06683V2.36123L9.62165 0.687897C9.26717 0.364846 8.73262 0.364881 8.37828 0.687862L0.302275 8.04673C0.0183538 8.30548 -0.0754781 8.70415 0.0632483 9.06236C0.20201 9.42057 0.539861 9.652 0.924012 9.652H2.21386V17.025C2.21386 17.3173 2.45085 17.5544 2.7432 17.5544H7.16983C7.46215 17.5544 7.69917 17.3174 7.69917 17.025V12.5483H10.3008V17.025C10.3008 17.3174 10.5378 17.5544 10.8301 17.5544H15.2566C15.5489 17.5544 15.7859 17.3174 15.7859 17.025V9.65204H17.076C17.4601 9.65204 17.798 9.42057 17.9368 9.0624C18.0755 8.70415 17.9817 8.30548 17.6977 8.0467ZM15.2566 8.59334C14.9642 8.59334 14.7272 8.83033 14.7272 9.12269V16.4957H11.3595V12.019C11.3595 11.7267 11.1225 11.4897 10.8301 11.4897H7.16983C6.8775 11.4897 6.64048 11.7266 6.64048 12.019V16.4957H3.27252V9.12269C3.27252 8.83037 3.03553 8.59334 2.74317 8.59334H1.27424L9.00002 1.55365L11.631 3.95099C11.7859 4.09218 12.0096 4.12857 12.2013 4.04395C12.3931 3.95922 12.5168 3.76931 12.5168 3.55971V2.59618H15.1184V6.89494C15.1184 7.0439 15.1811 7.1859 15.2913 7.28623L16.7257 8.59334H15.2566Z" fill="currentColor"/>
       </g>
       <defs>
-        <clipPath id="clip0_171_682">
+        <clip-path id="clip0_171_682">
           <rect width="18" height="18" fill="white"/>
-        </clipPath>
+        </clip-path>
       </defs>
     </symbol>
     <symbol id="icon_hanger" viewBox="0 0 18 18">
@@ -116,9 +106,9 @@ const navigate = useNavigate()
         <path d="M16.8037 12.0285L11.9362 9.10027C11.2525 8.68897 10.492 8.42791 9.70506 8.32972V7.59625C9.70506 7.18302 9.94168 6.79836 10.3225 6.59223C11.2687 6.08013 11.8258 5.09383 11.7763 4.01814C11.7108 2.59335 10.5588 1.43964 9.13226 1.37414C7.53307 1.30122 6.2246 2.5744 6.2246 4.14846C6.2246 4.53683 6.53949 4.85159 6.92772 4.85159C7.31609 4.85159 7.63085 4.53683 7.63085 4.14846C7.63085 3.37008 8.2778 2.74249 9.06758 2.77888C9.76659 2.81101 10.3394 3.38381 10.3715 4.08282C10.3961 4.61483 10.1208 5.10249 9.65302 5.35558C8.81778 5.80767 8.29881 6.66625 8.29881 7.59625V8.32931C7.51521 8.42654 6.75743 8.6854 6.07559 9.09341L1.20123 12.0104H1.2011C0.461305 12.4532 0.000978114 13.2638 1.68088e-05 14.1261C-0.00149381 15.4906 1.1014 16.5962 2.46604 16.5979L15.5281 16.6131H15.5311C16.8911 16.6131 17.9984 15.5074 18 14.147C18.001 13.2848 17.5426 12.4729 16.8037 12.0285ZM15.5311 15.2069C15.5307 15.2069 15.5302 15.2069 15.5299 15.2069L2.46782 15.1916C1.8817 15.191 1.40558 14.7137 1.40627 14.1278C1.40668 13.7566 1.60484 13.4076 1.92331 13.217H1.92317L6.79767 10.3001C8.15613 9.48713 9.85324 9.48837 11.2113 10.3052L16.0789 13.2335C16.3968 13.4248 16.5942 13.7743 16.5938 14.1453C16.5931 14.7309 16.1165 15.2069 15.5311 15.2069Z" fill="currentColor"/>
       </g>
       <defs>
-        <clipPath id="clip0_171_678">
+        <clip-path id="clip0_171_678">
           <rect width="18" height="18" fill="white"/>
-        </clipPath>
+        </clip-path>
       </defs>
     </symbol>
     <symbol id="icon_sharing" viewBox="0 0 16 19">
@@ -137,9 +127,9 @@ const navigate = useNavigate()
         <path d="M42.3288 13.1443L40.0744 6.95021C39.3286 4.90095 37.0545 3.84037 35.0053 4.58648L30.8603 6.09521C30.867 6.05469 30.8739 6.01417 30.8797 5.9733C31.1516 4.06194 30.3512 2.21668 28.7391 1.03736C27.2149 -0.0777035 25.2643 -0.309207 23.5216 0.417824C21.7787 1.14494 20.5711 2.69393 20.2922 4.55501L19.7 8.37447L16.6377 5.66753C15.2227 4.41676 13.302 4.00613 11.4996 4.56969C7.53123 5.80983 6.44534 10.8941 9.52248 13.6558C9.57777 13.7054 9.63419 13.7532 9.69115 13.8003L5.27359 15.4082C3.21985 16.1557 2.16217 18.423 2.90995 20.4772L5.16443 26.6713L7.97183 25.6558V41.0451C7.97183 43.2258 9.72841 45.0001 11.9092 45.0001C12.2951 45.0001 37.4585 45.0001 38.2757 45.0001C40.4565 45.0001 42.2307 43.2259 42.2307 41.0451V21.0944C41.3836 21.0944 20.4865 21.0944 20.4865 21.0944L42.3288 13.1443ZM35.9071 7.06411C36.59 6.81556 37.3482 7.16897 37.5967 7.85205L38.9495 11.5685L26.5613 16.0775L24.7578 11.1222L35.9071 7.06411ZM22.8987 4.95228C23.0405 4.00534 23.6529 3.21995 24.5366 2.85125C25.4121 2.48598 26.4021 2.5947 27.1823 3.16537C28.9536 4.46123 28.5289 6.94353 26.5088 7.67908C26.1701 7.80231 23.9626 8.60589 23.8559 8.64465L22.2347 9.23466L22.8987 4.95228ZM22.28 12.024L24.0835 16.9791C23.217 17.2946 22.4724 17.5655 21.6059 17.881L19.8023 12.9257L22.28 12.024ZM12.2859 7.08609C13.1885 6.80413 14.1647 7.00048 14.8914 7.64278L18.3086 10.6636C17.3172 11.0245 14.9729 11.8777 14.0221 12.2236C13.065 12.5718 12.0413 12.3736 11.2835 11.6933C9.69774 10.2702 10.3022 7.70607 12.2859 7.08609ZM6.74013 23.2918L5.38741 19.5753C5.13815 18.8909 5.4905 18.1348 6.17535 17.8855L17.3247 13.8275L19.1282 18.7827L6.74013 23.2918ZM29.0473 23.7311H39.6115V41.0451C39.6115 41.772 39.0025 42.3634 38.2756 42.3634H29.0473V23.7311ZM23.774 23.7311H26.4282V42.3634H23.774V23.7311ZM21.1549 23.7311V42.3634H11.9091C11.1821 42.3634 10.5907 41.7719 10.5907 41.045V24.6961L13.242 23.7311H21.1549Z" fill="currentColor"/>
       </g>
       <defs>
-        <clipPath id="clip0_103_552">
+        <clip-path id="clip0_103_552">
           <rect width="45" height="45" fill="white"/>
-        </clipPath>
+        </clip-path>
       </defs>
     </symbol>
     <symbol id="icon_degree" viewBox="0 0 40 30">
@@ -162,475 +152,139 @@ const navigate = useNavigate()
       <path d="M7.13846 6.33231L1.66154 0.855385H1.69846C2.19308 1.09735 2.73554 1.22558 3.28615 1.23077H4.92308V0H0V4.92308H1.23077V3.28615C1.23065 2.74827 1.11308 2.21692 0.886154 1.72923L0.855385 1.66154L6.33231 7.13846L7.13846 6.33231Z" fill="currentColor"/>
       <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor"/>
     </symbol>
-    <symbol id="icon_filter" viewBox="0 0 14 10">
-      <path d="M5.44444 9.66664H8.55556V8.11109H5.44444V9.66664ZM0 0.333313V1.88887H14V0.333313H0ZM2.33333 5.77776H11.6667V4.2222H2.33333V5.77776Z" fill="currentColor"/>
-    </symbol>
   </svg>
+       <Header/>
+      <main>
+        <div class="mb-4 pb-lg-4 mt-5 pt-5 "></div>
+        <div className="container">
+          <h2 class="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">
+            <strong>Lender Issue Response Form</strong>
+          </h2>
+         <form>
+         <div className="row">
+            <div className="col-md-12">
+              <div className="form-group mb-3">
+                <label>Issue Claimed </label>
+                <select className="form-control">
+                  <option>
+                    Non-Return ($Replacement Value in original listing)
+                  </option>
+                  <option>
+                    Late Return ($22 per day until the day of lodgement ){" "}
+                  </option>
+                </select>
+                <small>
+                  Note: that this will continue to increase until the matter is
+                  resolved
+                </small>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>From </label>
+                <input
+                  type="date"
+                  className="form-control"
+                
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>To </label>
+                <input type="date" className="form-control" />
+              </div>
+            </div>
 
-  <Header/>
-
-  <main>
-   
-   
-    <div className="mb-4 pb-lg-3"></div>
-
-    <section className="shop-main container pt-5">
-      <div className="d-flex justify-content-between mb-4 pb-md-2">
-        <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-          <a onClick={()=>handleHome()} className="menu-link menu-link_us-s text-uppercase fw-medium" >Home</a>
-          <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-          <a href="javascript:void" className="menu-link menu-link_us-s text-uppercase fw-medium" >Buy Accessories</a>
-        </div>
-
-        <div className="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-          <select className="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items" name="total-number">
-            <option selected>Default Sorting</option>
-            <option value="1">Featured</option>
-            <option value="2">Best selling</option>
-            <option value="3">Alphabetically, A-Z</option>
-            <option value="3">Alphabetically, Z-A</option>
-            <option value="3">Price, low to high</option>
-            <option value="3">Price, high to low</option>
-            <option value="3">Date, old to new</option>
-            <option value="3">Date, new to old</option>
-          </select>
-
-         
-        </div>
-      </div>
-
-      <div className="products-grid row row-cols-2 row-cols-md-3 row-cols-lg-4" id="products-grid" >
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_1.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_1.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>Damage Fee</label>
+                <div className="position-relative">
+                <input type="text" className="form-control ct_text_indent_15"  />
+                <span className="ct_price_position">$</span>
                 </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
               </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
             </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Pull Reduser</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$29</span>
-              </div>
-             
-
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_2.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_2.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>$Total</label>
+                <div className="position-relative">
+                <input type="text" className="form-control ct_text_indent_15"  />
+                <span className="ct_price_position">$</span>
                 </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Socks</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$62</span>
-              </div>
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-
-            <div className="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-              <div className="pc-labels__right ms-auto">
-                <span className="pc-label pc-label_sale d-block text-white">-67%</span>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_3.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_3.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>Standard</label>
+                <div className="position-relative">
+                <input type="text" className="form-control ct_text_indent_15"  />
+                <span className="ct_price_position">$</span>
                 </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
               </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
             </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Ankle Guard</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$17</span>
-              </div>
-
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_4.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_4.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>Complex</label>
+                <div className="position-relative">
+                <input type="text" className="form-control ct_text_indent_15"  />
+                <span className="ct_price_position">$</span>
                 </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
               </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
             </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Head Band</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price price-old">$129</span>
-                <span className="money price price-sale">$99</span>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>Cleaning Fee</label>
+                <div className="position-relative">
+                <input type="text" className="form-control ct_text_indent_15"  />
+                <span className="ct_price_position">$</span>
+                </div>
               </div>
-
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
             </div>
-            <div className="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-              <div className="pc-labels__left">
-                <span className="pc-label pc-label_new d-block bg-white">NEW</span>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>Additional not listed</label>
+                <div className="position-relative">
+                <input type="text" className="form-control ct_text_indent_15"  />
+                <span className="ct_price_position">$</span>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>Value of Claim</label>
+                <div className="position-relative">
+                <input type="text" className="form-control ct_text_indent_15"  />
+                <span className="ct_price_position">$</span>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label>Upload Product Photo </label>
+                <input type="file" className="form-control"  />
+              </div>
+            </div>
+            <div className="col-md-12">
+              <div className="form-group mb-3">
+                <label>Tracking Number</label>
+                <input type="text" className="form-control" />
+              </div>
+            </div>
+            <div className="col-md-12">
+              <div className="form-group mb-3">
+                <label> Reason</label>
+                <textarea className="form-control" rows={4} ></textarea>
               </div>
             </div>
           </div>
+          <div class="my-4 text-center"><button type="submit" class="btn btn-primary">Submit</button></div>
+         </form>
         </div>
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_2.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_2.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Socks</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$29</span>
-              </div>
-             
-
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_1.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_1.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Pull Reduser</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$62</span>
-              </div>
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-
-            <div className="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-              <div className="pc-labels__right ms-auto">
-                <span className="pc-label pc-label_sale d-block text-white">-67%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_4.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_4.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Head Band</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$17</span>
-              </div>
-
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_3.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_3.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Ankle Guard</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price price-old">$129</span>
-                <span className="money price price-sale">$99</span>
-              </div>
-
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-            <div className="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-              <div className="pc-labels__left">
-                <span className="pc-label pc-label_new d-block bg-white">NEW</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_2.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_2.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Socks</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$29</span>
-              </div>
-             
-
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_3.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_3.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Ankle Guard</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$62</span>
-              </div>
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-
-            <div className="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-              <div className="pc-labels__right ms-auto">
-                <span className="pc-label pc-label_sale d-block text-white">-67%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_4.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_4.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Head Band</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price">$17</span>
-              </div>
-
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="product-card-wrapper">
-          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div className="pc__img-wrapper">
-              <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_2.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                  <div className="swiper-slide">
-                    <a onClick={()=>handleProduct1Simple()}><img loading="lazy" src="images/accessories_2.png" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/></a>
-                  </div>
-                </div>
-                <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
-              </div>
-              <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-
-            <div className="pc__info position-relative">
-              <p className="pc__category">Featured Products</p>
-              <h6 className="pc__title"><a onClick={()=>handleProduct1Simple()}>Socks</a></h6>
-              <div className="product-card__price d-flex">
-                <span className="money price price-old">$129</span>
-                <span className="money price price-sale">$99</span>
-              </div>
-              <button className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-            <div className="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-              <div className="pc-labels__left">
-                <span className="pc-label pc-label_new d-block bg-white">NEW</span>
-              </div>
-            </div>
-          </div>
-        </div>
-     
-      
-      </div>
-
-      <div className="text-center">
-        <a className="btn btn-primary text-uppercase fw-medium fs-base" >Show More</a>
-      </div>
-    </section>
-  </main>
-
-  <div className="mb-5 pb-xl-5"></div>
-
-  <Footer/>
-    </>
-  )
-}
-
-export default Buy_accessories
+        <div class="mb-0 pb-lg-4 mt-5 pt-5 "></div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+export default LenderForm;

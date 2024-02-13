@@ -640,6 +640,52 @@ function Product1_simple(props) {
                           </p>
                         </div>
 
+                        <div className="product-single__swatches">
+                          <div className="product-swatch text-swatches">
+                            <label>Size Top</label>
+                            <div className="swatch-list">
+                              <input type="radio" name="size" id="swatch-1" />
+                              <label className="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">XS</label>
+                              <input type="radio" name="size" id="swatch-2" checked="" />
+                              <label className="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Small">S</label>
+                              <input type="radio" name="size" id="swatch-3" />
+                              <label className="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Middle">M</label>
+                              <input type="radio" name="size" id="swatch-4" />
+                              <label className="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Large">L</label>
+                              <input type="radio" name="size" id="swatch-5" />
+                              <label className="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Large">XL</label>
+                            </div>
+                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+                          </div>
+                          <div className="product-swatch text-swatches">
+                            <label>Size Bottom</label>
+                            <div className="swatch-list">
+                              <input type="radio" name="size" id="swatch-1" />
+                              <label className="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">XS</label>
+                              <input type="radio" name="size" id="swatch-2" checked="" />
+                              <label className="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Small">S</label>
+                              <input type="radio" name="size" id="swatch-3" />
+                              <label className="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Middle">M</label>
+                              <input type="radio" name="size" id="swatch-4" />
+                              <label className="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Large">L</label>
+                              <input type="radio" name="size" id="swatch-5" />
+                              <label className="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Large">XL</label>
+                            </div>
+                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+                          </div>
+                          <div className="product-swatch color-swatches">
+                            <label>Color</label>
+                            <div className="swatch-list">
+                              <input type="radio" name="color" id="swatch-11" />
+                              <label className="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #222" data-bs-original-title="Black"></label>
+                              <input type="radio" name="color" id="swatch-12" checked="" />
+                              <label className="swatch swatch-color js-swatch" for="swatch-12" aria-label="Red" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #C93A3E" data-bs-original-title="Red"></label>
+                              <input type="radio" name="color" id="swatch-13" />
+                              <label className="swatch swatch-color js-swatch" for="swatch-13" aria-label="Grey" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #E4E4E4" data-bs-original-title="Grey"></label>
+                            </div>
+                          </div>
+                        </div>
+
 
 
                         <form >
@@ -655,14 +701,11 @@ function Product1_simple(props) {
                               <div className="qty-control__reduce" onClick={() => qtyDnc()}>-</div>
                               <div className="qty-control__increase" onClick={() => qtyInc()}>+</div>
                             </div>
-                            {/* <div className="d-flex flex-wrap">
-                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XS</a>
-                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">S</a>
-                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">M</a>
-                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">L</a>
-                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XL</a>
-                              <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XXL</a>
-                            </div> */}
+
+
+
+
+
 
                             <button
                               type="button"
@@ -743,14 +786,7 @@ function Product1_simple(props) {
                             {product?.product_description}
                           </p>
                         </div>
-                        {/* <div className="d-flex flex-wrap">
-                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XS</a>
-                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">S</a>
-                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">M</a>
-                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">L</a>
-                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XL</a>
-                          <a href="#" className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XXL</a>
-                        </div> */}
+
                         <div className="mb-4">
                           <div className="mb-4">
                             <button
@@ -774,6 +810,53 @@ function Product1_simple(props) {
                             rangeColors={"red"}
                             direction="horizontal"
                           />
+                        </div>
+                        <div className="product-single__swatches">
+                          <div className="product-swatch text-swatches">
+                            <label>Size Top</label>
+                            <div className="swatch-list">
+                              <input type="radio" name="size" id="swatch-1" />
+                              <label className="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">XS</label>
+                              <input type="radio" name="size" id="swatch-2" checked="" />
+                              <label className="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Small">S</label>
+                              <input type="radio" name="size" id="swatch-3" />
+                              <label className="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Middle">M</label>
+                              <input type="radio" name="size" id="swatch-4" />
+                              <label className="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Large">L</label>
+                              <input type="radio" name="size" id="swatch-5" />
+                              <label className="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Large">XL</label>
+                            </div>
+                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+                          </div>
+                          <div className="product-swatch text-swatches">
+                            <label>Size Bottom</label>
+                            <div className="swatch-list">
+                              <input type="radio" name="size" id="swatch-1" />
+                              <label className="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">XS</label>
+                              <input type="radio" name="size" id="swatch-2" checked="" />
+                              <label className="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Small">S</label>
+                              <input type="radio" name="size" id="swatch-3" />
+                              <label className="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Middle">M</label>
+                              <input type="radio" name="size" id="swatch-4" />
+                              <label className="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Large">L</label>
+                              <input type="radio" name="size" id="swatch-5" />
+                              <label className="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Large">XL</label>
+                            </div>
+                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+                          </div>
+
+
+                          <div className="product-swatch color-swatches">
+                            <label>Color</label>
+                            <div className="swatch-list">
+                              <input type="radio" name="color" id="swatch-11" />
+                              <label className="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #222" data-bs-original-title="Black"></label>
+                              <input type="radio" name="color" id="swatch-12" checked="" />
+                              <label className="swatch swatch-color js-swatch" for="swatch-12" aria-label="Red" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #C93A3E" data-bs-original-title="Red"></label>
+                              <input type="radio" name="color" id="swatch-13" />
+                              <label className="swatch swatch-color js-swatch" for="swatch-13" aria-label="Grey" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #E4E4E4" data-bs-original-title="Grey"></label>
+                            </div>
+                          </div>
                         </div>
                         <form name="addtocart-form" >
                           <div className="product-single__addtocart">
@@ -811,7 +894,7 @@ function Product1_simple(props) {
                                   title="Add To Wishlist"
                                 >
                                   <i
-                                  onClick={() => addToWishlist(product?.id)}
+                                    onClick={() => addToWishlist(product?.id)}
                                     class="fa-regular fa-heart"
 
                                   ></i>{" "}
@@ -823,7 +906,7 @@ function Product1_simple(props) {
                                   title="Add To Wishlist"
                                 >
                                   <i
-                                  onClick={() => addToWishlist(product?.id)}
+                                    onClick={() => addToWishlist(product?.id)}
                                     class="fa-solid fa-heart"
                                     style={{ color: "red" }}
 
