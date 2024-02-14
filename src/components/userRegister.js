@@ -7,6 +7,10 @@ import { Schema_login_form } from "./Schema";
 export const configJSON = require("../components/config");
 function UserRegister() {
   const navigate = useNavigate();
+  const [eye, setEye] = useState(false)
+  const [type, setType] = useState("password")
+  const [eye1, setEye1] = useState(false)
+  const [type1, setType1] = useState("password")
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,21 +19,22 @@ function UserRegister() {
   const [licenseState, setLicenseState] = useState("")
   const [isLoader, setIsLoader] = useState(false)
 
-  const handleRegister = (val , {resetForm }) => {
+  const handleRegister = (val, { resetForm }) => {
     setIsLoader(true)
-
-    
+    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: val.license_state, license_number:val.license_number, password: val.password }
+    console.log(data, "helo")
+   
       axios({
         url: configJSON.baseUrl + configJSON.signUp_buyer,
         method: "post",
-        data: val,
+        data: data,
       })
         .then((res) => {
           setIsLoader(false)
           if (res?.data?.success == true) {
             MESSAGE.success(res?.data?.message);
-            resetForm();
-            navigate("/login-register");
+            // resetForm();
+            // navigate("/login-register");
           } else {
             MESSAGE.error(res?.data?.message);
           }
@@ -37,10 +42,18 @@ function UserRegister() {
         .catch((error) => {
           setIsLoader(false)
           console.log(error);
-
+  
         });
-   
+
   };
+  const handleEye = (val) => {
+    setType(val)
+    setEye(!eye)
+  }
+  const handleEye1 = (val) => {
+    setType1(val)
+    setEye1(!eye1)
+  }
   return (
     <>
       <div className="register-form">
@@ -51,10 +64,10 @@ function UserRegister() {
 
             <div className="login-form">
               <Formik
-                initialValues={{buyer_name:'',user_name:'', email: '', phone_number: '' ,license_state:'',license_number:''}}
+                initialValues={{ buyer_name: '', user_name: '', email: '', phone_number: '', license_state: '', license_number: '', password: '' }}
                 validationSchema={Schema_login_form}
                 onSubmit={(values, actions) => {
-                  handleRegister(values,actions)
+                  handleRegister(values, actions)
                 }}
               >
                 {
@@ -87,7 +100,7 @@ function UserRegister() {
                               required=""
                             />
                             <label htmlFor="customerNameEmailInput">Name*</label>
-                          <span style={{color:"red"}}>{errors.buyer_name && touched.buyer_name && errors.buyer_name}</span>
+                            <span style={{ color: "red" }}>{errors.buyer_name && touched.buyer_name && errors.buyer_name}</span>
                           </div>
 
                         </div>
@@ -107,7 +120,7 @@ function UserRegister() {
                             <label htmlFor="customerNameEmailInput">
                               Create Username*
                             </label>
-                          <span style={{color:"red"}}>{errors.user_name && touched.user_name && errors.user_name}</span>
+                            <span style={{ color: "red" }}>{errors.user_name && touched.user_name && errors.user_name}</span>
                           </div>
 
                         </div>
@@ -125,7 +138,7 @@ function UserRegister() {
                               required=""
                             />
                             <label htmlFor="customerNameEmailInput">Email*</label>
-                          <span style={{color:"red"}}>{errors.email && touched.email && errors.email}</span>
+                            <span style={{ color: "red" }}>{errors.email && touched.email && errors.email}</span>
                           </div>
                         </div>
                         <div className="col-md-6">
@@ -142,7 +155,7 @@ function UserRegister() {
                               required=""
                             />
                             <label htmlFor="customerNameEmailInput">Phone*</label>
-                          <span style={{color:"red"}}>{errors.phone_number && touched.phone_number && errors.phone_number}</span>
+                            <span style={{ color: "red" }}>{errors.phone_number && touched.phone_number && errors.phone_number}</span>
                           </div>
 
                         </div>
@@ -162,7 +175,7 @@ function UserRegister() {
                             <label htmlFor="customerNameEmailInput">
                               Licence Number *
                             </label>
-                          <span style={{color:"red"}}>{errors.license_number && touched.license_number && errors.license_number}</span>
+                            <span style={{ color: "red" }}>{errors.license_number && touched.license_number && errors.license_number}</span>
                           </div>
 
                         </div>
@@ -177,14 +190,38 @@ function UserRegister() {
                               className="form-control form-control_gray"
                               id="customerNameEmailInput"
                               placeholder="Email Licence Number *"
-                             
+
                             />
                             <label htmlFor="customerNameEmailInput">
                               Licence State *
                             </label>
-                          <span style={{color:"red"}}>{errors.license_state && touched.license_state && errors.license_state}</span>
+                            <span style={{ color: "red" }}>{errors.license_state && touched.license_state && errors.license_state}</span>
                           </div>
 
+                        </div>
+                        <div className="col-md-12">
+                          <div class="form-floating mb-3 position-relative">
+                            <input name="password" onBlur={handleBlur} onChange={handleChange} type={type} value={values.password} class="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Password *" required="" />
+                            {
+                              eye != true ? <i class="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
+                                : <i class="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
+                            }
+                            <label for="customerPasswodRegisterInput">Password *</label>
+                            <span style={{ color: "red" }}>{errors.password && touched.password && errors.password}</span>
+
+                          </div>
+                        </div>
+                        <div className="col-md-12">
+                          <div class="form-floating mb-3 position-relative">
+                            <input name="Confirm_Password" onBlur={handleBlur} onChange={handleChange} type={type1} value={values.Confirm_Password} class="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Confirm Password *" required="" />
+                            {
+                              eye1 != true ? <i class="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye1("text")}></i>
+                                : <i class="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye1("password")}></i>
+                            }
+                            <label for="customerPasswodRegisterInput">Confirm Password *</label>
+                            <span style={{ color: "red" }}>{errors.Confirm_Password && touched.Confirm_Password && errors.Confirm_Password}</span>
+
+                          </div>
                         </div>
 
                       </div>
@@ -219,7 +256,7 @@ function UserRegister() {
                     </form>
                   )
                 }
-                </Formik>
+              </Formik>
             </div>
         }
       </div>

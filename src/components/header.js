@@ -18,7 +18,7 @@ function Header(props) {
   const [accessToken, setAccessToken] = useState();
   const [isLoader, setIsLoader] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
-const [searchProduct,setSearchProduct] = useState()
+  const [searchProduct, setSearchProduct] = useState()
   const [isdropdown, setDropdown] = useState(false);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -55,12 +55,14 @@ const [searchProduct,setSearchProduct] = useState()
   }
 
   const getCartData = (val) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
     console.log(val);
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
       method: "get",
       headers: {
-        Authorization: `Bearer ${val}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -70,7 +72,7 @@ const [searchProduct,setSearchProduct] = useState()
           let total = 0;
           console.log(res?.data?.cart);
           res?.data?.cart.map((item) => (total += item?.cart_price));
-          setSubTotal(total);
+          setSubTotal(res?.data?.totalPrice);
         } else {
           setAllProduct([]);
         }
@@ -201,10 +203,10 @@ const [searchProduct,setSearchProduct] = useState()
   const handleWishList = () => {
     navigate("/account-wishlist")
   }
-const handleSearchProduct = ()=>{
-  props?.searchProducts(searchProduct)
-  setIsSearch(!isSearch)
-}
+  const handleSearchProduct = () => {
+    props?.searchProducts(searchProduct)
+    setIsSearch(!isSearch)
+  }
   return (
     <>
       <header
@@ -533,18 +535,18 @@ const handleSearchProduct = ()=>{
                           </a>
                         </li>
                         <li>
-                          <a class="dropdown-item" onClick={()=> navigate("/lenderform")}>
-                          Lender issue response form
+                          <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
+                            Lender issue response form
                           </a>
                         </li>
                         <li>
-                          <a class="dropdown-item"  onClick={()=> navigate("/buyerform")}>
-                          Buyer issue response form
+                          <a class="dropdown-item" onClick={() => navigate("/buyerform")}>
+                            Buyer issue response form
                           </a>
                         </li>
                         <li>
-                          <a class="dropdown-item" onClick={()=> navigate("/renterform")}>
-                          Renter issue response form
+                          <a class="dropdown-item" onClick={() => navigate("/renterform")}>
+                            Renter issue response form
                           </a>
                         </li>
                         <li onClick={handleLogout}>
@@ -618,40 +620,47 @@ const handleSearchProduct = ()=>{
           ) : allProduct?.length != 0 ? (
             allProduct?.map((item) => (
               <>
-                <div className="cart-drawer-item d-flex position-relative">
+                <div className="cart-drawer-item d-flex position-relative align-items-center">
                   <div className="position-relative">
                     <img
                       loading="lazy"
                       className="cart-drawer-item__img"
-                      src={item?.product_images[0]}
+                      src={item?.profile_images}
                     />
                   </div>
                   <div className="cart-drawer-item__info flex-grow-1">
                     <h6 className="cart-drawer-item__title fw-normal">
-                      Georgia Rose
+                      {item?.product_brand}
                     </h6>
-                   
-                    <p className="cart-drawer-item__option text-secondary">
+
+                    <div className="d-flex gap-3 mt-3">
+                      <div >
+                      <p className="cart-drawer-item__option text-secondary">
                       {/* Color:  */}
                       <label>Color</label>
-                                      <select className="form-control ct_cart_select">
-                                        <option>{item?.product_colors[0]}</option>
-                                      </select>
+                      <select className="form-control ct_cart_select">
+                        <option>{item?.color}</option>
+                      </select>
                       {/* {item?.product_colors[0]} */}
                     </p>
-                    <p className="cart-drawer-item__option text-secondary">
+                      </div>
+                      <div >
+                      <p className="cart-drawer-item__option text-secondary">
                       {/* Size: {item?.product_size[0]?.size_bottom} */}
                       <label>Size Top</label>
-                        <select className="form-control ct_cart_select">
-                          <option>Size top: {item?.product_size[0]?.size_top}</option>
-                        </select>
+                      <select className="form-control ct_cart_select">
+                        <option>{item?.size_top}</option>
+                      </select>
                     </p>
-                    <p className="cart-drawer-item__option text-secondary">
+                      </div>
+                    </div>
+                  
+                    <p className="cart-drawer-item__option text-secondary mt-2">
                       {/* Size: {item?.product_size[0]?.size_bottom} */}
                       <label>Size bottom</label>
-                        <select className="form-control ct_cart_select">
-                          <option>Size bottom: {item?.product_size[0]?.size_bottom}</option>
-                        </select>
+                      <select className="form-control ct_cart_select">
+                        <option> {item?.size_bottom}</option>
+                      </select>
                     </p>
                     <div className="d-flex align-items-center justify-content-between mt-1">
                       <div className="qty-control position-relative">
@@ -690,7 +699,7 @@ const handleSearchProduct = ()=>{
                         </div>
                       </div>
                       <span className="cart-drawer-item__price money price">
-                        ${item?.cart_price}
+                        ${item?.sub_total}
                       </span>
                     </div>
                   </div>
@@ -728,6 +737,7 @@ const handleSearchProduct = ()=>{
             Checkout
           </a> */}
         </div>
+        
       </div>
 
       <div

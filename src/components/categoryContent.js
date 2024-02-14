@@ -261,7 +261,7 @@ function CategoryContent(props) {
                                                                         <div className="ct_buy_rent_tag">
                                                                             <h4 className="mb-0">{item.product_buy_rent.charAt(0).toUpperCase() + item.product_buy_rent.slice(1)}</h4>
                                                                         </div>
-                                                                        <button onClick={() => addToCart(item?.id)} className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                                                                        {/* <button onClick={() => addToCart(item?.id)} className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> */}
                                                                     </div>
                                                                     <div className="pc__info position-relative">
                                                                         <p className="pc__category">Featured Products</p>

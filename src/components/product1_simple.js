@@ -28,9 +28,13 @@ function Product1_simple(props) {
   const [isCartSidebar, setIsCartSidebar] = useState(false)
   const [showCalender, setshowCalender] = useState(false);
   const [accessToken, setAccessToken] = useState();
-  const [qty, setQty] = useState(1)
   const [allProduct, setAllProduct] = useState([])
   const [isLoader, setIsLoader] = useState(false);
+  const [qty, setQty] = useState(1)
+  const [size_bottom, setSize_bottom] = useState("")
+  const [size_top, setSize_top] = useState("")
+  const [color, setColor] = useState("")
+
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -85,22 +89,25 @@ function Product1_simple(props) {
   }
   const getProduct = () => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const user_id = JSON.parse(localStorage.getItem("user_id"));
     var id = localStorage.getItem("productID")
+    const data = {
+      user_id: user_id,
+      prodcutId: id
+    }
     setIsLoader(true);
     axios({
-      url: configJSON.baseUrl + configJSON.getProductDetails_by_id + id,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      url: configJSON.baseUrl + configJSON.getProductDetails_by_id,
+      method: "post",
+      data: data
     })
       .then((res) => {
 
         console.log(res, "response")
         setIsLoader(false);
         if (res?.data?.success == true) {
-          setProduct(res?.data?.data[0]);
-          getData(res?.data?.data[0].product_category)
+          setProduct(res?.data?.products[0]);
+          // getData(res?.data?.products[0].product_category)
         } else {
           setProduct([]);
         }
@@ -149,30 +156,40 @@ function Product1_simple(props) {
     setIsLoader(true);
     const data = {
       product_id: product_id,
-      cart_quantity: val
+      cart_quantity: val,
+      size_bottom: `${size_bottom}`,
+      size_top: `${size_top}`,
+      color: `${color}`,
     };
-    axios({
-      method: "post",
-      url: configJSON.baseUrl + configJSON.add_cart,
-      data: data,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((res) => {
-        setIsLoader(false);
-        getCartData(accessToken);
-        if (res.data.success == true) {
-          MESSAGE.success("Item added to cart.");
-          // props?.onClick()
-        } else {
-          MESSAGE.error(res?.data?.message);
-        }
+
+    if (size_bottom && size_top && color) {
+      axios({
+        method: "post",
+        url: configJSON.baseUrl + configJSON.add_cart,
+        data: data,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
-      .catch((err) => {
-        setIsLoader(false);
-        console.log(err);
-      });
+        .then((res) => {
+          setIsLoader(false);
+          getCartData(accessToken);
+          if (res.data.success == true) {
+            MESSAGE.success("Item added to cart.");
+            // props?.onClick()
+          } else {
+            MESSAGE.error(res?.data?.message);
+          }
+        })
+        .catch((err) => {
+          setIsLoader(false);
+          console.log(err);
+        });
+    } else {
+      setIsLoader(false);
+      MESSAGE.error("Please choose color and size");
+    }
+
   };
   const qtyInc = () => {
     setQty(qty + 1)
@@ -644,44 +661,43 @@ function Product1_simple(props) {
                           <div className="product-swatch text-swatches">
                             <label>Size Top</label>
                             <div className="swatch-list">
-                              <input type="radio" name="size" id="swatch-1" />
-                              <label className="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">XS</label>
-                              <input type="radio" name="size" id="swatch-2" checked="" />
-                              <label className="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Small">S</label>
-                              <input type="radio" name="size" id="swatch-3" />
-                              <label className="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Middle">M</label>
-                              <input type="radio" name="size" id="swatch-4" />
-                              <label className="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Large">L</label>
-                              <input type="radio" name="size" id="swatch-5" />
-                              <label className="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Large">XL</label>
+                              {
+                                product?.product_size?.map((item) => (
+                                  <>
+                                    <input type="radio" name="size" id="swatch-1" />
+                                    <label onClick={() => setSize_top(item)} className={size_top != item ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_top}</label>
+                                  </>
+                                ))
+                              }
                             </div>
-                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+
                           </div>
                           <div className="product-swatch text-swatches">
                             <label>Size Bottom</label>
                             <div className="swatch-list">
-                              <input type="radio" name="size" id="swatch-1" />
-                              <label className="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">XS</label>
-                              <input type="radio" name="size" id="swatch-2" checked="" />
-                              <label className="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Small">S</label>
-                              <input type="radio" name="size" id="swatch-3" />
-                              <label className="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Middle">M</label>
-                              <input type="radio" name="size" id="swatch-4" />
-                              <label className="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Large">L</label>
-                              <input type="radio" name="size" id="swatch-5" />
-                              <label className="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Large">XL</label>
+                              {
+                                product?.product_size?.map((item) => (
+                                  <>
+                                    <input type="radio" name="size" id="swatch-1" />
+                                    <label onClick={() => setSize_bottom(item)} className={size_bottom != item ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_bottom}</label>
+                                  </>
+                                ))
+                              }
+
                             </div>
-                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+
                           </div>
                           <div className="product-swatch color-swatches">
                             <label>Color</label>
                             <div className="swatch-list">
-                              <input type="radio" name="color" id="swatch-11" />
-                              <label className="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #222" data-bs-original-title="Black"></label>
-                              <input type="radio" name="color" id="swatch-12" checked="" />
-                              <label className="swatch swatch-color js-swatch" for="swatch-12" aria-label="Red" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #C93A3E" data-bs-original-title="Red"></label>
-                              <input type="radio" name="color" id="swatch-13" />
-                              <label className="swatch swatch-color js-swatch" for="swatch-13" aria-label="Grey" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #E4E4E4" data-bs-original-title="Grey"></label>
+                              {
+                                product?.product_color?.map((item) => (
+                                  <>
+                                    <input type="radio" name="color" id="swatch-11" />
+                                    <label onClick={() => setColor(item)} className={color != item ? "swatch swatch-color js-swatch" : "swatch swatch-color js-swatch ct_active_color1"} for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${item}` }} data-bs-original-title="Black"></label>
+                                  </>
+                                ))
+                              }
                             </div>
                           </div>
                         </div>
@@ -815,46 +831,46 @@ function Product1_simple(props) {
                           <div className="product-swatch text-swatches">
                             <label>Size Top</label>
                             <div className="swatch-list">
-                              <input type="radio" name="size" id="swatch-1" />
-                              <label className="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">XS</label>
-                              <input type="radio" name="size" id="swatch-2" checked="" />
-                              <label className="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Small">S</label>
-                              <input type="radio" name="size" id="swatch-3" />
-                              <label className="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Middle">M</label>
-                              <input type="radio" name="size" id="swatch-4" />
-                              <label className="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Large">L</label>
-                              <input type="radio" name="size" id="swatch-5" />
-                              <label className="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Large">XL</label>
+                              {
+                                product?.product_size?.map((item) => (
+                                  <>
+                                    <input type="radio" name="size" id="swatch-1" />
+                                    <label onClick={() => setSize_top(item)} className={size_top != item ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_top}</label>
+                                  </>
+                                ))
+                              }
                             </div>
-                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+
                           </div>
                           <div className="product-swatch text-swatches">
                             <label>Size Bottom</label>
                             <div className="swatch-list">
-                              <input type="radio" name="size" id="swatch-1" />
-                              <label className="swatch js-swatch" for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">XS</label>
-                              <input type="radio" name="size" id="swatch-2" checked="" />
-                              <label className="swatch js-swatch" for="swatch-2" aria-label="Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Small">S</label>
-                              <input type="radio" name="size" id="swatch-3" />
-                              <label className="swatch js-swatch" for="swatch-3" aria-label="Middle" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Middle">M</label>
-                              <input type="radio" name="size" id="swatch-4" />
-                              <label className="swatch js-swatch" for="swatch-4" aria-label="Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Large">L</label>
-                              <input type="radio" name="size" id="swatch-5" />
-                              <label className="swatch js-swatch" for="swatch-5" aria-label="Extra Large" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Large">XL</label>
+                              {
+                                product?.product_size?.map((item) => (
+                                  <>
+                                    <input type="radio" name="size" id="swatch-1" />
+                                    <label onClick={() => setSize_bottom(item)} className={size_bottom != item ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_bottom}</label>
+                                  </>
+                                ))
+                              }
                             </div>
-                            <a href="#" className="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+
                           </div>
 
 
                           <div className="product-swatch color-swatches">
                             <label>Color</label>
                             <div className="swatch-list">
-                              <input type="radio" name="color" id="swatch-11" />
-                              <label className="swatch swatch-color js-swatch" for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #222" data-bs-original-title="Black"></label>
-                              <input type="radio" name="color" id="swatch-12" checked="" />
-                              <label className="swatch swatch-color js-swatch" for="swatch-12" aria-label="Red" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #C93A3E" data-bs-original-title="Red"></label>
-                              <input type="radio" name="color" id="swatch-13" />
-                              <label className="swatch swatch-color js-swatch" for="swatch-13" aria-label="Grey" data-bs-toggle="tooltip" data-bs-placement="top" title="" style="color: #E4E4E4" data-bs-original-title="Grey"></label>
+                              {
+                                product?.product_color?.map((item) => (
+                                  <>
+                                    <input type="radio" name="color" id="swatch-11" />
+                                    <label onClick={() => setColor(item)} className={color != item ? "swatch swatch-color js-swatch" : "swatch swatch-color js-swatch ct_active_color1"} for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${item}` }} data-bs-original-title="Black"></label>
+                                  </>
+                                ))
+                              }
+
+
                             </div>
                           </div>
                         </div>
