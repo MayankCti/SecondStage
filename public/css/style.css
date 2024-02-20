@@ -13990,6 +13990,9 @@ textarea.form-control.is-invalid {
 .search-result .pc__img-wrapper {
   padding-top: 10.125rem;
 }
+.ct_swatch_after:after{
+  left: 0px;
+}
 @media (min-width: 1200px) {
   .search-result {
     min-height: 19rem;
@@ -14014,10 +14017,12 @@ textarea.form-control.is-invalid {
 }
 
 .cart-drawer-items-list {
-  max-height: 27.675rem;
+  /* max-height: 27.675rem; */
   overflow-y: auto;
-  height: 100%;
+  height: auto;
+  max-height: 400px;
 }
+
 
 .cart-drawer-item {
   /* max-height: 7.5rem; */
@@ -14066,8 +14071,7 @@ textarea.form-control.is-invalid {
   -moz-appearance: textfield;
 }
 
-.qty-control__reduce,
-.qty-control__increase {
+.qty-control__reduce, .qty-control__increase {
   position: absolute;
   top: 0;
   width: 0.75rem;
@@ -14075,6 +14079,14 @@ textarea.form-control.is-invalid {
   cursor: pointer;
   user-select: none;
   -ms-user-select: none;
+  width: 25px;
+  height: 25px;
+  background-color: #eee;
+  display: flex;
+  border-radius: 2px;
+  align-items: center;
+  justify-content: center;
+  margin-inline: -7px;
 }
 
 .qty-control__reduce {
@@ -19368,7 +19380,8 @@ a.add-to-wishlist.active .flaticon.flaticon-heart {
 }
 @media (min-width: 768px) {
   .shopping-cart .cart-table .qty-control {
-    width: 7.25rem;
+    /* width: 7.25rem; */
+    width: 70px;
     margin: 0;
   }
 }
@@ -19377,10 +19390,10 @@ a.add-to-wishlist.active .flaticon.flaticon-heart {
 }
 @media (min-width: 768px) {
   .shopping-cart .cart-table .qty-control__number {
-    border: 2px solid #e4e4e4;
-    height: 3.125rem;
-    padding: 0 2rem;
-    min-width: 6.875rem;
+    border: 1px solid #e4e4e4;
+    height: 38px;
+    /* padding: 0 2rem; */
+    min-width: 70px;
   }
 }
 .shopping-cart .cart-table .qty-control__reduce,
@@ -21293,6 +21306,34 @@ justify-content: center;
   padding-block: 0px;
   appearance: auto;
 }
+
+
+.ct_show_calender.ct_cart_update_calender {
+  display: block !important;
+}
+.ct_cart_update_calender .rdrStaticRanges{
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.ct_cart_update_calender .rdrStaticRanges span.rdrStaticRangeLabel {
+  padding: 6px 10px;
+}
+.rdrInputRanges{
+  display: none;
+}
+.ct_show_cart_calander_btn{
+  padding: 4px 9px;
+  line-height: 19px;
+  border: 0;
+  font-size: 12px;
+}
+.ct_show_cart_calander_btn{
+  border:1px solid;
+}
+/* .ct_show_cart_calander_btn:hover{
+  border:1px solid;
+} */
+
 @media screen and (max-width:767px){
   .ct_click_dropdown > p {
     display: none !important;

@@ -5,8 +5,8 @@ export const configJSON = require("../components/config");
 function FilterBy(props) {
   const [filterContent, setFilterContent] = useState([])
   const [isLoader, setIsLoader] = useState(false);
-  const [buyPrice, setBuyPrice] = useState([0, 500]);
-  const [rentPrice, setRentPrice] = useState([0, 500]);
+  const [buyPrice, setBuyPrice] = useState([]);
+  const [rentPrice, setRentPrice] = useState([]);
   const [styleTop, setStyleTop] = useState([])
   const [styleBottom, setStyleBottom] = useState([])
   const [category, setCategory] = useState([])
@@ -155,14 +155,13 @@ function FilterBy(props) {
       billing_level: bilingLevel,
       billing_type: bilingType,
       billing_condition: bilingCondition,
-      price_sale_lend_price_min: [buyPrice[0]],
-      price_sale_lend_price_max: [buyPrice[1]],
-      price_sale_lend_price_min_rent: [rentPrice[0]],
-      price_sale_lend_price_max_rent: [rentPrice[1]],
+      price_sale_lend_price_min: buyPrice?.length !=0 ? [buyPrice[0]] : [],
+      price_sale_lend_price_max: buyPrice?.length !=0 ? [buyPrice[1]] : [],
+      price_sale_lend_price_min_rent: rentPrice?.length !=0 ? [rentPrice[0]] : [],
+      price_sale_lend_price_max_rent: rentPrice?.length !=0 ? [rentPrice[1]] : [],
       product_padding: padding,
       location: location,
   }
-console.log(data,"data")
     props.handlefilter(data)
   }
   return (
@@ -850,11 +849,11 @@ console.log(data,"data")
                           <div className="price-range__info d-flex align-items-center mt-2">
                             <div className="me-auto">
                               <span className="text-secondary">Min Price: </span>
-                              <span className="price-range__min">${buyPrice[0]}</span>
+                              <span className="price-range__min">${buyPrice?.length !=0 ? buyPrice[0] : 0}</span>
                             </div>
                             <div>
                               <span className="text-secondary">Max Price: </span>
-                              <span className="price-range__max">${buyPrice[1]}</span>
+                              <span className="price-range__max">${buyPrice?.length !=0 ? buyPrice[1] : 0}</span>
                             </div>
                           </div>
                         </div>
@@ -899,11 +898,11 @@ console.log(data,"data")
                           <div className="price-range__info d-flex align-items-center mt-2">
                             <div className="me-auto">
                               <span className="text-secondary">Min Price: </span>
-                              <span className="price-range__min">${rentPrice[0]}</span>
+                              <span className="price-range__min">${rentPrice?.length !=0 ? rentPrice[0] : 0}</span>
                             </div>
                             <div>
                               <span className="text-secondary">Max Price: </span>
-                              <span className="price-range__max">${rentPrice[1]}</span>
+                              <span className="price-range__max">${rentPrice?.length !=0 ? rentPrice[1] : 0}</span>
                             </div>
                           </div>
                           <small>(Per week/month or season)</small>

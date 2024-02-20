@@ -14,6 +14,7 @@ function Account_edit() {
   const [isLoader, setIsLoader] = useState(false);
   const [profileData, setProfileData] = useState([])
   const navigate = useNavigate();
+  
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
@@ -33,7 +34,6 @@ function Account_edit() {
       },
     }).then((res) => {
       setIsLoader(false)
-      console.log(res, "the res")
       if (res?.data?.success == true) {
         setProfileData(res?.data?.user_info[0])
       }

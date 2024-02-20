@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 function List7(props) {
     const active = props.data
-    console.log(active)
     const navigate = useNavigate()
 
     const handleAccountEditAddress = ()=>{

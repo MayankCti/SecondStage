@@ -14,6 +14,7 @@ function Index() {
   const [quickSearch, setQuickSearch] = useState("")
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
+  const [sort, setSort] = useState(4)
   const [searchData, setSearchProduct] = useState([])
   const navigate = useNavigate()
 
@@ -34,10 +35,11 @@ function Index() {
     setIsLoader(true);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const data = {
-      user_id: user_id
+      user_id: user_id,
+      sort: sort
     }
     axios({
-      url: configJSON.baseUrl + configJSON.product_details,
+      url: configJSON.baseUrl + configJSON.getAllProduct,
       method: "post",
       data: data
     })
@@ -84,7 +86,6 @@ function Index() {
   }
   const getDataFromChild = () => {
     getCartData(accessToken, true)
-    // console.log("hello")
   }
   const handleBikinis = () => {
     navigate("/bikinis")
@@ -111,10 +112,9 @@ function Index() {
   }
   const searchProducts = (val) => {
     const data = allProduct.filter((item) => {
-      if (item?.product_brands?.includes(val?.toLowerCase())) { return item; }
+      if (item?.product_Categories?.includes(val?.toLowerCase())) { return item; }
     })
     setSearchProduct(data)
-    console.log(data, "the data")
   }
   return (
 
@@ -271,7 +271,7 @@ function Index() {
             </symbol>
           </svg>
 
-          <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="home" searchProducts={(val) => searchProducts(val)} />
+          <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="home" searchProducts={(val) => searchProducts(val)} isSearch="yes" />
 
           <main>
 
@@ -377,12 +377,7 @@ function Index() {
             </section>
             <div className="mb-5 pb-5"></div>
             <section className="products-grid container">
-
-
-
               <Content onClick={getDataFromChild} data={searchData} />
-
-
             </section>
             <section className='mt-5 py-5 ' style={{ background: "#f5f5f5" }}>
               <div className='container'>

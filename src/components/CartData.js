@@ -20,7 +20,6 @@ function CartData(props) {
         setIsCartSidebar(props?.cart)
     },[props?.cart])
     const getCartData = (val) => {
-        console.log(val);
         axios({
             url: configJSON.baseUrl + configJSON.getCartData,
             method: "get",

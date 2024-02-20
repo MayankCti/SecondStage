@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { Country, State, City }  from 'country-state-city';
 import axios, { all } from 'axios'
 import { message, message as MESSAGE } from "antd";
 import Header from './header'
 import Footer from './footer'
 export const configJSON = require("../components/config");
 function Shop_checkout() {
-  const shopCartData = useLocation().state?.shopCartData
+  const shopCartData = useLocation().state
   const [isLoader, setIsLoader] = useState(false);
   const [fname, setFname] = useState("")
   const [lname, setLname] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [contryRegion, setContryRegion] = useState("")
+  
   const [streetAddress, setStreetAddress] = useState("")
   const [townCity, setTownCity] = useState("")
   const [postZipCode, setPostZipCode] = useState("")
@@ -22,10 +24,10 @@ function Shop_checkout() {
   const [paymentMethod, setPaymentMethod] = useState("")
   const [accessToken, setAccessToken] = useState();
   const [isCountry, setIsCountry] = useState(false)
-  const [shipingtype, setShipingtype] = useState(shopCartData[0]?.shipping);
-  const [subtotal, setSubTotal] = useState(shopCartData[0]?.subtotal);
-  const [allTotal, setAllTotal] = useState(shopCartData[0]?.vat_sub_total);
-  const [vat, setVal] = useState(shopCartData[0]?.vat_percentage)
+  const [shipingtype, setShipingtype] = useState(shopCartData?.shipping );
+  const [subtotal, setSubTotal] = useState(shopCartData?.subTotal );
+  const [allTotal, setAllTotal] = useState(shopCartData?.total );
+  const [vat, setVal] = useState(shopCartData?.vat)
   const navigate = useNavigate()
   const [allProduct, setAllProduct] = useState([])
 
@@ -59,21 +61,6 @@ function Shop_checkout() {
       console.log(error)
     })
   }
-  const handleShopCart = () => {
-    navigate("/shop-cart")
-  }
-  const handleShopCheckout = () => {
-    navigate("/shop-checkout")
-  }
-
-  const handleShopOrderComplete = () => {
-    navigate("/shop-order-complete")
-
-  }
-  const handleTerms = () => {
-    navigate("/terms")
-  }
-
   const placeOrder = () => {
     setIsLoader(true);
     const data = {
@@ -83,9 +70,9 @@ function Shop_checkout() {
       country_region: contryRegion,
       street_address: streetAddress,
       town_city: townCity,
-      postcode_zip: postZipCode,
+      postcode_zip: `${postZipCode}`,
       province: province,
-      phone: phone,
+      phone: `${phone}`,
       mail: email,
       order_notes: orderNotes
     };
@@ -100,7 +87,6 @@ function Shop_checkout() {
         },
       })
         .then((res) => {
-          console.log(res, "the res")
           setIsLoader(false);
           if (res.data.success == true) {
             MESSAGE.success(res?.data?.message);
@@ -123,7 +109,7 @@ function Shop_checkout() {
     setIsLoader(true);
     const data = {
       payment_method: paymentMethod,
-      cart_id: shopCartData[0]?.cart_details[0]?.cart_id
+      cart_id: shopCartData?.shopCartData[0]?.cart_id
     }
     if (paymentMethod) {
       axios({
@@ -134,7 +120,6 @@ function Shop_checkout() {
           'Authorization': `Bearer ${token}`
         },
       }).then((res) => {
-        console.log(res, "the checkout")
         setIsLoader(false)
         if (res?.data?.success == true) {
           MESSAGE.success(res?.data?.message);
@@ -362,7 +347,7 @@ function Shop_checkout() {
                       <div className={isCountry == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
                         <label htmlFor="search-dropdown" className="form-label">Country / Region*</label>
                         <div className="js-hover__open" onClick={() => setIsCountry(!isCountry)}>
-                          <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down" id="search-dropdown" name="search-keyword" readonly placeholder="Choose a location..." />
+                          <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down" id="search-dropdown" name="search-keyword" readonly value={contryRegion} placeholder="Choose a location..."  />
                         </div>
                         <div className="filters-container js-hidden-content mt-2">
                           <div className="search-field__input-wrapper">
@@ -393,7 +378,7 @@ function Shop_checkout() {
                   </div>
                   <div className="col-md-12">
                     <div className="form-floating my-3">
-                      <input onChange={(e) => setPostZipCode(e.target.value)} value={postZipCode} type="text" className="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *" />
+                      <input onChange={(e) => setPostZipCode(e.target.value)} value={postZipCode} type="number" className="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *" />
                       <label htmlFor="checkout_zipcode">Postcode / ZIP *</label>
                     </div>
                   </div>
@@ -405,7 +390,7 @@ function Shop_checkout() {
                   </div>
                   <div className="col-md-12">
                     <div className="form-floating my-3">
-                      <input onChange={(e) => setPhone(e.target.value)} value={phone} type="text" className="form-control" id="checkout_phone" placeholder="Phone *" />
+                      <input onChange={(e) => setPhone(e.target.value)} value={phone} type="number" className="form-control" id="checkout_phone" placeholder="Phone *" />
                       <label htmlFor="checkout_phone">Phone *</label>
                     </div>
                   </div>
@@ -415,7 +400,7 @@ function Shop_checkout() {
                       <label htmlFor="checkout_email">Your Mail *</label>
                     </div>
                   </div>
-                  <div className="col-md-12">
+                  {/* <div className="col-md-12">
                     <div className="form-check mt-3">
                       <input className="form-check-input form-check-input_fill" type="checkbox" value="" id="create_account" />
                       <label className="form-check-label" htmlFor="create_account">CREATE AN ACCOUNT?</label>
@@ -424,7 +409,7 @@ function Shop_checkout() {
                       <input className="form-check-input form-check-input_fill" type="checkbox" value="" id="ship_different_address" />
                       <label className="form-check-label" htmlFor="ship_different_address">SHIP TO A DIFFERENT ADDRESS?</label>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="col-md-12">
                   <div className="mt-3">
@@ -445,15 +430,15 @@ function Shop_checkout() {
                       </thead>
                       <tbody>
                         {
-                          shopCartData &&
-                          shopCartData[0]?.cart_details?.map((item) => (
+                          
+                          shopCartData?.shopCartData?.map((item) => (
 
                             <tr>
                               <td>
                                 {item?.product_brand}
                               </td>
                               <td align="right">
-                                ${item?.cart_price}
+                                ${item?.sub_total}
                               </td>
                             </tr>
                           ))

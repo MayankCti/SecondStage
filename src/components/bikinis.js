@@ -21,6 +21,7 @@ function Bikinis(props) {
       getCartData(token)
     }
   }, [])
+  
   const getCartData = (val, val2) => {
     setIsLoader(true)
     setAccessToken(val)
@@ -47,9 +48,11 @@ function Bikinis(props) {
       console.log(error)
     })
   }
+
   const getDataFromChild = () => {
     getCartData(accessToken,true)
   }
+
   return (
     <>
     {isLoader == false ?

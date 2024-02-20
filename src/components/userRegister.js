@@ -21,29 +21,29 @@ function UserRegister() {
 
   const handleRegister = (val, { resetForm }) => {
     setIsLoader(true)
-    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: val.license_state, license_number:val.license_number, password: val.password }
-    console.log(data, "helo")
-   
-      axios({
-        url: configJSON.baseUrl + configJSON.signUp_buyer,
-        method: "post",
-        data: data,
+    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: val.license_state, license_number: val.license_number, password: val.password }
+    
+
+    axios({
+      url: configJSON.baseUrl + configJSON.signUpBuyer,
+      method: "post",
+      data: data,
+    })
+      .then((res) => {
+        setIsLoader(false)
+        if (res?.data?.success == true) {
+          MESSAGE.success(res?.data?.message);
+          // resetForm();
+          // navigate("/login-register");
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
       })
-        .then((res) => {
-          setIsLoader(false)
-          if (res?.data?.success == true) {
-            MESSAGE.success(res?.data?.message);
-            // resetForm();
-            // navigate("/login-register");
-          } else {
-            MESSAGE.error(res?.data?.message);
-          }
-        })
-        .catch((error) => {
-          setIsLoader(false)
-          console.log(error);
-  
-        });
+      .catch((error) => {
+        setIsLoader(false)
+        console.log(error);
+
+      });
 
   };
   const handleEye = (val) => {

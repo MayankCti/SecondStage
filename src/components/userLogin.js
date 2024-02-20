@@ -18,7 +18,7 @@ function UserLogin() {
     const handleLogin = (values, { resetForm }) => {
         setIsLoader(true)
         axios({
-            url: configJSON.baseUrl + configJSON.login_buyer,
+            url: configJSON.baseUrl + configJSON.loginBuyer,
             method: "post",
             data: values,
         }).then((res) => {

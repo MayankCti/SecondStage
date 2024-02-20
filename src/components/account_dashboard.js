@@ -10,6 +10,7 @@ function Account_dashboard() {
   const [isCartSidebar, setIsCartSidebar] = useState(false)
   const [cartData, setCartData] = useState([])
   const [accessToken, setAccessToken] = useState()
+  const [myProfile, setMyprofile] = useState();
   const [isLoader, setIsLoader] = useState(false);
 
   useEffect(() => {
@@ -18,6 +19,7 @@ function Account_dashboard() {
       navigate('/login-register')
     } else {
       getCartData(token)
+      myProfileData(token)
     }
   }, [])
 
@@ -62,6 +64,24 @@ function Account_dashboard() {
   }
   const handleAccountEditAddress = () => {
     navigate("/account-edit-address")
+  }
+
+  const myProfileData = (val) => {
+    axios({
+      method:"get",
+      url:configJSON.baseUrl + configJSON.myProfile_buyer,
+      headers: {
+        'Authorization': `Bearer ${val}`
+      },
+    })
+    .then((res)=>{
+      if(res?.data?.success == true){
+        setMyprofile(res?.data?.user_info[0]?.buyer_name);
+      }
+    })
+    .catch((err)=>{
+      console.log({err})
+    })
   }
   return (
     <>
@@ -229,7 +249,7 @@ function Account_dashboard() {
 
                 <div className="col-lg-9">
                   <div className="page-content my-account__dashboard">
-                    <p>Hello <strong>alitfn58</strong> (not <strong>alitfn58?</strong> <a onClick={() => handleLoginRegister()}>Log out</a>)</p>
+                    <p>Hello <strong>{myProfile}</strong> (not <strong>{myProfile}?</strong> <a onClick={() => handleLoginRegister()}>Log out</a>)</p>
                     <p>From your account dashboard you can view your <a className="unerline-link" onClick={() => handleAccountOrders()}>recent orders</a>, manage your <a className="unerline-link" onClick={() => handleAccountEditAddress()}>shipping and billing addresses</a>, and <a className="unerline-link" onClick={() => handleAccountEdit()}>edit your password and account details.</a></p>
                   </div>
                 </div>

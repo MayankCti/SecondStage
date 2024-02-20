@@ -15,7 +15,9 @@ function Home() {
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
   const [isHome, setIsHome] = useState(false)
+  const [sort,setSort] = useState(4)
   const [show, setShow] = useState("buy")
+  
   useEffect(() => {
 
     setTimeout(() => {
@@ -26,10 +28,11 @@ function Home() {
   const getAllProduct = () => {
     setIsLoader(true);
     const data = {
-      user_id : 0
+      user_id : 0,
+      sort:"4"
     }
     axios({
-      url: configJSON.baseUrl + configJSON.product_details,
+      url: configJSON.baseUrl + configJSON.getAllProduct,
       method: "post",
       data: data
     })

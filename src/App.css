@@ -44,6 +44,20 @@
 }
 
 
+span.ct_quantity_text {
+	position: absolute !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+  }
+  span.ct_quantity_text.ct_quantity_minus{
+	left: 10px !important;
+  }
+  span.ct_quantity_text.ct_quantity_plus{
+	right: 10px !important;
+  }
+  .ct_quantity_text i {
+	  font-size: 10px !important;
+  }
 
 @keyframes cssload-load {
 	0% {
@@ -128,4 +142,9 @@
 		height: 29px;
 		width: 15px;
 	}
+}
+
+
+.ct_cart_update_calender .rdrDateDisplayWrapper {
+    width: 95%;
 }

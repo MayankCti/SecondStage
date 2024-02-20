@@ -34,7 +34,9 @@ function EditProfile(props) {
     data.append("phone_number", phone)
     data.append("license_number", licenseNumber)
     data.append("license_state", licenseState)
-    data.append("profile_image", changeImage)
+    if(changeImage){
+      data.append("file", changeImage)
+    }
 
     if (name && userName && phone && licenseState && licenseNumber) {
       axios({
@@ -45,7 +47,6 @@ function EditProfile(props) {
           'Authorization': `Bearer ${accessToken}`
         },
       }).then((res) => {
-        console.log(res, "the response")
         setIsLoader(false)
         if (res?.data?.success == true) {
           MESSAGE.success(res?.data?.message)

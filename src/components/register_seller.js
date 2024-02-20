@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import Header from "./header";
 import Footer from "./footer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { message, message as MESSAGE } from "antd";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 export const configJSON = require("../components/config");
 
 function Register_seller() {
@@ -26,6 +31,7 @@ function Register_seller() {
   const [isSizeShow, setIsSizeShow] = useState(false)
   const [file, setFile] = useState([])
   const [file1, setFile1] = useState([])
+  const [filterContent, setFilterContent] = useState([])
 
   const [locationOption, setLocationOption] = useState()
   const [lengthRentalOption, setLengthRentalOption] = useState()
@@ -36,6 +42,7 @@ function Register_seller() {
   const [blingTypeOption, setBlingTypeOption] = useState()
   const [styleBottomOption, setStyleBottomOption] = useState()
   const [styleTopOption, setStyleTopOption] = useState()
+  const [product_name, setProduct_name] = useState()
   const [sizeTopOption, setSizeTopOption] = useState("--Select--Top--");
   const [sizeBottomOption, setSizeBottomOption] =
     useState("--Select--Bottom--");
@@ -49,6 +56,40 @@ function Register_seller() {
   const [brandOption, setBrandOption] = useState("--Select--Brand--");
   const [colorData, setColorData] = useState("--Select--Color--");
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: "700px",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    if (product_name && categoryOption && priceSellLend && priceBuyOption && colorData && brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && replacementPrice) {
+      setOpen(true);
+  } else {
+    MESSAGE.error("fill all the fields.!");
+    setOpen(true);
+
+  }
+  }
+  const handleClose = () => setOpen(false);
+  const [islicenseState, setIsLicenseState] = useState(false)
+  const [profileData, setProfileData] = useState([])
+
+  const [name, setName] = useState()
+  const [userName, setUserName] = useState()
+  const [licenseNumber, setLicenseNumber] = useState()
+  const [licenseStateOption, setLicenseStateOption] = useState("")
+  const [email, setEmail] = useState()
+  const [phone, setPhone] = useState()
+  const [cardNumber, setCardNumber] = useState()
+
+  const navigate = useNavigate();
   useEffect(() => {
     if (categoryOption == "Bikini" || categoryOption == "Figure" || categoryOption == "FMG/WBFF") {
       setIsSizeTopBottom(true)
@@ -58,7 +99,8 @@ function Register_seller() {
       setIsSizeTopBottom(false)
       setIsSizeShow(true)
     }
-
+    getFilterContent()
+    getMyProfile()
   }, [categoryOption])
 
 
@@ -69,7 +111,6 @@ function Register_seller() {
       setIsSizeTop(true);
     }
   };
-
   const onHandleStyleTop = () => {
     if (isStyleTop == true) {
       setIsStyleTop(false);
@@ -77,7 +118,6 @@ function Register_seller() {
       setIsStyleTop(true);
     }
   };
-
   const onHandleStyleBottom = () => {
     if (isStyleBottom == true) {
       setIsStyleBottom(false);
@@ -85,7 +125,6 @@ function Register_seller() {
       setIsStyleBottom(true);
     }
   }
-
   const onHandleSizeStandard = () => {
     if (isSizeStandard == true) {
       setIsSizeStandard(false);
@@ -93,7 +132,6 @@ function Register_seller() {
       setIsSizeStandard(true);
     }
   };
-
   const onHandleSizeBottom = () => {
     if (isSizeBottom == true) {
       setIsSizeBottom(false);
@@ -101,7 +139,6 @@ function Register_seller() {
       setIsSizeBottom(true);
     }
   };
-
   const onHandleOpenBrand = () => {
     if (isBrandDropdownOpen == true) {
       setIsBrandDropdownOpen(false);
@@ -109,7 +146,6 @@ function Register_seller() {
       setIsBrandDropdownOpen(true);
     }
   };
-
   const onHandleOpenCategory = () => {
     if (isCategoryDropdownOpen == true) {
       setIsCategoryDropdownOpen(false);
@@ -117,7 +153,6 @@ function Register_seller() {
       setIsCategoryDropdownOpen(true);
     }
   };
-
   const onHandleOpenColor = () => {
     if (isColorDropdownOpen == true) {
       setIsColorDropdownOpen(false);
@@ -125,30 +160,30 @@ function Register_seller() {
       setIsColorDropdownOpen(true);
     }
   };
-
   const handleFile = (e) => {
-    const selectedFile = e?.target?.files[0];
-    file.push({name:selectedFile.name,size:selectedFile.size,type:selectedFile.type})
-
-    if (selectedFile) {
-      // Create a Blob object from the selected file
-      const blob = new Blob([selectedFile], { type: selectedFile?.type });
-  
-      // Create a URL for the Blob and update the state
-      setFile1([...file1, URL.createObjectURL(blob)]);
+    const fileData = e?.target?.files;
+    for (var i = 0; i < fileData?.length; i++) {
+      file.push(fileData[i])
+      setFile(file => file?.filter((item) => item));
+      let blob = new Blob([fileData[i]], { type: fileData[i]?.type });
+      const blobUrl = URL.createObjectURL(blob)
+      file1?.push(blobUrl)
     }
-  
+    setFile1(file1 => file1?.filter((item) => item));
   }
-
+  const removeImage = (val, i) => {
+    setFile1(val => val?.filter((item, index) => index !== i));
+    setFile(val => val?.filter((item, index) => index !== i));
+  }
   const addProduct = () => {
-    console.log(file,"file")
     setIsLoader(true)
+    const fata = file.flat()
     const data = new FormData();
     data.append("product_category", categoryOption)
+    data.append("product_name", product_name)
     data.append("price_sale_lend_price", priceSellLend)
     data.append("product_replacement_price", replacementPrice)
     data.append("product_buy_rent", priceBuyOption)
-    data.append("product_rental_period", `${lengthRentalOption}`)
     data.append("product_color", colorData)
     data.append("product_brand", brandOption)
     data.append("style_top", styleTopOption)
@@ -159,39 +194,88 @@ function Register_seller() {
     data.append("product_padding", paddingOption)
     data.append("location", locationOption)
     data.append("product_description", description)
-    data.append("size_top", sizeTopOption)
-    data.append("size_bottom", sizeBottomOption)
-    data.append("size_standard", sizeStandardOption)
-
     for (let i = 0; i < file.length; i++) {
       data.append("files", file[i]);
     }
+    // if (lengthRentalOption) {
+    data.append("product_rental_period", `val`)
+    // }
 
-    if(categoryOption && priceSellLend && lengthRentalOption && priceBuyOption && lengthRentalOption && colorData&& brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && sizeTopOption && sizeBottomOption && sizeStandardOption){
-
-        axios({
-          url: configJSON.baseUrl + configJSON.add_product,
-          method: "post",
-          data: data,
-          headers: { 'content-type': 'multipart/form-data' },
-        })
-          .then((res) => {
-    setIsLoader(false)
-            if (res?.data?.success == true) {
-              MESSAGE.success(res?.data?.message);
-
-            } else {
-              MESSAGE.error(res?.data?.message);
-            }
-          })
-          .catch((error) => {
-    setIsLoader(false)
-            console.log(error);
-          });
-
-    }else{
-      MESSAGE.error("All fields are mendatory !!!");
+    if (sizeTopOption && sizeBottomOption) {
+      data.append("size_top", sizeTopOption)
+      data.append("size_bottom", sizeBottomOption)
     }
+    else if (sizeStandardOption) {
+      data.append("size_standard", sizeStandardOption)
+    }
+   
+      axios({
+        url: configJSON.baseUrl + configJSON.addProduct,
+        method: "post",
+        data: data,
+        headers: { 'content-type': 'multipart/form-data' },
+      })
+        .then((res) => {
+          setIsLoader(false)
+          if (res?.data?.success == true) {
+            MESSAGE.success(res?.data?.message);
+          } else {
+            MESSAGE.error(res?.data?.message);
+          }
+        })
+        .catch((error) => {
+          setIsLoader(false)
+          console.log(error);
+        });
+    
+  }
+  const getFilterContent = () => {
+    setIsLoader(true);
+    axios({
+      url: configJSON.baseUrl + configJSON.fetch_categories,
+      method: "post",
+    })
+      .then((res) => {
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          setFilterContent(res?.data?.data);
+        } else {
+          setFilterContent([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoader(false);
+      });
+  };
+  const getMyProfile = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    setIsLoader(true)
+    axios({
+      url: configJSON.baseUrl + configJSON.myProfile_buyer,
+      method: "get",
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    }).then((res) => {
+      setIsLoader(false)
+      if (res?.data?.success == true) {
+        setProfileData(res?.data?.user_info[0])
+        setName(res?.data?.user_info[0]?.buyer_name)
+        setUserName(res?.data?.user_info[0]?.user_name)
+        setLicenseNumber(res?.data?.user_info[0]?.license_number)
+        setLicenseStateOption(res?.data?.user_info[0]?.license_state)
+        setEmail(res?.data?.user_info[0]?.email)
+        setPhone(res?.data?.user_info[0]?.phone_number)
+      }
+      else {
+        setProfileData([])
+      }
+    }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+    })
   }
   return (
     <>
@@ -471,7 +555,15 @@ function Register_seller() {
                   className="needs-validation"
                   novalidate=""
                 >
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-floating my-3">
+                        <input type="text" className="form-control" id="checkout_first_name" placeholder="Product Name" onChange={(e) => setProduct_name(e.target.value)} value={product_name} />
+                        <label for="checkout_first_name">Product Name</label></div>
 
+                    </div>
+
+                  </div>
                   <div className="row">
                     <div className="col-md-12">
                       <div className="search-field mb-3">
@@ -503,44 +595,17 @@ function Register_seller() {
                             onClick={onHandleOpenCategory}
                           >
                             <ul className="search-suggestion list-unstyled">
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setCategoryOption("Bikini")}
-                              >
-                                <span className="me-auto">Bikini </span>
-                              </li>
-                              <li
-                                className=" search-suggestion__item js-search-select"
-                                onClick={() => setCategoryOption("Figure")}
-                              >
-                                <span className="me-auto">Figure</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setCategoryOption("Swimsuit")}
-                              >
-                                <span className="me-auto">Swimsuit</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setCategoryOption("FMG_WBFF")}
-                              >
-                                <span className="me-auto">FMG_WBFF</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setCategoryOption("Themewear")}
-                              >
-                                <span className="me-auto">Themewear</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() =>
-                                  setCategoryOption("Accessories/Shoes")
-                                }
-                              >
-                                <span className="me-auto">Accessories/Shoes</span>
-                              </li>
+                              {
+                                filterContent?.product_categories?.map((item) => (
+
+                                  <li
+                                    className="search-suggestion__item js-search-select"
+                                    onClick={() => setCategoryOption(item)}
+                                  >
+                                    <span className="me-auto">{item} </span>
+                                  </li>
+                                ))
+                              }
                             </ul>
                           </div>
                         </div>
@@ -619,62 +684,60 @@ function Register_seller() {
                           </div>
                           <div className="filters-container js-hidden-content mt-2" onClick={() => setIsPriceBuy(!isPriceBuy)}>
                             <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setPriceBuyOption("Buy")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Buy
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setPriceBuyOption("Rent")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Rent
-                                </a>
-                              </li>
+                              {
+                                filterContent?.productBuy_rent?.map((item) => (
+
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setPriceBuyOption(item)}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      {item}
+                                    </a>
+                                  </li>
+                                ))
+                              }
                             </ul>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="" className="mb-3">
-                        &nbsp;
-                      </label>
-                      <div className="search-field mb-3">
-                        <div className={isLengthRental == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                          <label htmlFor="search-dropdown2" className="form-label">
-                            Length of Rental Period{" "}
-                          </label>
-                          <div className="js-hover__open" onClick={() => setIsLengthRental(!isLengthRental)}>
-                            <input
-                              type="text"
-                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                              id="search-dropdown2"
-                              name="search-keyword"
-                              readonly=""
-                              value={lengthRentalOption}
-                            />
-                          </div>
-                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsLengthRental(!isLengthRental)}>
-                            <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("2 Weeks")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  2 Weeks
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("1 Month")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  1 Month
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption("1 Season")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  1 Season
-                                </a>
-                              </li>
-                            </ul>
+                    {priceBuyOption == "Rent" &&
+                      <div className="col-md-6 mb-3">
+                        <label htmlFor="" className="mb-3">
+                          &nbsp;
+                        </label>
+                        <div className="search-field mb-3">
+                          <div className={isLengthRental == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                            <label htmlFor="search-dropdown2" className="form-label">
+                              Length of Rental Period{" "}
+                            </label>
+                            <div className="js-hover__open" onClick={() => setIsLengthRental(!isLengthRental)}>
+                              <input
+                                type="text"
+                                className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                id="search-dropdown2"
+                                name="search-keyword"
+                                readonly=""
+                                value={lengthRentalOption}
+                              />
+                            </div>
+                            <div className="filters-container js-hidden-content mt-2" onClick={() => setIsLengthRental(!isLengthRental)}>
+                              <ul className="search-suggestion list-unstyled">
+                                {
+                                  filterContent?.product_rental_period?.map((item) => (
+
+                                    <li className="search-suggestion__item js-search-select" onClick={() => setLengthRentalOption(item)}>
+                                      <a className=" mb-3 me-3 js-filter">
+                                        {item}
+                                      </a>
+                                    </li>
+                                  ))
+                                }
+
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    }
                   </div>
                   <div className="row">
                     <div className="col-md-6">
@@ -708,56 +771,16 @@ function Register_seller() {
                           >
                             <ul className="search-suggestion list-unstyled">
                               <div className="d-flex flex-wrap gap-2">
-                                <a
-                                  onClick={() => setColorData("#0a2472")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#0a2472" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#d7bb4f")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#d7bb4f" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#282828")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#282828" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#b1d6e8")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#b1d6e8" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#9c7539")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#9c7539" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#d29b48")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#d29b48" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#e6ae95")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#e6ae95" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#d76b67")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#d76b67" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#bababa")}
-                                  className="swatch-color swatch_active js-filter"
-                                  style={{ color: "#bababa" }}
-                                ></a>
-                                <a
-                                  onClick={() => setColorData("#bfdcc4")}
-                                  className="swatch-color js-filter"
-                                  style={{ color: "#bfdcc4" }}
-                                ></a>
+                                {
+                                  filterContent?.productColor?.map((item) => (
+
+                                    <a
+                                      onClick={() => setColorData(item)}
+                                      className="swatch-color js-filter"
+                                      style={{ color: `${item}` }}
+                                    ></a>
+                                  ))
+                                }
                               </div>
                             </ul>
                           </div>
@@ -796,86 +819,21 @@ function Register_seller() {
                             onClick={() => setIsBrandDropdownOpen(false)}
                           >
                             <ul className="search-suggestion list-unstyled">
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() =>
-                                  setBrandOption("Angel Competition Bikinis")
-                                }
-                              >
-                                <span className="me-auto">
-                                  Angel Competition Bikinis
-                                </span>
-                              </li>
-                              <li
-                                className=" search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Georgia Rose")}
-                              >
-                                <span className="me-auto">Georgia Rose</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Glamfit")}
-                              >
-                                <span className="me-auto">Glamfit</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Toxic Angels")}
-                              >
-                                <span className="me-auto">Toxic Angels</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("67 Bikinis")}
-                              >
-                                <span className="me-auto">67 Bikinis</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Blackice Bikinis")}
-                              >
-                                <span className="me-auto">Blackice Bikinis</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Season Bikini")}
-                              >
-                                <span className="me-auto">Season Bikini</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Ravishsands")}
-                              >
-                                <span className="me-auto">Ravishsands</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Creative Bikinis")}
-                              >
-                                <span className="me-auto">Creative Bikinis</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() =>
-                                  setBrandOption("SY Competition Suits")
-                                }
-                              >
-                                <span className="me-auto">
-                                  SY Competition Suits
-                                </span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Kristal Bikinis")}
-                              >
-                                <span className="me-auto">Kristal Bikinis</span>
-                              </li>
-                              <li
-                                className="search-suggestion__item js-search-select"
-                                onClick={() => setBrandOption("Other")}
-                              >
-                                <span className="me-auto">Other</span>
-                              </li>
+                              {
+                                filterContent?.product_brand?.map((item) => (
+                                  <li
+                                    className="search-suggestion__item js-search-select"
+                                    onClick={() =>
+                                      setBrandOption(item)
+                                    }
+                                  >
+                                    <span className="me-auto">
+                                      {item}
+                                    </span>
+                                  </li>
+
+                                ))
+                              }
                             </ul>
                           </div>
                         </div>
@@ -917,36 +875,15 @@ function Register_seller() {
                               </div>
                               <div className="filters-container js-hidden-content mt-2">
                                 <ul className="search-suggestion list-unstyled">
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XXS")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      XXS
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XS")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      XS
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("S")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      S
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("M")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      M
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("L")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      L
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption("XL")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      XL
-                                    </a>
-                                  </li>
+                                  {
+                                    filterContent?.sizeStandard?.map((item) => (
+                                      <li className="search-suggestion__item js-search-select" onClick={() => setSizeStandardOption(item)}>
+                                        <a className=" mb-3 me-3 js-filter">
+                                          {item}
+                                        </a>
+                                      </li>
+                                    ))
+                                  }
                                 </ul>
                               </div>
                             </div>
@@ -973,26 +910,15 @@ function Register_seller() {
                               </div>
                               <div className="filters-container js-hidden-content mt-2" onClick={onHandleSizeTop}>
                                 <ul className="search-suggestion list-unstyled">
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("A/B")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      A/B
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("C")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      C
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("D")} >
-                                    <a className=" mb-3 me-3 js-filter">
-                                      D
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption("DD & Bigger")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      DD & Bigger
-                                    </a>
-                                  </li>
+                                  {
+                                    filterContent?.sizeTop?.map((item) => (
+                                      <li className="search-suggestion__item js-search-select" onClick={() => setSizeTopOption(item)}>
+                                        <a className=" mb-3 me-3 js-filter">
+                                          {item}
+                                        </a>
+                                      </li>
+                                    ))
+                                  }
                                 </ul>
                               </div>
                             </div>
@@ -1019,36 +945,15 @@ function Register_seller() {
                                 </div>
                                 <div className="filters-container js-hidden-content mt-2" onClick={onHandleSizeBottom}>
                                   <ul className="search-suggestion list-unstyled">
-                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("2")}>
-                                      <a className=" mb-3 me-3 js-filter">
-                                        2
-                                      </a>
-                                    </li>
-                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("4")}>
-                                      <a className=" mb-3 me-3 js-filter">
-                                        4
-                                      </a>
-                                    </li>
-                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("6")}>
-                                      <a className=" mb-3 me-3 js-filter">
-                                        6
-                                      </a>
-                                    </li>
-                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("8")}>
-                                      <a className=" mb-3 me-3 js-filter">
-                                        8
-                                      </a>
-                                    </li>
-                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("10")}>
-                                      <a className=" mb-3 me-3 js-filter">
-                                        10
-                                      </a>
-                                    </li>
-                                    <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption("Other/combination")}>
-                                      <a className=" mb-3 me-3 js-filter">
-                                        Other/combination
-                                      </a>
-                                    </li>
+                                    {
+                                      filterContent?.sizeBottom?.map((item) => (
+                                        <li className="search-suggestion__item js-search-select" onClick={() => setSizeBottomOption(item)}>
+                                          <a className=" mb-3 me-3 js-filter">
+                                            {item}
+                                          </a>
+                                        </li>
+                                      ))
+                                    }
                                   </ul>
                                 </div>
                               </div>
@@ -1084,18 +989,15 @@ function Register_seller() {
                               </div>
                               <div className="filters-container js-hidden-content mt-2" onClick={onHandleStyleTop}>
                                 <ul className="search-suggestion list-unstyled">
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Bombshell")}>
-                                    <span className="me-auto">Bombshell</span>
-                                  </li>
-                                  <li className=" search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Slider")}>
-                                    <span className="me-auto">Slider</span>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Moulded")}>
-                                    <span className="me-auto">Moulded</span>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption("Other")}>
-                                    <span className="me-auto">Other</span>
-                                  </li>
+
+                                  {
+                                    filterContent?.styleTop?.map((item) => (
+                                      <li className="search-suggestion__item js-search-select" onClick={() => setStyleTopOption(item)}>
+                                        <span className="me-auto">{item}</span>
+                                      </li>
+
+                                    ))
+                                  }
                                 </ul>
                               </div>
                             </div>
@@ -1123,27 +1025,15 @@ function Register_seller() {
                               </div>
                               <div className="filters-container js-hidden-content mt-2" onClick={onHandleStyleBottom}>
                                 <ul className="search-suggestion list-unstyled">
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Cheeky")}>
-                                    <span className="me-auto">Cheeky</span>
-                                  </li>
-                                  <li className=" search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Extra Cheeky")}>
-                                    <span className="me-auto">Extra Cheeky</span>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Brazllian")}>
-                                    <span className="me-auto">Brazllian</span>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Pro")}>
-                                    <span className="me-auto">Pro</span>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Micro Pro")}>
-                                    <span className="me-auto">Micro Pro</span>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Olympian")}>
-                                    <span className="me-auto">Olympian</span>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption("Other")}>
-                                    <span className="me-auto">Other</span>
-                                  </li>
+
+                                  {
+                                    filterContent?.styleBottom?.map((item) => (
+                                      <li className="search-suggestion__item js-search-select" onClick={() => setStyleBottomOption(item)}>
+                                        <span className="me-auto">{item}</span>
+                                      </li>
+
+                                    ))
+                                  }
                                 </ul>
                               </div>
                             </div>
@@ -1181,21 +1071,16 @@ function Register_seller() {
                               </div>
                               <div className="filters-container js-hidden-content mt-2">
                                 <ul className="search-suggestion list-unstyled" onClick={() => setIsBlingType(!isBlingType)}>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Standard Rhinestones")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Standard Rhinestones
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Preciosa")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Preciosa
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption("Swarovski")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Swarovski
-                                    </a>
-                                  </li>
+
+                                  {
+                                    filterContent?.billingType?.map((item) => (
+                                      <li className="search-suggestion__item js-search-select" onClick={() => setBlingTypeOption(item)}>
+                                        <a className=" mb-3 me-3 js-filter">
+                                          {item}
+                                        </a>
+                                      </li>
+                                    ))
+                                  }
                                 </ul>
                               </div>
                             </div>
@@ -1222,21 +1107,15 @@ function Register_seller() {
                               </div>
                               <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingLevel(!isBlingLevel)}>
                                 <ul className="search-suggestion list-unstyled">
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Plain")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Plain
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Basic")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Basic
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption("Full")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Full
-                                    </a>
-                                  </li>
+                                  {
+                                    filterContent?.billingLevel?.map((item) => (
+                                      <li className="search-suggestion__item js-search-select" onClick={() => setBlingLevelOption(item)}>
+                                        <a className=" mb-3 me-3 js-filter">
+                                          {item}
+                                        </a>
+                                      </li>
+                                    ))
+                                  }
                                 </ul>
                               </div>
                             </div>
@@ -1263,26 +1142,16 @@ function Register_seller() {
                               </div>
                               <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
                                 <ul className="search-suggestion list-unstyled">
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("New")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      New
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Worn Once")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Worn Once
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Worn")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Worn
-                                    </a>
-                                  </li>
-                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption("Needs work")}>
-                                    <a className=" mb-3 me-3 js-filter">
-                                      Needs work
-                                    </a>
-                                  </li>
+
+                                  {
+                                    filterContent?.billingCondition?.map((item) => (
+                                      <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption(item)}>
+                                        <a className=" mb-3 me-3 js-filter">
+                                          {item}
+                                        </a>
+                                      </li>
+                                    ))
+                                  }
                                 </ul>
                               </div>
                             </div>
@@ -1311,21 +1180,16 @@ function Register_seller() {
                           </div>
                           <div className="filters-container js-hidden-content mt-2" onClick={() => setIsPadding(!isPadding)}>
                             <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("Single")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Single
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("Double")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Double
-                                </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption("None")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  None
-                                </a>
-                              </li>
+
+                              {
+                                filterContent?.padding?.map((item) => (
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setPaddingOption(item)}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      {item}
+                                    </a>
+                                  </li>
+                                ))
+                              }
                             </ul>
                           </div>
                         </div>
@@ -1352,7 +1216,7 @@ function Register_seller() {
                           </div>
                           <div className="filters-container js-hidden-content mt-2" onClick={() => setIsLocation(!isLocation)}>
                             <ul className="search-suggestion list-unstyled">
-                              <li className="search-suggestion__item js-search-select">
+                              {/* <li className="search-suggestion__item js-search-select">
                                 <a
 
                                   className="mb-0 d-block me-3 js-filter swatch_active"
@@ -1364,12 +1228,17 @@ function Register_seller() {
 
                                   />
                                 </a>
-                              </li>
-                              <li className="search-suggestion__item js-search-select" onClick={() => setLocationOption("Posts to")}>
-                                <a className=" mb-3 me-3 js-filter">
-                                  Posts to
-                                </a>
-                              </li>
+                              </li> */}
+                              {
+                                filterContent?.location?.map((item) => (
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setLocationOption(item)}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      {item}
+                                    </a>
+                                  </li>
+                                ))
+                              }
+
                             </ul>
                           </div>
                         </div>
@@ -1379,27 +1248,25 @@ function Register_seller() {
                       <div className=" mb-3">
                         <fieldset className="form-control form-control_gray">
                           <a
-                            href="javascript:void(0)"
-                            onClick="$('#pro-image').click()"
+                          // href="javascript:void(0)"
+                          // onClick="$('#pro-image').click()"
                           >
                             Upload Image
                           </a>
                           <input
                             type="file"
-                            // id="pro-image"
-                            // name="pro-image"
                             style={{ display: "none;" }}
                             className="form-control"
-                            multiple  
+                            multiple
                             onChange={(e) => handleFile(e)}
                           />
                         </fieldset>
                         <div className="preview-images-zone mt-2">
                           {
                             file1?.length > 0 &&
-                            file1?.map((item, index) => (
+                            file1?.map((item, i) => (
                               <div className="preview-image preview-show-4">
-                                <div className="image-cancel" data-no="4">
+                                <div className="image-cancel" onClick={() => removeImage(item, i)}>
                                   x
                                 </div>
                                 <div className="image-zone">
@@ -1433,7 +1300,7 @@ function Register_seller() {
                   <button
                     className="btn btn-primary mx-auto d-block mt-4 text-uppercase"
                     type="button"
-                    onClick={addProduct}
+                    onClick={handleOpen}
                   >
                     Submit
                   </button>
@@ -1442,7 +1309,222 @@ function Register_seller() {
           </div>
         </section>
       </main>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <section
+            className="login-register container mx-0 w-75 mx-auto pb-5"
+            id="rgister_form1"
+          >
+            <section className="contact-us container">
+              <div className="mw-930   ">
+                <h2 className="page-title section-title text-center mb-5 ct_lowercase">
+                  Register to Buy/Lend
+                </h2>
+              </div>
+            </section>
+            <div className="login-form">
+              <form
+                name="login-form"
+                className="needs-validation"
+                novalidate=""
+              >
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-floating mb-3">
+                      <input
+                        name="login_email"
+                        type="text"
+                        className="form-control form-control_gray"
+                        id="customerNameEmailInput"
+                        placeholder="Email Name*"
+                        required=""
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        readOnly={true}
+                      />
+                      <label htmlFor="customerNameEmailInput">Name*</label>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-floating mb-3">
+                      <input
+                        name="login_email"
+                        type="text"
+                        className="form-control form-control_gray"
+                        id="customerNameEmailInput"
+                        placeholder="Email Create Username*"
+                        required=""
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        readOnly={true}
+                      />
+                      <label htmlFor="customerNameEmailInput">
+                        Create Username*
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-floating mb-3">
+                      <input
+                        name="login_email"
+                        type="email"
+                        className="form-control form-control_gray"
+                        id="customerNameEmailInput"
+                        placeholder="Email Email*"
+                        required=""
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        readOnly={true}
+                      />
+                      <label htmlFor="customerNameEmailInput">Email*</label>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-floating mb-3">
+                      <input
+                        name="login_email"
+                        type="number"
+                        className="form-control form-control_gray"
+                        id="customerNameEmailInput"
+                        placeholder="Email Phone*"
+                        required=""
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        readOnly={true}
+                      />
+                      <label htmlFor="customerNameEmailInput">Phone*</label>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-floating mb-3">
+                      <input
+                        name="login_email"
+                        type="number"
+                        className="form-control form-control_gray"
+                        id="customerNameEmailInput"
+                        placeholder="Email Licence Number *"
+                        required=""
+                        value={licenseNumber}
+                        // onChange={(e)=>setLicenseNumber(e.target.value)}
+                        readOnly={true}
+                      />
+                      <label htmlFor="customerNameEmailInput">
+                        Licence Number *
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div class="search-field mb-3">
+                      <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                        <label for="search-dropdown7" class="form-label">Licence State *</label>
+                        <div class="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
+                          <input
+                            type="text"
+                            class="form-control form-control-lg search-field__actor search-field__arrow-down"
+                            id="search-dropdown7"
+                            name="search-keyword"
+                            value={licenseStateOption}
 
+                          />
+                        </div>
+                        <div class="filters-container js-hidden-content mt-2">
+                          <ul class="search-suggestion list-unstyled" onClick={() => setIsLicenseState(!islicenseState)}>
+                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("ACT")}>
+                              <a class=" mb-3 me-3 js-filter">
+                                ACT
+                              </a>
+                            </li>
+                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("NSW")}>
+                              <a class=" mb-3 me-3 js-filter">
+                                NSW
+                              </a>
+                            </li>
+                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("SA")}>
+                              <a class=" mb-3 me-3 js-filter">
+                                SA
+                              </a>
+                            </li>
+                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("Vic")}>
+                              <a class=" mb-3 me-3 js-filter">
+                                Vic
+                              </a>
+                            </li>
+                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("Qld")}>
+                              <a class=" mb-3 me-3 js-filter">
+                                Qld
+                              </a>
+                            </li>
+                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("WA")}>
+                              <a class=" mb-3 me-3 js-filter">
+                                WA
+                              </a>
+                            </li>
+                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("WA")}>
+                              <a class=" mb-3 me-3 js-filter">
+                                NT
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="form-floating mb-3">
+                      <input
+                        name="login_email"
+                        type="number"
+                        className="form-control form-control_gray"
+                        id="customerNameEmailInput"
+                        placeholder="Email Licence Number *"
+                        required=""
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(e.target.value)}
+                      />
+                      <label htmlFor="customerNameEmailInput">
+                        Credit/Debit Card Number *
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex align-items-center mb-3 pb-2">
+                  <div className="form-check ct_check_input mb-0">
+                    <input
+                      name="remember"
+                      className="form-check-input form-check-input_fill "
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                    />
+                    <label
+                      className="form-check-label text-secondary"
+                      htmlFor="flexCheckDefault"
+                    >
+                      Agreement to{" "}
+                      <a onClick={() => navigate("/terms")}>
+                        Terms and Conditions
+                      </a>{" "}
+                    </label>
+                  </div>
+                </div>
+                <button
+                  className="btn btn-primary w-100 text-uppercase"
+                  type="button"
+                  onClick={addProduct}
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          </section>
+        </Box>
+      </Modal>
       <Footer />
     </>
   );

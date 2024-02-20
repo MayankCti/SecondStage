@@ -12,6 +12,7 @@ function Content(props) {
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
   const [accessToken, setAccessToken] = useState();
+  const [sort,setSort] = useState(4)
   const [show, setShow] = useState("buy")
   const navigate = useNavigate();
   const handleProduct1Simple = (productId) => {
@@ -34,10 +35,11 @@ function Content(props) {
     setIsLoader(true);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const data = {
-      user_id: user_id
+      user_id: user_id,
+  sort : "4"
     }
     axios({
-      url: configJSON.baseUrl + configJSON.product_details,
+      url: configJSON.baseUrl + configJSON.getAllProduct,
       method: "post",
       data: data
     })
@@ -62,7 +64,7 @@ function Content(props) {
     };
     axios({
       method: "post",
-      url: configJSON.baseUrl + configJSON.add_cart,
+      url: configJSON.baseUrl + configJSON.addToCart,
       data: data,
       headers: {
         Authorization: `Bearer ${accessToken}`,

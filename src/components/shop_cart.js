@@ -23,7 +23,7 @@ function Shop_cart() {
       navigate("/login-register");
     } else {
       getCartData(token);
-      getShopCart(token);
+      getShopCart();
     }
   }, []);
 
@@ -38,12 +38,13 @@ function Shop_cart() {
       },
     })
       .then((res) => {
-        setIsLoader(false);
         if (res?.data?.success == true) {
           setAllProduct(res?.data?.cart);
+          setIsLoader(false);
           val2 == true ? setIsCartSidebar(true) : setIsCartSidebar(false);
         } else {
           setAllProduct([]);
+          setIsLoader(false);
         }
       })
       .catch((error) => {
@@ -55,16 +56,17 @@ function Shop_cart() {
     setIsLoader(true);
     axios({
       method: "delete",
-      url: configJSON.baseUrl + configJSON.deleteCartData + cart_id,
+      url: configJSON.baseUrl + configJSON.deleteCartData + cart_id?.id,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
       .then((res) => {
-        setIsLoader(false);
+        // setIsLoader(false);
         if (res.data.success == true) {
           MESSAGE.success("Cart item deleted successfully");
-          getCartData(accessToken);
+          // getCartData(accessToken);
+          window.location.href = "/shop-cart"
         } else {
           MESSAGE.error("Unable to delete cart item.");
         }
@@ -74,21 +76,22 @@ function Shop_cart() {
         console.log(err);
       });
   };
-  const upDateCartData = (productID, cartQty, cartId, incDec) => {
+  const upDateCartData = (val, item) => {
     setIsLoader(true);
-    if (incDec == "-") {
-      cartQty = cartQty - 1;
-    } else if (incDec == "+") {
+    let cartQty = item?.cart_quantity;
+    if (val == "plus") {
       cartQty = cartQty + 1;
+    } else if (val == "minus") {
+      cartQty = cartQty - 1;
     }
     const data = {
-      product_id: productID,
       cart_quantity: cartQty,
+      card_id: item?.id,
+      user_id: item?.buyer_id
     };
-    console.log(cartQty, "qty");
     if (cartQty >= 1) {
       axios({
-        url: configJSON.baseUrl + configJSON.upDateCartData + cartId,
+        url: configJSON.baseUrl + configJSON.upDateCartData,
         method: "post",
         data: data,
         headers: {
@@ -97,10 +100,9 @@ function Shop_cart() {
       })
         .then((res) => {
           setIsLoader(false);
-          console.log(res, "update data");
           if (res.data.success == true) {
             MESSAGE.success(res?.data?.message);
-            getCartData(accessToken);
+            getShopCart()
           } else {
             MESSAGE.error("Unable to update cart item.");
           }
@@ -117,38 +119,34 @@ function Shop_cart() {
   const handleShopCart = () => {
     navigate("/shop-cart");
   };
-  const handleShopCheckout = () => {
-    if (allProduct?.length != 0) navigate("/shop-checkout");
-  };
-  const handleShopOrderComplete = () => {
-    navigate("/shop-order-complete");
-  };
+
   const getDataFromChild = () => {
-    getCartData(accessToken, true);
+    // getCartData(accessToken, true);
+    getShopCart()
   };
   const toChekout = () => {
     if (shopCartData.length != 0) {
-      navigate("/shop-checkout", { state: { shopCartData: shopCartData } });
+      navigate("/shop-checkout", { state: { shopCartData: shopCartData, shipping: shipingtipe, vat: vat, total: allTotal, subTotal: subtotal } });
     }
   };
-  const getShopCart = (val) => {
+  const getShopCart = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.fetch_checkout,
       method: "get",
       headers: {
-        Authorization: `Bearer ${val}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
-        console.log(res?.data?.products, "response shop");
         setIsLoader(false);
         if (res?.data?.success == true) {
-          setShopCartData(res?.data?.products);
-          setShipingtipe(res?.data?.products[0]?.shipping);
-          setSubTotal(res?.data?.products[0]?.subtotal);
-          setAllTotal(res?.data?.products[0]?.vat_sub_total);
-          setVal(res?.data?.products[0]?.vat_percentage);
+          setShopCartData(res?.data?.cart);
+          setShipingtipe(res?.data?.free_shipping);
+          setSubTotal(res?.data?.totalPrice);
+          setAllTotal(res?.data?.vat_sub_total);
+          setVal(res?.data?.vat_percentage);
         } else {
           setShopCartData([]);
         }
@@ -426,7 +424,6 @@ function Shop_cart() {
             onClick={getDataFromChild}
             isCartSidebar={isCartSidebar}
           />
-
           <main>
             <div className="mb-4 pb-4"></div>
             <section className="shop-checkout container">
@@ -477,7 +474,7 @@ function Shop_cart() {
                       </thead>
                       <tbody>
                         {shopCartData &&
-                          shopCartData[0]?.cart_details?.map((item) => (
+                          shopCartData?.map((item) => (
                             <tr>
                               <td>
                                 <div className="shopping-cart__product-item">
@@ -494,63 +491,58 @@ function Shop_cart() {
                                 <div className="shopping-cart__product-item__detail">
                                   <h4>{item?.product_brand}</h4>
                                   <ul className="shopping-cart__product-item__options">
-                                    <li>Color: {item?.product_colors}</li>
-                                    <li>Size: {item?.size_top}</li>
+                                    <li className="d-flex align-items-center gap-3">Color: <div className="swatch-list">
+
+                                      <label className="swatch ct_swatch_after swatch-color js-swatch ct_active_color1 mb-0" for="swatch-11" aria-label="Black"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${item?.color}` }}
+                                        data-bs-original-title="Black"></label>
+
+                                    </div></li>
+                                    <li>Size top: {item?.size_top}</li>
+                                    <li>Size bottom: {item?.size_bottom}</li>
+                                    <li>Product Type : {item?.product_buy_rent}</li>
+                                    {
+                                      item?.product_buy_rent == "rent" &&  <li>rent for : {item?.total_rend_days} {item?.total_rend_days == "1" ? "day" : 'days'} </li>
+                                    }
+                                   
                                   </ul>
                                 </div>
                               </td>
                               <td>
                                 <span className="shopping-cart__product-price">
-                                  ${item?.price_sale_lend_price}
+                                  ${item?.cart_price}
                                 </span>
                               </td>
                               <td>
                                 <div className="qty-control position-relative">
-                                  <input
+                                  <span className="ct_quantity_text ct_quantity_minus" onClick={() => upDateCartData('minus', item)} style={{cursor:"pointer"}}>
+                                    <i class="fa-solid fa-minus"></i>
+                                  </span>
+                                  <input disabled
                                     type="number"
                                     name="quantity"
-                                    value={item?.product_quantity}
+                                    value={item?.cart_quantity}
                                     min="1"
+                                    readOnly={true}
                                     className="qty-control__number text-center"
                                   />
-                                  <div
-                                    className="qty-control__reduce"
-                                    onClick={() =>
-                                      upDateCartData(
-                                        item?.product_id,
-                                        item?.product_quantity,
-                                        item?.cart_id,
-                                        "-"
-                                      )
-                                    }
-                                  >
-                                    -
-                                  </div>
-                                  <div
-                                    className="qty-control__increase"
-                                    onClick={() =>
-                                      upDateCartData(
-                                        item?.product_id,
-                                        item?.product_quantity,
-                                        item?.cart_id,
-                                        "+"
-                                      )
-                                    }
-                                  >
-                                    +
-                                  </div>
+                                  <span className="ct_quantity_text ct_quantity_plus" onClick={() => upDateCartData('plus', item)} style={{cursor:"pointer"}}>
+                                    <i class="fa-solid fa-plus"></i>
+                                  </span>
+
+
                                 </div>
                               </td>
                               <td>
                                 <span className="shopping-cart__subtotal">
-                                  ${item?.cart_price}
+                                  ${item?.sub_total}
                                 </span>
                               </td>
                               <td>
                                 <a
                                   className="remove-cart"
                                   onClick={() =>
-                                    deleteCartData(item?.new_cart_id)
+                                    deleteCartData(item)
                                   }
                                 >
                                   <svg
@@ -647,9 +639,7 @@ function Shop_cart() {
               )}
             </section>
           </main>
-
           <div className="mb-5 pb-xl-5"></div>
-
           <Footer />
         </div>
       )}

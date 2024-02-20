@@ -22,7 +22,7 @@ function Account_edit_address() {
     setIsLoader(true)
     axios({
       url: configJSON.baseUrl + configJSON.fetch_shipping_details,
-      method: "get",
+      method: "post",
       headers: {
         'Authorization': `Bearer ${val}`
       },
@@ -30,7 +30,6 @@ function Account_edit_address() {
     }).then((res) => {
       setIsLoader(false)
       if (res?.data?.success == true) {
-        console.log(res?.data, "res?.data?.shipping_details");
         setAddress(res?.data?.shipping_details ? res?.data?.shipping_details : [])
       }
       else {
@@ -227,14 +226,18 @@ function Account_edit_address() {
                             <h5>Shipping Address</h5>
 
                           </div>
-                          <div className="my-account__address-item__detail">
-                            <p>{address[0]?.first_name} {address[0]?.last_name},</p>
-                            <p>{address[0]?.street_address},</p>
-                            <p>{address[0]?.town_city},{address[0]?.country_region}.</p>
-                            <br />
-                            <p>{address[0]?.mail}</p>
-                            <p>{address[0]?.phone}</p>
-                          </div>
+                          {
+                            address?.map((item) => (
+                              <div className="my-account__address-item__detail">
+                                <p>{item?.first_name} {item?.last_name},</p>
+                                <p>{item?.street_address},</p>
+                                <p>{item?.town_city},{item?.country_region}.</p>
+                                <br />
+                                <p>{item?.mail}</p>
+                                <p>{item?.phone}</p>
+                              </div>
+                            ))
+                          }
                         </div>
                       </div>
                     </div> : <h3>No SHIPPING ADDRESS !!!</h3>

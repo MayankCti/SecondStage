@@ -31,12 +31,11 @@ function Reset_password() {
       email : `${email}`
     }
     axios({
-      url:configJSON.baseUrl + configJSON.reset_password_buyer,
+      url:configJSON.baseUrl + configJSON.forgotPassword,
       method:"post",
       data : data
     }).then((res)=>{
       setIsLoader(false)
-      console.log(res,"response")
       if(res?.data?.success == true){
         MESSAGE.success(res?.data?.message)
         setEmail("")

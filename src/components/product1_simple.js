@@ -18,6 +18,7 @@ import { DateRangePicker } from "react-date-range";
 import { addDays } from "date-fns";
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Calendar } from "react-date-range";
+import moment from "moment";
 export const configJSON = require("../components/config");
 
 function Product1_simple(props) {
@@ -34,17 +35,26 @@ function Product1_simple(props) {
   const [size_bottom, setSize_bottom] = useState("")
   const [size_top, setSize_top] = useState("")
   const [color, setColor] = useState("")
-
+  const [total_rend_days, setTotalRendDays] = useState()
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState()
   const [state, setState] = useState([
     {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      startDate: new Date('Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)'),
+      endDate: new Date('Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)'),
       key: "selection",
     },
   ]);
+  // const selectionRange = {
+  //   startDate: new Date(),
+  //   endDate: new Date(),
+  //   key: 'selection',
+  // }
+
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
+    window.scroll(0, 0)
     setAccessToken(token)
     if (token == null) {
       navigate("/login-register");
@@ -84,11 +94,21 @@ function Product1_simple(props) {
     getCartData(accessToken, true)
   }
   const hanleDate = (item) => {
-    console.log(item)
-    setState([item.selection])
+    setState([item?.selection])
+
+    var sDate = moment(item?.selection?.startDate).format('DD-MM-YYYY');
+    var eDate = moment(item?.selection?.endDate).format('DD-MM-YYYY');
+    setStartDate(sDate)
+    setEndDate(eDate)
+
+    var startDate = moment(item?.selection?.startDate);
+    var endDate = moment(item?.selection?.endDate);
+    var diffInDays = endDate.diff(startDate, 'days');
+    setTotalRendDays(diffInDays);
+
+    setshowCalender(!showCalender)
   }
   const getProduct = () => {
-    const token = JSON.parse(localStorage.getItem("token"));
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     var id = localStorage.getItem("productID")
     const data = {
@@ -97,17 +117,15 @@ function Product1_simple(props) {
     }
     setIsLoader(true);
     axios({
-      url: configJSON.baseUrl + configJSON.getProductDetails_by_id,
+      url: configJSON.baseUrl + configJSON.getProductDetailsById,
       method: "post",
       data: data
     })
       .then((res) => {
-
-        console.log(res, "response")
         setIsLoader(false);
         if (res?.data?.success == true) {
           setProduct(res?.data?.products[0]);
-          // getData(res?.data?.products[0].product_category)
+          getData(res?.data?.products[0].product_Categories)
         } else {
           setProduct([]);
         }
@@ -127,7 +145,6 @@ function Product1_simple(props) {
   };
 
   const addToWishlist = (productId) => {
-    console.log(productId, "the id")
     setIsLoader(true)
     const data = {
       product_id: productId,
@@ -152,20 +169,35 @@ function Product1_simple(props) {
       console.log(err)
     })
   };
-  const addToCart = (product_id, val) => {
+  const addToCart = (product_id, qnty, type) => {
+    var data;
     setIsLoader(true);
-    const data = {
-      product_id: product_id,
-      cart_quantity: val,
-      size_bottom: `${size_bottom}`,
-      size_top: `${size_top}`,
-      color: `${color}`,
-    };
+    if (type == "buy") {
+      data = {
+        product_id: product_id,
+        cart_quantity: qnty,
+        size_bottom: `${size_bottom}`,
+        size_top: `${size_top}`,
+        color: `${color}`,
+      };
+    } else if (type == "rent") {
+      data = {
+        product_id: product_id,
+        cart_quantity: qnty,
+        size_bottom: `${size_bottom}`,
+        size_top: `${size_top}`,
+        color: `${color}`,
+        start_date: `${startDate}`,
+        end_date: `${endDate}`,
+        total_rend_days: `${total_rend_days}`
+      };
+    }
 
+    console.log(data, "the data")
     if (size_bottom && size_top && color) {
       axios({
         method: "post",
-        url: configJSON.baseUrl + configJSON.add_cart,
+        url: configJSON.baseUrl + configJSON.addToCart,
         data: data,
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -174,9 +206,10 @@ function Product1_simple(props) {
         .then((res) => {
           setIsLoader(false);
           getCartData(accessToken);
-          if (res.data.success == true) {
+          setIsCartSidebar(true);
+          if (res?.data?.success == true) {
             MESSAGE.success("Item added to cart.");
-            // props?.onClick()
+            props?.onClick()
           } else {
             MESSAGE.error(res?.data?.message);
           }
@@ -205,12 +238,11 @@ function Product1_simple(props) {
     const token = JSON.parse(localStorage.getItem("token"));
     setIsLoader(true)
     axios({
-      url: configJSON.baseUrl + configJSON.getProductDetails_by_Category + val,
+      url: configJSON.baseUrl + configJSON.getProductDetails_by_Category + val +`/4`,
       method: "get",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-
     }).then((res) => {
       setIsLoader(false)
       if (res?.data?.success == true) {
@@ -224,6 +256,7 @@ function Product1_simple(props) {
       console.log(error)
     })
   }
+
   return (
     <>
       <svg className="d-none">
@@ -482,14 +515,12 @@ function Product1_simple(props) {
           />
         </symbol>
       </svg>
-      {isLoader == false ?
+      {isLoader == false &&
         <Header data={cartData?.length !== 0 && cartData} onClick={getDataFromChild} isCartSidebar={isCartSidebar} />
-        : <div class="custom-loader"></div>
       }
       <main>
         <div className="mb-md-1 pb-md-3"></div>
-        {isLoader == true ?
-          <div class="custom-loader"></div> :
+        {isLoader == false &&
           <section className="product-single container">
             <div className="row">
               <div className="col-lg-7">
@@ -521,7 +552,7 @@ function Product1_simple(props) {
                               alt=""
                             />
                             <a
-                              href="images/products/product_1.jpg"
+                              href={item}
                               data-bs-toggle="tooltip"
                               data-bs-placement="left"
                               title="Zoom"
@@ -531,7 +562,7 @@ function Product1_simple(props) {
                                 height="16"
                                 viewBox="0 0 16 16"
                                 fill="none"
-                                xmlns={item}
+                              // xmlns={item}
                               >
                                 <use href="#icon_zoom" />
                               </svg>
@@ -614,10 +645,10 @@ function Product1_simple(props) {
                   >
                     {product?.product_buy_rent == "buy" && <li className="nav-item" role="presentation">
                       <a
-                        className="nav-link nav-link_underscore active"
+                        className="nav-link nav-link_underscore"
                         id="tab-buy-tab"
                         data-bs-toggle="tab"
-                        href="#tab-buy"
+                        // href="#tab-buy"
                         role="tab"
                         aria-controls="tab-buy"
                         aria-selected="true"
@@ -646,14 +677,14 @@ function Product1_simple(props) {
                       role="tabpanel"
                       aria-labelledby="tab-buy-tab">
                       <div>
-                        <h1 className="product-single__name">{product?.product_category}</h1>
+                        <h1 className="product-single__name">{product?.product_brand[0]}</h1>
 
                         <div className="product-single__price">
                           <span className="current-price">${product?.price_sale_lend_price}</span>
                         </div>
                         <div className="product-single__short-desc">
                           <p>
-                            {product?.product_description}
+                            {product?.product_brand[0]}
                           </p>
                         </div>
 
@@ -665,7 +696,7 @@ function Product1_simple(props) {
                                 product?.product_size?.map((item) => (
                                   <>
                                     <input type="radio" name="size" id="swatch-1" />
-                                    <label onClick={() => setSize_top(item)} className={size_top != item ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_top}</label>
+                                    <label onClick={() => setSize_top(item?.size_top)} className={size_top != item?.size_top ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_top}</label>
                                   </>
                                 ))
                               }
@@ -679,13 +710,11 @@ function Product1_simple(props) {
                                 product?.product_size?.map((item) => (
                                   <>
                                     <input type="radio" name="size" id="swatch-1" />
-                                    <label onClick={() => setSize_bottom(item)} className={size_bottom != item ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_bottom}</label>
+                                    <label onClick={() => setSize_bottom(item?.size_bottom)} className={size_bottom != item?.size_bottom ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_bottom}</label>
                                   </>
                                 ))
                               }
-
                             </div>
-
                           </div>
                           <div className="product-swatch color-swatches">
                             <label>Color</label>
@@ -701,9 +730,6 @@ function Product1_simple(props) {
                             </div>
                           </div>
                         </div>
-
-
-
                         <form >
                           <div className="product-single__addtocart">
                             <div className="qty-control position-relative">
@@ -727,7 +753,7 @@ function Product1_simple(props) {
                               type="button"
                               className="btn btn-primary btn-addtocart js-open-aside"
                               data-aside="cartDrawer"
-                              onClick={() => addToCart(product?.id, qty)}
+                              onClick={() => addToCart(product?.id, qty, "buy")}
                             >
                               Add to Cart
                             </button>
@@ -778,7 +804,7 @@ function Product1_simple(props) {
                         </div> */}
                           <div className="meta-item">
                             <label>Categories:</label>
-                            <span>{product?.product_category}</span>
+                            <span>{" "}{product?.product_Categories}</span>
                           </div>
                         </div>
                       </div>
@@ -792,7 +818,7 @@ function Product1_simple(props) {
                     >
 
                       <div>
-                        <h1 className="product-single__name">{product?.product_category}<small className="ms-2 ct_fs_14">1 Week</small></h1>
+                        <h1 className="product-single__name">{product?.product_brand[0]}<small className="ms-2 ct_fs_14">{product?.product_rental_period}</small></h1>
 
                         <div className="product-single__price">
                           <span className="current-price">${product?.price_sale_lend_price}</span>
@@ -825,6 +851,7 @@ function Product1_simple(props) {
                             ranges={state}
                             rangeColors={"red"}
                             direction="horizontal"
+                            minDate={new Date()}
                           />
                         </div>
                         <div className="product-single__swatches">
@@ -835,7 +862,7 @@ function Product1_simple(props) {
                                 product?.product_size?.map((item) => (
                                   <>
                                     <input type="radio" name="size" id="swatch-1" />
-                                    <label onClick={() => setSize_top(item)} className={size_top != item ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_top}</label>
+                                    <label onClick={() => setSize_top(item?.size_top)} className={size_top != item?.size_top ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_top}</label>
                                   </>
                                 ))
                               }
@@ -849,7 +876,7 @@ function Product1_simple(props) {
                                 product?.product_size?.map((item) => (
                                   <>
                                     <input type="radio" name="size" id="swatch-1" />
-                                    <label onClick={() => setSize_bottom(item)} className={size_bottom != item ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_bottom}</label>
+                                    <label onClick={() => setSize_bottom(item?.size_bottom)} className={size_bottom != item?.size_bottom ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_bottom}</label>
                                   </>
                                 ))
                               }
@@ -869,8 +896,6 @@ function Product1_simple(props) {
                                   </>
                                 ))
                               }
-
-
                             </div>
                           </div>
                         </div>
@@ -891,6 +916,7 @@ function Product1_simple(props) {
                               type="button"
                               className="btn btn-primary btn-addtocart js-open-aside"
                               data-aside="cartDrawer"
+                              onClick={() => addToCart(product?.id, qty, "rent")}
                             >
                               Add to Cart
                             </button>
@@ -960,8 +986,8 @@ function Product1_simple(props) {
                             <span>N/A</span>
                           </div> */}
                           <div className="meta-item">
-                            <label>Categories:</label>
-                            <span>{product?.product_category}</span>
+                            <label>Categories : </label>
+                            <span> {product?.product_Categories}</span>
                           </div>
                         </div>
                       </div>
@@ -1064,12 +1090,37 @@ function Product1_simple(props) {
                     <span>90 x 60 x 90 cm</span>
                   </div> */}
                     <div className="item">
-                      <label className="h6">Size</label>
-                      <span>{product?.size_top},{product?.size_bottom}</span>
+                      <label className="h6">Size Top</label>
+                      {
+                        product?.product_size?.map((item) => (
+
+                          <span>{item?.size_top},</span>
+                        ))
+                      }
+
                     </div>
                     <div className="item">
+                      <label className="h6">Size Bottom</label>
+                      {
+                        product?.product_size?.map((item) => (
+
+                          <span>{item?.size_bottom},</span>
+                        ))
+                      }
+                    </div>
+                    <div className="item d-flex align-items-center">
                       <label className="h6">Color</label>
-                      <span>{product?.product_color}</span>
+                      <div className="swatch-list">
+                        {
+                          product?.product_color?.map((item) => (
+                            <label className="swatch ct_swatch_after swatch-color js-swatch ct_active_color1" for="swatch-11" aria-label="Black"
+                              data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${item}` }}
+                              data-bs-original-title="Black"></label>
+                          ))
+                        }
+
+                      </div>
+                      {/* <span>{product?.product_color}</span> */}
                     </div>
                     {/* <div className="item">
                     <label className="h6">Storage</label>
@@ -1088,24 +1139,23 @@ function Product1_simple(props) {
             {
               isLoader == true ?
                 <div class="custom-loader"></div> :
-                allProduct.length != 0 &&
+                allProduct?.length != 0 &&
                 <OwlCarousel className='owl-theme' margin={5} nav items={4}>
-
                   {
                     allProduct?.map((item, i) => (
                       <div class='item'>
                         <div class="ct_swiper_slide swiper-slide product-card">
                           <div class="pc__img-wrapper">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
-                              <img loading="lazy" src={item.product_images[0]} width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img" />
+                              <img loading="lazy" src={item?.product_image} width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img" />
                               {/* <img loading="lazy" src="images/products/product_3-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img pc__img-second"> */}
                             </a>
-                            <button onClick={() => addToCart(item?.id, "1")} type="button" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                            {/* <button onClick={() => addToCart(item?.id, "1")} type="button" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> */}
                           </div>
 
                           <div class="pc__info position-relative">
-                            <p class="pc__category">Dresses</p>
-                            <h6 class="pc__title"><a onClick={() => handleProduct1Simple(item?.id)}>{item?.product_category}</a></h6>
+                            <p class="pc__category">{item?.product_category}</p>
+                            <h6 class="pc__title"><a onClick={() => handleProduct1Simple(item?.id)}>{item?.product_brand}</a></h6>
                             <div class="product-card__price d-flex">
                               <span class="money price">${item?.price_sale_lend_price}</span>
                             </div>

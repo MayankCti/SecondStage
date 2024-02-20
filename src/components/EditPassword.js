@@ -26,15 +26,18 @@ function EditPassword(props) {
         }
     }, [])
     const changePassword = () => {
+        const user_id = JSON.parse(localStorage.getItem("user_id"));
         setIsLoader(true)
+        
         const data = {
-            old_password: cpass,
+            user_id : user_id,
+            older_password: cpass,
             new_password: confirmNewPass
         }
         if (cpass && newPass && confirmNewPass) {
             if (newPass == confirmNewPass) {
                 axios({
-                    url: configJSON.baseUrl + configJSON.changePassword_buyer,
+                    url: configJSON.baseUrl + configJSON.changePasswordBuyer,
                     method: "post",
                     data: data,
                     headers: {

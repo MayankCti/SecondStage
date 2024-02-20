@@ -13,7 +13,6 @@ import FilterBy from './filterBy';
 export const configJSON = require("../components/config");
 
 function CategoryContent(props) {
-    // console.log(typeof props.apiurl,"the url")
     const navigate = useNavigate()
     const [isFilter, setIsFilter] = useState(false);
     const [isLoader, setIsLoader] = useState(false);
@@ -21,6 +20,7 @@ function CategoryContent(props) {
     const [accessToken, setAccessToken] = useState()
     const [cartData, setcartData] = useState([])
     const [subtotal, setSubTotal] = useState(0)
+    const [sort,setSort] = useState(4)
     const [showProduct,setShowProduct] = useState("all")
 
 
@@ -30,7 +30,7 @@ function CategoryContent(props) {
         if (token == null) {
             navigate('/login-register')
         }
-        getData(token)
+        getData()
         getCartData(token)
     }, [])
     const handleHome = () => {
@@ -41,12 +41,14 @@ function CategoryContent(props) {
         navigate("/product1-simple");
       };
     const getData = (val) => {
+        let count = val ? val : 4
+        const token = JSON.parse(localStorage.getItem("token"));
         setIsLoader(true)
         axios({
-            url: configJSON.baseUrl + props?.apiurl,
+            url: configJSON.baseUrl + props?.apiurl+`/${count}`,
             method: "get",
             headers: {
-                'Authorization': `Bearer ${val}`
+                'Authorization': `Bearer ${token}`
             },
 
         }).then((res) => {
@@ -97,7 +99,7 @@ function CategoryContent(props) {
         }
         axios({
             method: "post",
-            url: configJSON.baseUrl + configJSON.add_cart,
+            url: configJSON.baseUrl + configJSON.addToCart,
             data: data,
             headers: {
                 'Authorization': `Bearer ${accessToken}`
@@ -131,7 +133,7 @@ function CategoryContent(props) {
             setIsLoader(false)
             if (res.data.success == true) {
                 MESSAGE.success(res?.data?.message)
-                getData(accessToken)
+                getData()
             } else {
                 MESSAGE.error(res?.data?.message)
             }
@@ -153,7 +155,6 @@ function CategoryContent(props) {
                 'Authorization': `Bearer ${token}`
             },
         }).then((res)=>{
-            console.log(res,"the data")
             setIsLoader(false)
             if(res?.data?.success == true){
                 MESSAGE.success(res?.data?.message)
@@ -207,12 +208,12 @@ function CategoryContent(props) {
                                 </li>
                             </ul>
                             <div className="shop-acs ct_row_inverse d-flex align-items-center justify-content-between  flex-grow-1 gap-3 mb-2">
-                                <select className="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0 " aria-label="Sort Items" name="total-number">
+                                <select onChange={(e)=>getData(e.target.value)} className="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0 " aria-label="Sort Items" name="total-number">
                                     <option selected>Sort by</option>
-                                    <option value="1">Featured</option>
-                                    <option value="3">newest/oldest</option>
-                                    <option value="6">price high/low, </option>
-                                    <option value="7">Price, low/high</option>
+                                    {/* <option value="1" >Featured</option> */}
+                                    <option value="3" >newest/oldest</option>
+                                    <option value="2" >price high/low, </option>
+                                    <option value="1" >Price, low/high</option>
                                     {/* <option value="3">Date, new to old</option> */}
                                 </select>
                                 <div className="shop-filter d-flex align-items-center order-0 order-md-3">

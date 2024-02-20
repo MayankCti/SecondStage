@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message, message as MESSAGE } from "antd";
+import { DateRangePicker } from "react-date-range";
+import moment from "moment";
 export const configJSON = require("../components/config");
 function Header(props) {
 
@@ -20,6 +22,18 @@ function Header(props) {
   const [isMenu, setIsMenu] = useState(false);
   const [searchProduct, setSearchProduct] = useState()
   const [isdropdown, setDropdown] = useState(false);
+
+  const [showCalender, setshowCalender] = useState(false);
+  const [total_rend_days, setTotalRendDays] = useState()
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState()
+  const [state, setState] = useState([
+    {
+      startDate: new Date('Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)'),
+      endDate: new Date('Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)'),
+      key: "selection",
+    },
+  ]);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
@@ -41,7 +55,6 @@ function Header(props) {
       },
     }).then((res) => {
       setIsLoader(false)
-      console.log(res, "the res")
       if (res?.data?.success == true) {
         setProfileData(res?.data?.user_info[0])
       }
@@ -56,8 +69,6 @@ function Header(props) {
 
   const getCartData = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
-
-    console.log(val);
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
       method: "get",
@@ -70,7 +81,6 @@ function Header(props) {
         if (res?.data?.success == true) {
           setAllProduct(res?.data?.cart);
           let total = 0;
-          console.log(res?.data?.cart);
           res?.data?.cart.map((item) => (total += item?.cart_price));
           setSubTotal(res?.data?.totalPrice);
         } else {
@@ -83,20 +93,37 @@ function Header(props) {
       });
   };
 
-  const upDateCartData = (productID, cartQty, cartId, incDec) => {
+  const upDateCartData = (item, selColor, top, bottom, qnt) => {
     setIsLoader(true);
-    if (incDec == "-") {
-      cartQty = cartQty - 1;
-    } else if (incDec == "+") {
-      cartQty = cartQty + 1;
-    }
-    const data = {
-      product_id: productID,
-      cart_quantity: cartQty,
-    };
-    if (cartQty >= 1) {
+    var data;
+
+    const user_id = JSON.parse(localStorage.getItem("user_id"));
+if(item?.product_buy_rent == "buy"){
+   data = {
+    user_id: user_id,
+    card_id: item?.new_cart_id,
+    cart_quantity: qnt,
+    size_top: `${top}`,
+    size_bottom: `${bottom}`,
+    color: `${selColor}`
+  }
+}else if(item?.product_buy_rent == "rent"){
+   data = {
+    user_id: user_id,
+    card_id: item?.new_cart_id,
+    cart_quantity: qnt,
+    size_top: `${top}`,
+    size_bottom: `${bottom}`,
+    color: `${selColor}`,
+    start_date: `${startDate}`,
+    end_date: `${endDate}`,
+    total_rend_days: total_rend_days
+  }
+}
+console.log(data,"the datea")
+    if (qnt >= 1) {
       axios({
-        url: configJSON.baseUrl + configJSON.upDateCartData + cartId,
+        url: configJSON.baseUrl + configJSON.upDateCartData,
         method: "post",
         data: data,
         headers: {
@@ -105,7 +132,6 @@ function Header(props) {
       })
         .then((res) => {
           setIsLoader(false);
-          console.log(res, "update data");
           if (res.data.success == true) {
             MESSAGE.success(res?.data?.message);
             getCartData(accessToken);
@@ -134,7 +160,6 @@ function Header(props) {
       },
     })
       .then((res) => {
-        console.log(res);
         setIsLoader(false);
         if (res.data.success == true) {
           MESSAGE.success("Cart item deleted successfully");
@@ -207,6 +232,33 @@ function Header(props) {
     props?.searchProducts(searchProduct)
     setIsSearch(!isSearch)
   }
+
+  const qtyInc = (item, selColor, top, bottom, qnt) => {
+    upDateCartData(item, selColor, top, bottom, qnt + 1)
+  }
+  const qtyDec = (item, selColor, top, bottom, qnt) => {
+    if (qnt >= 2) {
+      upDateCartData(item, selColor, top, bottom, qnt - 1)
+    }
+  }
+  const hanleDate = (item,item1) => {
+    setState([item?.selection])
+
+    var sDate = moment(item?.selection?.startDate).format('DD-MM-YYYY');
+    var eDate = moment(item?.selection?.endDate).format('DD-MM-YYYY');
+    setStartDate(sDate)
+    setEndDate(eDate)
+
+    var startDate = moment(item?.selection?.startDate);
+    var endDate = moment(item?.selection?.endDate);
+    var diffInDays = endDate.diff(startDate, 'days');
+    setTotalRendDays(diffInDays);
+
+    setshowCalender(!showCalender)
+
+    upDateCartData(item1, item1?.color, item1?.size_top, item1?.size_bottom, item1?.cart_quantity)
+  }
+
   return (
     <>
       <header
@@ -364,24 +416,27 @@ function Header(props) {
                     : "header-tools__item hover-container js-content_visible"
                 }
               >
-                <div
-                  onClick={() => setIsSearch(!isSearch)}
-                  className="js-hover__open position-relative"
-                >
-                  <a className="js-search-popup search-field__actor">
-                    <svg
-                      className="d-block"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <use href="#icon_search" />
-                    </svg>
-                    <i className="btn-icon btn-close-lg"></i>
-                  </a>
-                </div>
+                {
+                  props?.isSearch == "yes" &&
+                  <div
+                    onClick={() => setIsSearch(!isSearch)}
+                    className="js-hover__open position-relative"
+                  >
+                    <a className="js-search-popup search-field__actor">
+                      <svg
+                        className="d-block"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <use href="#icon_search" />
+                      </svg>
+                      <i className="btn-icon btn-close-lg"></i>
+                    </a>
+                  </div>
+                }
 
                 <div className="search-popup js-hidden-content">
                   <form
@@ -635,34 +690,80 @@ function Header(props) {
 
                     <div className="d-flex gap-3 mt-3">
                       <div >
-                      <p className="cart-drawer-item__option text-secondary">
-                      {/* Color:  */}
-                      <label>Color</label>
-                      <select className="form-control ct_cart_select">
-                        <option>{item?.color}</option>
-                      </select>
-                      {/* {item?.product_colors[0]} */}
-                    </p>
+                        <p className="cart-drawer-item__option text-secondary">
+                          {/* Color:  */}
+                          <label>Color</label>
+
+                          <select className="form-control ct_cart_select" onChange={(e) => upDateCartData(item, e.target.value, item?.size_top, item?.size_bottom, item?.cart_quantity)} >
+                            <option value={item?.color}> {item?.color}</option>
+                            {
+                              item?.product_color?.map((obj) => (
+
+                                <option value={obj}> {obj}</option>
+                              ))
+                            }
+                          </select>
+                        </p>
                       </div>
                       <div >
-                      <p className="cart-drawer-item__option text-secondary">
-                      {/* Size: {item?.product_size[0]?.size_bottom} */}
-                      <label>Size Top</label>
-                      <select className="form-control ct_cart_select">
-                        <option>{item?.size_top}</option>
-                      </select>
-                    </p>
+                        <p className="cart-drawer-item__option text-secondary">
+                          {/* Size: {item?.product_size[0]?.size_bottom} */}
+                          <label>Size Top</label>
+
+                          <select className="form-control ct_cart_select" onChange={(e) => upDateCartData(item, item?.color, e.target.value, item?.size_bottom, item?.cart_quantity)}>
+                            <option value={item?.size_top}> {item?.size_top}</option>
+                            {
+                              item?.product_size?.map((obj) => (
+
+                                <option value={obj?.size_top}> {obj?.size_top}</option>
+                              ))
+                            }
+                          </select>
+                        </p>
                       </div>
                     </div>
-                  
+                          
                     <p className="cart-drawer-item__option text-secondary mt-2">
-                      {/* Size: {item?.product_size[0]?.size_bottom} */}
+
                       <label>Size bottom</label>
-                      <select className="form-control ct_cart_select">
-                        <option> {item?.size_bottom}</option>
+                      <select className="form-control ct_cart_select" onChange={(e) => upDateCartData(item, item?.color, item?.size_top, e.target.value, item?.cart_quantity)}>
+                        <option value={item?.size_bottom}> {item?.size_bottom}</option>
+                        {
+                          item?.product_size?.map((obj) => (
+                            <option value={obj?.size_bottom}> {obj?.size_bottom}</option>
+                          ))
+                        }
                       </select>
                     </p>
-                    <div className="d-flex align-items-center justify-content-between mt-1">
+                    {
+                      item?.product_buy_rent == "rent" && <p className="cart-drawer-item__option text-secondary mt-2 text-center  mx-auto my-2">
+
+                        <button
+                          className="ct_mobile_fs14 text-white ct_sell_btn ct_show_cart_calander_btn w-75"
+                          onClick={() => setshowCalender(!showCalender)}
+                        >
+                          Select Rent Date
+                        </button>
+                        <DateRangePicker
+                          className={
+                            showCalender != true
+                              ? "ct_range_calendar"
+                              : "ct_range_calendar ct_show_calender ct_cart_update_calender"
+                          }
+                          onChange={(obj) => hanleDate(obj,item)}
+                          showSelectionPreview={true}
+                          moveRangeOnFirstSelection={false}
+                          months={1}
+                          ranges={state}
+                          rangeColors={"red"}
+                          direction="horizontal"
+                          minDate={new Date()}
+                        />
+                      </p>
+                    }
+                   
+
+                    <div className="d-flex align-items-center justify-content-between mt-1 " style={{width:"95%"}}>
                       <div className="qty-control position-relative">
                         <input
                           type="number"
@@ -673,27 +774,13 @@ function Header(props) {
                         />
                         <div
                           className="qty-control__reduce text-start"
-                          onClick={() =>
-                            upDateCartData(
-                              item?.product_id,
-                              item?.cart_quantity,
-                              item?.cart_id,
-                              "-"
-                            )
-                          }
+                          onClick={() => qtyDec(item, item?.color, item?.size_top, item?.size_bottom, item?.cart_quantity)}
                         >
                           -
                         </div>
                         <div
                           className="qty-control__increase text-end"
-                          onClick={() =>
-                            upDateCartData(
-                              item?.product_id,
-                              item?.cart_quantity,
-                              item?.cart_id,
-                              "+"
-                            )
-                          }
+                          onClick={() => qtyInc(item, item?.color, item?.size_top, item?.size_bottom, item?.cart_quantity)}
                         >
                           +
                         </div>
@@ -705,7 +792,7 @@ function Header(props) {
                   </div>
                   <button
                     type="button"
-                    onClick={() => deleteCartData(item?.new_cart_id)}
+                    onClick={() => deleteCartData(item?.id)}
                     className="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"
                   ></button>
                 </div>
@@ -737,7 +824,7 @@ function Header(props) {
             Checkout
           </a> */}
         </div>
-        
+
       </div>
 
       <div

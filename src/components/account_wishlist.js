@@ -75,6 +75,10 @@ function Account_wishlist() {
         console.log(err)
     })
 };
+const handleProduct1Simple = (productId) => {
+  localStorage.setItem("productID",productId)
+  navigate("/product1-simple");
+};
   return (
     <>
       <svg className="d-none">
@@ -263,18 +267,17 @@ function Account_wishlist() {
                                       modules={[Autoplay, Pagination, Navigation]}
                                       className="mySwiper"
                                     >
-                                      {item?.product_images?.map((item, i) => (
+                                      {item?.product_images?.map((obj, i) => (
                                         <SwiperSlide>
-                                          <a >
-                                            <img src={item} />
+                                          <a onClick={()=>handleProduct1Simple(item?.product_id)}>
+                                            <img src={obj} />
                                           </a>
                                         </SwiperSlide>
                                       ))}
                                     </Swiper>
 
                                   </div>
-                                  <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
-                                  <span className="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
+                                
                                 </div>
                                 <button className="btn-remove-from-wishlist" onClick={()=> addToWishlist(item?.product_id)}>
                                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_close" /></svg>
@@ -282,7 +285,7 @@ function Account_wishlist() {
                               </div>
 
                               <div className="pc__info position-relative">
-                                <p className="pc__category">Featured Products</p>
+                                <p className="pc__category">{item?.product_Categories}</p>
                                 <h6 className="pc__title">{item?.product_description}</h6>
                                 <div className="product-card__price d-flex">
                                   <span className="money price">${item?.price_sale_lend_price}</span>
