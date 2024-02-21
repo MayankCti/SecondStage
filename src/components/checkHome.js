@@ -21,7 +21,7 @@ function CheckHome() {
       isHome == true ?
       <Index/> :
       <>
-      <Home/>
+      <Index/>
 
       </>
     }

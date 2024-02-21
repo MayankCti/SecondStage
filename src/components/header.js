@@ -37,7 +37,7 @@ function Header(props) {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
-      navigate("/login-register");
+      // navigate("/login-register");
     } else {
       setAccessToken(token);
       getCartData(token);
@@ -98,29 +98,29 @@ function Header(props) {
     var data;
 
     const user_id = JSON.parse(localStorage.getItem("user_id"));
-if(item?.product_buy_rent == "buy"){
-   data = {
-    user_id: user_id,
-    card_id: item?.new_cart_id,
-    cart_quantity: qnt,
-    size_top: `${top}`,
-    size_bottom: `${bottom}`,
-    color: `${selColor}`
-  }
-}else if(item?.product_buy_rent == "rent"){
-   data = {
-    user_id: user_id,
-    card_id: item?.new_cart_id,
-    cart_quantity: qnt,
-    size_top: `${top}`,
-    size_bottom: `${bottom}`,
-    color: `${selColor}`,
-    start_date: `${startDate}`,
-    end_date: `${endDate}`,
-    total_rend_days: total_rend_days
-  }
-}
-console.log(data,"the datea")
+    if (item?.product_buy_rent == "buy") {
+      data = {
+        user_id: user_id,
+        card_id: item?.new_cart_id,
+        cart_quantity: qnt,
+        size_top: `${top}`,
+        size_bottom: `${bottom}`,
+        color: `${selColor}`
+      }
+    } else if (item?.product_buy_rent == "rent") {
+      data = {
+        user_id: user_id,
+        card_id: item?.new_cart_id,
+        cart_quantity: qnt,
+        size_top: `${top}`,
+        size_bottom: `${bottom}`,
+        color: `${selColor}`,
+        start_date: `${startDate}`,
+        end_date: `${endDate}`,
+        total_rend_days: total_rend_days
+      }
+    }
+    console.log(data, "the datea")
     if (qnt >= 1) {
       axios({
         url: configJSON.baseUrl + configJSON.upDateCartData,
@@ -241,7 +241,7 @@ console.log(data,"the datea")
       upDateCartData(item, selColor, top, bottom, qnt - 1)
     }
   }
-  const hanleDate = (item,item1) => {
+  const hanleDate = (item, item1) => {
     setState([item?.selection])
 
     var sDate = moment(item?.selection?.startDate).format('DD-MM-YYYY');
@@ -722,7 +722,7 @@ console.log(data,"the datea")
                         </p>
                       </div>
                     </div>
-                          
+
                     <p className="cart-drawer-item__option text-secondary mt-2">
 
                       <label>Size bottom</label>
@@ -750,7 +750,7 @@ console.log(data,"the datea")
                               ? "ct_range_calendar"
                               : "ct_range_calendar ct_show_calender ct_cart_update_calender"
                           }
-                          onChange={(obj) => hanleDate(obj,item)}
+                          onChange={(obj) => hanleDate(obj, item)}
                           showSelectionPreview={true}
                           moveRangeOnFirstSelection={false}
                           months={1}
@@ -761,9 +761,9 @@ console.log(data,"the datea")
                         />
                       </p>
                     }
-                   
 
-                    <div className="d-flex align-items-center justify-content-between mt-1 " style={{width:"95%"}}>
+
+                    <div className="d-flex align-items-center justify-content-between mt-1 " style={{ width: "95%" }}>
                       <div className="qty-control position-relative">
                         <input
                           type="number"

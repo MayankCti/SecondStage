@@ -21,21 +21,21 @@ function Index() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     if (token == null) {
-      navigate('/login-register')
+      // navigate('/login-register')
+      getAllProduct();
     } else {
       setIsHome(true)
       getCartData(token)
-
       getAllProduct();
-
     }
   }, [])
 
   const getAllProduct = () => {
     setIsLoader(true);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
+
     const data = {
-      user_id: user_id,
+      user_id: user_id ? user_id : 0,
       sort: sort
     }
     axios({

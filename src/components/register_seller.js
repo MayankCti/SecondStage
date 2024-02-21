@@ -194,11 +194,12 @@ function Register_seller() {
     data.append("product_padding", paddingOption)
     data.append("location", locationOption)
     data.append("product_description", description)
+    data.append("rent_cart", priceBuyOption == "rent" ? 1 : 0)
     for (let i = 0; i < file.length; i++) {
       data.append("files", file[i]);
     }
     // if (lengthRentalOption) {
-    data.append("product_rental_period", `val`)
+    data.append("product_rental_period", `${lengthRentalOption}`)
     // }
 
     if (sizeTopOption && sizeBottomOption) {
@@ -616,7 +617,7 @@ function Register_seller() {
                     <div className="col-md-6 mb-3">
                       <div className=" border-0">
                         <label htmlFor="search-dropdown7" className="form-label">
-                          Price for sale/lend{" "}
+                          Price for sell/lend{" "}
                         </label>
                         <div className="form-floating ">
                           <input

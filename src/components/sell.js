@@ -277,7 +277,7 @@ function Sell() {
           <div className="row">
             <div className="col-md-12 mx-auto">
               <div className="mb-5">
-                <h2 className="mb-4 text-center">have a second chance at stage</h2>
+                {/* <h2 className="mb-4 text-center">have a second chance at stage</h2> */}
                 <h5 className=" text-center">
                   Welcome to Second Stage where you can sell or lend your bikini
                   to another competitor and share the love. We are a marketplace

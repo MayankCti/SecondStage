@@ -23,7 +23,10 @@ function Content(props) {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
     if (token == null) {
-      navigate("/login-register");
+      // navigate("/login-register");
+      setTimeout(() => {
+        getAllProduct();
+      }, 1000);
     } else {
       setTimeout(() => {
         getAllProduct();
@@ -35,8 +38,8 @@ function Content(props) {
     setIsLoader(true);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const data = {
-      user_id: user_id,
-  sort : "4"
+      user_id: user_id ? user_id : 0,
+  sort : sort
     }
     axios({
       url: configJSON.baseUrl + configJSON.getAllProduct,

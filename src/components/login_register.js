@@ -178,10 +178,14 @@ function Login_register() {
         <section className="login-register container">
           <ul className="nav nav-tabs mb-5" id="login_register" role="tablist">
             <li className="nav-item" role="presentation">
-              <a className="nav-link nav-link_underscore active" id="login-tab" data-bs-toggle="tab" href="#tab-item-login" role="tab" aria-controls="tab-item-login" aria-selected="true">Login</a>
+              <a className="nav-link nav-link_underscore active pe-2" id="login-tab" data-bs-toggle="tab" href="#tab-item-login" role="tab" aria-controls="tab-item-login" aria-selected="true">Login</a>
+            </li>
+
+            <li className="nav-item" role="presentation">
+              <span className="nav-link px-0" id="register-tab" data-bs-toggle="tab" href="#tab-item-register" role="tab" aria-controls="tab-item-register" aria-selected="false"> /</span>
             </li>
             <li className="nav-item" role="presentation">
-              <a className="nav-link nav-link_underscore" id="register-tab" data-bs-toggle="tab" href="#tab-item-register" role="tab" aria-controls="tab-item-register" aria-selected="false">Register to Buy/Rent</a>
+              <a className="nav-link nav-link_underscore ps-2" id="register-tab" data-bs-toggle="tab" href="#tab-item-register" role="tab" aria-controls="tab-item-register" aria-selected="false"> Register</a>
             </li>
           </ul>
           <div className="tab-content pt-2" id="login_register_tab_content">
