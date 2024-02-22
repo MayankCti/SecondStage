@@ -13,7 +13,7 @@ function Account_orders() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
-      navigate("/login-register");
+      navigate("/login");
     } else {
       getOrders()
     }
@@ -46,6 +46,9 @@ function Account_orders() {
     localStorage.setItem("productID",productId)
     navigate("/product1-simple");
   };
+  const IssueRequest = (val)=>{
+    navigate(`/${val}`)
+  }
   return (
     <>
       <svg className="d-none">
@@ -207,13 +210,22 @@ function Account_orders() {
           <div className="row">
             <List7 data="account-orders" />
             <div className="col-lg-9">
+               <div>
+             
+              <select className='ct_sell_btn ct_select_option_hover' onChange={(e)=>IssueRequest(e.target.value)}>
+                <option>Issue Request</option>
+                <option value="lenderform" >Lender issue response form</option>
+                <option value="buyerform">Buyer issue response form</option>
+                <option value="renterform" >Renter issue response form</option>
+              </select>
+                  </div>
               <div className="page-content my-account__orders-list">
                 {
                   isLoader == true ?
                     <div class="custom-loader"></div> :
                     data?.length != 0 ?
                       <div className="shopping-cart">
-                        <div className="cart-table__wrapper">
+                        <div className="cart-table__wrapper pt-0">
                           <table className="cart-table">
                             <thead>
                               <tr>

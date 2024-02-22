@@ -160,7 +160,7 @@ function Faq() {
   <main>
     <div className="mb-5 pb-4"></div>
     <section className="container  lh-30">
-      <h2 className="section-title text-uppercase fw-bold mb-5">FREQUENTLY ASKED QUESTIONS</h2>
+      <h2 className="section-title fw-bold mb-5">Frequently Asked Questions</h2>
       <div id="faq_accordion" className="faq-accordion accordion mb-5">
         <div className='row'>
           <div className='col-md-6'>

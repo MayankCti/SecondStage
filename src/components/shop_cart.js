@@ -20,7 +20,7 @@ function Shop_cart() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
-      navigate("/login-register");
+      navigate("/login");
     } else {
       getCartData(token);
       getShopCart();
@@ -467,7 +467,7 @@ function Shop_cart() {
                           <th>Product</th>
                           <th></th>
                           <th>Price</th>
-                          <th>Quantity</th>
+                          {/* <th>Quantity</th> */}
                           <th>Subtotal</th>
                           <th></th>
                         </tr>
@@ -513,7 +513,7 @@ function Shop_cart() {
                                   ${item?.cart_price}
                                 </span>
                               </td>
-                              <td>
+                              {/* <td>
                                 <div className="qty-control position-relative">
                                   <span className="ct_quantity_text ct_quantity_minus" onClick={() => upDateCartData('minus', item)} style={{cursor:"pointer"}}>
                                     <i class="fa-solid fa-minus"></i>
@@ -532,7 +532,7 @@ function Shop_cart() {
 
 
                                 </div>
-                              </td>
+                              </td> */}
                               <td>
                                 <span className="shopping-cart__subtotal">
                                   ${item?.sub_total}

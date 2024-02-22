@@ -2,55 +2,50 @@ import React, { useEffect, useState } from 'react'
 import Header from './header'
 import Footer from './footer'
 import List7 from './List7'
-import EditPassword from './EditPassword'
-import EditProfile from './EditProfile'
-import { useNavigate } from 'react-router-dom'
+import moment from 'moment';
 import axios from 'axios'
-export const configJSON = require("../components/config");
-function Account_edit() {
-
-  const [editpass, setEditpass] = useState(false)
-  const [editProfile, setEditProfile] = useState(false)
+import { useNavigate } from 'react-router-dom';
+export const configJSON = require("./config");
+function PastOrder() {
+  const navigate = useNavigate()
+  const [data, setData] = useState([])
   const [isLoader, setIsLoader] = useState(false);
-  const [profileData, setProfileData] = useState([])
-  const navigate = useNavigate();
-  
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
       navigate("/login");
     } else {
-      getMyProfile(token)
+      getOrders()
     }
   }, [])
+  const getOrders = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
 
-  const getMyProfile = (val) => {
-    setIsLoader(true)
+    setIsLoader(true);
     axios({
-      url: configJSON.baseUrl + configJSON.myProfile_buyer,
+      url: configJSON.baseUrl + configJSON.order_list,
       method: "get",
       headers: {
-        'Authorization': `Bearer ${val}`
+        Authorization: `Bearer ${token}`,
       },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setProfileData(res?.data?.user_info[0])
-      }
-      else {
-        setProfileData([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
     })
+      .then((res) => {
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          setData(res?.data?.fetch_All_Order);
+        } else {
+          setData([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoader(false);
+      });
   }
-  const handleEditProfile = () => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    getMyProfile(token);
-    setEditProfile(false)
-  }
-
+  const handleProduct1Simple = (productId) => {
+    localStorage.setItem("productID",productId)
+    navigate("/product1-simple");
+  };
   return (
     <>
       <svg className="d-none">
@@ -202,165 +197,119 @@ function Account_edit() {
           <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor" />
         </symbol>
       </svg>
-      {isLoader == false ?
-        <Header data_value={profileData} />
-        : <div class="custom-loader"></div>
-      }
 
+      <Header />
 
       <main>
         <div className="mb-4 pb-4"></div>
-        <section className="my-account container pb-5">
-          <h2 className="page-title">Account Details</h2>
+        <section className="my-account container">
+          <h2 className="page-title">Past Orders</h2>
           <div className="row">
-            <List7 data="account-edit" />
-            {
-              isLoader == true ?
-                <div class="custom-loader"></div>
-                :
-                <div className="col-lg-9">
-                  <div className="page-content my-account__edit">
-                    <div className="my-account__edit-form">
-                      <div className='ct_edit_profile_btn'>
-                        <button type="button" className="btn btn-primary" onClick={() => setEditProfile(!editProfile)} >Edit Profile</button>
-                      </div>
-                      <form name="account_edit_form" className="needs-validation" novalidate>
-                        <div className="row ">
-                          {
-                            
-                            editProfile == true ? <EditProfile data={profileData} falsedata={() => handleEditProfile()} /> : <>
-                              <div className="col-md-6 mt-4">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="text"
-                                    value={profileData.buyer_name}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Name*"
-                                    required=""
-                                    readOnly={true}
+            <List7 data="past-order" />
+            <div className="col-lg-9">
+            <div>
+             
+             <select className='ct_sell_btn ct_select_option_hover'>
+               <option>Issue Request</option>
+               <option>Lender issue response form</option>
+               <option>Buyer issue response form</option>
+               <option>Renter issue response form</option>
+             </select>
+                 </div>
+              <div className="page-content my-account__orders-list">
+                {
+                  isLoader == true ?
+                    <div class="custom-loader"></div> :
+                    data?.length != 0 ?
+                      <div className="shopping-cart">
+                        <div className="cart-table__wrapper pt-0">
+                          <table className="cart-table">
+                            <thead>
+                              <tr>
+                                <th>Product</th>
+                                <th></th>
+                                <th>Order Number</th>
+                                <th>Order Date</th>
+                                <th>Price</th>
+                              </tr>
+                            </thead>
+                            <>
+                              {
+                                data?.map((item,i) => (
+                                  <>
+                                    {
+                                      item?.Cart_details?.map((obj) => (
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">Name*</label>
-                                </div>
-                              </div>
-                              <div className="col-md-6 mt-4">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="text"
-                                    value={profileData.user_name}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Create Username*"
-                                    required=""
-                                    readOnly={true}
+                                        <tbody>
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">
-                                    Username*
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="col-md-6">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="email"
-                                    value={profileData.email}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Email*"
-                                    required=""
-                                    readOnly={true}
+                                          <tr>
+                                            <td>
+                                              <div className="shopping-cart__product-item">
+                                                <img
+                                                  loading="lazy"
+                                                  src={obj?.product_image}
+                                                  width="120"
+                                                  height="120"
+                                                  alt=""
+                                                  onClick={() => handleProduct1Simple(obj?.id)}
+                                                />
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <div className="shopping-cart__product-item__detail">
+                                                <h4>{obj?.product_brand}</h4>
+                                                <ul className="shopping-cart__product-item__options">
+                                                  <li className="d-flex align-items-center gap-3">Color: <div className="swatch-list">
+                                                    <label className="swatch ct_swatch_after swatch-color js-swatch ct_active_color1 mb-0" for="swatch-11" aria-label="Black"
+                                                      data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${obj?.color}` }}
+                                                      data-bs-original-title="Black"></label>
+                                                  </div></li>
+                                                  <li>Size top: {obj?.size_top}</li>
+                                                  <li>Size bottom: {obj?.size_bottom}</li>
+                                                  <li>Quantity: {obj?.cart_quantity}</li>
+                                                </ul>
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <span className="shopping-cart__subtotal">
+                                               {item?.order_number}
+                                              </span>
+                                            </td>
+                                            <td>
+                                              <span className="shopping-cart__subtotal">
+                                              {moment(item?.order_date).format('DD MMM  YYYY')}
+                                              </span>
+                                            </td>
+                                            <td>
+                                              <span className="shopping-cart__subtotal">
+                                                ${obj?.sub_total}
+                                              </span>
+                                            </td>
+                                          </tr>
+                                        </tbody>
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">Email*</label>
-                                </div>
-                              </div>
-                              <div className="col-md-6">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="number"
-                                    value={profileData.phone_number}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Phone*"
-                                    required=""
-                                    readOnly={true}
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">Phone*</label>
-                                </div>
-                              </div>
-                              <div className="col-md-6">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="number"
-                                    value={profileData.license_number}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Licence Number *"
-                                    required=""
-                                    readOnly={true}
-
-                                  />
-                                  <label htmlFor="customerNameEmailInput">
-                                    Licence Number *
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="col-md-6">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="text"
-                                    value={profileData.license_state}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Licence Number *"
-                                    required=""
-                                    readOnly={true}
-
-                                  />
-                                  <label htmlFor="customerNameEmailInput">
-                                    Licence State *
-                                  </label>
-                                </div>
-                              </div>
+                                      ))
+                                    }
+                                  </>
+                                ))
+                              }
                             </>
-                          }
-
-
-                          <div className="col-md-12">
-                            <div className="mt-1 mb-3 max-auto text-end">
-                              <a className='menu-link_active ct_fw_600' onClick={() => setEditpass(!editpass)}>Change Password</a>
-                            </div>
-                          </div>
-
-
-
-                          {editpass && <EditPassword onClick={() => setEditpass(false)} />}
-
+                          </table>
                         </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-            }
-
+                      </div>
+                      : <h3> No Orderes.!</h3>
+                }
+              </div>
+            </div>
           </div>
         </section>
       </main>
-
-      <div className="mb-0 pb-0 pb-xl-5"></div>
+      <div className="mb-5 pb-xl-5"></div>
 
       <Footer />
     </>
   )
 }
 
-export default Account_edit
+export default PastOrder

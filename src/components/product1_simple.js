@@ -11,11 +11,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "react-date-range/dist/styles.css"; // main style file
-import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 import { DateRangePicker } from "react-date-range";
 import { addDays } from "date-fns";
+import Cookies from 'js-cookie';
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Calendar } from "react-date-range";
 import moment from "moment";
@@ -23,25 +24,30 @@ export const configJSON = require("../components/config");
 
 function Product1_simple(props) {
   const navigate = useNavigate();
-  const productId = localStorage.getItem("productID")
-  const [product, setProduct] = useState([])
-  const [cartData, setCartData] = useState([])
-  const [isCartSidebar, setIsCartSidebar] = useState(false)
+  const productId = localStorage.getItem("productID");
+  const [product, setProduct] = useState([]);
+  const [cartData, setCartData] = useState([]);
+  const [isCartSidebar, setIsCartSidebar] = useState(false);
   const [showCalender, setshowCalender] = useState(false);
   const [accessToken, setAccessToken] = useState();
-  const [allProduct, setAllProduct] = useState([])
+  const [allProduct, setAllProduct] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
-  const [qty, setQty] = useState(1)
-  const [size_bottom, setSize_bottom] = useState("")
-  const [size_top, setSize_top] = useState("")
-  const [color, setColor] = useState("")
-  const [total_rend_days, setTotalRendDays] = useState()
-  const [startDate, setStartDate] = useState()
-  const [endDate, setEndDate] = useState()
+  const [qty, setQty] = useState(1);
+  const [size_bottom, setSize_bottom] = useState("");
+  const [size_top, setSize_top] = useState("");
+  const [color, setColor] = useState("");
+  const [total_rend_days, setTotalRendDays] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
   const [state, setState] = useState([
     {
-      startDate: new Date('Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)'),
-      endDate: new Date('Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)'),
+      startDate: new Date(
+        "Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)"
+      ),
+      endDate: new Date(
+        "Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)"
+      ),
       key: "selection",
     },
   ]);
@@ -51,81 +57,78 @@ function Product1_simple(props) {
   //   key: 'selection',
   // }
 
-
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
-    window.scroll(0, 0)
-    setAccessToken(token)
+    window.scroll(0, 0);
+    setAccessToken(token);
     if (token == null) {
-      navigate("/login-register");
+      navigate("/login");
     } else {
-      getCartData(token)
-      getProduct()
+      getCartData(token);
+      getProduct();
     }
-  }, [])
+  }, []);
 
   const getCartData = (val, val2) => {
-    setAccessToken(val)
-    setIsLoader(true)
+    setAccessToken(val);
+    setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
       method: "get",
       headers: {
-        'Authorization': `Bearer ${val}`
+        Authorization: `Bearer ${val}`,
       },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setCartData(res?.data?.cart)
-        val2 == true ?
-          setIsCartSidebar(true)
-          :
-          setIsCartSidebar(false)
-      }
-      else {
-        setCartData([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
     })
-  }
+      .then((res) => {
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          setCartData(res?.data?.cart);
+          val2 == true ? setIsCartSidebar(true) : setIsCartSidebar(false);
+        } else {
+          setCartData([]);
+        }
+      })
+      .catch((error) => {
+        setIsLoader(false);
+        console.log(error);
+      });
+  };
   const getDataFromChild = () => {
-    getCartData(accessToken, true)
-  }
+    getCartData(accessToken, true);
+  };
   const hanleDate = (item) => {
-    setState([item?.selection])
+    setState([item?.selection]);
 
-    var sDate = moment(item?.selection?.startDate).format('DD-MM-YYYY');
-    var eDate = moment(item?.selection?.endDate).format('DD-MM-YYYY');
-    setStartDate(sDate)
-    setEndDate(eDate)
+    var sDate = moment(item?.selection?.startDate).format("DD-MM-YYYY");
+    var eDate = moment(item?.selection?.endDate).format("DD-MM-YYYY");
+    setStartDate(sDate);
+    setEndDate(eDate);
 
     var startDate = moment(item?.selection?.startDate);
     var endDate = moment(item?.selection?.endDate);
-    var diffInDays = endDate.diff(startDate, 'days');
+    var diffInDays = endDate.diff(startDate, "days");
     setTotalRendDays(diffInDays);
 
-    setshowCalender(!showCalender)
-  }
+    setshowCalender(!showCalender);
+  };
   const getProduct = () => {
     const user_id = JSON.parse(localStorage.getItem("user_id"));
-    var id = localStorage.getItem("productID")
+    var id = localStorage.getItem("productID");
     const data = {
       user_id: user_id,
-      prodcutId: id
-    }
+      prodcutId: id,
+    };
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.getProductDetailsById,
       method: "post",
-      data: data
+      data: data,
     })
       .then((res) => {
         setIsLoader(false);
         if (res?.data?.success == true) {
           setProduct(res?.data?.products[0]);
-          getData(res?.data?.products[0].product_Categories)
+          getData(res?.data?.products[0].product_Categories);
         } else {
           setProduct([]);
         }
@@ -134,66 +137,74 @@ function Product1_simple(props) {
         console.log(error);
         setIsLoader(false);
       });
-  }
+  };
   const handleClickRent = () => {
     setshowCalender(!showCalender);
   };
 
   const handleProduct1Simple = (productId) => {
-    localStorage.setItem("productID", productId)
-    getProduct()
+    localStorage.setItem("productID", productId);
+    getProduct();
   };
 
   const addToWishlist = (productId) => {
-    setIsLoader(true)
+    setIsLoader(true);
+    const randomeUserId = Cookies.get('name');
+    const userID = localStorage.getItem("user_id")
     const data = {
-      product_id: productId,
+        product_id: productId,
+        user_id: accessToken && userID ? userID : randomeUserId,
     };
     axios({
       method: "post",
       url: configJSON.baseUrl + configJSON.add_wishlist,
-      data: data,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res.data.success == true) {
-        MESSAGE.success(res?.data?.message)
-        getProduct()
-      } else {
-        MESSAGE.error(res?.data?.message)
-      }
-    }).catch((err) => {
-      setIsLoader(false)
-      console.log(err)
+      data: data
     })
+      .then((res) => {
+        setIsLoader(false);
+        if (res.data.success == true) {
+          MESSAGE.success(res?.data?.message);
+          getProduct();
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
+      })
+      .catch((err) => {
+        setIsLoader(false);
+        console.log(err);
+      });
   };
-  const addToCart = (product_id, qnty, type) => {
+  const addToCart = (product_id, type) => {
+    const userID = localStorage.getItem("user_id")
+    const randomeUserId = Cookies.get('name');
     var data;
     setIsLoader(true);
     if (type == "buy") {
       data = {
         product_id: product_id,
-        cart_quantity: qnty,
+        cart_quantity: 1,
         size_bottom: `${size_bottom}`,
         size_top: `${size_top}`,
         color: `${color}`,
+        guest_user: accessToken && userID ? 0 : 1,
+        user_id: accessToken && userID ? userID : randomeUserId
       };
     } else if (type == "rent") {
       data = {
         product_id: product_id,
-        cart_quantity: qnty,
+        cart_quantity: 1,
         size_bottom: `${size_bottom}`,
         size_top: `${size_top}`,
         color: `${color}`,
         start_date: `${startDate}`,
         end_date: `${endDate}`,
-        total_rend_days: `${total_rend_days}`
+        total_rend_days: `${total_rend_days}`,
+        guest_user: accessToken && userID ? 0 : 1,
+        user_id: accessToken && userID ? userID : randomeUserId,
       };
     }
 
-    console.log(data, "the data")
+    console.log(data, "the data");
     if (size_bottom && size_top && color) {
       axios({
         method: "post",
@@ -209,7 +220,7 @@ function Product1_simple(props) {
           setIsCartSidebar(true);
           if (res?.data?.success == true) {
             MESSAGE.success("Item added to cart.");
-            props?.onClick()
+            props?.onClick();
           } else {
             MESSAGE.error(res?.data?.message);
           }
@@ -222,41 +233,50 @@ function Product1_simple(props) {
       setIsLoader(false);
       MESSAGE.error("Please choose color and size");
     }
-
   };
   const qtyInc = () => {
-    setQty(qty + 1)
-  }
+    setQty(qty + 1);
+  };
   const qtyDnc = () => {
     if (qty >= 2) {
-
-      setQty(qty - 1)
+      setQty(qty - 1);
     }
-  }
+  };
 
   const getData = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
-    setIsLoader(true)
+    setIsLoader(true);
     axios({
-      url: configJSON.baseUrl + configJSON.getProductDetails_by_Category + val +`/4`,
+      url:
+        configJSON.baseUrl +
+        configJSON.getProductDetails_by_Category +
+        val +
+        `/4`,
       method: "get",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setAllProduct(res?.data?.product_by_category)
-      }
-      else {
-        setAllProduct([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
     })
-  }
-
+      .then((res) => {
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          setAllProduct(res?.data?.product_by_category);
+        } else {
+          setAllProduct([]);
+        }
+      })
+      .catch((error) => {
+        setIsLoader(false);
+        console.log(error);
+      });
+  };
+  const backToPrevious = (val) => {
+    if (val == "biknis") navigate("/bikinis");
+    else if (val == "fmg_wbff") navigate("/wbff");
+    else if (val == "bikini") navigate("/bikinis");
+    else
+      navigate(`/${val}`);
+  };
   return (
     <>
       <svg className="d-none">
@@ -515,12 +535,16 @@ function Product1_simple(props) {
           />
         </symbol>
       </svg>
-      {isLoader == false &&
-        <Header data={cartData?.length !== 0 && cartData} onClick={getDataFromChild} isCartSidebar={isCartSidebar} />
-      }
+      {isLoader == false && (
+        <Header
+          data={cartData?.length !== 0 && cartData}
+          onClick={getDataFromChild}
+          isCartSidebar={isCartSidebar}
+        />
+      )}
       <main>
         <div className="mb-md-1 pb-md-3"></div>
-        {isLoader == false &&
+        {isLoader == false && (
           <section className="product-single container">
             <div className="row">
               <div className="col-lg-7">
@@ -538,41 +562,37 @@ function Product1_simple(props) {
                     navigation={true}
                     modules={[Pagination, Navigation]}
                   >
-                    {
-                      product?.product_images?.map((item) => (
-                        <SwiperSlide>
-                          {" "}
-                          <div className=" product-single__image-item">
-                            <img
-                              loading="lazy"
-                              className="h-auto"
-                              src={item}
-                              width="674"
-                              height="674"
-                              alt=""
-                            />
-                            <a
-                              href={item}
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="left"
-                              title="Zoom"
+                    {product?.product_images?.map((item) => (
+                      <SwiperSlide>
+                        {" "}
+                        <div className=" product-single__image-item">
+                          <img
+                            loading="lazy"
+                            className="h-auto"
+                            src={item}
+                            width="674"
+                            height="674"
+                            alt=""
+                          />
+                          <a
+                            href={item}
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="left"
+                            title="Zoom"
+                          >
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            // xmlns={item}
                             >
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                              // xmlns={item}
-                              >
-                                <use href="#icon_zoom" />
-                              </svg>
-                            </a>
-                          </div>
-                        </SwiperSlide>
-                      ))
-                    }
-
-
+                              <use href="#icon_zoom" />
+                            </svg>
+                          </a>
+                        </div>
+                      </SwiperSlide>
+                    ))}
                   </Swiper>
                   <div className="product-single__image">
                     <div className="swiper-container">
@@ -600,15 +620,17 @@ function Product1_simple(props) {
                   </div>
                   <div className="product-single__thumbnail">
                     <div className="swiper-container">
-
                       <div className="ct_custom_verticle_slider">
-                        {
-                          product?.product_images?.map((item) => (
+
+                        <OwlCarousel className="owl-theme" margin={5} nav items={4}>
+
+
+                          {product?.product_images?.map((item) => (
                             <div className="ct_slidr_item">
                               <img src={item} alt="" />
                             </div>
                           ))}
-
+                        </OwlCarousel>
                       </div>
                     </div>
                   </div>
@@ -618,24 +640,22 @@ function Product1_simple(props) {
                 <div className="d-flex justify-content-between mb-4 pb-md-2">
                   <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
                     <a
-
-                      className="menu-link menu-link_us-s text-uppercase fw-medium"
+                      className="menu-link menu-link_us-s text-uppercase fw-medium pe-4"
+                      onClick={() => backToPrevious(product?.product_category)}
                     >
+                      <i class="fa-solid fa-arrow-left"></i> Back to previous
+                    </a>
+                    <a className="menu-link menu-link_us-s text-uppercase fw-medium">
                       Home
                     </a>
                     <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">
                       /
                     </span>
-                    <a
-
-                      className="menu-link menu-link_us-s text-uppercase fw-medium"
-                    >
+                    <a className="menu-link menu-link_us-s text-uppercase fw-medium">
                       The Shop
                     </a>
                   </div>
                 </div>
-
-
 
                 <div className="product-single__details-tab mt-4">
                   <ul
@@ -643,96 +663,141 @@ function Product1_simple(props) {
                     id="myTab"
                     role="tablist"
                   >
-                    {product?.product_buy_rent == "buy" && <li className="nav-item" role="presentation">
-                      <a
-                        className="nav-link nav-link_underscore"
-                        id="tab-buy-tab"
-                        data-bs-toggle="tab"
-                        // href="#tab-buy"
-                        role="tab"
-                        aria-controls="tab-buy"
-                        aria-selected="true"
-                      >
-                        Buy
-                      </a>
-                    </li>}
-                    {product?.product_buy_rent == "rent" && <li className="nav-item" role="presentation">
-                      <a
-                        className="nav-link nav-link_underscore active"
-                        id="tab-additional-rent-tab"
-                        data-bs-toggle="tab"
-                        href="#tab-additional-rent"
-                        role="tab"
-                        aria-controls="tab-additional-rent"
-                        aria-selected="false"
-                      >
-                        Rent
-                      </a>
-                    </li>}
+                    {product?.product_buy_rent == "buy" && (
+                      <li className="nav-item" role="presentation">
+                        <a className="nav-link nav-link_underscore active">
+                          Buy
+                        </a>
+                      </li>
+                    )}
+                    {product?.product_buy_rent == "rent" && (
+                      <li className="nav-item" role="presentation">
+                        <a className="nav-link nav-link_underscore active">
+                          Rent
+                        </a>
+                      </li>
+                    )}
                   </ul>
                   <div className="tab-content">
-                    {product?.product_buy_rent == "buy" && <div
-                      className="tab-pane fade show active"
-                      id="tab-buy"
-                      role="tabpanel"
-                      aria-labelledby="tab-buy-tab">
-                      <div>
-                        <h1 className="product-single__name">{product?.product_brand[0]}</h1>
-
-                        <div className="product-single__price">
-                          <span className="current-price">${product?.price_sale_lend_price}</span>
-                        </div>
-                        <div className="product-single__short-desc">
-                          <p>
+                    {product?.product_buy_rent == "buy" && (
+                      <div
+                        className="tab-pane fade show active"
+                        id="tab-buy"
+                        role="tabpanel"
+                        aria-labelledby="tab-buy-tab"
+                      >
+                        <div>
+                          <h1 className="product-single__name">
                             {product?.product_brand[0]}
-                          </p>
-                        </div>
+                          </h1>
 
-                        <div className="product-single__swatches">
-                          <div className="product-swatch text-swatches">
-                            <label>Size Top</label>
-                            <div className="swatch-list">
-                              {
-                                product?.product_size?.map((item) => (
-                                  <>
-                                    <input type="radio" name="size" id="swatch-1" />
-                                    <label onClick={() => setSize_top(item?.size_top)} className={size_top != item?.size_top ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_top}</label>
-                                  </>
-                                ))
-                              }
-                            </div>
+                          <div className="product-single__price">
+                            <span className="current-price">
+                              ${product?.price_sale_lend_price}
+                            </span>
+                          </div>
+                          <div className="product-single__short-desc">
+                            <p>{product?.product_brand[0]}</p>
+                          </div>
 
-                          </div>
-                          <div className="product-swatch text-swatches">
-                            <label>Size Bottom</label>
-                            <div className="swatch-list">
-                              {
-                                product?.product_size?.map((item) => (
+                          <div className="product-single__swatches">
+                            <div className="product-swatch text-swatches">
+                              <label>Size Top</label>
+                              <div className="swatch-list">
+                                {product?.product_size?.map((item) => (
                                   <>
-                                    <input type="radio" name="size" id="swatch-1" />
-                                    <label onClick={() => setSize_bottom(item?.size_bottom)} className={size_bottom != item?.size_bottom ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_bottom}</label>
+                                    <input
+                                      type="radio"
+                                      name="size"
+                                      id="swatch-1"
+                                    />
+                                    <label
+                                      onClick={() =>
+                                        setSize_top(item?.size_top)
+                                      }
+                                      className={
+                                        size_top != item?.size_top
+                                          ? "swatch js-swatch"
+                                          : "swatch js-swatch ct_size_active"
+                                      }
+                                      for="swatch-1"
+                                      aria-label="Extra Small"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Extra Small"
+                                    >
+                                      {item?.size_top}
+                                    </label>
                                   </>
-                                ))
-                              }
+                                ))}
+                              </div>
+                            </div>
+                            <div className="product-swatch text-swatches">
+                              <label>Size Bottom</label>
+                              <div className="swatch-list">
+                                {product?.product_size?.map((item) => (
+                                  <>
+                                    <input
+                                      type="radio"
+                                      name="size"
+                                      id="swatch-1"
+                                    />
+                                    <label
+                                      onClick={() =>
+                                        setSize_bottom(item?.size_bottom)
+                                      }
+                                      className={
+                                        size_bottom != item?.size_bottom
+                                          ? "swatch js-swatch"
+                                          : "swatch js-swatch ct_size_active"
+                                      }
+                                      for="swatch-1"
+                                      aria-label="Extra Small"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Extra Small"
+                                    >
+                                      {item?.size_bottom}
+                                    </label>
+                                  </>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="product-swatch color-swatches">
+                              <label>Color</label>
+                              <div className="swatch-list">
+                                {product?.product_color?.map((item) => (
+                                  <>
+                                    <input
+                                      type="radio"
+                                      name="color"
+                                      id="swatch-11"
+                                    />
+                                    <label
+                                      onClick={() => setColor(item)}
+                                      className={
+                                        color != item
+                                          ? "swatch swatch-color js-swatch"
+                                          : "swatch swatch-color js-swatch ct_active_color1"
+                                      }
+                                      for="swatch-11"
+                                      aria-label="Black"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      style={{ color: `${item}` }}
+                                      data-bs-original-title="Black"
+                                    ></label>
+                                  </>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                          <div className="product-swatch color-swatches">
-                            <label>Color</label>
-                            <div className="swatch-list">
-                              {
-                                product?.product_color?.map((item) => (
-                                  <>
-                                    <input type="radio" name="color" id="swatch-11" />
-                                    <label onClick={() => setColor(item)} className={color != item ? "swatch swatch-color js-swatch" : "swatch swatch-color js-swatch ct_active_color1"} for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${item}` }} data-bs-original-title="Black"></label>
-                                  </>
-                                ))
-                              }
-                            </div>
-                          </div>
-                        </div>
-                        <form >
-                          <div className="product-single__addtocart">
-                            <div className="qty-control position-relative">
+                          <form>
+                            <div className="product-single__addtocart">
+                              {/* <div className="qty-control position-relative">
                               <input
                                 type="number"
                                 name="quantity"
@@ -742,40 +807,28 @@ function Product1_simple(props) {
                               />
                               <div className="qty-control__reduce" onClick={() => qtyDnc()}>-</div>
                               <div className="qty-control__increase" onClick={() => qtyInc()}>+</div>
+                            </div> */}
+
+                              <button
+                                type="button"
+                                className="btn btn-primary btn-addtocart js-open-aside"
+                                data-aside="cartDrawer"
+                                onClick={() => addToCart(product?.id, "buy")}
+                              >
+                                Add to Cart
+                              </button>
                             </div>
+                          </form>
 
-
-
-
-
-
-                            <button
-                              type="button"
-                              className="btn btn-primary btn-addtocart js-open-aside"
-                              data-aside="cartDrawer"
-                              onClick={() => addToCart(product?.id, qty, "buy")}
-                            >
-                              Add to Cart
-                            </button>
-                          </div>
-                        </form>
-
-                        <div className="product-single__addtolinks">
-                          <a
-                            className="menu-link menu-link_us-s add-to-wishlist pb-0"
-                          >
-
-                            {
-                              product?.wishlist_like == 0 ? (
+                          <div className="product-single__addtolinks">
+                            <a className="menu-link menu-link_us-s add-to-wishlist pb-0">
+                              {product?.wishlist_like == 0 ? (
                                 <button
                                   onClick={() => addToWishlist(product?.id)}
                                   className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
                                   title="Add To Wishlist"
                                 >
-                                  <i
-                                    class="fa-regular fa-heart"
-
-                                  ></i>{" "}
+                                  <i class="fa-regular fa-heart"></i>{" "}
                                 </button>
                               ) : (
                                 <button
@@ -786,122 +839,180 @@ function Product1_simple(props) {
                                   <i
                                     class="fa-solid fa-heart"
                                     style={{ color: "red" }}
-
                                   ></i>
                                 </button>
                               )}
-                            <span>Add to Wishlist</span>
-                          </a>
+                              <span>Add to Wishlist</span>
+                            </a>
 
-                          <script src="js/details-disclosure.js" defer="defer"></script>
-                          <script src="js/share.js" defer="defer"></script>
-                        </div>
+                            <script
+                              src="js/details-disclosure.js"
+                              defer="defer"
+                            ></script>
+                            <script src="js/share.js" defer="defer"></script>
+                          </div>
 
-                        <div className="product-single__meta-info">
-                          {/* <div className="meta-item">
+                          <div className="product-single__meta-info">
+                            {/* <div className="meta-item">
                           <label>SKU:</label>
                           <span>N/A</span>
                         </div> */}
-                          <div className="meta-item">
-                            <label>Categories:</label>
-                            <span>{" "}{product?.product_Categories}</span>
+                            <div className="meta-item">
+                              <label>Categories:</label>
+                              <span> {product?.product_Categories}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
+                    )}
+                    {product?.product_buy_rent == "rent" && (
+                      <div
+                        className="tab-pane fade show active"
+                        id="tab-additional-rent"
+                        role="tabpanel"
+                        aria-labelledby="tab-additional-rent-tab"
+                      >
+                        <div>
+                          <h1 className="product-single__name">
+                            {product?.product_brand[0]}
+                            <small className="ms-2 ct_fs_14">
+                              {product?.product_rental_period}
+                            </small>
+                          </h1>
 
-                    </div>}
-                    {product?.product_buy_rent == "rent" && <div
-                      className="tab-pane fade show active"
-                      id="tab-additional-rent"
-                      role="tabpanel"
-                      aria-labelledby="tab-additional-rent-tab"
-                    >
+                          <div className="product-single__price">
+                            <span className="current-price">
+                              ${product?.price_sale_lend_price}
+                            </span>
+                          </div>
+                          <div className="product-single__short-desc">
+                            <p>{product?.product_description}</p>
+                          </div>
 
-                      <div>
-                        <h1 className="product-single__name">{product?.product_brand[0]}<small className="ms-2 ct_fs_14">{product?.product_rental_period}</small></h1>
-
-                        <div className="product-single__price">
-                          <span className="current-price">${product?.price_sale_lend_price}</span>
-                        </div>
-                        <div className="product-single__short-desc">
-                          <p>
-                            {product?.product_description}
-                          </p>
-                        </div>
-
-                        <div className="mb-4">
                           <div className="mb-4">
-                            <button
-                              className="ct_mobile_fs14 text-white ct_sell_btn"
-                              onClick={() => setshowCalender(!showCalender)}
-                            >
-                              Select Date for Rent
-                            </button>
-                          </div>
-                          <DateRangePicker
-                            className={
-                              showCalender != true
-                                ? "ct_range_calendar"
-                                : "ct_range_calendar ct_show_calender"
-                            }
-                            onChange={(item) => hanleDate(item)}
-                            showSelectionPreview={true}
-                            moveRangeOnFirstSelection={false}
-                            months={1}
-                            ranges={state}
-                            rangeColors={"red"}
-                            direction="horizontal"
-                            minDate={new Date()}
-                          />
-                        </div>
-                        <div className="product-single__swatches">
-                          <div className="product-swatch text-swatches">
-                            <label>Size Top</label>
-                            <div className="swatch-list">
-                              {
-                                product?.product_size?.map((item) => (
-                                  <>
-                                    <input type="radio" name="size" id="swatch-1" />
-                                    <label onClick={() => setSize_top(item?.size_top)} className={size_top != item?.size_top ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_top}</label>
-                                  </>
-                                ))
+                            <div className="mb-4">
+                              <button
+                                className="ct_mobile_fs14 text-white ct_sell_btn"
+                                onClick={() => setshowCalender(!showCalender)}
+                              >
+                                Select Date for Rent
+                              </button>
+                            </div>
+                            <DateRangePicker
+                              className={
+                                showCalender != true
+                                  ? "ct_range_calendar"
+                                  : "ct_range_calendar ct_show_calender"
                               }
+                              onChange={(item) => hanleDate(item)}
+                              showSelectionPreview={true}
+                              moveRangeOnFirstSelection={false}
+                              months={1}
+                              ranges={state}
+                              rangeColors={"red"}
+                              direction="horizontal"
+                              minDate={new Date()}
+                            />
+                          </div>
+                          <div className="product-single__swatches">
+                            <div className="product-swatch text-swatches">
+                              <label>Size Top</label>
+                              <div className="swatch-list">
+                                {product?.product_size?.map((item) => (
+                                  <>
+                                    <input
+                                      type="radio"
+                                      name="size"
+                                      id="swatch-1"
+                                    />
+                                    <label
+                                      onClick={() =>
+                                        setSize_top(item?.size_top)
+                                      }
+                                      className={
+                                        size_top != item?.size_top
+                                          ? "swatch js-swatch"
+                                          : "swatch js-swatch ct_size_active"
+                                      }
+                                      for="swatch-1"
+                                      aria-label="Extra Small"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Extra Small"
+                                    >
+                                      {item?.size_top}
+                                    </label>
+                                  </>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="product-swatch text-swatches">
+                              <label>Size Bottom</label>
+                              <div className="swatch-list">
+                                {product?.product_size?.map((item) => (
+                                  <>
+                                    <input
+                                      type="radio"
+                                      name="size"
+                                      id="swatch-1"
+                                    />
+                                    <label
+                                      onClick={() =>
+                                        setSize_bottom(item?.size_bottom)
+                                      }
+                                      className={
+                                        size_bottom != item?.size_bottom
+                                          ? "swatch js-swatch"
+                                          : "swatch js-swatch ct_size_active"
+                                      }
+                                      for="swatch-1"
+                                      aria-label="Extra Small"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Extra Small"
+                                    >
+                                      {item?.size_bottom}
+                                    </label>
+                                  </>
+                                ))}
+                              </div>
                             </div>
 
-                          </div>
-                          <div className="product-swatch text-swatches">
-                            <label>Size Bottom</label>
-                            <div className="swatch-list">
-                              {
-                                product?.product_size?.map((item) => (
+                            <div className="product-swatch color-swatches">
+                              <label>Color</label>
+                              <div className="swatch-list">
+                                {product?.product_color?.map((item) => (
                                   <>
-                                    <input type="radio" name="size" id="swatch-1" />
-                                    <label onClick={() => setSize_bottom(item?.size_bottom)} className={size_bottom != item?.size_bottom ? "swatch js-swatch" : "swatch js-swatch ct_size_active"} for="swatch-1" aria-label="Extra Small" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Extra Small">{item?.size_bottom}</label>
+                                    <input
+                                      type="radio"
+                                      name="color"
+                                      id="swatch-11"
+                                    />
+                                    <label
+                                      onClick={() => setColor(item)}
+                                      className={
+                                        color != item
+                                          ? "swatch swatch-color js-swatch"
+                                          : "swatch swatch-color js-swatch ct_active_color1"
+                                      }
+                                      for="swatch-11"
+                                      aria-label="Black"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      style={{ color: `${item}` }}
+                                      data-bs-original-title="Black"
+                                    ></label>
                                   </>
-                                ))
-                              }
-                            </div>
-
-                          </div>
-
-
-                          <div className="product-swatch color-swatches">
-                            <label>Color</label>
-                            <div className="swatch-list">
-                              {
-                                product?.product_color?.map((item) => (
-                                  <>
-                                    <input type="radio" name="color" id="swatch-11" />
-                                    <label onClick={() => setColor(item)} className={color != item ? "swatch swatch-color js-swatch" : "swatch swatch-color js-swatch ct_active_color1"} for="swatch-11" aria-label="Black" data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${item}` }} data-bs-original-title="Black"></label>
-                                  </>
-                                ))
-                              }
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <form name="addtocart-form" >
-                          <div className="product-single__addtocart">
-                            <div className="qty-control position-relative">
+                          <form name="addtocart-form">
+                            <div className="product-single__addtocart">
+                              {/* <div className="qty-control position-relative">
                               <input
                                 type="number"
                                 name="quantity"
@@ -911,39 +1022,32 @@ function Product1_simple(props) {
                               />
                               <div className="qty-control__reduce" onClick={() => qtyDnc()}>-</div>
                               <div className="qty-control__increase" onClick={() => qtyInc()}>+</div>
+                            </div> */}
+                              <button
+                                type="button"
+                                className="btn btn-primary btn-addtocart js-open-aside"
+                                data-aside="cartDrawer"
+                                onClick={() => addToCart(product?.id, "rent")}
+                              >
+                                Add to Cart
+                              </button>
                             </div>
-                            <button
-                              type="button"
-                              className="btn btn-primary btn-addtocart js-open-aside"
-                              data-aside="cartDrawer"
-                              onClick={() => addToCart(product?.id, qty, "rent")}
-                            >
-                              Add to Cart
-                            </button>
-                          </div>
-                        </form>
+                          </form>
 
-                        <div className="product-single__addtolinks">
-                          <a
-                            className="menu-link menu-link_us-s add-to-wishlist pb-0"
-                          >
-
-                            {
-                              product?.wishlist_like == 0 ? (
+                          <div className="product-single__addtolinks">
+                            <a className="menu-link menu-link_us-s add-to-wishlist pb-0">
+                              {product?.wishlist_like == 0 ? (
                                 <button
-
                                   className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
                                   title="Add To Wishlist"
                                 >
                                   <i
                                     onClick={() => addToWishlist(product?.id)}
                                     class="fa-regular fa-heart"
-
                                   ></i>{" "}
                                 </button>
                               ) : (
                                 <button
-
                                   className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
                                   title="Add To Wishlist"
                                 >
@@ -951,88 +1055,67 @@ function Product1_simple(props) {
                                     onClick={() => addToWishlist(product?.id)}
                                     class="fa-solid fa-heart"
                                     style={{ color: "red" }}
-
                                   ></i>
                                 </button>
                               )}
-                            <span>Add to Wishlist</span>
-                          </a>
+                              <span>Add to Wishlist</span>
+                            </a>
 
-                          <script src="js/details-disclosure.js" defer="defer"></script>
-                          <script src="js/share.js" defer="defer"></script>
+                            <script
+                              src="js/details-disclosure.js"
+                              defer="defer"
+                            ></script>
+                            <script src="js/share.js" defer="defer"></script>
 
-                          <share-button className="share-button">
-                            <button className="menu-link menu-link_us-s to-share border-0 gap-2 bg-transparent d-flex align-items-center">
-                              <svg
-                                width="16"
-                                height="19"
-                                viewBox="0 0 16 19"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <use href="#icon_sharing" />
-                              </svg>
-                              <span>Share</span>
-                            </button>
+                            <share-button className="share-button">
+                              <button className="menu-link menu-link_us-s to-share border-0 gap-2 bg-transparent d-flex align-items-center">
+                                <svg
+                                  width="16"
+                                  height="19"
+                                  viewBox="0 0 16 19"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <use href="#icon_sharing" />
+                                </svg>
+                                <span>Share</span>
+                              </button>
+                            </share-button>
+                            <script
+                              src="js/details-disclosure.js"
+                              defer="defer"
+                            ></script>
+                            <script src="js/share.js" defer="defer"></script>
+                          </div>
 
-                          </share-button>
-                          <script src="js/details-disclosure.js" defer="defer"></script>
-                          <script src="js/share.js" defer="defer"></script>
-                        </div>
-
-                        <div className="product-single__meta-info">
-                          {/* <div className="meta-item">
+                          <div className="product-single__meta-info">
+                            {/* <div className="meta-item">
                             <label>SKU:</label>
                             <span>N/A</span>
                           </div> */}
-                          <div className="meta-item">
-                            <label>Categories : </label>
-                            <span> {product?.product_Categories}</span>
+                            <div className="meta-item">
+                              <label>Categories : </label>
+                              <span> {product?.product_Categories}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-
-                    </div>}
+                    )}
                   </div>
                 </div>
-
-
               </div>
             </div>
-            <div className="product-single__details-tab">
+            <div className="product-single__details-tab mt-0">
               <ul
-                className="nav nav-tabs justify-content-start"
+                className="nav nav-tabs justify-content-start ps-0"
                 id="myTab"
                 role="tablist"
               >
                 <li className="nav-item" role="presentation">
-                  <a
-                    className="nav-link nav-link_underscore active"
-                    id="tab-description-tab"
-                    data-bs-toggle="tab"
-                    href="#tab-description"
-                    role="tab"
-                    aria-controls="tab-description"
-                    aria-selected="true"
-                  >
-                    Description
-                  </a>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <a
-                    className="nav-link nav-link_underscore"
-                    id="tab-additional-rent-tab"
-                    data-bs-toggle="tab"
-                    href="#tab-additional-info"
-                    role="tab"
-                    aria-controls="tab-additional-info"
-                    aria-selected="false"
-                  >
-                    Additional Information
-                  </a>
+                  <a className="nav-link  active ps-0">Description</a>
                 </li>
               </ul>
-              <div className="tab-content">
+              <div className="tab-content pt-4">
                 <div
                   className="tab-pane fade show active"
                   id="tab-description"
@@ -1043,52 +1126,67 @@ function Product1_simple(props) {
                     {/* <h3 className="block-title mb-4">
                     Sed do eiusmod tempor incididunt ut labore
                   </h3> */}
-                    <p className="content">
-                      {product?.product_description}
-                    </p>
-                    {/* <div className="row">
-                    <div className="col-lg-6">
-                      <h3 className="block-title">Why choose product?</h3>
-                      <ul className="list text-list">
-                        <li>Creat by cotton fibric with soft and smooth</li>
-                        <li>
-                          Simple, Configurable (e.g. size, color, etc.), bundled
-                        </li>
-                        <li>Downloadable/Digital Products, Virtual Products</li>
-                      </ul>
-                    </div>
-                    <div className="col-lg-6">
-                      <h3 className="block-title">Sample Number List</h3>
-                      <ol className="list text-list">
-                        <li>Create Store-specific attrittbutes on the fly</li>
-                        <li>
-                          Simple, Configurable (e.g. size, color, etc.), bundled
-                        </li>
-                        <li>Downloadable/Digital Products, Virtual Products</li>
-                      </ol>
-                    </div>
+                    <p className="content">{product?.product_description}</p>
                   </div>
-                  <h3 className="block-title mb-0">Lining</h3>
-                  <p className="content">
-                    100% Polyester, Main: 100% Polyester.
-                  </p> */}
+                  {/* product_category */}
+                  <div className="product-single__addtional-info">
+                    <ul className="nav nav-tabs justify-content-start ps-0 pb-4">
+                      <li className="nav-item" role="presentation">
+                        <a className="nav-link  active ps-0">
+                          Additional Information
+                        </a>
+                      </li>
+                    </ul>
+                    <div className="item">
+                      <label className="h6">Category</label>
+
+                      <span>{product?.product_category}</span>
+                    </div>
+
+                    <div className="item">
+                      <label className="h6">Size Top</label>
+                      {product?.product_size?.map((item) => (
+                        <span>{item?.size_top},</span>
+                      ))}
+                    </div>
+                    <div className="item">
+                      <label className="h6">Size Bottom</label>
+                      {product?.product_size?.map((item) => (
+                        <span>{item?.size_bottom},</span>
+                      ))}
+                    </div>
+                    <div className="item d-flex align-items-center">
+                      <label className="h6">Color</label>
+                      <div className="swatch-list">
+                        {product?.product_color?.map((item) => (
+                          <label
+                            className="swatch ct_swatch_after swatch-color js-swatch ct_active_color1"
+                            for="swatch-11"
+                            aria-label="Black"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title=""
+                            style={{ color: `${item}` }}
+                            data-bs-original-title="Black"
+                          ></label>
+                        ))}
+                      </div>
+                      {/* <span>{product?.product_color}</span> */}
+                    </div>
+                    <div className="item">
+                      <label className="h6">Location</label>
+                      <span>{product?.location}</span>
+                    </div>
                   </div>
                 </div>
-                <div
+                {/* <div
                   className="tab-pane fade"
                   id="tab-additional-info"
                   role="tabpanel"
                   aria-labelledby="tab-additional-info-tab"
                 >
                   <div className="product-single__addtional-info">
-                    {/* <div className="item">
-                    <label className="h6">Weight</label>
-                    <span>1.25 kg</span>
-                  </div>
-                  <div className="item">
-                    <label className="h6">Dimensions</label>
-                    <span>90 x 60 x 90 cm</span>
-                  </div> */}
+                  
                     <div className="item">
                       <label className="h6">Size Top</label>
                       {
@@ -1120,80 +1218,86 @@ function Product1_simple(props) {
                         }
 
                       </div>
-                      {/* <span>{product?.product_color}</span> */}
+                     
                     </div>
-                    {/* <div className="item">
-                    <label className="h6">Storage</label>
-                    <span>Relaxed fit shirt-style dress with a rugged</span>
-                  </div> */}
+                   
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </section>
-        }
+        )}
         <section class="products-carousel container">
-          <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">Related <strong>Products</strong></h2>
+          <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">
+            Related <strong>Products</strong>
+          </h2>
 
           <div id="related_products" class="position-relative">
-            {
-              isLoader == true ?
-                <div class="custom-loader"></div> :
-                allProduct?.length != 0 &&
-                <OwlCarousel className='owl-theme' margin={5} nav items={4}>
-                  {
-                    allProduct?.map((item, i) => (
-                      <div class='item'>
-                        <div class="ct_swiper_slide swiper-slide product-card">
-                          <div class="pc__img-wrapper">
+            {isLoader == true ? (
+              <div class="custom-loader"></div>
+            ) : (
+              allProduct?.length != 0 && (
+                <OwlCarousel className="owl-theme" margin={5} nav items={4}>
+                  {allProduct?.map((item, i) => (
+                    <div class="item">
+                      <div class="ct_swiper_slide swiper-slide product-card">
+                        <div class="pc__img-wrapper">
+                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                            <img
+                              loading="lazy"
+                              src={item?.product_image}
+                              width="330"
+                              height="400"
+                              alt="Cropped Faux leather Jacket"
+                              class="pc__img"
+                            />
+                            {/* <img loading="lazy" src="images/products/product_3-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img pc__img-second"> */}
+                          </a>
+                          {/* <button onClick={() => addToCart(item?.id, "1")} type="button" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> */}
+                        </div>
+
+                        <div class="pc__info position-relative">
+                          <p class="pc__category">{item?.product_category}</p>
+                          <h6 class="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
-                              <img loading="lazy" src={item?.product_image} width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img" />
-                              {/* <img loading="lazy" src="images/products/product_3-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img pc__img-second"> */}
+                              {item?.product_brand}
                             </a>
-                            {/* <button onClick={() => addToCart(item?.id, "1")} type="button" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> */}
+                          </h6>
+                          <div class="product-card__price d-flex">
+                            <span class="money price">
+                              ${item?.price_sale_lend_price}
+                            </span>
                           </div>
 
-                          <div class="pc__info position-relative">
-                            <p class="pc__category">{item?.product_category}</p>
-                            <h6 class="pc__title"><a onClick={() => handleProduct1Simple(item?.id)}>{item?.product_brand}</a></h6>
-                            <div class="product-card__price d-flex">
-                              <span class="money price">${item?.price_sale_lend_price}</span>
-                            </div>
-
-                            {
-                              item?.wishlist_like == 0 ? (
-                                <button
-                                  onClick={() => addToWishlist(item?.id)}
-                                  className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                  title="Add To Wishlist"
-                                >
-                                  <i
-                                    class="fa-regular fa-heart"
-
-                                  ></i>{" "}
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => addToWishlist(item?.id)}
-                                  className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                  title="Add To Wishlist"
-                                >
-                                  <i
-                                    class="fa-solid fa-heart"
-                                    style={{ color: "red" }}
-
-                                  ></i>
-                                </button>
-                              )}
-                          </div>
+                          {item?.wishlist_like == 0 ? (
+                            <button
+                              onClick={() => addToWishlist(item?.id)}
+                              className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                              title="Add To Wishlist"
+                            >
+                              <i class="fa-regular fa-heart"></i>{" "}
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => addToWishlist(item?.id)}
+                              className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                              title="Add To Wishlist"
+                            >
+                              <i
+                                class="fa-solid fa-heart"
+                                style={{ color: "red" }}
+                              ></i>
+                            </button>
+                          )}
                         </div>
                       </div>
-
-
-                    ))}
+                    </div>
+                  ))}
                 </OwlCarousel>
-            }
-            <div class="swiper-container js-swiper-slider"
+              )
+            )}
+            <div
+              class="swiper-container js-swiper-slider"
               data-settings='{
             "autoplay": false,
             "slidesPerView": 4,
@@ -1226,23 +1330,11 @@ function Product1_simple(props) {
                 "spaceBetween": 30
               }
             }
-          }'>
-              <div class="swiper-wrapper">
-
-
-
-
-
-
-              </div>{/* /.swiper-wrapper */}
+          }'
+            >
+              <div class="swiper-wrapper"></div>
+              {/* /.swiper-wrapper */}
             </div>
-
-
-
-
-
-
-
 
             {/* <div class="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
           <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg>
@@ -1253,8 +1345,8 @@ function Product1_simple(props) {
 
             <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
             {/* /.products-pagination */}
-          </div>{/* /.position-relative */}
-
+          </div>
+          {/* /.position-relative */}
         </section>
       </main>
 
@@ -1304,54 +1396,34 @@ function Product1_simple(props) {
                 <div className="accordion-body px-0 pb-0">
                   <ul className="list list-inline row row-cols-2 mb-0">
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Dresses
-                      </a>
+                      <a className="menu-link py-1">Dresses</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Shorts
-                      </a>
+                      <a className="menu-link py-1">Shorts</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Sweatshirts
-                      </a>
+                      <a className="menu-link py-1">Sweatshirts</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Swimwear
-                      </a>
+                      <a className="menu-link py-1">Swimwear</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Jackets
-                      </a>
+                      <a className="menu-link py-1">Jackets</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        T-Shirts & Tops
-                      </a>
+                      <a className="menu-link py-1">T-Shirts & Tops</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Jeans
-                      </a>
+                      <a className="menu-link py-1">Jeans</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Trousers
-                      </a>
+                      <a className="menu-link py-1">Trousers</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Men
-                      </a>
+                      <a className="menu-link py-1">Men</a>
                     </li>
                     <li className="list-item">
-                      <a className="menu-link py-1">
-                        Jumpers & Cardigans
-                      </a>
+                      <a className="menu-link py-1">Jumpers & Cardigans</a>
                     </li>
                   </ul>
                 </div>
@@ -1394,52 +1466,42 @@ function Product1_simple(props) {
                 <div className="accordion-body px-0 pb-0">
                   <div className="d-flex flex-wrap">
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#0a2472" }}
                     ></a>
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#d7bb4f" }}
                     ></a>
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#282828" }}
                     ></a>
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#b1d6e8" }}
                     ></a>
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#9c7539" }}
                     ></a>
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#d29b48" }}
                     ></a>
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#e6ae95" }}
                     ></a>
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#d76b67" }}
                     ></a>
                     <a
-
                       className="swatch-color swatch_active js-filter"
                       style={{ color: "#bababa" }}
                     ></a>
                     <a
-
                       className="swatch-color js-filter"
                       style={{ color: "#bfdcc4" }}
                     ></a>

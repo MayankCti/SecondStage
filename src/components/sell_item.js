@@ -7,7 +7,7 @@ import List7 from './List7'
 function Sell_item() {
   const navigate = useNavigate()
   const handleLoginRegister = ()=>{
-    navigate("/login-register")
+    navigate("/login")
   }
   return (
     <>
@@ -168,7 +168,6 @@ function Sell_item() {
     <section className="my-account container">
       <h2 className="page-title">MY Sell Items</h2>
       <div className="row">
-        
         <List7 data="sell-item"/>
         <div className="col-lg-9">
           <div className="page-content my-account__wishlist">

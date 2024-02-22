@@ -23,7 +23,7 @@ function EditProfile(props) {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token)
     if (token == null) {
-      navigate("/login-register");
+      navigate("/login");
     }
   }, [])
   const editProfie = () => {

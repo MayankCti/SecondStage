@@ -4,38 +4,45 @@ import { useNavigate } from 'react-router-dom'
 import Header from './header'
 import Footer from './footer'
 import Content from './Content';
+import Cookies from 'js-cookie';
 import Home from './home';
 export const configJSON = require("../components/config");
 function Index() {
   const [isCartSidebar, setIsCartSidebar] = useState(false)
   const [cartData, setCartData] = useState([])
   const [accessToken, setAccessToken] = useState()
-  const [isHome, setIsHome] = useState(false)
+  // const [isHome, setIsHome] = useState(false)
   const [quickSearch, setQuickSearch] = useState("")
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
   const [sort, setSort] = useState(4)
   const [searchData, setSearchProduct] = useState([])
+  const [randomUserId,setRandomUserId] = useState()
   const navigate = useNavigate()
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
-    if (token == null) {
-      // navigate('/login-register')
-      getAllProduct();
-    } else {
-      setIsHome(true)
+    generateToken()
+      // setIsHome(true)
       getCartData(token)
       getAllProduct();
-    }
   }, [])
+const  generateToken = () => {
+    var length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    Cookies.set('RandomUserId', retVal, { expires: 1});
+    setRandomUserId(retVal);
+};
 
   const getAllProduct = () => {
     setIsLoader(true);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
-
     const data = {
-      user_id: user_id ? user_id : 0,
+      user_id: user_id,
       sort: sort
     }
     axios({

@@ -174,7 +174,7 @@ function Terms() {
   {
       isHome == true ?
       <Header/> :
-      <div onClick={()=>navigate("/login-register")}>
+      <div onClick={()=>navigate("/login")}>
       <HeaderVisitor/>
       </div>
     }
@@ -183,7 +183,7 @@ function Terms() {
   <main>
     <div className="mb-5 pb-4"></div>
     <section className="container mw-930 lh-30">
-      <h2 className="section-title text-uppercase fw-bold mb-5">Terms & Conditions</h2>
+      <h2 className="section-title  fw-bold mb-5">Terms & Conditions</h2>
       <h5 className="mb-3">INTRODUCTION</h5>
       <p className="mb-4 pb-3">These Terms and Conditions (the Terms) set out your rights and responsibilities as a user of this Site and constitute a binding legal agreement between you, the User, and Second Stage. By using the Site, you the User (buyer, seller, renter or lender) is agreeing to the Terms in their entirety and acknowledge the limitations and exclusions set out herein, including but not limited to the agreed legal jurisdiction, dispute resolution processes and various associated legal obligations and regulations. By using the Site you the User agree to comply with and be legally bound by the terms and conditions as set out in the Terms, whether or not you become a registered user of the Services. Use of the Site is dependent upon your agreement to the Terms. Failure to use the Site in accordance with the Terms may subject you to civil and criminal penalties.</p>
       <h5 className="mb-3">GENERAL</h5>
@@ -682,7 +682,7 @@ Upon acceptance of a Rental Request, you agree to pay, via Second Stage, the Tot
 
     <div className="mb-0 pb-xl-5"></div>
   </main>
-<div onClick={()=>navigate("/login-register")}>
+<div onClick={()=>navigate("/login")}>
   <Footer/>
 </div>
   

@@ -7,6 +7,7 @@ import axios from "axios";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import Cookies from 'js-cookie';
 export const configJSON = require("../components/config");
 function Content(props) {
   const [isLoader, setIsLoader] = useState(false);
@@ -23,10 +24,7 @@ function Content(props) {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
     if (token == null) {
-      // navigate("/login-register");
-      setTimeout(() => {
-        getAllProduct();
-      }, 1000);
+      navigate("/login");
     } else {
       setTimeout(() => {
         getAllProduct();
@@ -38,8 +36,8 @@ function Content(props) {
     setIsLoader(true);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const data = {
-      user_id: user_id ? user_id : 0,
-  sort : sort
+      user_id: user_id,
+  sort : "4"
     }
     axios({
       url: configJSON.baseUrl + configJSON.getAllProduct,
@@ -90,16 +88,17 @@ function Content(props) {
 
   const addToWishlist = (productId) => {
     setIsLoader(true)
+    const randomeUserId = Cookies.get('name');
+    const userID = localStorage.getItem("user_id")
     const data = {
-      product_id: productId,
+        product_id: productId,
+        user_id: accessToken && userID ? userID : randomeUserId,
     };
+    
     axios({
       method: "post",
       url: configJSON.baseUrl + configJSON.add_wishlist,
-      data: data,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      data: data
     }).then((res) => {
       setIsLoader(false)
       if (res.data.success == true) {
@@ -176,9 +175,9 @@ function Content(props) {
                               ))}
                             </Swiper>
                           </div>
-                          <div className="ct_buy_rent_tag">
+                          {/* <div className="ct_buy_rent_tag">
                             <h4 className="mb-0">{item.product_buy_rent.charAt(0).toUpperCase() + item.product_buy_rent.slice(1)}</h4>
-                          </div>
+                          </div> */}
                           {/* <button
                           onClick={() => addToCart(item?.id)}
                           className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
@@ -189,10 +188,28 @@ function Content(props) {
                         </button> */}
                         </div>
                         <div className="pc__info position-relative">
-                          <p className="pc__category">Featured Products</p>
+                          <p className="pc__category">{item?.product_brand ? item?.product_brand : "Featured Products"}</p>
                           <h6 className="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {item?.product_description}
+                              {/* {item?.product_description}
+                               */}
+                               Size Top : 
+                               {
+                                item?.product_size?.map((obj)=>(
+                                  <span>{obj?.size_top}</span>
+                                ))
+                               }
+                            </a>
+                            <br/>
+                            <a onClick={() => handleProduct1Simple(item?.id)}>
+                              {/* {item?.product_description}
+                               */}
+                               Size Top : 
+                               {
+                                item?.product_size?.map((obj)=>(
+                                  <span>{obj?.size_bottom}</span>
+                                ))
+                               }
                             </a>
                           </h6>
                           <div className="product-card__price d-flex">
@@ -234,7 +251,7 @@ function Content(props) {
             </div>
           </>
         ) : (
-          <h3>There is no product !!!</h3>
+          <h3  className="text-center mt-4">There is no product !!!</h3>
         )}
       </div>
     </div>

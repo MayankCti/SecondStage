@@ -9,7 +9,6 @@ function Account_dashboard() {
   const navigate = useNavigate()
   const [isCartSidebar, setIsCartSidebar] = useState(false)
   const [cartData, setCartData] = useState([])
-  const [accessToken, setAccessToken] = useState()
   const [myProfile, setMyprofile] = useState();
   const [isLoader, setIsLoader] = useState(false);
 
@@ -18,43 +17,13 @@ function Account_dashboard() {
     if (token == null) {
       navigate('/login-register')
     } else {
-      getCartData(token)
       myProfileData(token)
     }
   }, [])
 
-  const getCartData = (val, val2) => {
-    setIsLoader(true)
-    setAccessToken(val)
-    axios({
-      url: configJSON.baseUrl + configJSON.getCartData,
-      method: "get",
-      headers: {
-        'Authorization': `Bearer ${val}`
-      },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setCartData(res?.data?.cart)
-        val2 == true ?
-          setIsCartSidebar(true)
-          :
-          setIsCartSidebar(false)
-      }
-      else {
-        setCartData([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
-    })
-  }
-  const getDataFromChild = () => {
-    getCartData(accessToken, true)
-  }
   const handleLoginRegister = () => {
     localStorage.clear()
-    navigate("/login-register")
+    navigate("/login")
   }
   const handleAccountOrders = () => {
     navigate("/account-orders")
@@ -68,21 +37,33 @@ function Account_dashboard() {
 
   const myProfileData = (val) => {
     axios({
-      method:"get",
-      url:configJSON.baseUrl + configJSON.myProfile_buyer,
+      method: "get",
+      url: configJSON.baseUrl + configJSON.myProfile_buyer,
       headers: {
         'Authorization': `Bearer ${val}`
       },
     })
-    .then((res)=>{
-      if(res?.data?.success == true){
-        setMyprofile(res?.data?.user_info[0]?.buyer_name);
-      }
-    })
-    .catch((err)=>{
-      console.log({err})
-    })
+      .then((res) => {
+        if (res?.data?.success == true) {
+          setMyprofile(res?.data?.user_info[0]?.buyer_name);
+        }
+      })
+      .catch((err) => {
+        console.log({ err })
+      })
   }
+  const handlePastOrder = () => {
+    navigate('/past-order')
+  }
+  const handleSellLend = () => {
+    navigate("/sell-lend")
+  }
+  // const handleAccountOrders = ()=>{
+  //   navigate("/account-orders")
+  // }
+  const handleWishList = () => {
+    navigate("/account-wishlist");
+  };
   return (
     <>
       {isLoader == false ?
@@ -237,7 +218,7 @@ function Account_dashboard() {
             </symbol>
           </svg>
 
-          <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} />
+          <Header/>
 
           <main>
             <div className="mb-4 pb-4"></div>
@@ -250,9 +231,25 @@ function Account_dashboard() {
                 <div className="col-lg-9">
                   <div className="page-content my-account__dashboard">
                     <p>Hello <strong>{myProfile}</strong> (not <strong>{myProfile}?</strong> <a onClick={() => handleLoginRegister()}>Log out</a>)</p>
-                    <p>From your account dashboard you can view your <a className="unerline-link" onClick={() => handleAccountOrders()}>recent orders</a>, manage your <a className="unerline-link" onClick={() => handleAccountEditAddress()}>shipping and billing addresses</a>, and <a className="unerline-link" onClick={() => handleAccountEdit()}>edit your password and account details.</a></p>
+                    {/* <p>From your account dashboard you can view your <a className="unerline-link" onClick={() => handleAccountOrders()}>recent orders</a>, manage your <a className="unerline-link" onClick={() => handleAccountEditAddress()}>shipping and billing addresses</a>, and <a className="unerline-link" onClick={() => handleAccountEdit()}>edit your password and account details.</a></p> */}
+                  </div>
+
+                  <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleSellLend()} >Your Items for Sale/Lend </a>
+                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleAccountOrders()}>Current Orders </a>
+                    <a className='ct_sell_btn ct_border_zero' onClick={() => handlePastOrder()} >Your Past Orders</a>
+                    {/* <a className='ct_sell_btn ct_border_zero' onClick={()=>handlePastOrder()} >Issue Request </a> */}
+                    <select className='ct_sell_btn ct_select_option_hover'>
+                      <option>Issue Request</option>
+                      <option>Lender issue response form</option>
+                      <option>Buyer issue response form</option>
+                      <option>Renter issue response form</option>
+                    </select>
+                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleAccountEdit()} >Account Details </a>
+                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleWishList()} >Wishlist </a>
                   </div>
                 </div>
+
               </div>
             </section>
           </main>

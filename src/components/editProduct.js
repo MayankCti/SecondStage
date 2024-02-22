@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 export const configJSON = require("../components/config");
 
-function Register_seller() {
+function EditProduct() {
   const [isLoader, setIsLoader] = useState(false)
   const [isBrandDropdownOpen, setIsBrandDropdownOpen] = useState(false);
   const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
@@ -55,29 +55,7 @@ function Register_seller() {
   const [categoryOption, setCategoryOption] = useState("--Select--Category--");
   const [brandOption, setBrandOption] = useState("--Select--Brand--");
   const [colorData, setColorData] = useState("--Select--Color--");
-
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: "700px",
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    if (product_name && categoryOption && priceSellLend && priceBuyOption && colorData && brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && replacementPrice) {
-      setOpen(true);
-  } else {
-    MESSAGE.error("fill all the fields.!");
-    setOpen(true);
-
-  }
-  }
-  const handleClose = () => setOpen(false);
+  
   const [islicenseState, setIsLicenseState] = useState(false)
   const [profileData, setProfileData] = useState([])
 
@@ -541,8 +519,8 @@ function Register_seller() {
         <section className="login-register container mx-0 w-75 mx-auto pb-5">
           <section className="contact-us container">
             <div className="mw-930">
-              <h2 className="page-title text-center mb-5 ct_lowercase  section-title">
-                Seller <strong>Registration Form</strong>
+              <h2 className="page-title text-center mb-4 ct_lowercase  section-title">
+                Edit <strong> Product Form</strong>
               </h2>
             </div>
           </section>
@@ -1244,7 +1222,6 @@ function Register_seller() {
                         </div>
                       </div>
                     </div>
-                    
                     <div className="col-md-12">
                       <div className=" mb-3">
                         <fieldset className="form-control form-control_gray">
@@ -1301,7 +1278,7 @@ function Register_seller() {
                   <button
                     className="btn btn-primary mx-auto d-block mt-4 text-uppercase"
                     type="button"
-                    onClick={handleOpen}
+                    onClick={addProduct}
                   >
                     Submit
                   </button>
@@ -1310,225 +1287,10 @@ function Register_seller() {
           </div>
         </section>
       </main>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <section
-            className="login-register container mx-0 w-75 mx-auto pb-5"
-            id="rgister_form1"
-          >
-            <section className="contact-us container">
-              <div className="mw-930   ">
-                <h2 className="page-title section-title text-center mb-5 ct_lowercase">
-                  Register to Buy/Lend
-                </h2>
-              </div>
-            </section>
-            <div className="login-form">
-              <form
-                name="login-form"
-                className="needs-validation"
-                novalidate=""
-              >
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="text"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Name*"
-                        required=""
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">Name*</label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="text"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Create Username*"
-                        required=""
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">
-                        Create Username*
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="email"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Email*"
-                        required=""
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">Email*</label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="number"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Phone*"
-                        required=""
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">Phone*</label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="number"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Licence Number *"
-                        required=""
-                        value={licenseNumber}
-                        // onChange={(e)=>setLicenseNumber(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">
-                        Licence Number *
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div class="search-field mb-3">
-                      <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                        <label for="search-dropdown7" class="form-label">Licence State *</label>
-                        <div class="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
-                          <input
-                            type="text"
-                            class="form-control form-control-lg search-field__actor search-field__arrow-down"
-                            id="search-dropdown7"
-                            name="search-keyword"
-                            value={licenseStateOption}
-
-                          />
-                        </div>
-                        <div class="filters-container js-hidden-content mt-2">
-                          <ul class="search-suggestion list-unstyled" onClick={() => setIsLicenseState(!islicenseState)}>
-                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("ACT")}>
-                              <a class=" mb-3 me-3 js-filter">
-                                ACT
-                              </a>
-                            </li>
-                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("NSW")}>
-                              <a class=" mb-3 me-3 js-filter">
-                                NSW
-                              </a>
-                            </li>
-                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("SA")}>
-                              <a class=" mb-3 me-3 js-filter">
-                                SA
-                              </a>
-                            </li>
-                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("Vic")}>
-                              <a class=" mb-3 me-3 js-filter">
-                                Vic
-                              </a>
-                            </li>
-                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("Qld")}>
-                              <a class=" mb-3 me-3 js-filter">
-                                Qld
-                              </a>
-                            </li>
-                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("WA")}>
-                              <a class=" mb-3 me-3 js-filter">
-                                WA
-                              </a>
-                            </li>
-                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("WA")}>
-                              <a class=" mb-3 me-3 js-filter">
-                                NT
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="number"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Licence Number *"
-                        required=""
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
-                      />
-                      <label htmlFor="customerNameEmailInput">
-                        Credit/Debit Card Number *
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="d-flex align-items-center mb-3 pb-2">
-                  <div className="form-check ct_check_input mb-0">
-                    <input
-                      name="remember"
-                      className="form-check-input form-check-input_fill "
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label text-secondary"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Agreement to{" "}
-                      <a onClick={() => navigate("/terms")}>
-                        Terms and Conditions
-                      </a>{" "}
-                    </label>
-                  </div>
-                </div>
-                <button
-                  className="btn btn-primary w-100 text-uppercase"
-                  type="button"
-                  onClick={addProduct}
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
-          </section>
-        </Box>
-      </Modal>
+      
       <Footer />
     </>
   );
 }
 
-export default Register_seller;
+export default EditProduct;

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import Footer from './footer'
 import CategoryContent from './categoryContent';
+import Cookies from 'js-cookie';
 export const configJSON = require("../components/config");
 function Accessories() {
     const [isCartSidebar, setIsCartSidebar] = useState(false)
@@ -13,43 +14,41 @@ function Accessories() {
     const navigate = useNavigate()
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem("token"))
-        if (token == null) {
-            navigate('/login-register')
-        } else {
-            getCartData(token)
-        }
+        setAccessToken(token)
+        getCartData()
     }, [])
-
-
-    const getCartData = (val, val2) => {
+    const getCartData = (val2) => {
         setIsLoader(true)
-        setAccessToken(val)
+        const randomeUserId = Cookies.get('name');
+        const userID = localStorage.getItem("user_id")
+        const token = JSON.parse(localStorage.getItem("token"))
+        const data = {
+            user_id: token && userID ? userID : randomeUserId
+        }
         axios({
-          url: configJSON.baseUrl + configJSON.getCartData,
-          method: "get",
-          headers: {
-            'Authorization': `Bearer ${val}`
-          },
+            url: configJSON.baseUrl + configJSON.getCartData,
+            method: "post",
+            data: data
         }).then((res) => {
-          setIsLoader(false)
-          if (res?.data?.success == true) {
-            setCartData(res?.data?.cart)
-            val2 == true ?
-            setIsCartSidebar(true)
-            : 
-            setIsCartSidebar(false)
-          }
-          else {
-            setCartData([])
-          }
+            setIsLoader(false)
+            if (res?.data?.success == true) {
+                setCartData(res?.data?.cart)
+                val2 == true ?
+                    setIsCartSidebar(true)
+                    :
+                    setIsCartSidebar(false)
+            }
+            else {
+                setCartData([])
+            }
         }).catch((error) => {
-          setIsLoader(false)
-          console.log(error)
+            setIsLoader(false)
+            console.log(error)
         })
-      }
-      const getDataFromChild = () => {
-        getCartData(accessToken,true)
-      }
+    }
+    const getDataFromChild = () => {
+        getCartData(true)
+    }
     return (
         <>
             {isLoader == false ?
@@ -207,9 +206,9 @@ function Accessories() {
                         </symbol>
                     </svg>
 
-                    <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="accessories"/>
+                    <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="accessories" />
 
-                    <CategoryContent home="Accessories" apiurl={configJSON.getProductDetails_by_Category_accessories} onClick={getDataFromChild}/>
+                    <CategoryContent home="Accessories" apiurl={configJSON.getProductDetails_by_Category_accessories} onClick={getDataFromChild} />
 
                     <Footer /></>
                 : <div class="custom-loader"></div>

@@ -12,7 +12,7 @@ function Reset_password() {
   const [isHome,setIsHome] = useState(false)
   const navigate = useNavigate()
   const handleLoginRegister = ()=>{
-    navigate("/login-register")
+    navigate("/login")
   }
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))

@@ -6,7 +6,6 @@ import { DateRangePicker } from "react-date-range";
 import moment from "moment";
 export const configJSON = require("../components/config");
 function Header(props) {
-
   const navigate = useNavigate();
   const [subtotal, setSubTotal] = useState(0);
   const [isCartSidebar, setIsCartSidebar] = useState(
@@ -16,56 +15,61 @@ function Header(props) {
   const [isSearch, setIsSearch] = useState(false);
   const [allProduct, setAllProduct] = useState(props?.data ? props?.data : []);
 
-  const [profileData, setProfileData] = useState([])
+  const [profileData, setProfileData] = useState([]);
   const [accessToken, setAccessToken] = useState();
   const [isLoader, setIsLoader] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
-  const [searchProduct, setSearchProduct] = useState()
+  const [searchProduct, setSearchProduct] = useState();
   const [isdropdown, setDropdown] = useState(false);
 
   const [showCalender, setshowCalender] = useState(false);
-  const [total_rend_days, setTotalRendDays] = useState()
-  const [startDate, setStartDate] = useState()
-  const [endDate, setEndDate] = useState()
+  const [total_rend_days, setTotalRendDays] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const [state, setState] = useState([
     {
-      startDate: new Date('Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)'),
-      endDate: new Date('Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)'),
+      startDate: new Date(
+        "Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)"
+      ),
+      endDate: new Date(
+        "Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)"
+      ),
       key: "selection",
     },
   ]);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
-      // navigate("/login-register");
+      // navigate("/login");
     } else {
       setAccessToken(token);
       getCartData(token);
-      getMyProfile(token)
+      getMyProfile(token);
     }
   }, []);
 
   const getMyProfile = (val) => {
-    setIsLoader(true)
+    setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.myProfile_buyer,
       method: "get",
       headers: {
-        'Authorization': `Bearer ${val}`
+        Authorization: `Bearer ${val}`,
       },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setProfileData(res?.data?.user_info[0])
-      }
-      else {
-        setProfileData([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
     })
-  }
+      .then((res) => {
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          setProfileData(res?.data?.user_info[0]);
+        } else {
+          setProfileData([]);
+        }
+      })
+      .catch((error) => {
+        setIsLoader(false);
+        console.log(error);
+      });
+  };
 
   const getCartData = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -93,7 +97,7 @@ function Header(props) {
       });
   };
 
-  const upDateCartData = (item, selColor, top, bottom, qnt) => {
+  const upDateCartData = (item, selColor, top, bottom) => {
     setIsLoader(true);
     var data;
 
@@ -102,52 +106,46 @@ function Header(props) {
       data = {
         user_id: user_id,
         card_id: item?.new_cart_id,
-        cart_quantity: qnt,
+        cart_quantity: 1,
         size_top: `${top}`,
         size_bottom: `${bottom}`,
-        color: `${selColor}`
-      }
+        color: `${selColor}`,
+      };
     } else if (item?.product_buy_rent == "rent") {
       data = {
         user_id: user_id,
         card_id: item?.new_cart_id,
-        cart_quantity: qnt,
+        cart_quantity: 1,
         size_top: `${top}`,
         size_bottom: `${bottom}`,
         color: `${selColor}`,
         start_date: `${startDate}`,
         end_date: `${endDate}`,
-        total_rend_days: total_rend_days
-      }
+        total_rend_days: total_rend_days,
+      };
     }
-    console.log(data, "the datea")
-    if (qnt >= 1) {
-      axios({
-        url: configJSON.baseUrl + configJSON.upDateCartData,
-        method: "post",
-        data: data,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+    axios({
+      url: configJSON.baseUrl + configJSON.upDateCartData,
+      method: "post",
+      data: data,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+        setIsLoader(false);
+        if (res.data.success == true) {
+          MESSAGE.success(res?.data?.message);
+          getCartData(accessToken);
+          if (props?.onClick) props?.onClick();
+        } else {
+          MESSAGE.error("Unable to update cart item.");
+        }
       })
-        .then((res) => {
-          setIsLoader(false);
-          if (res.data.success == true) {
-            MESSAGE.success(res?.data?.message);
-            getCartData(accessToken);
-            if (props?.onClick) props?.onClick();
-          } else {
-            MESSAGE.error("Unable to update cart item.");
-          }
-        })
-        .catch((error) => {
-          setIsLoader(false);
-          console.log(error);
-        });
-    } else {
-      MESSAGE.error("Minimum one  quantity is required !!!");
-      setIsLoader(false);
-    }
+      .catch((error) => {
+        setIsLoader(false);
+        console.log(error);
+      });
   };
 
   const deleteCartData = (cart_id) => {
@@ -188,8 +186,8 @@ function Header(props) {
     navigate("/contact");
   };
   const handleLoginRegister = () => {
-    localStorage.clear()
-    navigate("/login-register");
+    localStorage.clear();
+    navigate("/login");
   };
   const handleRegistration = () => {
     navigate("/sell");
@@ -223,41 +221,41 @@ function Header(props) {
   };
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/login-register")
-  }
+    navigate("/login");
+  };
   const handleWishList = () => {
-    navigate("/account-wishlist")
-  }
+    navigate("/account-wishlist");
+  };
   const handleSearchProduct = () => {
-    props?.searchProducts(searchProduct)
-    setIsSearch(!isSearch)
-  }
+    props?.searchProducts(searchProduct);
+    setIsSearch(!isSearch);
+  };
 
-  const qtyInc = (item, selColor, top, bottom, qnt) => {
-    upDateCartData(item, selColor, top, bottom, qnt + 1)
-  }
-  const qtyDec = (item, selColor, top, bottom, qnt) => {
-    if (qnt >= 2) {
-      upDateCartData(item, selColor, top, bottom, qnt - 1)
-    }
-  }
+  // const qtyInc = (item, selColor, top, bottom, qnt) => {
+  //   upDateCartData(item, selColor, top, bottom, qnt + 1)
+  // }
+  // const qtyDec = (item, selColor, top, bottom, qnt) => {
+  //   if (qnt >= 2) {
+  //     upDateCartData(item, selColor, top, bottom, qnt - 1)
+  //   }
+  // }
   const hanleDate = (item, item1) => {
-    setState([item?.selection])
+    setState([item?.selection]);
 
-    var sDate = moment(item?.selection?.startDate).format('DD-MM-YYYY');
-    var eDate = moment(item?.selection?.endDate).format('DD-MM-YYYY');
-    setStartDate(sDate)
-    setEndDate(eDate)
+    var sDate = moment(item?.selection?.startDate).format("DD-MM-YYYY");
+    var eDate = moment(item?.selection?.endDate).format("DD-MM-YYYY");
+    setStartDate(sDate);
+    setEndDate(eDate);
 
     var startDate = moment(item?.selection?.startDate);
     var endDate = moment(item?.selection?.endDate);
-    var diffInDays = endDate.diff(startDate, 'days');
+    var diffInDays = endDate.diff(startDate, "days");
     setTotalRendDays(diffInDays);
 
-    setshowCalender(!showCalender)
+    setshowCalender(!showCalender);
 
-    upDateCartData(item1, item1?.color, item1?.size_top, item1?.size_bottom, item1?.cart_quantity)
-  }
+    upDateCartData(item1, item1?.color, item1?.size_top, item1?.size_bottom);
+  };
 
   return (
     <>
@@ -293,7 +291,14 @@ function Header(props) {
                   </svg>
                 </div>
                 <li className="navigation__item position-relative">
-                  <a onClick={() => handleHome()} className={props.active == "home" ? "navigation__link ct_active" : "navigation__link"}>
+                  <a
+                    onClick={() => handleHome()}
+                    className={
+                      props.active == "home"
+                        ? "navigation__link ct_active"
+                        : "navigation__link"
+                    }
+                  >
                     Home{" "}
                     <span onClick={() => homeDropdown()}>
                       <svg
@@ -355,7 +360,11 @@ function Header(props) {
                 <li className="navigation__item">
                   <a
                     onClick={() => handleBikinis()}
-                    className={props.active == "bikinis" ? "navigation__link ct_active" : "navigation__link"}
+                    className={
+                      props.active == "bikinis"
+                        ? "navigation__link ct_active"
+                        : "navigation__link"
+                    }
                   >
                     Bikinis
                   </a>
@@ -363,7 +372,11 @@ function Header(props) {
                 <li className="navigation__item">
                   <a
                     onClick={() => handleFigure()}
-                    className={props.active == "figure" ? "navigation__link ct_active" : "navigation__link"}
+                    className={
+                      props.active == "figure"
+                        ? "navigation__link ct_active"
+                        : "navigation__link"
+                    }
                   >
                     Figure
                   </a>
@@ -371,20 +384,35 @@ function Header(props) {
                 <li className="navigation__item">
                   <a
                     onClick={() => handleSwimsuit()}
-                    className={props.active == "swimsuit" ? "navigation__link ct_active" : "navigation__link"}
+                    className={
+                      props.active == "swimsuit"
+                        ? "navigation__link ct_active"
+                        : "navigation__link"
+                    }
                   >
                     Swimsuit
                   </a>
                 </li>
                 <li className="navigation__item">
-                  <a onClick={() => HandleWbff()} className={props.active == "fmg/wbff" ? "navigation__link ct_active" : "navigation__link"}>
+                  <a
+                    onClick={() => HandleWbff()}
+                    className={
+                      props.active == "fmg/wbff"
+                        ? "navigation__link ct_active"
+                        : "navigation__link"
+                    }
+                  >
                     FMG/WBFF
                   </a>
                 </li>
                 <li className="navigation__item">
                   <a
                     onClick={() => handleThemewear()}
-                    className={props.active == "themewear" ? "navigation__link ct_active" : "navigation__link"}
+                    className={
+                      props.active == "themewear"
+                        ? "navigation__link ct_active"
+                        : "navigation__link"
+                    }
                   >
                     Themewear
                   </a>
@@ -392,7 +420,11 @@ function Header(props) {
                 <li className="navigation__item">
                   <a
                     onClick={() => handleAccessories()}
-                    className={props.active == "accessories" ? "navigation__link ct_active" : "navigation__link"}
+                    className={
+                      props.active == "accessories"
+                        ? "navigation__link ct_active"
+                        : "navigation__link"
+                    }
                   >
                     Accessories
                   </a>
@@ -416,8 +448,7 @@ function Header(props) {
                     : "header-tools__item hover-container js-content_visible"
                 }
               >
-                {
-                  props?.isSearch == "yes" &&
+                {props?.isSearch == "yes" && (
                   <div
                     onClick={() => setIsSearch(!isSearch)}
                     className="js-hover__open position-relative"
@@ -436,7 +467,7 @@ function Header(props) {
                       <i className="btn-icon btn-close-lg"></i>
                     </a>
                   </div>
-                }
+                )}
 
                 <div className="search-popup js-hidden-content">
                   <form
@@ -541,7 +572,10 @@ function Header(props) {
                 </div>
               </div>
 
-              <a className="header-tools__item" onClick={() => handleWishList()}>
+              <a
+                className="header-tools__item"
+                onClick={() => handleWishList()}
+              >
                 <svg
                   width="20"
                   height="20"
@@ -567,9 +601,11 @@ function Header(props) {
                 >
                   <use href="#icon_cart"></use>
                 </svg>
-                <span className="cart-amount d-block position-absolute js-cart-items-count">
-                  {allProduct?.length}
-                </span>
+                {allProduct?.length != 0 && (
+                  <span className="cart-amount d-block position-absolute js-cart-items-count">
+                    {allProduct?.length}
+                  </span>
+                )}
               </a>
 
               {accessToken && (
@@ -579,35 +615,50 @@ function Header(props) {
                       className="ct_click_dropdown   "
                       onClick={() => setDropdown(!isdropdown)}
                     >
-                      <img src={props?.data_value?.profile_image ? props?.data_value?.profile_image : profileData?.profile_image ? profileData?.profile_image : "/images/buyer_profile.png"} />
-                      <p className="mb-0">{profileData?.user_name ? profileData?.user_name : ""}</p>
+                      <img
+                        src={
+                          props?.data_value?.profile_image
+                            ? props?.data_value?.profile_image
+                            : profileData?.profile_image
+                            ? profileData?.profile_image
+                            : "/images/buyer_profile.png"
+                        }
+                      />
+                      <p className="mb-0">
+                        {profileData?.user_name ? profileData?.user_name : ""}
+                      </p>
                     </div>
                     {isdropdown && (
                       <ul class="ct_dropdown-menu">
                         <li onClick={() => navigate("/account-edit")}>
-                          <a class="dropdown-item" >
-                            Profile
-                          </a>
+                          <a class="dropdown-item">Profile</a>
                         </li>
                         <li>
-                          <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => navigate("/lenderform")}
+                          >
                             Lender issue response form
                           </a>
                         </li>
                         <li>
-                          <a class="dropdown-item" onClick={() => navigate("/buyerform")}>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => navigate("/buyerform")}
+                          >
                             Buyer issue response form
                           </a>
                         </li>
                         <li>
-                          <a class="dropdown-item" onClick={() => navigate("/renterform")}>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => navigate("/renterform")}
+                          >
                             Renter issue response form
                           </a>
                         </li>
                         <li onClick={handleLogout}>
-                          <a class="dropdown-item" >
-                            Log Out
-                          </a>
+                          <a class="dropdown-item">Log Out</a>
                         </li>
                       </ul>
                     )}
@@ -689,55 +740,87 @@ function Header(props) {
                     </h6>
 
                     <div className="d-flex gap-3 mt-3">
-                      <div >
+                      <div>
                         <p className="cart-drawer-item__option text-secondary">
                           {/* Color:  */}
                           <label>Color</label>
 
-                          <select className="form-control ct_cart_select" onChange={(e) => upDateCartData(item, e.target.value, item?.size_top, item?.size_bottom, item?.cart_quantity)} >
-                            <option value={item?.color}> {item?.color}</option>
-                            {
-                              item?.product_color?.map((obj) => (
-
-                                <option value={obj}> {obj}</option>
-                              ))
+                          <select
+                            className="form-control ct_cart_select"
+                            onChange={(e) =>
+                              upDateCartData(
+                                item,
+                                e.target.value,
+                                item?.size_top,
+                                item?.size_bottom
+                              )
                             }
+                          >
+                            <option value={item?.color}> {item?.color}</option>
+                            {item?.product_color?.map((obj) => (
+                              <option value={obj}> {obj}</option>
+                            ))}
                           </select>
                         </p>
                       </div>
-                      <div >
+                      <div>
                         <p className="cart-drawer-item__option text-secondary">
                           {/* Size: {item?.product_size[0]?.size_bottom} */}
                           <label>Size Top</label>
 
-                          <select className="form-control ct_cart_select" onChange={(e) => upDateCartData(item, item?.color, e.target.value, item?.size_bottom, item?.cart_quantity)}>
-                            <option value={item?.size_top}> {item?.size_top}</option>
-                            {
-                              item?.product_size?.map((obj) => (
-
-                                <option value={obj?.size_top}> {obj?.size_top}</option>
-                              ))
+                          <select
+                            className="form-control ct_cart_select"
+                            onChange={(e) =>
+                              upDateCartData(
+                                item,
+                                item?.color,
+                                e.target.value,
+                                item?.size_bottom
+                              )
                             }
+                          >
+                            <option value={item?.size_top}>
+                              {" "}
+                              {item?.size_top}
+                            </option>
+                            {item?.product_size?.map((obj) => (
+                              <option value={obj?.size_top}>
+                                {" "}
+                                {obj?.size_top}
+                              </option>
+                            ))}
                           </select>
                         </p>
                       </div>
                     </div>
 
                     <p className="cart-drawer-item__option text-secondary mt-2">
-
                       <label>Size bottom</label>
-                      <select className="form-control ct_cart_select" onChange={(e) => upDateCartData(item, item?.color, item?.size_top, e.target.value, item?.cart_quantity)}>
-                        <option value={item?.size_bottom}> {item?.size_bottom}</option>
-                        {
-                          item?.product_size?.map((obj) => (
-                            <option value={obj?.size_bottom}> {obj?.size_bottom}</option>
-                          ))
+                      <select
+                        className="form-control ct_cart_select"
+                        onChange={(e) =>
+                          upDateCartData(
+                            item,
+                            item?.color,
+                            item?.size_top,
+                            e.target.value
+                          )
                         }
+                      >
+                        <option value={item?.size_bottom}>
+                          {" "}
+                          {item?.size_bottom}
+                        </option>
+                        {item?.product_size?.map((obj) => (
+                          <option value={obj?.size_bottom}>
+                            {" "}
+                            {obj?.size_bottom}
+                          </option>
+                        ))}
                       </select>
                     </p>
-                    {
-                      item?.product_buy_rent == "rent" && <p className="cart-drawer-item__option text-secondary mt-2 text-center  mx-auto my-2">
-
+                    {item?.product_buy_rent == "rent" && (
+                      <p className="cart-drawer-item__option text-secondary mt-2 text-center  mx-auto my-2">
                         <button
                           className="ct_mobile_fs14 text-white ct_sell_btn ct_show_cart_calander_btn w-75"
                           onClick={() => setshowCalender(!showCalender)}
@@ -760,11 +843,13 @@ function Header(props) {
                           minDate={new Date()}
                         />
                       </p>
-                    }
+                    )}
 
-
-                    <div className="d-flex align-items-center justify-content-between mt-1 " style={{ width: "95%" }}>
-                      <div className="qty-control position-relative">
+                    <div
+                      className="d-flex align-items-center justify-content-between mt-1 "
+                      style={{ width: "95%" }}
+                    >
+                      {/* <div className="qty-control position-relative">
                         <input
                           type="number"
                           name="quantity"
@@ -784,7 +869,7 @@ function Header(props) {
                         >
                           +
                         </div>
-                      </div>
+                      </div> */}
                       <span className="cart-drawer-item__price money price">
                         ${item?.sub_total}
                       </span>
@@ -824,7 +909,6 @@ function Header(props) {
             Checkout
           </a> */}
         </div>
-
       </div>
 
       <div

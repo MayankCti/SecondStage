@@ -50,7 +50,7 @@ function Home() {
       });
   };
   return (
-    <div onClick={() => navigate("/login-register")}>
+    <div onClick={() => navigate("/login")}>
 
       <svg className="d-none">
         <symbol id="icon_nav" viewBox="0 0 25 18">
@@ -426,7 +426,7 @@ function Home() {
                   </div>
                 </>
               ) : (
-                <h3>There is no product !!!</h3>
+                <h3 className="text-center mt-4">There is no product !!!</h3>
               )}
             </div>
           </div>

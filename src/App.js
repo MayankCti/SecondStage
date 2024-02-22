@@ -14,7 +14,6 @@ import Faq from "./components/faq";
 import Figure from "./components/figure";
 import How_it_works from "./components/how_it_works";
 import Index from "./components/index";
-import Login_register from "./components/login_register";
 import Privacy from "./components/privacy";
 import Product1_simple from "./components/product1_simple";
 import Product6_outofstock from "./components/product6_outofstock";
@@ -35,19 +34,29 @@ import CheckHome from "./components/checkHome";
 import LenderForm from "./components/lender-issue-response-form";
 import BuyerForm from "./components/buyer-issue-response-form"
 import RenterFrom from "./components/renter-issue-response-form"
-
+import PastOrder from "./components/pastOrder";
+import SellLend from "./components/sell_Lend";
+import UserLogin from "./components/userLogin";
+import UserRegister from "./components/userRegister";
+import EditProduct from "./components/editProduct";
 function App() {
   return (
     <div className="App">
       <Router basename="/">
         <Routes>
-          <Route exact path='/' element={<CheckHome />} />
+          {/* <Route exact path='/' element={<CheckHome />} /> */}
+          <Route exact path='/' element={<Index />} />
+
           <Route exact path="/about" element={<About />} />
           <Route exact path="/accessories" element={<Accessories />} />
           <Route exact path="/account-dashboard" element={<Account_dashboard />} />
           <Route exact path="/account-edit-address" element={<Account_edit_address />} />
           <Route exact path="/account-edit" element={<Account_edit />} />
           <Route exact path="/account-orders" element={<Account_orders />} />
+          <Route exact path="/past-order" element={<PastOrder />} />
+          <Route exact path="/sell-lend" element={<SellLend />} />
+          
+
           <Route exact path="/account-wishlist" element={<Account_wishlist />} />
           <Route exact path="/bikinis" element={<Bikinis />} />
           <Route exact path="/coming-soon" element={<Coming_soon />} />
@@ -55,7 +64,6 @@ function App() {
           <Route exact path="/faq" element={<Faq />} />
           <Route exact path="/figure" element={<Figure />} />
           <Route exact path="/how-it-works" element={<How_it_works />} />
-          <Route exact path="/login-register" element={<Login_register />} />
           <Route exact path="/privacy" element={<Privacy />} />
           <Route exact path="/product1-simple" element={<Product1_simple />} />
           <Route exact path="/product6-outofstock" element={<Product6_outofstock />} />
@@ -79,6 +87,9 @@ function App() {
           <Route exact path="/lenderform" element={<LenderForm />} />
           <Route exact path="/buyerform" element={<BuyerForm />} />
           <Route exact path="/renterform" element={<RenterFrom />} />
+          <Route exact path="/login" element={<UserLogin />} />
+          <Route exact path="/register" element={<UserRegister />} />
+          <Route exact path="/edit-product" element={<EditProduct />} />
 
 
 
