@@ -19,7 +19,6 @@ function Home() {
   const [show, setShow] = useState("buy")
   
   useEffect(() => {
-
     setTimeout(() => {
       getAllProduct();
     }, 1000);

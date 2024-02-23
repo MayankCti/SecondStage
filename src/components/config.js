@@ -32,7 +32,7 @@ export const add_checkout = "add_checkout"
 export const fetchOrder = "fetch_order"
 export const order_list = "order_list"
 export const fetch_shipping_details = "get_shipping_details"
-
+export const get_my_product = "get_my_product"
 export const getProductDetails_by_Category = "getProductDetails_by_Category/"
 export const getProductDetails_by_Category_biknis = "getProductDetails_by_Category/biknis"
 export const getProductDetails_by_Category_figure = "getProductDetails_by_Category/figure"

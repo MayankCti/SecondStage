@@ -6,6 +6,7 @@ import Footer from './footer'
 import Content from './Content';
 import Cookies from 'js-cookie';
 import Home from './home';
+import { v4 as uuidv4 } from 'uuid';
 export const configJSON = require("../components/config");
 function Index() {
   const [isCartSidebar, setIsCartSidebar] = useState(false)
@@ -17,32 +18,43 @@ function Index() {
   const [allProduct, setAllProduct] = useState([]);
   const [sort, setSort] = useState(4)
   const [searchData, setSearchProduct] = useState([])
-  const [randomUserId,setRandomUserId] = useState()
+  const [randomUserId, setRandomUserId] = useState()
   const navigate = useNavigate()
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
-    generateToken()
-      // setIsHome(true)
-      getCartData(token)
-      getAllProduct();
-  }, [])
-const  generateToken = () => {
-    var length = 8,
-        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&",
-        retVal = "";
-    for (var i = 0, n = charset.length; i < length; ++i) {
-        retVal += charset.charAt(Math.floor(Math.random() * n));
+    const randomeUserId = Cookies.get('RandomUserId');
+    if (randomeUserId) {
+      getAllProduct(randomeUserId);
+      console.log(typeof randomeUserId, 'helo')
+    } else {
+      const uuid = uuidv4();
+      generateToken(uuid)
     }
-    Cookies.set('RandomUserId', retVal, { expires: 1});
-    setRandomUserId(retVal);
-};
 
-  const getAllProduct = () => {
+  }, [])
+  const generateToken = (uuid) => {
+
+    var length = 6,
+      charset = "1234567890",
+      retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    
+    console.log(typeof retVal, 'klfsld')
+    Cookies.set('RandomUserId', retVal, { expires: 1 });
+    setRandomUserId(retVal);
+    getAllProduct(retVal);
+  };
+
+
+  const getAllProduct = (randome) => {
     setIsLoader(true);
+    const token = JSON.parse(localStorage.getItem("token"))
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const data = {
-      user_id: user_id,
+      user_id: token && user_id ? user_id : parseInt(randome),
       sort: sort
     }
     axios({
@@ -64,36 +76,6 @@ const  generateToken = () => {
       });
   };
 
-
-  const getCartData = (val, val2) => {
-    setIsLoader(true)
-    setAccessToken(val)
-    axios({
-      url: configJSON.baseUrl + configJSON.getCartData,
-      method: "get",
-      headers: {
-        'Authorization': `Bearer ${val}`
-      },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setCartData(res?.data?.cart)
-        val2 == true ?
-          setIsCartSidebar(true)
-          :
-          setIsCartSidebar(false)
-      }
-      else {
-        setCartData([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
-    })
-  }
-  const getDataFromChild = () => {
-    getCartData(accessToken, true)
-  }
   const handleBikinis = () => {
     navigate("/bikinis")
   }
@@ -278,7 +260,7 @@ const  generateToken = () => {
             </symbol>
           </svg>
 
-          <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="home" searchProducts={(val) => searchProducts(val)} isSearch="yes" />
+          <Header active="home" searchProducts={(val) => searchProducts(val)} isSearch="yes" />
 
           <main>
 
@@ -376,15 +358,13 @@ const  generateToken = () => {
                       </div>
                     </div>
                   </a>
-
                 </div>
-
               </div>
 
             </section>
             <div className="mb-5 pb-5"></div>
             <section className="products-grid container">
-              <Content onClick={getDataFromChild} data={searchData} />
+              <Content data={searchData} />
             </section>
             <section className='mt-5 py-5 ' style={{ background: "#f5f5f5" }}>
               <div className='container'>

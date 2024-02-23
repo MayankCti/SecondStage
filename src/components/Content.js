@@ -13,7 +13,7 @@ function Content(props) {
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
   const [accessToken, setAccessToken] = useState();
-  const [sort,setSort] = useState(4)
+  const [sort, setSort] = useState(4)
   const [show, setShow] = useState("buy")
   const navigate = useNavigate();
   const handleProduct1Simple = (productId) => {
@@ -23,21 +23,19 @@ function Content(props) {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
-    if (token == null) {
-      navigate("/login");
-    } else {
-      setTimeout(() => {
-        getAllProduct();
-      }, 1000);
-    }
+    setTimeout(() => {
+      getAllProduct();
+    }, 1000);
   }, []);
 
   const getAllProduct = () => {
+    const randomeUserId = Cookies.get('RandomUserId');
+    const token = JSON.parse(localStorage.getItem("token"))
     setIsLoader(true);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const data = {
-      user_id: user_id,
-  sort : "4"
+      user_id: token && user_id ? user_id : parseInt(randomeUserId),
+      sort: "4"
     }
     axios({
       url: configJSON.baseUrl + configJSON.getAllProduct,
@@ -58,43 +56,43 @@ function Content(props) {
       });
   };
 
-  const addToCart = (product_id) => {
-    setIsLoader(true);
-    const data = {
-      product_id: product_id,
-    };
-    axios({
-      method: "post",
-      url: configJSON.baseUrl + configJSON.addToCart,
-      data: data,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((res) => {
-        setIsLoader(false);
-        if (res.data.success == true) {
-          MESSAGE.success("Item added to cart.");
-          props?.onClick();
-        } else {
-          MESSAGE.error(res?.data?.message);
-        }
-      })
-      .catch((err) => {
-        setIsLoader(false);
-        console.log(err);
-      });
-  };
+  // const addToCart = (product_id) => {
+  //   setIsLoader(true);
+  //   const data = {
+  //     product_id: product_id,
+  //   };
+  //   axios({
+  //     method: "post",
+  //     url: configJSON.baseUrl + configJSON.addToCart,
+  //     data: data,
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       setIsLoader(false);
+  //       if (res.data.success == true) {
+  //         MESSAGE.success("Item added to cart.");
+  //         props?.onClick();
+  //       } else {
+  //         MESSAGE.error(res?.data?.message);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setIsLoader(false);
+  //       console.log(err);
+  //     });
+  // };
 
   const addToWishlist = (productId) => {
     setIsLoader(true)
-    const randomeUserId = Cookies.get('name');
+    const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
     const data = {
-        product_id: productId,
-        user_id: accessToken && userID ? userID : randomeUserId,
+      product_id: productId,
+      userId: accessToken && userID ? userID : parseInt(randomeUserId),
     };
-    
+
     axios({
       method: "post",
       url: configJSON.baseUrl + configJSON.add_wishlist,
@@ -193,23 +191,23 @@ function Content(props) {
                             <a onClick={() => handleProduct1Simple(item?.id)}>
                               {/* {item?.product_description}
                                */}
-                               Size Top : 
-                               {
-                                item?.product_size?.map((obj)=>(
+                              Size Top :
+                              {
+                                item?.product_size?.map((obj) => (
                                   <span>{obj?.size_top}</span>
                                 ))
-                               }
+                              }
                             </a>
-                            <br/>
+                            <br />
                             <a onClick={() => handleProduct1Simple(item?.id)}>
                               {/* {item?.product_description}
                                */}
-                               Size Top : 
-                               {
-                                item?.product_size?.map((obj)=>(
+                              Size Top :
+                              {
+                                item?.product_size?.map((obj) => (
                                   <span>{obj?.size_bottom}</span>
                                 ))
-                               }
+                              }
                             </a>
                           </h6>
                           <div className="product-card__price d-flex">
@@ -251,7 +249,7 @@ function Content(props) {
             </div>
           </>
         ) : (
-          <h3  className="text-center mt-4">There is no product !!!</h3>
+          <h3 className="text-center mt-4">There is no product !!!</h3>
         )}
       </div>
     </div>

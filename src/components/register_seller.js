@@ -43,16 +43,16 @@ function Register_seller() {
   const [styleBottomOption, setStyleBottomOption] = useState()
   const [styleTopOption, setStyleTopOption] = useState()
   const [product_name, setProduct_name] = useState()
-  const [sizeTopOption, setSizeTopOption] = useState("--Select--Top--");
+  const [sizeTopOption, setSizeTopOption] = useState("normal");
   const [sizeBottomOption, setSizeBottomOption] =
-    useState("--Select--Bottom--");
+    useState("M");
   const [sizeStandardOption, setSizeStandardOption] = useState(
-    "--Select--Standard--"
+    "Universal"
   )
   const [description, setDescription] = useState("")
   const [priceSellLend, setPriceSellLend] = useState("")
   const [replacementPrice, setReplacementPrice] = useState("")
-  const [categoryOption, setCategoryOption] = useState("--Select--Category--");
+  const [categoryOption, setCategoryOption] = useState("biknis");
   const [brandOption, setBrandOption] = useState("--Select--Brand--");
   const [colorData, setColorData] = useState("--Select--Color--");
 
@@ -73,8 +73,6 @@ function Register_seller() {
       setOpen(true);
   } else {
     MESSAGE.error("fill all the fields.!");
-    setOpen(true);
-
   }
   }
   const handleClose = () => setOpen(false);
@@ -91,16 +89,21 @@ function Register_seller() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (categoryOption == "Bikini" || categoryOption == "Figure" || categoryOption == "FMG/WBFF") {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token == null) {
+      navigate('/login')
+    } else {
+    if (categoryOption == "biknis" || categoryOption == "figure" || categoryOption == "fmg_wbff") {
       setIsSizeTopBottom(true)
       setIsSizeShow(false)
     }
-    else if (categoryOption == "Swimsuit" || categoryOption == "Themewear") {
+    else if (categoryOption == "swimsuit" || categoryOption == "themewear") {
       setIsSizeTopBottom(false)
       setIsSizeShow(true)
     }
     getFilterContent()
     getMyProfile()
+  }
   }, [categoryOption])
 
 
@@ -175,6 +178,38 @@ function Register_seller() {
     setFile1(val => val?.filter((item, index) => index !== i));
     setFile(val => val?.filter((item, index) => index !== i));
   }
+
+
+  const handleRegister = () => {
+    
+    setIsLoader(true)
+    const data = { buyer_name:name , user_name: userName, email: email, phone_number: phone, license_state: licenseStateOption, license_number:licenseNumber,seller_sigup :1,buyer_card_number :cardNumber,guest_token:0 }
+
+    axios({
+      url: configJSON.baseUrl + configJSON.signUpBuyer,
+      method: "post",
+      data: data,
+    })
+      .then((res) => {
+        setIsLoader(false)
+        if (res?.data?.success == true) {
+          // MESSAGE.success(res?.data?.message);
+          addProduct()
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
+      })
+      .catch((error) => {
+        setIsLoader(false)
+        console.log(error);
+
+      });
+
+  };
+
+
+
+
   const addProduct = () => {
     setIsLoader(true)
     const fata = file.flat()
@@ -194,6 +229,8 @@ function Register_seller() {
     data.append("product_padding", paddingOption)
     data.append("location", locationOption)
     data.append("product_description", description)
+    const userID = localStorage.getItem("user_id")
+    data.append("userId", userID)
     for (let i = 0; i < file.length; i++) {
       data.append("files", file[i]);
     }
@@ -219,6 +256,7 @@ function Register_seller() {
           setIsLoader(false)
           if (res?.data?.success == true) {
             MESSAGE.success(res?.data?.message);
+            navigate("/sell-lend")
           } else {
             MESSAGE.error(res?.data?.message);
           }
@@ -542,7 +580,7 @@ function Register_seller() {
           <section className="contact-us container">
             <div className="mw-930">
               <h2 className="page-title text-center mb-5 ct_lowercase  section-title">
-                Seller <strong>Registration Form</strong>
+                Add <strong>Product</strong>
               </h2>
             </div>
           </section>
@@ -1324,7 +1362,7 @@ function Register_seller() {
             <section className="contact-us container">
               <div className="mw-930   ">
                 <h2 className="page-title section-title text-center mb-5 ct_lowercase">
-                  Register to Buy/Lend
+                  Seller form
                 </h2>
               </div>
             </section>
@@ -1430,10 +1468,10 @@ function Register_seller() {
                             id="search-dropdown7"
                             name="search-keyword"
                             value={licenseStateOption}
-
+readOnly={true}
                           />
                         </div>
-                        <div class="filters-container js-hidden-content mt-2">
+                        {/* <div class="filters-container js-hidden-content mt-2">
                           <ul class="search-suggestion list-unstyled" onClick={() => setIsLicenseState(!islicenseState)}>
                             <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("ACT")}>
                               <a class=" mb-3 me-3 js-filter">
@@ -1471,7 +1509,7 @@ function Register_seller() {
                               </a>
                             </li>
                           </ul>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -1517,7 +1555,7 @@ function Register_seller() {
                 <button
                   className="btn btn-primary w-100 text-uppercase"
                   type="button"
-                  onClick={addProduct}
+                  onClick={handleRegister}
                 >
                   Submit
                 </button>

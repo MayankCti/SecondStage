@@ -33,34 +33,12 @@ function Shop_checkout() {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
+    setAccessToken(token);
     if (token == null) {
-      navigate("/login");
-    } else {
-      setAccessToken(token);
-      getCartData(token)
+      navigate('/login')
     }
   }, [])
-  const getCartData = (val) => {
-    setIsLoader(true);
-    axios({
-      url: configJSON.baseUrl + configJSON.getCartData,
-      method: "get",
-      headers: {
-        'Authorization': `Bearer ${val}`
-      },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setAllProduct(res?.data?.cart)
-      }
-      else {
-        setAllProduct([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
-    })
-  }
+
   const placeOrder = () => {
     setIsLoader(true);
     const data = {

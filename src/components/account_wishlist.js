@@ -26,10 +26,10 @@ function Account_wishlist() {
   }, []);
   const getWishListData = () => {
     setIsLoader(true);
-    const randomeUserId = Cookies.get('name');
+    const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
     const data = {
-      user_id: accessToken && userID ? userID : randomeUserId
+      userId: accessToken && userID ? userID : parseInt(randomeUserId)
   }
   axios({
     url: configJSON.baseUrl + configJSON.get_wishlist,
@@ -53,11 +53,11 @@ function Account_wishlist() {
 
 const addToWishlist = (productId) => {
   setIsLoader(true)
-  const randomeUserId = Cookies.get('name');
+  const randomeUserId = Cookies.get('RandomUserId');
   const userID = localStorage.getItem("user_id")
   const data = {
     product_id: productId,
-    user_id: accessToken && userID ? userID : randomeUserId,
+    userId: accessToken && userID ? userID : parseInt(randomeUserId),
   };
   axios({
     method: "post",

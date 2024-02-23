@@ -1,55 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Header from './header'
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
 import Footer from './footer'
 import CategoryContent from './categoryContent';
 export const configJSON = require("../components/config");
 function Swimsuit() {
-  const [isCartSidebar, setIsCartSidebar] = useState(false)
-  const [cartData, setCartData] = useState([])
-  const [accessToken, setAccessToken] = useState()
   const [isLoader, setIsLoader] = useState(false);
-  const navigate = useNavigate()
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"))
-    if (token == null) {
-      navigate('/login-register')
-    } else {
-      getCartData(token)
-    }
-  }, [])
-
-
-  const getCartData = (val, val2) => {
-    setIsLoader(true)
-    setAccessToken(val)
-    axios({
-      url: configJSON.baseUrl + configJSON.getCartData,
-      method: "get",
-      headers: {
-        'Authorization': `Bearer ${val}`
-      },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setCartData(res?.data?.cart)
-        val2 == true ?
-          setIsCartSidebar(true)
-          :
-          setIsCartSidebar(false)
-      }
-      else {
-        setCartData([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
-    })
-  }
-  const getDataFromChild = () => {
-    getCartData(accessToken, true)
-  }
+ 
   return (
     <>
       {isLoader == false ?
@@ -207,9 +163,9 @@ function Swimsuit() {
             </symbol>
           </svg>
 
-          <Header data={cartData?.length !== 0 && cartData}  isCartSidebar={isCartSidebar} active="swimsuit"/>
+          <Header  active="swimsuit"/>
 
-          <CategoryContent home="Swimsuit" apiurl={configJSON.getProductDetails_by_Category_swimsuit} onClick={getDataFromChild}/>
+          <CategoryContent home="Swimsuit" apiurl={configJSON.getProductDetails_by_Category_swimsuit} />
 
           <Footer /></>
         : <div class="custom-loader"></div>

@@ -1,20 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 import { message, message as MESSAGE } from "antd";
 import axios from "axios";
-import { Formik } from 'formik';
+import { Formik, useFormikContext } from 'formik';
 import { Schema_login_form } from "./Schema";
 import React, { useEffect, useState } from 'react'
 import Header from './header'
 import Footer from './footer'
 import UserLogin from './userLogin'
 import HeaderVisitor from './HeaderVisitor'
+import { Select } from 'antd';
 const countryCodes = require('country-codes-list')
 
 export const configJSON = require("../components/config");
 function UserRegister() {
-  const myCountryCodesObject = countryCodes.customList('countryCode', '+{countryCallingCode}')
-
-
+  const myCountryCodesObject = countryCodes.customList('countryCode', '{countryCallingCode}')
+  const formik = useFormikContext();
   const navigate = useNavigate();
   const [eye, setEye] = useState(false)
   const [type, setType] = useState("password")
@@ -23,24 +24,30 @@ function UserRegister() {
   const [isLoader, setIsLoader] = useState(false)
   const [islicenseState, setIsLicenseState] = useState(false)
   const [licenseStateOption, setLicenseStateOption] = useState("")
-
+  const [phoneCode, setphoneCode] = useState({})
   const [isHome, setIsHome] = useState(false)
+  const [dropdownOption, setDropDownOption] = useState([]);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
-    if (token == null) {
-      setIsHome(false)
-    } else {
-      setIsHome(true)
-    }
+    Object?.keys(myCountryCodesObject)?.map((item) => (
+      dropdownOption?.push({
+        value: myCountryCodesObject[item],
+        label: item
+      })
+    ))
+    setDropDownOption(dropdownOption => dropdownOption?.filter(item => item))
   }, [])
   const handleSell = () => {
     navigate("/sell");
   };
-
+  const handleTermsCondition = (values) => {
+    sessionStorage.setItem('registerData', JSON.stringify(values));
+    navigate("/terms")
+  }
   const handleRegister = (val, { resetForm }) => {
+    const randomeUserId = Cookies.get('RandomUserId');
     setIsLoader(true)
-    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: licenseStateOption, license_number: val.license_number, password: val.password }
-
+    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: licenseStateOption, license_number: val.license_number, password: val.password, guest_token: parseInt(randomeUserId),seller_sigup :0 }
 
     axios({
       url: configJSON.baseUrl + configJSON.signUpBuyer,
@@ -51,8 +58,8 @@ function UserRegister() {
         setIsLoader(false)
         if (res?.data?.success == true) {
           MESSAGE.success(res?.data?.message);
-          // resetForm();
-          // navigate("/login");
+          resetForm();
+          navigate("/login");
         } else {
           MESSAGE.error(res?.data?.message);
         }
@@ -72,9 +79,12 @@ function UserRegister() {
     setType1(val)
     setEye1(!eye1)
   }
+  const handlePhoneCode = (val)=>{
+    setphoneCode(val)
+console.log(val,"val")
+  }
   return (
     <>
-
       <>
         <svg className="d-none">
           <symbol id="icon_nav" viewBox="0 0 25 18">
@@ -225,16 +235,13 @@ function UserRegister() {
             <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor" />
           </symbol>
         </svg>
-        {
-          isHome == true ? <Header /> : <HeaderVisitor />
-        }
-
+        <Header />
         <main>
 
           <div className="mb-4 pb-4"></div>
           <section className="login-register container">
             <ul className="nav nav-tabs mb-5" id="login_register" role="tablist">
-              <li className="nav-item" role="presentation" onClick={()=>navigate("/login")}>
+              <li className="nav-item" role="presentation" onClick={() => navigate("/login")}>
                 <a className="nav-link  pe-2" id="login-tab">Login</a>
               </li>
 
@@ -245,6 +252,23 @@ function UserRegister() {
                 <a className="nav-link nav-link_underscore ps-2 active" id="register-tab"> Register</a>
               </li>
             </ul>
+            {/* {dropdownOption?.length !== 0 &&
+              <>
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder="Search to Select"
+                  optionFilterProp="children"
+                  filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                  }
+                  
+                  options={dropdownOption}
+                />
+              </>
+            } */}
+
             <div className="tab-content pt-2" id="login_register_tab_content">
               <div className=" fade show" >
                 <div className="register-form">
@@ -255,7 +279,8 @@ function UserRegister() {
 
                       <div className="login-form">
                         <Formik
-                          initialValues={{ buyer_name: '', user_name: '', email: '', phone_number: '', license_state: '', password: '' }}
+                          initialValues={JSON.parse(sessionStorage.getItem("registerData")) ??
+                            { buyer_name: '', user_name: '', email: '', phone_number: '', license_state: '', password: '' }}
                           validationSchema={Schema_login_form}
                           onSubmit={(values, actions) => {
                             handleRegister(values, actions)
@@ -334,10 +359,10 @@ function UserRegister() {
                                   </div>
                                   <div className="col-md-6">
                                     <div className="d-flex ">
-                                      <select className="form-control ct_country_drop_list">
+                                      <select className="form-control ct_country_drop_list" onChange={(e)=>handlePhoneCode(e.target.value)}>
                                         {
                                           Object?.values(myCountryCodesObject)?.map((item) => (
-                                            <option>{item}</option>
+                                            <option>+{item}</option>
 
                                           ))
                                         }
@@ -495,7 +520,7 @@ function UserRegister() {
                                       htmlFor="flexCheckDefault"
                                     >
                                       Agreement to{" "}
-                                      <a onClick={() => navigate("/terms")}>
+                                      <a onClick={() => handleTermsCondition(values)}>
                                         Terms and Conditions
                                       </a>{" "}
                                     </label>

@@ -10,11 +10,7 @@ function Terms() {
     const [isHome,setIsHome] = useState(false)
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem("token"))
-        if (token == null) {
-            
-        } else {
           setIsHome(true)
-        }
       }, [])
   return (
     <>
@@ -171,13 +167,8 @@ function Terms() {
     </symbol>
   </svg>
 
-  {
-      isHome == true ?
-      <Header/> :
-      <div onClick={()=>navigate("/login")}>
-      <HeaderVisitor/>
-      </div>
-    }
+
+      <Header/> 
  
 
   <main>

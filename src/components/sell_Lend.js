@@ -4,39 +4,45 @@ import Footer from "./footer";
 import List7 from "./List7";
 import moment from "moment";
 import axios from "axios";
+import { message, message as MESSAGE } from "antd";
+import Cookies from 'js-cookie';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import { useNavigate } from "react-router-dom";
 export const configJSON = require("./config");
 function SellLend() {
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([1, 2, 3, 4]);
   const [isLoader, setIsLoader] = useState(false);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
       navigate("/login");
     } else {
-      getOrders();
+      getData();
     }
   }, []);
-  const getOrders = () => {
-    const token = JSON.parse(localStorage.getItem("token"));
-
-    setIsLoader(true);
+  const getData = () => {
+    const userID = localStorage.getItem("user_id")
+    const data = {
+      user_id: userID
+    }
     axios({
-      url: configJSON.baseUrl + configJSON.order_list,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      url: configJSON.baseUrl + configJSON.get_my_product,
+      method: "post",
+      data: data
+    }).then((res) => {
+      console.log(res, "hello")
+      setIsLoader(false);
+      if (res?.data?.success == true) {
+        setData(res?.data?.products);
+      } else {
+        setData([]);
+      }
     })
-      .then((res) => {
-        setIsLoader(false);
-        if (res?.data?.success == true) {
-          setData(res?.data?.fetch_All_Order);
-        } else {
-          setData([]);
-        }
-      })
       .catch((error) => {
         console.log(error);
         setIsLoader(false);
@@ -45,6 +51,36 @@ function SellLend() {
   const handleProduct1Simple = (productId) => {
     localStorage.setItem("productID", productId);
     navigate("/product1-simple");
+  };
+  const addToWishlist = (productId) => {
+    setIsLoader(true);
+    const token = JSON.parse(localStorage.getItem("token"));
+    const randomeUserId = Cookies.get('RandomUserId');
+    const userID = localStorage.getItem("user_id")
+    const data = {
+      product_id: productId,
+      userId: token && userID ? userID : parseInt(randomeUserId),
+    };
+
+    axios({
+      method: "post",
+      url: configJSON.baseUrl + configJSON.add_wishlist,
+      data: data,
+    })
+      .then((res) => {
+        setIsLoader(false);
+        alert("Heloo")
+        if (res.data.success == true) {
+          MESSAGE.success(res?.data?.message);
+          getData();
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
+      })
+      .catch((err) => {
+        setIsLoader(false);
+        console.log(err);
+      });
   };
   return (
     <>
@@ -313,8 +349,11 @@ function SellLend() {
           <h2 className="page-title">MY Sell Items</h2>
           <div className="row">
             <List7 data="sell-item" />
-            <div className="col-lg-9">
-              {/* <div class="d-flex align-items-center gap-2 flex-wrap">
+            {
+              isLoader == true ? <div class="custom-loader"></div> :
+                data?.length != 0 ?
+                  <div className="col-lg-9">
+                    {/* <div class="d-flex align-items-center gap-2 flex-wrap">
              
               <select className='ct_sell_btn ct_border_zero'>
                 <option>Issue Request</option>
@@ -324,759 +363,160 @@ function SellLend() {
               </select>
                   </div> */}
 
-              <div className="page-content my-account__wishlist">
-                <div
-                  className="products-grid row row-cols-2 row-cols-lg-3"
-                  id="products-grid"
-                >
-                  <div className="product-card-wrapper  mb-3 mb-md-4 mb-xxl-5">
-                    <div className="product-card">
-                      <div className="pc__img-wrapper">
-                        <div
-                          className="swiper-container background-img js-swiper-slider"
-                          data-settings='{"resizeObserver": true}'
-                        >
-                          <div className="swiper-wrapper">
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_1.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
+                    <div className="page-content my-account__wishlist">
+
+                      <div
+                        className="products-grid row row-cols-2 row-cols-lg-3"
+                        id="products-grid"
+                      >
+
+                        {
+                          data?.map((item) => (
+                            <div className="product-card-wrapper  mb-3 mb-md-4 mb-xxl-5">
+                              <div className="product-card">
+                                <div className="pc__img-wrapper">
+                                  <div
+                                    className="swiper-container background-img js-swiper-slider"
+                                    data-settings='{"resizeObserver": true}'
+                                  >
+                                    <div className="swiper-wrapper">
+                                      <Swiper
+                                        spaceBetween={30}
+                                        centeredSlides={true}
+                                        autoplay={{
+                                          delay: 30000,
+                                          disableOnInteraction: false,
+                                        }}
+                                        pagination={{
+                                          clickable: true,
+                                        }}
+                                        navigation={true}
+                                        modules={[Autoplay, Pagination, Navigation]}
+                                        className="mySwiper"
+                                      >
+                                        {item?.product_images?.map((obj, i) => (
+                                          <SwiperSlide>
+                                            <a
+                                            onClick={() => handleProduct1Simple(item?.id)}
+                                            >
+                                              <img src={obj} />
+                                            </a>
+                                          </SwiperSlide>
+
+                                        ))}
+                                      </Swiper>
+                                      
+                                    </div>
+                                  </div>
+
+                                  <div class="dropdown ct_edit_listing">
+                                    <button
+                                      class="btn"
+                                      type="button"
+                                      id="dropdownMenuButton1"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false"
+                                    >
+                                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </button>
+                                    <ul
+                                      class="dropdown-menu"
+                                      aria-labelledby="dropdownMenuButton1"
+                                    >
+                                      <li>
+                                        <a class="dropdown-item" onClick={() => navigate("/edit-product")}>
+                                          Edit Product
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
+                                          Issue Request
+                                        </a>
+                                      </li>
+
+                                    </ul>
+                                  </div>
+
+                                </div>
+
+                                <div className="pc__info position-relative">
+                                  <p className="pc__category">
+                                    {item?.product_brand
+                                      ? item?.product_brand
+                                      : "Featured Products"}
+                                  </p>
+                                  <h6 className="pc__title">
+                                    {/* <a  onClick={() => handleProduct1Simple(item?.id)}>{item?.product_description}</a> */}
+                                    <a
+                                      onClick={() => handleProduct1Simple(item?.id)}
+                                    >
+                                      {/* {item?.product_description}
+                                   */}
+                                      Size Top :
+                                      {item?.product_size?.map((obj) => (
+                                        <span>{obj?.size_top}</span>
+                                      ))}
+                                    </a>
+                                    <br />
+                                    <a
+                                      onClick={() => handleProduct1Simple(item?.id)}
+                                    >
+                                      {/* {item?.product_description}
+                                   */}
+                                      Size Top :
+                                      {item?.product_size?.map((obj) => (
+                                        <span>{obj?.size_bottom}</span>
+                                      ))}
+                                    </a>
+                                  </h6>
+                                  <div className="product-card__price d-flex">
+                                    <span className="money price">
+                                      ${item?.price_sale_lend_price}
+                                    </span>
+                                  </div>
+                                  {item?.wishlist_like == 0 ? (
+                                    <button
+                                      onClick={() => addToWishlist(item?.id)}
+                                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                      title="Add To Wishlist"
+                                    >
+                                      <i class="fa-regular fa-heart"></i>{" "}
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() => addToWishlist(item?.id)}
+                                      className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                      title="Add To Wishlist"
+                                    >
+                                      <i
+                                        class="fa-solid fa-heart"
+                                        style={{ color: "red" }}
+                                      ></i>
+                                      {/* <FaRegHeart onClick={()=>addToWishlist(item?.id)}/> */}
+                                    </button>
+                                  )}
+
+                                  {/* <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg> */}
+                                </div>
+                              </div>
+
+
                             </div>
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_1-1.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                          </div>
-                          <span className="pc__img-prev">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_prev_sm" />
-                            </svg>
-                          </span>
-                          <span className="pc__img-next">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_next_sm" />
-                            </svg>
-                          </span>
-                        </div>
-                       
-                        <div class="dropdown ct_edit_listing">
-                          <button
-                            class="btn"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                           <i class="fa-solid fa-ellipsis-vertical"></i>
-                          </button>
-                          <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton1"
-                          >
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/edit-product")}>
-                               Edit Product
-                              </a>
-                            </li>
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
-                                Issue Request
-                              </a>
-                            </li>
-                          
-                          </ul>
-                        </div>
-                       
-                      </div>
+                          ))
+                        }
 
-                      <div className="pc__info position-relative">
-                        <p className="pc__category">Featured Products</p>
-                        <h6 className="pc__title">Bikinis</h6>
-                        <div className="product-card__price d-flex">
-                          <span className="money price">$29</span>
-                        </div>
 
-                        <button
-                          className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                          title="Add To Wishlist"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <use href="#icon_heart" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                   
-                    
-                  </div>
-
-                  <div className="product-card-wrapper  mb-3 mb-md-4 mb-xxl-5">
-                    <div className="product-card">
-                      <div className="pc__img-wrapper">
-                        <div
-                          className="swiper-container background-img js-swiper-slider"
-                          data-settings='{"resizeObserver": true}'
-                        >
-                          <div className="swiper-wrapper">
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_2.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_3.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                          </div>
-                          <span className="pc__img-prev">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_prev_sm" />
-                            </svg>
-                          </span>
-                          <span className="pc__img-next">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_next_sm" />
-                            </svg>
-                          </span>
-                        </div>
-                        <div class="dropdown ct_edit_listing">
-                          <button
-                            class="btn"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                           <i class="fa-solid fa-ellipsis-vertical"></i>
-                          </button>
-                          <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton1"
-                          >
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/edit-product")}>
-                               Edit Product
-                              </a>
-                            </li>
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
-                                Issue Request
-                              </a>
-                            </li>
-                          
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="pc__info position-relative">
-                        <p className="pc__category">Featured Products</p>
-                        <h6 className="pc__title">Swimsuit</h6>
-                        <div className="product-card__price d-flex">
-                          <span className="money price">$62</span>
-                        </div>
-
-                        <button
-                          className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                          title="Add To Wishlist"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <use href="#icon_heart" />
-                          </svg>
-                        </button>
                       </div>
                     </div>
-                   
-                  </div>
 
-                  <div className="product-card-wrapper mb-3 mb-md-4 mb-xxl-5">
-                    <div className="product-card ">
-                      <div className="pc__img-wrapper">
-                        <div
-                          className="swiper-container background-img js-swiper-slider"
-                          data-settings='{"resizeObserver": true}'
-                        >
-                          <div className="swiper-wrapper">
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_3.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_2.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                          </div>
-                          <span className="pc__img-prev">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_prev_sm" />
-                            </svg>
-                          </span>
-                          <span className="pc__img-next">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_next_sm" />
-                            </svg>
-                          </span>
-                        </div>
-                        <div class="dropdown ct_edit_listing">
-                          <button
-                            class="btn"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                           <i class="fa-solid fa-ellipsis-vertical"></i>
-                          </button>
-                          <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton1"
-                          >
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/edit-product")}>
-                               Edit Product
-                              </a>
-                            </li>
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
-                                Issue Request
-                              </a>
-                            </li>
-                          
-                          </ul>
-                        </div>
-                      </div>
 
-                      <div className="pc__info position-relative">
-                        <p className="pc__category">Featured Products</p>
-                        <h6 className="pc__title">Themewear</h6>
-                        <div className="product-card__price d-flex">
-                          <span className="money price">$17</span>
-                        </div>
+                  </div> : <h3>There is no product uploaded</h3>
+            }
 
-                        <button
-                          className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                          title="Add To Wishlist"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <use href="#icon_heart" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                   
-                  </div>
-
-                  <div className="product-card-wrapper  mb-3 mb-md-4 mb-xxl-5">
-                    <div className="product-card">
-                      <div className="pc__img-wrapper">
-                        <div
-                          className="swiper-container background-img js-swiper-slider"
-                          data-settings='{"resizeObserver": true}'
-                        >
-                          <div className="swiper-wrapper">
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_4.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_1.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                          </div>
-                          <span className="pc__img-prev">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_prev_sm" />
-                            </svg>
-                          </span>
-                          <span className="pc__img-next">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_next_sm" />
-                            </svg>
-                          </span>
-                        </div>
-                        <div class="dropdown ct_edit_listing">
-                          <button
-                            class="btn"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                           <i class="fa-solid fa-ellipsis-vertical"></i>
-                          </button>
-                          <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton1"
-                          >
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/edit-product")}>
-                               Edit Product
-                              </a>
-                            </li>
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
-                                Issue Request
-                              </a>
-                            </li>
-                          
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="pc__info position-relative">
-                        <p className="pc__category">Featured Products</p>
-                        <h6 className="pc__title">Bikinis</h6>
-                        <div className="product-card__price d-flex">
-                          <span className="money price price-old">$129</span>
-                          <span className="money price price-sale">$99</span>
-                        </div>
-
-                        <button
-                          className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                          title="Add To Wishlist"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <use href="#icon_heart" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                    
-                  </div>
-
-                  <div className="product-card-wrapper  mb-3 mb-md-4 mb-xxl-5">
-                    <div className="product-card">
-                      <div className="pc__img-wrapper">
-                        <div
-                          className="swiper-container background-img js-swiper-slider"
-                          data-settings='{"resizeObserver": true}'
-                        >
-                          <div className="swiper-wrapper">
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_1.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_3.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                          </div>
-                          <span className="pc__img-prev">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_prev_sm" />
-                            </svg>
-                          </span>
-                          <span className="pc__img-next">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_next_sm" />
-                            </svg>
-                          </span>
-                        </div>
-                        <div class="dropdown ct_edit_listing">
-                          <button
-                            class="btn"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                           <i class="fa-solid fa-ellipsis-vertical"></i>
-                          </button>
-                          <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton1"
-                          >
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/edit-product")}>
-                               Edit Product
-                              </a>
-                            </li>
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
-                                Issue Request
-                              </a>
-                            </li>
-                          
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="pc__info position-relative">
-                        <p className="pc__category">Featured Products</p>
-                        <h6 className="pc__title">Themewear</h6>
-                        <div className="product-card__price d-flex">
-                          <span className="money price">$29</span>
-                        </div>
-
-                        <button
-                          className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                          title="Add To Wishlist"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <use href="#icon_heart" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  
-                  </div>
-
-                  <div className="product-card-wrapper mb-3 mb-md-4 mb-xxl-5">
-                    <div className="product-card">
-                      <div className="pc__img-wrapper">
-                        <div
-                          className="swiper-container background-img js-swiper-slider"
-                          data-settings='{"resizeObserver": true}'
-                        >
-                          <div className="swiper-wrapper">
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_4.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                            <div className="swiper-slide">
-                              <img
-                                loading="lazy"
-                                src="images/products/product_1.jpg"
-                                width="330"
-                                height="400"
-                                alt="Cropped Faux leather Jacket"
-                                className="pc__img"
-                              />
-                            </div>
-                          </div>
-                          <span className="pc__img-prev">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_prev_sm" />
-                            </svg>
-                          </span>
-                          <span className="pc__img-next">
-                            <svg
-                              width="7"
-                              height="11"
-                              viewBox="0 0 7 11"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <use href="#icon_next_sm" />
-                            </svg>
-                          </span>
-                        </div>
-                        <div class="dropdown ct_edit_listing">
-                          <button
-                            class="btn"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                           <i class="fa-solid fa-ellipsis-vertical"></i>
-                          </button>
-                          <ul
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton1"
-                          >
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/edit-product")}>
-                               Edit Product
-                              </a>
-                            </li>
-                            <li>
-                              <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
-                                Issue Request
-                              </a>
-                            </li>
-                          
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="pc__info position-relative">
-                        <p className="pc__category">Featured Products</p>
-                        <h6 className="pc__title">Themewear</h6>
-                        <div className="product-card__price d-flex">
-                          <span className="money price">$62</span>
-                        </div>
-
-                        <button
-                          className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                          title="Add To Wishlist"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <use href="#icon_heart" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                   
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
       </main>
       <div className="mb-5 pb-xl-5"></div>
-
-      {/* <div
-        class="modal fade"
-        id="ct_edit_listing_modal"
-        tabindex="-1"
-        aria-labelledby="ct_edit_listing_modalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="ct_edit_listing_modalLabel">
-               Edit Products
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div className="row">
-                <div className="form-group mb-3 col-md-6">
-                  <label>Product Name</label>
-                  <input type="text" class="form-control" id="checkout_first_name" placeholder="Product Name" value="Bikini"></input>
-                </div>
-                <div class="form-group mb-3 col-md-6">
-                <label>Category</label>
-                <select class="form-control">
-                  <option>Bikini</option>
-                  <option>Figure</option>
-                  <option>Swimsuit</option>
-                  <option>Fmg/wbff</option>
-                  <option>Themewear</option>
-                  <option>Accessories</option>
-                  </select>
-                 
-                  </div>
-                
-                  <div class="form-group mb-3 col-md-6">
-                <label>Color</label>
-                <select class="form-control">
-                  <option>Blue</option>
-                  <option>Figure</option>
-                  <option>Pink</option>
-                 
-                  </select>
-                 
-                  </div>
-                 
-
-                </div>
-              
-                <div className="form-group mb-3">
-                  <label>Product Name</label>
-                  <input type="text" class="form-control" id="checkout_first_name" placeholder="Product Name" value="Bikini"></input>
-                </div>
-             
-                  <div class="form-group mb-3">
-                <label>Brand</label>
-                <select class="form-control">
-                  <option>fashionFind insta</option>
-                  <option>UK style</option>
-                  <option>indian classic</option>
-                  </select>
-                 
-                  </div>
-                 <div className="row">
-                 <div class="col-md-6 form-group mb-3">
-                <label>Style(Top)</label>
-                <select class="form-control">
-                  <option>Trendy</option>
-                  <option>on top</option>
-                  <option>Bombshell</option>
-                  </select>
-                 
-                  </div>
-                  <div class="col-md-6  form-group mb-3">
-                <label>Style(Bottom)</label>
-                <select class="form-control">
-                  <option>Versatile</option>
-                  <option>Cheeky</option>
-                  <option>Extra Cheeky</option>
-                  </select>
-                 
-                  </div>
-                 </div>
-                 
-              </form>
-
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
 
       <Footer />
     </>

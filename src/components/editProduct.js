@@ -69,6 +69,10 @@ function EditProduct() {
 
   const navigate = useNavigate();
   useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token == null) {
+      navigate("/login");
+    } else {
     if (categoryOption == "Bikini" || categoryOption == "Figure" || categoryOption == "FMG/WBFF") {
       setIsSizeTopBottom(true)
       setIsSizeShow(false)
@@ -79,6 +83,7 @@ function EditProduct() {
     }
     getFilterContent()
     getMyProfile()
+  }
   }, [categoryOption])
 
 

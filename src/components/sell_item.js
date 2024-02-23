@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from './header'
 import Footer from './footer'
 import List7 from './List7'
-
+import axios from 'axios'
+export const configJSON = require("../components/config");
 function Sell_item() {
   const navigate = useNavigate()
   const handleLoginRegister = ()=>{
     navigate("/login")
+  }
+  useEffect(()=>{
+get_my_product()
+  },[])
+  const get_my_product = ()=>{
+    const userID = localStorage.getItem("user_id")
+    const data = {
+      user_id : userID
+    }
+
+    axios({
+      url:configJSON.baseUrl+configJSON.get_my_product,
+      method :"post",
+      data : data
+    }).then((res)=>{
+      console.log(res)
+      
+    }).catch((err)=>{
+      console.log(err)
+    })
   }
   return (
     <>

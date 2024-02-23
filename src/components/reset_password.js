@@ -200,10 +200,7 @@ function Reset_password() {
       <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor"/>
     </symbol>
   </svg>
-
-  {
-  isHome == true ? <Header /> : <HeaderVisitor/>
-}
+ <Header />
   <main>
     <div className="mb-4 pb-4"></div>
     <section className="login-register container">

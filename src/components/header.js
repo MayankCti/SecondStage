@@ -1,3 +1,5 @@
+
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -39,13 +41,12 @@ function Header(props) {
   ]);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
-    if (token == null) {
-      // navigate("/login");
-    } else {
-      setAccessToken(token);
-      getCartData(token);
+    setAccessToken(token);
+    if(token){
       getMyProfile(token);
     }
+    getCartData(token);
+
   }, []);
 
   const getMyProfile = (val) => {
@@ -73,12 +74,15 @@ function Header(props) {
 
   const getCartData = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const randomeUserId = Cookies.get('RandomUserId');
+    const userID = localStorage.getItem("user_id")
+    const data = {
+      userId: token && userID ? userID : parseInt(randomeUserId)
+    }
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      method: "post",
+      data: data
     })
       .then((res) => {
         setIsLoader(false);
@@ -99,12 +103,13 @@ function Header(props) {
 
   const upDateCartData = (item, selColor, top, bottom) => {
     setIsLoader(true);
-    var data;
-
+    const randomeUserId = Cookies.get('RandomUserId');
+    const token = JSON.parse(localStorage.getItem("token"))
     const user_id = JSON.parse(localStorage.getItem("user_id"));
+    var data;
     if (item?.product_buy_rent == "buy") {
       data = {
-        user_id: user_id,
+        user_id: token && user_id ? user_id : parseInt(randomeUserId),
         card_id: item?.new_cart_id,
         cart_quantity: 1,
         size_top: `${top}`,
@@ -113,7 +118,7 @@ function Header(props) {
       };
     } else if (item?.product_buy_rent == "rent") {
       data = {
-        user_id: user_id,
+        user_id: token && user_id ? user_id : parseInt(randomeUserId),
         card_id: item?.new_cart_id,
         cart_quantity: 1,
         size_top: `${top}`,
@@ -127,10 +132,7 @@ function Header(props) {
     axios({
       url: configJSON.baseUrl + configJSON.upDateCartData,
       method: "post",
-      data: data,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      data: data
     })
       .then((res) => {
         setIsLoader(false);
@@ -149,13 +151,17 @@ function Header(props) {
   };
 
   const deleteCartData = (cart_id) => {
+    const randomeUserId = Cookies.get('RandomUserId');
+    const userID = localStorage.getItem("user_id")
+    const token = JSON.parse(localStorage.getItem("token"))
+    const data = {
+      user_id: token && userID ? userID : parseInt(randomeUserId)
+    }
     setIsLoader(true);
     axios({
       method: "delete",
       url: configJSON.baseUrl + configJSON.deleteCartData + cart_id,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      data:data
     })
       .then((res) => {
         setIsLoader(false);
@@ -251,9 +257,7 @@ function Header(props) {
     var endDate = moment(item?.selection?.endDate);
     var diffInDays = endDate.diff(startDate, "days");
     setTotalRendDays(diffInDays);
-
     setshowCalender(!showCalender);
-
     upDateCartData(item1, item1?.color, item1?.size_top, item1?.size_bottom);
   };
 
@@ -620,8 +624,8 @@ function Header(props) {
                           props?.data_value?.profile_image
                             ? props?.data_value?.profile_image
                             : profileData?.profile_image
-                            ? profileData?.profile_image
-                            : "/images/buyer_profile.png"
+                              ? profileData?.profile_image
+                              : "/images/buyer_profile.png"
                         }
                       />
                       <p className="mb-0">

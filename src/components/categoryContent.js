@@ -27,11 +27,7 @@ function CategoryContent(props) {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
-    if (token == null) {
-      navigate("/login-register");
-    }
     getData();
-    getCartData(token);
   }, []);
   const handleHome = () => {
     navigate("/");
@@ -42,14 +38,17 @@ function CategoryContent(props) {
   };
   const getData = (val) => {
     let count = val ? val : 4;
-    const token = JSON.parse(localStorage.getItem("token"));
     setIsLoader(true);
+    const userID = localStorage.getItem("user_id")
+    const randomeUserId = Cookies.get('RandomUserId');
+    const token = JSON.parse(localStorage.getItem("token"))
+    const data = {
+      userId: token && userID ? userID : parseInt(randomeUserId)
+    }
     axios({
       url: configJSON.baseUrl + props?.apiurl + `/${count}`,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      method: "post",
+      data: data
     })
       .then((res) => {
         setIsLoader(false);
@@ -68,34 +67,7 @@ function CategoryContent(props) {
     showProduct === "all"
       ? allProduct
       : allProduct.filter((item) => item.product_buy_rent === showProduct);
-  const getCartData = (val) => {
-    setIsLoader(true);
-    setAccessToken(val);
-    axios({
-      url: configJSON.baseUrl + configJSON.getCartData,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${val}`,
-      },
-    })
-      .then((res) => {
-        setIsLoader(false);
-        if (res?.data?.success == true) {
-          setcartData(res?.data?.cart);
-          let total = 0;
-          res?.data?.cart.map((item) => {
-            total += item?.cart_price;
-          });
-          setSubTotal(total);
-        } else {
-          setcartData([]);
-        }
-      })
-      .catch((error) => {
-        setIsLoader(false);
-        console.log(error);
-      });
-  };
+
   const addToCart = (product_id) => {
     setIsLoader(true);
     const data = {
@@ -125,13 +97,13 @@ function CategoryContent(props) {
   };
   const addToWishlist = (productId) => {
     setIsLoader(true);
-    const randomeUserId = Cookies.get('name');
+    const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
     const data = {
-        product_id: productId,
-        user_id: accessToken && userID ? userID : randomeUserId,
+      product_id: productId,
+      userId: accessToken && userID ? userID : parseInt(randomeUserId),
     };
-   
+
     axios({
       method: "post",
       url: configJSON.baseUrl + configJSON.add_wishlist,

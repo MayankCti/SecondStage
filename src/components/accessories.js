@@ -1,54 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Header from './header'
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
 import Footer from './footer'
 import CategoryContent from './categoryContent';
-import Cookies from 'js-cookie';
 export const configJSON = require("../components/config");
 function Accessories() {
-    const [isCartSidebar, setIsCartSidebar] = useState(false)
-    const [cartData, setCartData] = useState([])
-    const [accessToken, setAccessToken] = useState()
     const [isLoader, setIsLoader] = useState(false);
-    const navigate = useNavigate()
-    useEffect(() => {
-        const token = JSON.parse(localStorage.getItem("token"))
-        setAccessToken(token)
-        getCartData()
-    }, [])
-    const getCartData = (val2) => {
-        setIsLoader(true)
-        const randomeUserId = Cookies.get('name');
-        const userID = localStorage.getItem("user_id")
-        const token = JSON.parse(localStorage.getItem("token"))
-        const data = {
-            user_id: token && userID ? userID : randomeUserId
-        }
-        axios({
-            url: configJSON.baseUrl + configJSON.getCartData,
-            method: "post",
-            data: data
-        }).then((res) => {
-            setIsLoader(false)
-            if (res?.data?.success == true) {
-                setCartData(res?.data?.cart)
-                val2 == true ?
-                    setIsCartSidebar(true)
-                    :
-                    setIsCartSidebar(false)
-            }
-            else {
-                setCartData([])
-            }
-        }).catch((error) => {
-            setIsLoader(false)
-            console.log(error)
-        })
-    }
-    const getDataFromChild = () => {
-        getCartData(true)
-    }
+    
     return (
         <>
             {isLoader == false ?
@@ -206,9 +163,9 @@ function Accessories() {
                         </symbol>
                     </svg>
 
-                    <Header data={cartData?.length !== 0 && cartData} isCartSidebar={isCartSidebar} active="accessories" />
+                    <Header active="accessories" />
 
-                    <CategoryContent home="Accessories" apiurl={configJSON.getProductDetails_by_Category_accessories} onClick={getDataFromChild} />
+                    <CategoryContent home="Accessories" apiurl={configJSON.getProductDetails_by_Category_accessories}  />
 
                     <Footer /></>
                 : <div class="custom-loader"></div>

@@ -1,4 +1,5 @@
 import { Slider } from "antd";
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 export const configJSON = require("../components/config");
@@ -22,7 +23,6 @@ function FilterBy(props) {
   const [location, setLocation] = useState([])
 
   useEffect(() => {
-    
     getFilterContent()
   }, [])
   const handleBuyPrice = (e) => {
@@ -143,7 +143,11 @@ function FilterBy(props) {
     }
   }
   const filter = () => {
+    const userID = localStorage.getItem("user_id")
+const randomeUserId = Cookies.get('RandomUserId');
+const token = JSON.parse(localStorage.getItem("token"))
     const data = {
+      userId: token && userID ? userID : parseInt(randomeUserId),
       style_top: styleTop,
       style_bottom: styleBottom,
       product_category: category,

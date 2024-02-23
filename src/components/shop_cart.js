@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import { message, message as MESSAGE } from "antd";
 import axios from "axios";
@@ -19,23 +20,24 @@ function Shop_cart() {
   const [shopCartData, setShopCartData] = useState([]);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
-    if (token == null) {
-      navigate("/login");
-    } else {
-      getCartData(token);
-      getShopCart();
-    }
+    setAccessToken(token);
+    getCartData();
+    getShopCart();
+   
   }, []);
 
-  const getCartData = (val, val2) => {
+  const getCartData = (val2) => {
     setIsLoader(true);
-    setAccessToken(val);
+    const randomeUserId = Cookies.get('RandomUserId');
+    const userID = localStorage.getItem("user_id")
+    const token = JSON.parse(localStorage.getItem("token"))
+    const data = {
+      user_id: token && userID ? userID : parseInt(randomeUserId)
+    }
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${val}`,
-      },
+      method: "post",
+      data: data
     })
       .then((res) => {
         if (res?.data?.success == true) {
@@ -52,21 +54,26 @@ function Shop_cart() {
         console.log(error);
       });
   };
-  const deleteCartData = (cart_id) => {
+  const deleteCartData = (item) => {
+    const randomeUserId = Cookies.get('RandomUserId');
+    const userID = localStorage.getItem("user_id")
+    const token = JSON.parse(localStorage.getItem("token"))
+    const data = {
+      user_id: token && userID ? userID : parseInt(randomeUserId)
+    }
     setIsLoader(true);
     axios({
       method: "delete",
-      url: configJSON.baseUrl + configJSON.deleteCartData + cart_id?.id,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      url: configJSON.baseUrl + configJSON.deleteCartData + item?.id,
+      data : data
     })
       .then((res) => {
         // setIsLoader(false);
         if (res.data.success == true) {
           MESSAGE.success("Cart item deleted successfully");
-          // getCartData(accessToken);
-          window.location.href = "/shop-cart"
+          getCartData(true);
+          getShopCart()
+          // window.location.href = "/shop-cart"
         } else {
           MESSAGE.error("Unable to delete cart item.");
         }
@@ -76,46 +83,49 @@ function Shop_cart() {
         console.log(err);
       });
   };
-  const upDateCartData = (val, item) => {
-    setIsLoader(true);
-    let cartQty = item?.cart_quantity;
-    if (val == "plus") {
-      cartQty = cartQty + 1;
-    } else if (val == "minus") {
-      cartQty = cartQty - 1;
-    }
-    const data = {
-      cart_quantity: cartQty,
-      card_id: item?.id,
-      user_id: item?.buyer_id
-    };
-    if (cartQty >= 1) {
-      axios({
-        url: configJSON.baseUrl + configJSON.upDateCartData,
-        method: "post",
-        data: data,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-        .then((res) => {
-          setIsLoader(false);
-          if (res.data.success == true) {
-            MESSAGE.success(res?.data?.message);
-            getShopCart()
-          } else {
-            MESSAGE.error("Unable to update cart item.");
-          }
-        })
-        .catch((error) => {
-          setIsLoader(false);
-          console.log(error);
-        });
-    } else {
-      MESSAGE.error("Minimum one  quantity is required !!!");
-      setIsLoader(false);
-    }
-  };
+  //   const upDateCartData = (val, item) => {
+  //     const randomeUserId = Cookies.get('RandomUserId');
+  // const userID = localStorage.getItem("user_id")
+  // const token = JSON.parse(localStorage.getItem("token"))
+  //     setIsLoader(true);
+  //     let cartQty = item?.cart_quantity;
+  //     if (val == "plus") {
+  //       cartQty = cartQty + 1;
+  //     } else if (val == "minus") {
+  //       cartQty = cartQty - 1;
+  //     }
+  //     const data = {
+  //       cart_quantity: cartQty,
+  //       card_id: item?.id,
+  //       user_id: item?.buyer_id
+  //     };
+  //     if (cartQty >= 1) {
+  //       axios({
+  //         url: configJSON.baseUrl + configJSON.upDateCartData,
+  //         method: "post",
+  //         data: data,
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       })
+  //         .then((res) => {
+  //           setIsLoader(false);
+  //           if (res.data.success == true) {
+  //             MESSAGE.success(res?.data?.message);
+  //             getShopCart()
+  //           } else {
+  //             MESSAGE.error("Unable to update cart item.");
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           setIsLoader(false);
+  //           console.log(error);
+  //         });
+  //     } else {
+  //       MESSAGE.error("Minimum one  quantity is required !!!");
+  //       setIsLoader(false);
+  //     }
+  //   };
   const handleShopCart = () => {
     navigate("/shop-cart");
   };
@@ -131,13 +141,16 @@ function Shop_cart() {
   };
   const getShopCart = () => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const userID = localStorage.getItem("user_id")
+const randomeUserId = Cookies.get('RandomUserId');
+const data = {
+  userId: token && userID ? userID : randomeUserId
+}
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.fetch_checkout,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      method: "post",
+      data : data
     })
       .then((res) => {
         setIsLoader(false);
@@ -502,9 +515,9 @@ function Shop_cart() {
                                     <li>Size bottom: {item?.size_bottom}</li>
                                     <li>Product Type : {item?.product_buy_rent}</li>
                                     {
-                                      item?.product_buy_rent == "rent" &&  <li>rent for : {item?.total_rend_days} {item?.total_rend_days == "1" ? "day" : 'days'} </li>
+                                      item?.product_buy_rent == "rent" && <li>rent for : {item?.total_rend_days} {item?.total_rend_days == "1" ? "day" : 'days'} </li>
                                     }
-                                   
+
                                   </ul>
                                 </div>
                               </td>
