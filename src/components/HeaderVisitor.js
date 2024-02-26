@@ -260,12 +260,12 @@ function HeaderVisitor(props) {
                       <p className="mb-0">Mia Toretto</p>
                     </div>
                     {isdropdown && (
-                      <ul class="ct_dropdown-menu">
+                      <ul className="ct_dropdown-menu">
                         <li>
-                          <a class="dropdown-item">Profile</a>
+                          <a className="dropdown-item">Profile</a>
                         </li>
                         <li onClick={handleLogout}>
-                          <a class="dropdown-item">Log Out</a>
+                          <a className="dropdown-item">Log Out</a>
                         </li>
                       </ul>
                     )}

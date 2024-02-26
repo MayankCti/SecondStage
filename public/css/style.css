@@ -21467,6 +21467,11 @@ color:#fff;
 .ct_select_option_hover:focus-visible{
   outline: none;
 }
+.ct_country_scroll {
+  height: auto;
+  max-height: 200px;
+  overflow-y: auto;
+}
 @media screen and (max-width:767px){
   .ct_click_dropdown > p {
     display: none !important;

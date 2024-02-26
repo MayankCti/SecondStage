@@ -25,12 +25,14 @@ function Account_edit() {
   }, [])
 
   const getMyProfile = (val) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
     setIsLoader(true)
     axios({
       url: configJSON.baseUrl + configJSON.myProfile_buyer,
       method: "get",
       headers: {
-        'Authorization': `Bearer ${val}`
+        'Authorization': `Bearer ${token}`
       },
     }).then((res) => {
       setIsLoader(false)
@@ -204,7 +206,7 @@ function Account_edit() {
       </svg>
       {isLoader == false ?
         <Header data_value={profileData} />
-        : <div class="custom-loader"></div>
+        : <div className="custom-loader"></div>
       }
 
 
@@ -216,7 +218,7 @@ function Account_edit() {
             <List7 data="account-edit" />
             {
               isLoader == true ?
-                <div class="custom-loader"></div>
+                <div className="custom-loader"></div>
                 :
                 <div className="col-lg-9">
                   <div className="page-content my-account__edit">

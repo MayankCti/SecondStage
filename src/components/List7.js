@@ -15,6 +15,9 @@ function List7(props) {
         navigate('/account-dashboard')
     }
 
+    const handleAccountEditAddress = ()=>{
+        navigate("/account-edit-address")
+      }
     // const handleSellItem = ()=>{
     //     navigate("/sell-item")
     // } 
@@ -24,9 +27,6 @@ function List7(props) {
     // const handlePastOrder = ()=>{
     //     navigate('/past-order')
     // }
-    // const handleAccountEditAddress = ()=>{
-    //     navigate("/account-edit-address")
-    //   }
     //     const handleAccountOrders = ()=>{
     //       navigate("/account-orders")
     //     }
@@ -44,8 +44,8 @@ function List7(props) {
                     {/* <li><a onClick={()=>handleSellItem()} className={active == "sell-item" ?"ct_account_dash_link menu-link_active ct_border_zero" :"ct_account_dash_link" }>Sell Items</a></li>
                     <li><a onClick={()=>handleSellLend()} className={active == "sell-lend" ?"ct_account_dash_link menu-link_active ct_border_zero" :"ct_account_dash_link" }>Sell/Lend</a></li>
                     <li><a onClick={()=>handleAccountOrders()} className={active == "account-orders" ?"ct_account_dash_link menu-link_active ct_border_zero" :"ct_account_dash_link" }>Current Orders</a></li>
-                    <li><a  onClick={()=>handlePastOrder()} className={active == "past-order" ?"ct_account_dash_link menu-link_active ct_border_zero" :"ct_account_dash_link" }>Past Orders</a></li>
-                    <li><a onClick={()=>handleAccountEditAddress()} className={active == "account-edit-address" ?"ct_account_dash_link menu-link_active ct_border_zero" :"ct_account_dash_link" }>Addresses</a></li> */}
+                    <li><a  onClick={()=>handlePastOrder()} className={active == "past-order" ?"ct_account_dash_link menu-link_active ct_border_zero" :"ct_account_dash_link" }>Past Orders</a></li>*/}
+                    <li><a onClick={()=>handleAccountEditAddress()} className={active == "account-edit-address" ?"ct_account_dash_link menu-link_active ct_border_zero" :"ct_account_dash_link" }>Addresses</a></li> 
                    
                 </ul>
             </div>

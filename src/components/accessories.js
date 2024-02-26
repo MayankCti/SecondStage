@@ -168,7 +168,7 @@ function Accessories() {
                     <CategoryContent home="Accessories" apiurl={configJSON.getProductDetails_by_Category_accessories}  />
 
                     <Footer /></>
-                : <div class="custom-loader"></div>
+                : <div className="custom-loader"></div>
             }
         </>
     )

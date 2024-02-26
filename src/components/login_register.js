@@ -195,13 +195,13 @@ function Login_register() {
             <div className="tab-pane fade show active" id="tab-item-login" role="tabpanel" aria-labelledby="login-tab">
               <UserLogin />
               <div className='text-center mt-4'>
-                <p class="ct_fs_16" style={{color:"#be891d"}} onClick={()=>handleSell()}>Sell/Lend</p>
+                <p className="ct_fs_16" style={{color:"#be891d"}} onClick={()=>handleSell()}>Sell/Lend</p>
               </div>
             </div>
             <div className="tab-pane fade" id="tab-item-register" role="tabpanel" aria-labelledby="register-tab">
               <UserRegister />
               <div className='text-center mt-0'>
-                <p class="ct_fs_16" style={{color:"#be891d"}} onClick={()=>handleSell()}>Sell/Lend</p>
+                <p className="ct_fs_16" style={{color:"#be891d"}} onClick={()=>handleSell()}>Sell/Lend</p>
               </div>
             </div>
           </div>

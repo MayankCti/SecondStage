@@ -502,53 +502,53 @@ function Sell() {
                       <label htmlFor="customerNameEmailInput">Licence State *</label>
                      
                     </div> */}
-                     <div class="search-field mb-3">
+                     <div className="search-field mb-3">
                         <div class={islicenseState ==false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                          <label for="search-dropdown7" class="form-label">Licence State *</label>
-                          <div class="js-hover__open" onClick={()=>setIsLicenseState(!islicenseState)}>
+                          <label for="search-dropdown7" className="form-label">Licence State *</label>
+                          <div className="js-hover__open" onClick={()=>setIsLicenseState(!islicenseState)}>
                             <input
                               type="text"
-                              class="form-control form-control-lg search-field__actor search-field__arrow-down"
+                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
                               id="search-dropdown7"
                               name="search-keyword"
                               value={licenseStateOption}
                               
                             />
                           </div>
-                          <div class="filters-container js-hidden-content mt-2">
-                            <ul class="search-suggestion list-unstyled" onClick={()=>setIsLicenseState(!islicenseState)}>
-                              <li class="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("ACT")}>
-                                <a class=" mb-3 me-3 js-filter">
+                          <div className="filters-container js-hidden-content mt-2">
+                            <ul className="search-suggestion list-unstyled" onClick={()=>setIsLicenseState(!islicenseState)}>
+                              <li className="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("ACT")}>
+                                <a className=" mb-3 me-3 js-filter">
                                 	ACT
                                 </a>
                               </li>
-                              <li class="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("NSW")}>
-                                <a class=" mb-3 me-3 js-filter">
+                              <li className="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("NSW")}>
+                                <a className=" mb-3 me-3 js-filter">
                                 NSW
                                 </a>
                               </li>
-                              <li class="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("SA")}>
-                                <a class=" mb-3 me-3 js-filter">
+                              <li className="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("SA")}>
+                                <a className=" mb-3 me-3 js-filter">
                                 SA
                                 </a>
                               </li>
-                              <li class="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("Vic")}>
-                                <a class=" mb-3 me-3 js-filter">
+                              <li className="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("Vic")}>
+                                <a className=" mb-3 me-3 js-filter">
                                 Vic
                                 </a>
                               </li>
-                              <li class="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("Qld")}>
-                                <a class=" mb-3 me-3 js-filter">
+                              <li className="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("Qld")}>
+                                <a className=" mb-3 me-3 js-filter">
                                 Qld
                                 </a>
                               </li>
-                              <li class="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("WA")}>
-                                <a class=" mb-3 me-3 js-filter">
+                              <li className="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("WA")}>
+                                <a className=" mb-3 me-3 js-filter">
                                 WA
                                 </a>
                               </li>
-                              <li class="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("WA")}>
-                                <a class=" mb-3 me-3 js-filter">
+                              <li className="search-suggestion__item js-search-select" onClick={()=>setLicenseStateOption("WA")}>
+                                <a className=" mb-3 me-3 js-filter">
                                 NT
                                 </a>
                               </li>

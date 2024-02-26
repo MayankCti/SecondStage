@@ -208,7 +208,7 @@ function Reset_password() {
       <p>We will send you an email to reset your password</p>
       <div className="reset-form">
         {
-          isLoader == true && <div class="custom-loader"></div>
+          isLoader == true && <div className="custom-loader"></div>
         }
         {
           isLoader == false &&

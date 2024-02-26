@@ -39,6 +39,7 @@ import SellLend from "./components/sell_Lend";
 import UserLogin from "./components/userLogin";
 import UserRegister from "./components/userRegister";
 import EditProduct from "./components/editProduct";
+import Demo from "./components/Demo";
 function App() {
   return (
     <div className="App">
@@ -90,6 +91,7 @@ function App() {
           <Route exact path="/login" element={<UserLogin />} />
           <Route exact path="/register" element={<UserRegister />} />
           <Route exact path="/edit-product" element={<EditProduct />} />
+          <Route exact path="/demo" element={<Demo />} />
 
 
 

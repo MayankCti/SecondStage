@@ -36,11 +36,13 @@ function Account_dashboard() {
   }
 
   const myProfileData = (val) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
     axios({
       method: "get",
       url: configJSON.baseUrl + configJSON.myProfile_buyer,
       headers: {
-        'Authorization': `Bearer ${val}`
+        'Authorization': `Bearer ${token}`
       },
     })
       .then((res) => {
@@ -234,7 +236,7 @@ function Account_dashboard() {
                     {/* <p>From your account dashboard you can view your <a className="unerline-link" onClick={() => handleAccountOrders()}>recent orders</a>, manage your <a className="unerline-link" onClick={() => handleAccountEditAddress()}>shipping and billing addresses</a>, and <a className="unerline-link" onClick={() => handleAccountEdit()}>edit your password and account details.</a></p> */}
                   </div>
 
-                  <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <div className="d-flex align-items-center gap-2 flex-wrap">
                     <a className='ct_sell_btn ct_border_zero' onClick={() => handleSellLend()} >Your Items for Sale/Lend </a>
                     <a className='ct_sell_btn ct_border_zero' onClick={() => handleAccountOrders()}>Current Orders </a>
                     <a className='ct_sell_btn ct_border_zero' onClick={() => handlePastOrder()} >Your Past Orders</a>
@@ -255,7 +257,7 @@ function Account_dashboard() {
           </main>
 
           <div className="mb-5 pb-xl-5"></div>
-          <Footer /></> : <div class="custom-loader"></div>
+          <Footer /></> : <div className="custom-loader"></div>
       }
     </>
   )

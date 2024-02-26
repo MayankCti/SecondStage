@@ -205,39 +205,38 @@ function Account_edit_address() {
             <div className="col-lg-9">
               {
                 isLoader == true ?
-                  <div class="custom-loader"></div>
+                  <div className="custom-loader"></div>
                   :
                   address?.length != 0 ?
                     <div className="page-content my-account__address">
                       <p className="notice">The following addresses will be used on the checkout page by default.</p>
                       <div className="my-account__address-list">
-                        {/* <div className="my-account__address-item">
-                <div className="my-account__address-item__title">
-                  <h5>Billing Address</h5>
-               
-                </div>
-                <div className="my-account__address-item__detail">
-                  <p>Cash on delivery</p>
-                
-                </div>
-              </div> */}
+                    
                         <div className="my-account__address-item">
                           <div className="my-account__address-item__title">
                             <h5>Shipping Address</h5>
 
                           </div>
+                          <div className=' row'>
                           {
+                            
                             address?.map((item) => (
-                              <div className="my-account__address-item__detail">
-                                <p>{item?.first_name} {item?.last_name},</p>
-                                <p>{item?.street_address},</p>
-                                <p>{item?.town_city},{item?.country_region}.</p>
-                                <br />
-                                <p>{item?.mail}</p>
-                                <p>{item?.phone}</p>
+                              <>
+                              <div className="col-md-6 my-account__address-item__detail mb-4">
+                               
+                                  <p>{item?.first_name} {item?.last_name},</p>
+                                  <p>{item?.street_address},</p>
+                                  <p>{item?.town_city},{item?.country_region}.</p>
+                                 
+                                  <p>{item?.mail}</p>
+                                  <p>{item?.phone}</p>
+                              
                               </div>
+                               
+                                </>
                             ))
                           }
+                          </div>
                         </div>
                       </div>
                     </div> : <h3>No SHIPPING ADDRESS !!!</h3>

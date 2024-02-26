@@ -71,7 +71,7 @@ function Product1_simple(props) {
     const userID = localStorage.getItem("user_id")
     const token = JSON.parse(localStorage.getItem("token"))
     const data = {
-      user_id: token && userID ? userID : parseInt(randomeUserId)
+      userId: token && userID ? userID : parseInt(randomeUserId)
     }
     setIsLoader(true);
     axios({
@@ -153,9 +153,11 @@ function Product1_simple(props) {
     setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
+    const token = JSON.parse(localStorage.getItem("token"))
+
     const data = {
       product_id: productId,
-      userId: accessToken && userID ? userID : parseInt(randomeUserId),
+      userId: token && userID ? userID : parseInt(randomeUserId),
     };
     axios({
       method: "post",
@@ -649,7 +651,7 @@ function Product1_simple(props) {
                       className="menu-link menu-link_us-s text-uppercase fw-medium pe-4"
                       onClick={() => backToPrevious(product?.product_category)}
                     >
-                      <i class="fa-solid fa-arrow-left"></i> Back to previous
+                      <i className="fa-solid fa-arrow-left"></i> Back to previous
                     </a>
                     <a className="menu-link menu-link_us-s text-uppercase fw-medium">
                       Home
@@ -834,7 +836,7 @@ function Product1_simple(props) {
                                   className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
                                   title="Add To Wishlist"
                                 >
-                                  <i class="fa-regular fa-heart"></i>{" "}
+                                  <i className="fa-regular fa-heart"></i>{" "}
                                 </button>
                               ) : (
                                 <button
@@ -843,7 +845,7 @@ function Product1_simple(props) {
                                   title="Add To Wishlist"
                                 >
                                   <i
-                                    class="fa-solid fa-heart"
+                                    className="fa-solid fa-heart"
                                     style={{ color: "red" }}
                                   ></i>
                                 </button>
@@ -1049,7 +1051,7 @@ function Product1_simple(props) {
                                 >
                                   <i
                                     onClick={() => addToWishlist(product?.id)}
-                                    class="fa-regular fa-heart"
+                                    className="fa-regular fa-heart"
                                   ></i>{" "}
                                 </button>
                               ) : (
@@ -1059,7 +1061,7 @@ function Product1_simple(props) {
                                 >
                                   <i
                                     onClick={() => addToWishlist(product?.id)}
-                                    class="fa-solid fa-heart"
+                                    className="fa-solid fa-heart"
                                     style={{ color: "red" }}
                                   ></i>
                                 </button>
@@ -1233,21 +1235,21 @@ function Product1_simple(props) {
             </div>
           </section>
         )}
-        <section class="products-carousel container">
-          <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">
+        <section className="products-carousel container">
+          <h2 className="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">
             Related <strong>Products</strong>
           </h2>
 
-          <div id="related_products" class="position-relative">
+          <div id="related_products" className="position-relative">
             {isLoader == true ? (
-              <div class="custom-loader"></div>
+              <div className="custom-loader"></div>
             ) : (
               allProduct?.length != 0 && (
                 <OwlCarousel className="owl-theme" margin={5} nav items={4}>
                   {allProduct?.map((item, i) => (
-                    <div class="item">
-                      <div class="ct_swiper_slide swiper-slide product-card">
-                        <div class="pc__img-wrapper">
+                    <div className="item">
+                      <div className="ct_swiper_slide swiper-slide product-card">
+                        <div className="pc__img-wrapper">
                           <a onClick={() => handleProduct1Simple(item?.id)}>
                             <img
                               loading="lazy"
@@ -1255,22 +1257,22 @@ function Product1_simple(props) {
                               width="330"
                               height="400"
                               alt="Cropped Faux leather Jacket"
-                              class="pc__img"
+                              className="pc__img"
                             />
-                            {/* <img loading="lazy" src="images/products/product_3-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img pc__img-second"> */}
+                            {/* <img loading="lazy" src="images/products/product_3-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img pc__img-second"> */}
                           </a>
-                          {/* <button onClick={() => addToCart(item?.id, "1")} type="button" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> */}
+                          {/* <button onClick={() => addToCart(item?.id, "1")} type="button" className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> */}
                         </div>
 
-                        <div class="pc__info position-relative">
-                          <p class="pc__category">{item?.product_category}</p>
-                          <h6 class="pc__title">
+                        <div className="pc__info position-relative">
+                          <p className="pc__category">{item?.product_category}</p>
+                          <h6 className="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
                               {item?.product_brand}
                             </a>
                           </h6>
-                          <div class="product-card__price d-flex">
-                            <span class="money price">
+                          <div className="product-card__price d-flex">
+                            <span className="money price">
                               ${item?.price_sale_lend_price}
                             </span>
                           </div>
@@ -1281,7 +1283,7 @@ function Product1_simple(props) {
                               className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
                               title="Add To Wishlist"
                             >
-                              <i class="fa-regular fa-heart"></i>{" "}
+                              <i className="fa-regular fa-heart"></i>{" "}
                             </button>
                           ) : (
                             <button
@@ -1290,7 +1292,7 @@ function Product1_simple(props) {
                               title="Add To Wishlist"
                             >
                               <i
-                                class="fa-solid fa-heart"
+                                className="fa-solid fa-heart"
                                 style={{ color: "red" }}
                               ></i>
                             </button>
@@ -1303,7 +1305,7 @@ function Product1_simple(props) {
               )
             )}
             <div
-              class="swiper-container js-swiper-slider"
+              className="swiper-container js-swiper-slider"
               data-settings='{
             "autoplay": false,
             "slidesPerView": 4,
@@ -1338,18 +1340,18 @@ function Product1_simple(props) {
             }
           }'
             >
-              <div class="swiper-wrapper"></div>
+              <div className="swiper-wrapper"></div>
               {/* /.swiper-wrapper */}
             </div>
 
-            {/* <div class="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
+            {/* <div className="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
           <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg>
         </div>/.products-carousel__prev */}
-            {/* <div class="products-carousel__next position-absolute top-50 d-flex align-items-center justify-content-center">
+            {/* <div className="products-carousel__next position-absolute top-50 d-flex align-items-center justify-content-center">
           <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg>
         </div>/.products-carousel__next */}
 
-            <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
+            <div className="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
             {/* /.products-pagination */}
           </div>
           {/* /.position-relative */}

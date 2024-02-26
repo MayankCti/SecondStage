@@ -50,12 +50,14 @@ function Header(props) {
   }, []);
 
   const getMyProfile = (val) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.myProfile_buyer,
       method: "get",
       headers: {
-        Authorization: `Bearer ${val}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -633,13 +635,13 @@ function Header(props) {
                       </p>
                     </div>
                     {isdropdown && (
-                      <ul class="ct_dropdown-menu">
+                      <ul className="ct_dropdown-menu">
                         <li onClick={() => navigate("/account-edit")}>
-                          <a class="dropdown-item">Profile</a>
+                          <a className="dropdown-item">Profile</a>
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             onClick={() => navigate("/lenderform")}
                           >
                             Lender issue response form
@@ -647,7 +649,7 @@ function Header(props) {
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             onClick={() => navigate("/buyerform")}
                           >
                             Buyer issue response form
@@ -655,14 +657,14 @@ function Header(props) {
                         </li>
                         <li>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             onClick={() => navigate("/renterform")}
                           >
                             Renter issue response form
                           </a>
                         </li>
                         <li onClick={handleLogout}>
-                          <a class="dropdown-item">Log Out</a>
+                          <a className="dropdown-item">Log Out</a>
                         </li>
                       </ul>
                     )}
@@ -726,7 +728,7 @@ function Header(props) {
 
         <div className="aside-content cart-drawer-items-list">
           {isLoader == true ? (
-            <div class="custom-loader"></div>
+            <div className="custom-loader"></div>
           ) : allProduct?.length != 0 ? (
             allProduct?.map((item) => (
               <>

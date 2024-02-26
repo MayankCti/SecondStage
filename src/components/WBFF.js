@@ -172,7 +172,7 @@ function WBFF() {
       <CategoryContent home="Fmg/Wbff" apiurl={configJSON.getProductDetails_by_Category_fmg_wbff} />
 
       <Footer /></>
-        :<div class="custom-loader"></div>
+        :<div className="custom-loader"></div>
             }
 
       {/* <div className={isFilter == false ? "page-overlay" : "page-overlay_visible page-overlay"}></div> */}

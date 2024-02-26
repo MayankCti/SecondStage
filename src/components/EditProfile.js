@@ -27,6 +27,7 @@ function EditProfile(props) {
     }
   }, [])
   const editProfie = () => {
+    
     setIsLoader(true)
     const data = new FormData()
     data.append("buyer_name", name)
@@ -78,7 +79,7 @@ function EditProfile(props) {
             src={show_image ? show_image : "images/buyer_profile.png"} />
           <label for="ct_change_profile">
             <div className="ct_edit_img_icon">
-              <i class="fa-solid fa-pencil"></i>
+              <i className="fa-solid fa-pencil"></i>
             </div>
             <input type='file' id='ct_change_profile' className='d-none' onChange={(e) => uploadImage(e)} />
           </label>

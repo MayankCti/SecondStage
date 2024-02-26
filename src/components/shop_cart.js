@@ -32,7 +32,7 @@ function Shop_cart() {
     const userID = localStorage.getItem("user_id")
     const token = JSON.parse(localStorage.getItem("token"))
     const data = {
-      user_id: token && userID ? userID : parseInt(randomeUserId)
+      userId: token && userID ? userID : parseInt(randomeUserId)
     }
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
@@ -83,49 +83,7 @@ function Shop_cart() {
         console.log(err);
       });
   };
-  //   const upDateCartData = (val, item) => {
-  //     const randomeUserId = Cookies.get('RandomUserId');
-  // const userID = localStorage.getItem("user_id")
-  // const token = JSON.parse(localStorage.getItem("token"))
-  //     setIsLoader(true);
-  //     let cartQty = item?.cart_quantity;
-  //     if (val == "plus") {
-  //       cartQty = cartQty + 1;
-  //     } else if (val == "minus") {
-  //       cartQty = cartQty - 1;
-  //     }
-  //     const data = {
-  //       cart_quantity: cartQty,
-  //       card_id: item?.id,
-  //       user_id: item?.buyer_id
-  //     };
-  //     if (cartQty >= 1) {
-  //       axios({
-  //         url: configJSON.baseUrl + configJSON.upDateCartData,
-  //         method: "post",
-  //         data: data,
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       })
-  //         .then((res) => {
-  //           setIsLoader(false);
-  //           if (res.data.success == true) {
-  //             MESSAGE.success(res?.data?.message);
-  //             getShopCart()
-  //           } else {
-  //             MESSAGE.error("Unable to update cart item.");
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           setIsLoader(false);
-  //           console.log(error);
-  //         });
-  //     } else {
-  //       MESSAGE.error("Minimum one  quantity is required !!!");
-  //       setIsLoader(false);
-  //     }
-  //   };
+  
   const handleShopCart = () => {
     navigate("/shop-cart");
   };
@@ -172,7 +130,7 @@ const data = {
   return (
     <>
       {isLoader == true ? (
-        <div class="custom-loader"></div>
+        <div className="custom-loader"></div>
       ) : (
         <div>
           <svg className="d-none">
@@ -470,7 +428,7 @@ const data = {
                 </a>
               </div>
               {isLoader == true ? (
-                <div class="custom-loader"></div>
+                <div className="custom-loader"></div>
               ) : shopCartData?.length != 0 ? (
                 <div className="shopping-cart">
                   <div className="cart-table__wrapper">
@@ -526,26 +484,7 @@ const data = {
                                   ${item?.cart_price}
                                 </span>
                               </td>
-                              {/* <td>
-                                <div className="qty-control position-relative">
-                                  <span className="ct_quantity_text ct_quantity_minus" onClick={() => upDateCartData('minus', item)} style={{cursor:"pointer"}}>
-                                    <i class="fa-solid fa-minus"></i>
-                                  </span>
-                                  <input disabled
-                                    type="number"
-                                    name="quantity"
-                                    value={item?.cart_quantity}
-                                    min="1"
-                                    readOnly={true}
-                                    className="qty-control__number text-center"
-                                  />
-                                  <span className="ct_quantity_text ct_quantity_plus" onClick={() => upDateCartData('plus', item)} style={{cursor:"pointer"}}>
-                                    <i class="fa-solid fa-plus"></i>
-                                  </span>
-
-
-                                </div>
-                              </td> */}
+                             
                               <td>
                                 <span className="shopping-cart__subtotal">
                                   ${item?.sub_total}

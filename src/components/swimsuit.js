@@ -168,7 +168,7 @@ function Swimsuit() {
           <CategoryContent home="Swimsuit" apiurl={configJSON.getProductDetails_by_Category_swimsuit} />
 
           <Footer /></>
-        : <div class="custom-loader"></div>
+        : <div className="custom-loader"></div>
       }
     </>
   )

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Country, State, City }  from 'country-state-city';
-import axios, { all } from 'axios'
+import { Country, State, City } from 'country-state-city';
+import axios from 'axios'
 import { message, message as MESSAGE } from "antd";
 import Header from './header'
 import Footer from './footer'
+
 export const configJSON = require("../components/config");
 function Shop_checkout() {
   const shopCartData = useLocation().state
@@ -13,7 +14,9 @@ function Shop_checkout() {
   const [lname, setLname] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [contryRegion, setContryRegion] = useState("")
-  
+  var [countryOptions, setCountryOptions] = useState(Country.getAllCountries())
+  const [countrySearch, setCountrySearch] = useState("")
+
   const [streetAddress, setStreetAddress] = useState("")
   const [townCity, setTownCity] = useState("")
   const [postZipCode, setPostZipCode] = useState("")
@@ -24,12 +27,12 @@ function Shop_checkout() {
   const [paymentMethod, setPaymentMethod] = useState("")
   const [accessToken, setAccessToken] = useState();
   const [isCountry, setIsCountry] = useState(false)
-  const [shipingtype, setShipingtype] = useState(shopCartData?.shipping );
-  const [subtotal, setSubTotal] = useState(shopCartData?.subTotal );
-  const [allTotal, setAllTotal] = useState(shopCartData?.total );
+  const [shipingtype, setShipingtype] = useState(shopCartData?.shipping);
+  const [subtotal, setSubTotal] = useState(shopCartData?.subTotal);
+  const [allTotal, setAllTotal] = useState(shopCartData?.total);
   const [vat, setVal] = useState(shopCartData?.vat)
   const navigate = useNavigate()
-  const [allProduct, setAllProduct] = useState([])
+  const [isShipping,setIsShipping]  = useState(false)
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -41,45 +44,48 @@ function Shop_checkout() {
 
   const placeOrder = () => {
     setIsLoader(true);
-    const data = {
-      first_name: fname,
-      last_name: lname,
-      company_name: companyName,
-      country_region: contryRegion,
-      street_address: streetAddress,
-      town_city: townCity,
-      postcode_zip: `${postZipCode}`,
-      province: province,
-      phone: `${phone}`,
-      mail: email,
-      order_notes: orderNotes
-    };
-
-    if (fname && lname && contryRegion && streetAddress && townCity && postZipCode && province && phone && email) {
-      axios({
-        method: "post",
-        url: configJSON.baseUrl + configJSON.add_shipping_details,
-        data: data,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-        .then((res) => {
-          setIsLoader(false);
-          if (res.data.success == true) {
-            MESSAGE.success(res?.data?.message);
-            addCheckout()
-          } else {
-            MESSAGE.error(res?.data?.message);
-          }
+    if(isShipping == false){
+      const data = {
+        first_name: fname,
+        last_name: lname,
+        company_name: companyName,
+        country_region: contryRegion,
+        street_address: streetAddress,
+        town_city: townCity,
+        postcode_zip: `${postZipCode}`,
+        province: province,
+        phone: `${phone}`,
+        mail: email,
+        order_notes: orderNotes
+      };
+      if (fname && lname && contryRegion && streetAddress && townCity && postZipCode && province && phone && email) {
+        axios({
+          method: "post",
+          url: configJSON.baseUrl + configJSON.add_shipping_details,
+          data: data,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         })
-        .catch((err) => {
-          setIsLoader(false);
-          console.log(err);
-        });
-    } else {
-      MESSAGE.error("Fill all the BILLING DETAILS!!!")
-
+          .then((res) => {
+            setIsLoader(false);
+            if (res.data.success == true) {
+              // MESSAGE.success(res?.data?.message);
+              setIsShipping(true)
+              addCheckout()
+            } else {
+              MESSAGE.error(res?.data?.message);
+            }
+          })
+          .catch((err) => {
+            setIsLoader(false);
+            console.log(err);
+          });
+      } else {
+        MESSAGE.error("Fill all the BILLING DETAILS!!!")
+      }
+    }else{
+      addCheckout()
     }
   }
   const addCheckout = () => {
@@ -113,6 +119,18 @@ function Shop_checkout() {
     } else {
       MESSAGE.error("Please select payment method")
       setIsLoader(false)
+    }
+  }
+  const handleCountrySearch = (val) => {
+    const search = val?.toLowerCase()
+    setCountrySearch(val)
+    if (val) {
+      const data = countryOptions?.filter((item) => {
+        return item?.name?.toLowerCase()?.includes(search)
+      })
+      setCountryOptions(data)
+    } else {
+      setCountryOptions(Country.getAllCountries())
     }
   }
   return (
@@ -274,7 +292,7 @@ function Shop_checkout() {
         <section className="shop-checkout container">
           <h2 className="page-title">Shipping and Checkout</h2>
           <div className="checkout-steps">
-            <a  className="checkout-steps__item active">
+            <a className="checkout-steps__item active">
               <span className="checkout-steps__item-number">01</span>
               <span className="checkout-steps__item-title">
                 <span>Shopping Bag</span>
@@ -297,88 +315,95 @@ function Shop_checkout() {
               </span>
             </a>
           </div>
-          <form name="checkout-form" action="#">
-            <div className="checkout-form">
-              <div className="billing-info__wrapper">
-                <h4>BILLING DETAILS</h4>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-floating my-3">
-                      <input onChange={(e) => setFname(e.target.value)} value={fname} type="text" className="form-control" id="checkout_first_name" placeholder="First Name" />
-                      <label htmlFor="checkout_first_name">First Name</label>
+          {
+            isLoader == false ? <form name="checkout-form" action="#">
+              <div className="checkout-form">
+                <div className="billing-info__wrapper">
+                  <h4>BILLING DETAILS</h4>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-floating my-3">
+                        <input onChange={(e) => setFname(e.target.value)} value={fname} type="text" className="form-control" id="checkout_first_name" placeholder="First Name" />
+                        <label htmlFor="checkout_first_name">First Name</label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating my-3">
-                      <input onChange={(e) => setLname(e.target.value)} value={lname} type="text" className="form-control" id="checkout_last_name" placeholder="Last Name" />
-                      <label htmlFor="checkout_last_name">Last Name</label>
+                    <div className="col-md-6">
+                      <div className="form-floating my-3">
+                        <input onChange={(e) => setLname(e.target.value)} value={lname} type="text" className="form-control" id="checkout_last_name" placeholder="Last Name" />
+                        <label htmlFor="checkout_last_name">Last Name</label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-floating my-3">
-                      <input onChange={(e) => setCompanyName(e.target.value)} value={companyName} type="text" className="form-control" id="checkout_company_name" placeholder="Company Name (optional)" />
-                      <label htmlFor="checkout_company_name">Company Name (optional)</label>
+                    <div className="col-md-12">
+                      <div className="form-floating my-3">
+                        <input onChange={(e) => setCompanyName(e.target.value)} value={companyName} type="text" className="form-control" id="checkout_company_name" placeholder="Company Name (optional)" />
+                        <label htmlFor="checkout_company_name">Company Name (optional)</label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="search-field my-3">
-                      <div className={isCountry == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
-                        <label htmlFor="search-dropdown" className="form-label">Country / Region*</label>
-                        <div className="js-hover__open" onClick={() => setIsCountry(!isCountry)}>
-                          <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down" id="search-dropdown" name="search-keyword" readonly value={contryRegion} placeholder="Choose a location..."  />
-                        </div>
-                        <div className="filters-container js-hidden-content mt-2">
-                          <div className="search-field__input-wrapper">
-                            <input type="text" className="search-field__input form-control form-control-sm bg-lighter border-lighter" placeholder="Search" />
+                    <div className="col-md-12">
+                      <div className="search-field my-3">
+                        <div className={isCountry == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
+                          <label htmlFor="search-dropdown" className="form-label">Country / Region*</label>
+                          <div className="js-hover__open" onClick={() => setIsCountry(!isCountry)}>
+                            <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down" id="search-dropdown" name="search-keyword" readonly value={contryRegion} placeholder="Choose a location..." />
                           </div>
-                          <ul className="search-suggestion list-unstyled" onClick={() => setIsCountry(!isCountry)}>
-                            <li onClick={(e) => setContryRegion("Australia")} className="search-suggestion__item js-search-select">Australia</li>
+                          <div className="filters-container js-hidden-content mt-2">
+                            <div className="search-field__input-wrapper">
+                              <input type="text" value={countrySearch} onChange={(e) => handleCountrySearch(e.target.value)} className="search-field__input form-control form-control-sm bg-lighter border-lighter" placeholder="Search" />
+                            </div>
+                            <ul className="search-suggestion list-unstyled ct_country_scroll" onClick={() => setIsCountry(!isCountry)}>
+
+                              {
+                                countryOptions?.map((item) => (
+                                  <li onClick={(e) => setContryRegion(item?.name)} className="search-suggestion__item js-search-select">{item?.name}</li>
+                                ))
+                              }
+                              {/* <li onClick={(e) => setContryRegion("Australia")} className="search-suggestion__item js-search-select">Australia</li>
                             <li onClick={(e) => setContryRegion("Canada")} className="search-suggestion__item js-search-select">Canada</li>
                             <li onClick={(e) => setContryRegion("United Kingdom")} className="search-suggestion__item js-search-select">United Kingdom</li>
                             <li onClick={(e) => setContryRegion("United States")} className="search-suggestion__item js-search-select">United States</li>
-                            <li onClick={(e) => setContryRegion("Turkey")} className="search-suggestion__item js-search-select">Turkey</li>
-                          </ul>
+                            <li onClick={(e) => setContryRegion("Turkey")} className="search-suggestion__item js-search-select">Turkey</li> */}
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-floating mt-3 mb-3">
-                      <input onChange={(e) => setStreetAddress(e.target.value)} value={streetAddress} type="text" className="form-control" id="checkout_street_address" placeholder="Street Address *" />
-                      <label htmlFor="checkout_company_name">Street Address *</label>
+                    <div className="col-md-12">
+                      <div className="form-floating mt-3 mb-3">
+                        <input onChange={(e) => setStreetAddress(e.target.value)} value={streetAddress} type="text" className="form-control" id="checkout_street_address" placeholder="Street Address *" />
+                        <label htmlFor="checkout_company_name">Street Address *</label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-floating my-3">
-                      <input onChange={(e) => setTownCity(e.target.value)} value={townCity} type="text" className="form-control" id="checkout_city" placeholder="Town / City *" />
-                      <label htmlFor="checkout_city">Town / City *</label>
+                    <div className="col-md-12">
+                      <div className="form-floating my-3">
+                        <input onChange={(e) => setTownCity(e.target.value)} value={townCity} type="text" className="form-control" id="checkout_city" placeholder="Town / City *" />
+                        <label htmlFor="checkout_city">Town / City *</label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-floating my-3">
-                      <input onChange={(e) => setPostZipCode(e.target.value)} value={postZipCode} type="number" className="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *" />
-                      <label htmlFor="checkout_zipcode">Postcode / ZIP *</label>
+                    <div className="col-md-12">
+                      <div className="form-floating my-3">
+                        <input onChange={(e) => setPostZipCode(e.target.value)} value={postZipCode} type="number" className="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *" />
+                        <label htmlFor="checkout_zipcode">Postcode / ZIP *</label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-floating my-3">
-                      <input onChange={(e) => setProvince(e.target.value)} value={province} type="text" className="form-control" id="checkout_province" placeholder="Province *" />
-                      <label htmlFor="checkout_province">Province *</label>
+                    <div className="col-md-12">
+                      <div className="form-floating my-3">
+                        <input onChange={(e) => setProvince(e.target.value)} value={province} type="text" className="form-control" id="checkout_province" placeholder="Province *" />
+                        <label htmlFor="checkout_province">Province *</label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-floating my-3">
-                      <input onChange={(e) => setPhone(e.target.value)} value={phone} type="number" className="form-control" id="checkout_phone" placeholder="Phone *" />
-                      <label htmlFor="checkout_phone">Phone *</label>
+                    <div className="col-md-12">
+                      <div className="form-floating my-3">
+                        <input onChange={(e) => setPhone(e.target.value)} value={phone} type="number" className="form-control" id="checkout_phone" placeholder="Phone *" />
+                        <label htmlFor="checkout_phone">Phone *</label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-floating my-3">
-                      <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" className="form-control" id="checkout_email" placeholder="Your Mail *" />
-                      <label htmlFor="checkout_email">Your Mail *</label>
+                    <div className="col-md-12">
+                      <div className="form-floating my-3">
+                        <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" className="form-control" id="checkout_email" placeholder="Your Mail *" />
+                        <label htmlFor="checkout_email">Your Mail *</label>
+                      </div>
                     </div>
-                  </div>
-                  {/* <div className="col-md-12">
+                    {/* <div className="col-md-12">
                     <div className="form-check mt-3">
                       <input className="form-check-input form-check-input_fill" type="checkbox" value="" id="create_account" />
                       <label className="form-check-label" htmlFor="create_account">CREATE AN ACCOUNT?</label>
@@ -388,65 +413,65 @@ function Shop_checkout() {
                       <label className="form-check-label" htmlFor="ship_different_address">SHIP TO A DIFFERENT ADDRESS?</label>
                     </div>
                   </div> */}
-                </div>
-                <div className="col-md-12">
-                  <div className="mt-3">
-                    <textarea onChange={(e) => setOrderNotes(e.target.value)} value={orderNotes} className="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="mt-3">
+                      <textarea onChange={(e) => setOrderNotes(e.target.value)} value={orderNotes} className="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="checkout__totals-wrapper">
-                <div className="sticky-content">
-                  <div className="checkout__totals">
-                    <h3>Your Order</h3>
-                    <table className="checkout-cart-items">
-                      <thead>
-                        <tr>
-                          <th>PRODUCT</th>
-                          <th align="right">SUBTOTAL</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {
-                          
-                          shopCartData?.shopCartData?.map((item) => (
+                <div className="checkout__totals-wrapper">
+                  <div className="sticky-content">
+                    <div className="checkout__totals">
+                      <h3>Your Order</h3>
+                      <table className="checkout-cart-items">
+                        <thead>
+                          <tr>
+                            <th>PRODUCT</th>
+                            <th align="right">SUBTOTAL</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
 
-                            <tr>
-                              <td>
-                                {item?.product_brand}
-                              </td>
-                              <td align="right">
-                                ${item?.sub_total}
-                              </td>
-                            </tr>
-                          ))
-                        }
+                            shopCartData?.shopCartData?.map((item) => (
 
-                      </tbody>
-                    </table>
-                    <table className="checkout-totals">
-                      <tbody>
-                        <tr>
-                          <th>SUBTOTAL</th>
-                          <td align="right">${subtotal}</td>
-                        </tr>
-                        <tr>
-                          <th>SHIPPING</th>
-                          <td align="right">{shipingtype}</td>
-                        </tr>
-                        <tr>
-                          <th>VAT</th>
-                          <td align="right">{vat} </td>
-                        </tr>
-                        <tr>
-                          <th>TOTAL</th>
-                          <td align="right">${allTotal}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="checkout__payment-methods">
-                    {/* <div className="form-check">
+                              <tr>
+                                <td>
+                                  {item?.product_brand}
+                                </td>
+                                <td align="right">
+                                  ${item?.sub_total}
+                                </td>
+                              </tr>
+                            ))
+                          }
+
+                        </tbody>
+                      </table>
+                      <table className="checkout-totals">
+                        <tbody>
+                          <tr>
+                            <th>SUBTOTAL</th>
+                            <td align="right">${subtotal}</td>
+                          </tr>
+                          <tr>
+                            <th>SHIPPING</th>
+                            <td align="right">{shipingtype}</td>
+                          </tr>
+                          <tr>
+                            <th>VAT</th>
+                            <td align="right">{vat} </td>
+                          </tr>
+                          <tr>
+                            <th>TOTAL</th>
+                            <td align="right">${allTotal}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="checkout__payment-methods">
+                      {/* <div className="form-check">
                   <input className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_1" checked/>
                   <label className="form-check-label" htmlFor="checkout_payment_method_1">
                     Direct bank transfer
@@ -464,62 +489,66 @@ function Shop_checkout() {
                     </p>
                   </label>
                 </div>*/}
-                    <div className="form-check">
-                      <input className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_3" value="Cash on delivery" onChange={(e) => setPaymentMethod(e.target.value)} />
-                      <label className="form-check-label" htmlFor="checkout_payment_method_3">
-                        Cash on delivery
-                        <p className="option-detail">
-                          Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
-                        </p>
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input value="Credit Card" className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_4" onChange={(e) => setPaymentMethod(e.target.value)} />
-                      <label className="form-check-label" htmlFor="checkout_payment_method_4">
-                        Credit Card
-                        <p className="option-detail">
-                          Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
-                        </p>
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input value="Debit Card" className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_4" onChange={(e) => setPaymentMethod(e.target.value)} />
-                      <label className="form-check-label" htmlFor="checkout_payment_method_4">
-                        Debit Card
-                        <p className="option-detail">
-                          Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
-                        </p>
-                      </label>
-                    </div>
-                    {/* <div className="policy-text">
-                  Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a onClick={()=>handleTerms()} target="_blank">privacy policy</a>.
-                </div> */}
-                    <div className="d-flex align-items-center mb-3 pb-2">
-                      <div className="form-check ct_check_input mb-0">
-                        <input
-                          name="remember"
-                          className="form-check-input form-check-input_fill "
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                        />
-                        <label
-                          className="form-check-label text-secondary"
-                          htmlFor="flexCheckDefault"
-                        >
-                          Agreement to{" "}
-                          <a onClick={() => navigate("/terms")}>
-                            Terms and Conditions
-                          </a>{" "}
+                      <div className="form-check">
+                        <input className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_3" value="Cash on delivery" onChange={(e) => setPaymentMethod(e.target.value)} />
+                        <label className="form-check-label" htmlFor="checkout_payment_method_3">
+                          Cash on delivery
+                          <p className="option-detail">
+                            Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
+                          </p>
                         </label>
                       </div>
+                      <div className="form-check">
+                        <input value="Credit Card" className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_4" onChange={(e) => setPaymentMethod(e.target.value)} />
+                        <label className="form-check-label" htmlFor="checkout_payment_method_4">
+                          Credit Card
+                          <p className="option-detail">
+                            Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
+                          </p>
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input value="Debit Card" className="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method" id="checkout_payment_method_4" onChange={(e) => setPaymentMethod(e.target.value)} />
+                        <label className="form-check-label" htmlFor="checkout_payment_method_4">
+                          Debit Card
+                          <p className="option-detail">
+                            Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet magna posuere eget.
+                          </p>
+                        </label>
+                      </div>
+                      {/* <div className="policy-text">
+                  Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a onClick={()=>handleTerms()} target="_blank">privacy policy</a>.
+                </div> */}
+                      <div className="d-flex align-items-center mb-3 pb-2">
+                        <div className="form-check ct_check_input mb-0">
+                          <input
+                            name="remember"
+                            className="form-check-input form-check-input_fill "
+                            type="checkbox"
+                            value=""
+                            id="flexCheckDefault"
+                          />
+                          <label
+                            className="form-check-label text-secondary"
+                            htmlFor="flexCheckDefault"
+                          >
+                            Agreement to{" "}
+                            <a onClick={() => navigate("/terms")}>
+                              Terms and Conditions
+                            </a>{" "}
+                          </label>
+                        </div>
+                      </div>
                     </div>
+                    <button className="btn btn-primary btn-checkout" type='button' onClick={() => placeOrder()}>PLACE ORDER</button>
                   </div>
-                  <button className="btn btn-primary btn-checkout" type='button' onClick={() => placeOrder()}>PLACE ORDER</button>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+              :
+              <div className="custom-loader"></div>
+          }
+
         </section>
       </main>
 

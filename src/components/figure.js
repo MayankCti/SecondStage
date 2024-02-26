@@ -166,7 +166,7 @@ function Figure() {
       <CategoryContent home="Figure" apiurl={configJSON.getProductDetails_by_Category_figure} />
 
       <Footer /></>
-        :<div class="custom-loader"></div>
+        :<div className="custom-loader"></div>
             }
 
 

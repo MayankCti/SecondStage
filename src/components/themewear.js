@@ -170,7 +170,7 @@ function Themewear() {
       <CategoryContent home="Themewear" apiurl={configJSON.getProductDetails_by_Category_themewear} />
 
       <Footer /></>
-        :<div class="custom-loader"></div>
+        :<div className="custom-loader"></div>
             }
     </>
   )

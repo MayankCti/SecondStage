@@ -17,19 +17,17 @@ function Account_wishlist() {
   const navigate = useNavigate()
   const [wishlistItems, setWishListItems] = useState([])
   const [isLoader, setIsLoader] = useState(false);
-
-  const [accessToken, setAccessToken] = useState();
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
-    setAccessToken(token)
     getWishListData();
   }, []);
   const getWishListData = () => {
     setIsLoader(true);
+    const token = JSON.parse(localStorage.getItem("token"));
     const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
     const data = {
-      userId: accessToken && userID ? userID : parseInt(randomeUserId)
+      userId: token && userID ? userID : parseInt(randomeUserId)
   }
   axios({
     url: configJSON.baseUrl + configJSON.get_wishlist,
@@ -53,11 +51,13 @@ function Account_wishlist() {
 
 const addToWishlist = (productId) => {
   setIsLoader(true)
+  const token = JSON.parse(localStorage.getItem("token"))
   const randomeUserId = Cookies.get('RandomUserId');
   const userID = localStorage.getItem("user_id")
+
   const data = {
     product_id: productId,
-    userId: accessToken && userID ? userID : parseInt(randomeUserId),
+    userId: token && userID ? userID : parseInt(randomeUserId),
   };
   axios({
     method: "post",
@@ -245,7 +245,7 @@ return (
               <div className="products-grid row row-cols-2 row-cols-lg-3" id="products-grid" >
                 {
                   isLoader == true ?
-                    <div class="custom-loader"></div>
+                    <div className="custom-loader"></div>
                     :
                     wishlistItems.length != 0 ?
                       wishlistItems.map((item) => (
@@ -323,7 +323,7 @@ return (
                                     title="Add To Wishlist"
                                   >
                                     <i
-                                      class="fa-regular fa-heart"
+                                      className="fa-regular fa-heart"
 
                                     ></i>{" "}
                                   </button>
@@ -334,7 +334,7 @@ return (
                                     title="Add To Wishlist"
                                   >
                                     <i
-                                      class="fa-solid fa-heart"
+                                      className="fa-solid fa-heart"
                                       style={{ color: "red" }}
 
                                     ></i>

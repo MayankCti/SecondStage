@@ -7,9 +7,7 @@ import { Schema_login_form } from "./Schema";
 import React, { useEffect, useState } from 'react'
 import Header from './header'
 import Footer from './footer'
-import UserLogin from './userLogin'
-import HeaderVisitor from './HeaderVisitor'
-import { Select } from 'antd';
+
 const countryCodes = require('country-codes-list')
 
 export const configJSON = require("../components/config");
@@ -274,7 +272,7 @@ console.log(val,"val")
                 <div className="register-form">
                   {
                     isLoader == true ?
-                      <div class="custom-loader"></div> :
+                      <div className="custom-loader"></div> :
 
 
                       <div className="login-form">
@@ -423,53 +421,53 @@ console.log(val,"val")
                             </label>
                             <span style={{ color: "red" }}>{errors.license_state && touched.license_state && errors.license_state}</span>
                           </div> */}
-                                    <div class="search-field mb-3">
+                                    <div className="search-field mb-3">
                                       <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                                        <label for="search-dropdown7" class="form-label">Licence State *</label>
-                                        <div class="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
+                                        <label for="search-dropdown7" className="form-label">Licence State *</label>
+                                        <div className="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
                                           <input
                                             type="text"
-                                            class="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                            className="form-control form-control-lg search-field__actor search-field__arrow-down"
                                             id="search-dropdown7"
                                             name="search-keyword"
                                             value={licenseStateOption}
 
                                           />
                                         </div>
-                                        <div class="filters-container js-hidden-content mt-2">
-                                          <ul class="search-suggestion list-unstyled" onClick={() => setIsLicenseState(!islicenseState)}>
-                                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("ACT")}>
-                                              <a class=" mb-3 me-3 js-filter">
+                                        <div className="filters-container js-hidden-content mt-2">
+                                          <ul className="search-suggestion list-unstyled" onClick={() => setIsLicenseState(!islicenseState)}>
+                                            <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("ACT")}>
+                                              <a className=" mb-3 me-3 js-filter">
                                                 ACT
                                               </a>
                                             </li>
-                                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("NSW")}>
-                                              <a class=" mb-3 me-3 js-filter">
+                                            <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("NSW")}>
+                                              <a className=" mb-3 me-3 js-filter">
                                                 NSW
                                               </a>
                                             </li>
-                                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("SA")}>
-                                              <a class=" mb-3 me-3 js-filter">
+                                            <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("SA")}>
+                                              <a className=" mb-3 me-3 js-filter">
                                                 SA
                                               </a>
                                             </li>
-                                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("Vic")}>
-                                              <a class=" mb-3 me-3 js-filter">
+                                            <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("Vic")}>
+                                              <a className=" mb-3 me-3 js-filter">
                                                 Vic
                                               </a>
                                             </li>
-                                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("Qld")}>
-                                              <a class=" mb-3 me-3 js-filter">
+                                            <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("Qld")}>
+                                              <a className=" mb-3 me-3 js-filter">
                                                 Qld
                                               </a>
                                             </li>
-                                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("WA")}>
-                                              <a class=" mb-3 me-3 js-filter">
+                                            <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("WA")}>
+                                              <a className=" mb-3 me-3 js-filter">
                                                 WA
                                               </a>
                                             </li>
-                                            <li class="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("WA")}>
-                                              <a class=" mb-3 me-3 js-filter">
+                                            <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("WA")}>
+                                              <a className=" mb-3 me-3 js-filter">
                                                 NT
                                               </a>
                                             </li>
@@ -480,11 +478,11 @@ console.log(val,"val")
 
                                   </div>
                                   <div className="col-md-12">
-                                    <div class="form-floating mb-3 position-relative">
-                                      <input name="password" onBlur={handleBlur} onChange={handleChange} type={type} value={values.password} class="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Password *" required="" />
+                                    <div className="form-floating mb-3 position-relative">
+                                      <input name="password" onBlur={handleBlur} onChange={handleChange} type={type} value={values.password} className="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Password *" required="" />
                                       {
-                                        eye != true ? <i class="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
-                                          : <i class="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
+                                        eye != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
+                                          : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
                                       }
                                       <label for="customerPasswodRegisterInput">Password *</label>
                                       <span style={{ color: "red" }}>{errors.password && touched.password && errors.password}</span>
@@ -492,11 +490,11 @@ console.log(val,"val")
                                     </div>
                                   </div>
                                   <div className="col-md-12">
-                                    <div class="form-floating mb-3 position-relative">
-                                      <input name="Confirm_Password" onBlur={handleBlur} onChange={handleChange} type={type1} value={values.Confirm_Password} class="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Confirm Password *" required="" />
+                                    <div className="form-floating mb-3 position-relative">
+                                      <input name="Confirm_Password" onBlur={handleBlur} onChange={handleChange} type={type1} value={values.Confirm_Password} className="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Confirm Password *" required="" />
                                       {
-                                        eye1 != true ? <i class="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye1("text")}></i>
-                                          : <i class="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye1("password")}></i>
+                                        eye1 != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye1("text")}></i>
+                                          : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye1("password")}></i>
                                       }
                                       <label for="customerPasswodRegisterInput">Confirm Password *</label>
                                       <span style={{ color: "red" }}>{errors.Confirm_Password && touched.Confirm_Password && errors.Confirm_Password}</span>
@@ -545,7 +543,7 @@ console.log(val,"val")
 
 
                 <div className='text-center mt-0'>
-                  <p class="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
+                  <p className="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
                 </div>
               </div>
             </div>

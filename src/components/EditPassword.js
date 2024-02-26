@@ -87,15 +87,15 @@ function EditPassword(props) {
                     </div>
                 </div>
                 {
-                    isLoader == true ? <div class="custom-loader"></div>
+                    isLoader == true ? <div className="custom-loader"></div>
                         :
                         <>
                             <div className="col-md-12">
                                 <div className="form-floating my-3 position-relative">
                                     <input onChange={(e) => setCpass(e.target.value)} value={cpass} type={type} className="form-control" id="account_current_password" placeholder="Current password" required />
                                     {
-                                        eye != true ? <i class="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
-                                            : <i class="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
+                                        eye != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
+                                            : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
                                     }
                                     <label htmlFor="account_current_password">Current password</label>
                                 </div>
@@ -104,8 +104,8 @@ function EditPassword(props) {
                                 <div className="form-floating my-3 position-relative">
                                     <input onChange={(e) => setNewPass(e.target.value)} value={newPass} type={type1} className="form-control" id="account_new_password" placeholder="New password" required />
                                     {
-                                        eye1 != true ? <i class="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye1("text")}></i>
-                                            : <i class="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye1("password")}></i>
+                                        eye1 != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye1("text")}></i>
+                                            : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye1("password")}></i>
                                     }
                                     <label htmlFor="account_new_password">New password</label>
                                 </div>
@@ -114,8 +114,8 @@ function EditPassword(props) {
                                 <div className="form-floating my-3 position-relative">
                                     <input onChange={(e) => setConfirmNewPass(e.target.value)} value={confirmNewPass} type={type2} className="form-control" cfpwd data-cf-pwd="#account_new_password" id="account_confirm_password" placeholder="Confirm new password" required />
                                     {
-                                        eye2 != true ? <i class="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye2("text")}></i>
-                                            : <i class="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye2("password")}></i>
+                                        eye2 != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye2("text")}></i>
+                                            : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye2("password")}></i>
                                     }
                                     <label htmlFor="account_confirm_password">Confirm new password</label>
                                     <div className="invalid-feedback">Passwords did not match!</div>

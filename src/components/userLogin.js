@@ -6,8 +6,6 @@ import { Schema_login_form1 } from "./Schema";
 import React, { useEffect, useState } from 'react'
 import Header from './header'
 import Footer from './footer'
-import UserRegister from './userRegister'
-import HeaderVisitor from './HeaderVisitor'
 export const configJSON = require("../components/config");
 function UserLogin() {
     const [isHome, setIsHome] = useState(false)
@@ -214,7 +212,7 @@ function UserLogin() {
                         <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor" />
                     </symbol>
                 </svg>
-<Header /> 
+                <Header />
                 <main>
 
                     <div className="mb-4 pb-4"></div>
@@ -227,7 +225,7 @@ function UserLogin() {
                             <li className="nav-item" role="presentation">
                                 <span className="nav-link px-0"> /</span>
                             </li>
-                            <li className="nav-item" role="presentation" onClick={()=>navigate("/register")}>
+                            <li className="nav-item" role="presentation" onClick={() => navigate("/register")}>
                                 <a className="nav-link nav-link_underscore ps-2"> Register</a>
                             </li>
                         </ul>
@@ -237,7 +235,7 @@ function UserLogin() {
 
                                     {
                                         isLoader == true ?
-                                            <div class="custom-loader"></div> : <Formik
+                                            <div className="custom-loader"></div> : <Formik
                                                 initialValues={{ email: '', password: '' }}
                                                 validationSchema={Schema_login_form1}
                                                 onSubmit={(values, actions) => {
@@ -265,8 +263,8 @@ function UserLogin() {
                                                             <div className="form-floating mb-3 position-relative">
                                                                 <input name="password" onBlur={handleBlur} onChange={handleChange} type={type} value={values.password} className="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required />
                                                                 {
-                                                                    eye != true ? <i class="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
-                                                                        : <i class="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
+                                                                    eye != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
+                                                                        : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
                                                                 }
                                                                 <label htmlFor="customerPasswodInput">Password *</label>
                                                                 <span style={{ color: "red" }}>{errors.password && touched.password && errors.password}</span>
@@ -287,13 +285,13 @@ function UserLogin() {
 
                                 </div>
                                 <div className='text-center mt-4'>
-                                    <p class="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
+                                    <p className="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
                                 </div>
                             </div>
                             {/* <div className="tab-pane fade" id="tab-item-register" role="tabpanel" aria-labelledby="register-tab">
                                     <UserRegister />
                                     <div className='text-center mt-0'>
-                                        <p class="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
+                                        <p className="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
                                     </div>
                                 </div> */}
                         </div>

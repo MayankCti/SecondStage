@@ -57,7 +57,7 @@
 //                     {
 
 //                         isLoader == true ?
-//                             <div class="custom-loader"></div> :
+//                             <div className="custom-loader"></div> :
 //                             allProduct?.length != 0 ?
 //                                 allProduct?.map((item) => (
 //                                     <>

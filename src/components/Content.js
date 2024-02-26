@@ -13,7 +13,6 @@ function Content(props) {
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
   const [accessToken, setAccessToken] = useState();
-  const [sort, setSort] = useState(4)
   const [show, setShow] = useState("buy")
   const navigate = useNavigate();
   const handleProduct1Simple = (productId) => {
@@ -29,9 +28,9 @@ function Content(props) {
   }, []);
 
   const getAllProduct = () => {
+    setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
     const token = JSON.parse(localStorage.getItem("token"))
-    setIsLoader(true);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const data = {
       user_id: token && user_id ? user_id : parseInt(randomeUserId),
@@ -56,41 +55,15 @@ function Content(props) {
       });
   };
 
-  // const addToCart = (product_id) => {
-  //   setIsLoader(true);
-  //   const data = {
-  //     product_id: product_id,
-  //   };
-  //   axios({
-  //     method: "post",
-  //     url: configJSON.baseUrl + configJSON.addToCart,
-  //     data: data,
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       setIsLoader(false);
-  //       if (res.data.success == true) {
-  //         MESSAGE.success("Item added to cart.");
-  //         props?.onClick();
-  //       } else {
-  //         MESSAGE.error(res?.data?.message);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       setIsLoader(false);
-  //       console.log(err);
-  //     });
-  // };
 
   const addToWishlist = (productId) => {
     setIsLoader(true)
     const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
+    const token = JSON.parse(localStorage.getItem("token"))
     const data = {
       product_id: productId,
-      userId: accessToken && userID ? userID : parseInt(randomeUserId),
+      userId: token && userID ? userID : parseInt(randomeUserId),
     };
 
     axios({
@@ -114,7 +87,7 @@ function Content(props) {
     <div>
       <div className="tab-content pt-2" id="collections-tab-content">
         {isLoader == true ? (
-          <div class="custom-loader"></div>
+          <div className="custom-loader"></div>
         ) : allProduct?.length != 0 ? (
 
           <>
@@ -224,7 +197,7 @@ function Content(props) {
                                 title="Add To Wishlist"
                               >
                                 <i
-                                  class="fa-regular fa-heart"
+                                  className="fa-regular fa-heart"
 
                                 ></i>{" "}
                               </button>
@@ -235,7 +208,7 @@ function Content(props) {
                                 title="Add To Wishlist"
                               >
                                 <i
-                                  class="fa-solid fa-heart"
+                                  className="fa-solid fa-heart"
                                   style={{ color: "red" }}
 
                                 ></i>

@@ -171,7 +171,7 @@ const token = JSON.parse(localStorage.getItem("token"))
   return (
     <>
       {
-        isLoader == true ? <div class="custom-loader"></div> :
+        isLoader == true ? <div className="custom-loader"></div> :
           filterContent?.length != 0 ?
             <>
               <div className="pt-4 pt-lg-0"></div>

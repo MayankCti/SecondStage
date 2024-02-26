@@ -350,10 +350,10 @@ function SellLend() {
           <div className="row">
             <List7 data="sell-item" />
             {
-              isLoader == true ? <div class="custom-loader"></div> :
+              isLoader == true ? <div className="custom-loader"></div> :
                 data?.length != 0 ?
                   <div className="col-lg-9">
-                    {/* <div class="d-flex align-items-center gap-2 flex-wrap">
+                    {/* <div className="d-flex align-items-center gap-2 flex-wrap">
              
               <select className='ct_sell_btn ct_border_zero'>
                 <option>Issue Request</option>
@@ -409,27 +409,27 @@ function SellLend() {
                                     </div>
                                   </div>
 
-                                  <div class="dropdown ct_edit_listing">
+                                  <div className="dropdown ct_edit_listing">
                                     <button
-                                      class="btn"
+                                      className="btn"
                                       type="button"
                                       id="dropdownMenuButton1"
                                       data-bs-toggle="dropdown"
                                       aria-expanded="false"
                                     >
-                                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                                      <i className="fa-solid fa-ellipsis-vertical"></i>
                                     </button>
                                     <ul
-                                      class="dropdown-menu"
+                                      className="dropdown-menu"
                                       aria-labelledby="dropdownMenuButton1"
                                     >
                                       <li>
-                                        <a class="dropdown-item" onClick={() => navigate("/edit-product")}>
+                                        <a className="dropdown-item" onClick={() => navigate("/edit-product")}>
                                           Edit Product
                                         </a>
                                       </li>
                                       <li>
-                                        <a class="dropdown-item" onClick={() => navigate("/lenderform")}>
+                                        <a className="dropdown-item" onClick={() => navigate("/lenderform")}>
                                           Issue Request
                                         </a>
                                       </li>
@@ -480,7 +480,7 @@ function SellLend() {
                                       className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
                                       title="Add To Wishlist"
                                     >
-                                      <i class="fa-regular fa-heart"></i>{" "}
+                                      <i className="fa-regular fa-heart"></i>{" "}
                                     </button>
                                   ) : (
                                     <button
@@ -489,7 +489,7 @@ function SellLend() {
                                       title="Add To Wishlist"
                                     >
                                       <i
-                                        class="fa-solid fa-heart"
+                                        className="fa-solid fa-heart"
                                         style={{ color: "red" }}
                                       ></i>
                                       {/* <FaRegHeart onClick={()=>addToWishlist(item?.id)}/> */}

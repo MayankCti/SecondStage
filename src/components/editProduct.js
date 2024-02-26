@@ -532,7 +532,7 @@ function EditProduct() {
           <div className="register-form">
             {
               isLoader == true ?
-                <div class="custom-loader"></div> :
+                <div className="custom-loader"></div> :
                 <form
                   name="register-form"
                   className="needs-validation"

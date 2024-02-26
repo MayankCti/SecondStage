@@ -219,7 +219,7 @@ function PastOrder() {
               <div className="page-content my-account__orders-list">
                 {
                   isLoader == true ?
-                    <div class="custom-loader"></div> :
+                    <div className="custom-loader"></div> :
                     data?.length != 0 ?
                       <div className="shopping-cart">
                         <div className="cart-table__wrapper pt-0">

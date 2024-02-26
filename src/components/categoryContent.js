@@ -19,9 +19,6 @@ function CategoryContent(props) {
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
   const [accessToken, setAccessToken] = useState();
-  const [cartData, setcartData] = useState([]);
-  const [subtotal, setSubTotal] = useState(0);
-  const [sort, setSort] = useState(4);
   const [showProduct, setShowProduct] = useState("all");
 
   useEffect(() => {
@@ -68,40 +65,16 @@ function CategoryContent(props) {
       ? allProduct
       : allProduct.filter((item) => item.product_buy_rent === showProduct);
 
-  const addToCart = (product_id) => {
-    setIsLoader(true);
-    const data = {
-      product_id: product_id,
-    };
-    axios({
-      method: "post",
-      url: configJSON.baseUrl + configJSON.addToCart,
-      data: data,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((res) => {
-        setIsLoader(false);
-        if (res.data.success == true) {
-          MESSAGE.success("Item added to cart.");
-          props?.onClick();
-        } else {
-          MESSAGE.error(res?.data?.message);
-        }
-      })
-      .catch((err) => {
-        setIsLoader(false);
-        console.log(err);
-      });
-  };
+
   const addToWishlist = (productId) => {
     setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
+    const token = JSON.parse(localStorage.getItem("token"))
+
     const data = {
       product_id: productId,
-      userId: accessToken && userID ? userID : parseInt(randomeUserId),
+      userId: token && userID ? userID : parseInt(randomeUserId),
     };
 
     axios({
@@ -304,7 +277,7 @@ function CategoryContent(props) {
 
               <div className="tab-content pt-2" id="collections-tab-content">
                 {isLoader == true ? (
-                  <div class="custom-loader"></div>
+                  <div className="custom-loader"></div>
                 ) : filteredData?.length != 0 ? (
                   <div
                     className="tab-pane fade show active"
@@ -351,10 +324,7 @@ function CategoryContent(props) {
                                   ))}
                                 </Swiper>
                               </div>
-                              {/* <div className="ct_buy_rent_tag">
-                                                                            <h4 className="mb-0">{item.product_buy_rent.charAt(0).toUpperCase() + item.product_buy_rent.slice(1)}</h4>
-                                                                        </div> */}
-                              {/* <button onClick={() => addToCart(item?.id)} className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> */}
+                             
                             </div>
                             <div className="pc__info position-relative">
                               <p className="pc__category">
@@ -397,7 +367,7 @@ function CategoryContent(props) {
                                   className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
                                   title="Add To Wishlist"
                                 >
-                                  <i class="fa-regular fa-heart"></i>{" "}
+                                  <i className="fa-regular fa-heart"></i>{" "}
                                 </button>
                               ) : (
                                 <button
@@ -406,7 +376,7 @@ function CategoryContent(props) {
                                   title="Add To Wishlist"
                                 >
                                   <i
-                                    class="fa-solid fa-heart"
+                                    className="fa-solid fa-heart"
                                     style={{ color: "red" }}
                                   ></i>
                                   {/* <FaRegHeart onClick={()=>addToWishlist(item?.id)}/> */}

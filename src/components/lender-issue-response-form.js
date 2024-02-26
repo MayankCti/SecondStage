@@ -155,9 +155,9 @@ const LenderForm = () => {
   </svg>
        <Header/>
       <main>
-        <div class="mb-4 pb-lg-4 mt-5 pt-5 "></div>
+        <div className="mb-4 pb-lg-4 mt-5 pt-5 "></div>
         <div className="container">
-          <h2 class="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">
+          <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">
             <strong>Lender Issue Response Form</strong>
           </h2>
          <form>
@@ -278,10 +278,10 @@ const LenderForm = () => {
               </div>
             </div>
           </div>
-          <div class="my-4 text-center"><button type="submit" class="btn btn-primary">Submit</button></div>
+          <div className="my-4 text-center"><button type="submit" className="btn btn-primary">Submit</button></div>
          </form>
         </div>
-        <div class="mb-0 pb-lg-4 mt-5 pt-5 "></div>
+        <div className="mb-0 pb-lg-4 mt-5 pt-5 "></div>
       </main>
       <Footer />
     </div>

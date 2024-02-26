@@ -14,8 +14,6 @@ function Home() {
   const navigate = useNavigate()
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
-  const [isHome, setIsHome] = useState(false)
-  const [sort,setSort] = useState(4)
   const [show, setShow] = useState("buy")
   
   useEffect(() => {
@@ -212,7 +210,7 @@ function Home() {
             <div className="ct_quick_link_item mb-4">
               <a className="position-relative d-block effect ">
                 <img loading="lazy" className="instagram__img" src="/images/products/product_3.jpg" width="150" height="150" alt="Insta image 1" />
-                <div class="ct_buy_rent_tag"><h4 class="mb-0">Bikini</h4></div>
+                <div className="ct_buy_rent_tag"><h4 className="mb-0">Bikini</h4></div>
                 <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
 
@@ -226,13 +224,13 @@ function Home() {
             <div className="ct_quick_link_item mb-4">
               <a className="position-relative d-block effect ">
                 <img loading="lazy" className="instagram__img" src="/images/products/product_1.jpg" width="180" height="180" alt="Insta image 2" />
-                <div class="ct_buy_rent_tag"><h4 class="mb-0">Figure</h4></div>
+                <div className="ct_buy_rent_tag"><h4 className="mb-0">Figure</h4></div>
 
                 <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
 
-                    {/* <div class="search-field__input-wrapper mb-3">
-              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+                    {/* <div className="search-field__input-wrapper mb-3">
+              <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                     <a className='text-white ct_fs_24 ct_Blacksword_font' >Figure</a>
                   </div>
                 </div>
@@ -242,14 +240,14 @@ function Home() {
             <div className="ct_quick_link_item mb-4">
               <a className="position-relative d-block effect ">
                 <img loading="lazy" className="instagram__img" src="/images/products/product_2.jpg" width="180" height="180" alt="Insta image 3" />
-                <div class="ct_buy_rent_tag"><h4 class="mb-0">Swimsuit</h4></div>
+                <div className="ct_buy_rent_tag"><h4 className="mb-0">Swimsuit</h4></div>
 
                 <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
 
                     <a className='text-white ct_fs_24 ct_Blacksword_font'>Swimsuit</a>
-                    {/* <div class="search-field__input-wrapper mb-3">
-              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+                    {/* <div className="search-field__input-wrapper mb-3">
+              <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                   </div>
                 </div>
               </a>
@@ -258,13 +256,13 @@ function Home() {
             <div className="ct_quick_link_item mb-4">
               <a className="position-relative d-block effect ">
                 <img loading="lazy" className="instagram__img" src="/images/products/product_3.jpg" width="180" height="180" alt="Insta image 4" />
-                <div class="ct_buy_rent_tag"><h4 class="mb-0">Fmg/Wbff</h4></div>
+                <div className="ct_buy_rent_tag"><h4 className="mb-0">Fmg/Wbff</h4></div>
                 <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
 
                     <a className='text-white ct_fs_24 ct_Blacksword_font' >Fmg/Wbff</a>
-                    {/* <div class="search-field__input-wrapper mb-3">
-              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+                    {/* <div className="search-field__input-wrapper mb-3">
+              <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                   </div>
                 </div>
               </a>
@@ -273,13 +271,13 @@ function Home() {
             <div className="ct_quick_link_item mb-4">
               <a className="position-relative d-block effect ">
                 <img loading="lazy" className="instagram__img" src="/images/products/product_2.jpg" width="180" height="180" alt="Insta image 5" />
-                <div class="ct_buy_rent_tag"><h4 class="mb-0">Themewear</h4></div>
+                <div className="ct_buy_rent_tag"><h4 className="mb-0">Themewear</h4></div>
                 <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
 
                     <a className='text-white ct_fs_24 ct_Blacksword_font'>Themewear</a>
-                    {/* <div class="search-field__input-wrapper mb-3">
-              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+                    {/* <div className="search-field__input-wrapper mb-3">
+              <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                   </div>
                 </div>
               </a>
@@ -288,12 +286,12 @@ function Home() {
             <div className="ct_quick_link_item mb-4">
               <a className="position-relative d-block effect">
                 <img loading="lazy" className="instagram__img" src="/images/products/product_1.jpg" width="180" height="180" alt="Insta image 6" />
-                <div class="ct_buy_rent_tag"><h4 class="mb-0">Accessories</h4></div>
+                <div className="ct_buy_rent_tag"><h4 className="mb-0">Accessories</h4></div>
                 <div className="ct_serach_products2">
                   <div className="ct_overflow_center">
 
-                    {/* <div class="search-field__input-wrapper mb-3">
-              <input type="text" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
+                    {/* <div className="search-field__input-wrapper mb-3">
+              <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                     <a className='text-white ct_fs_24 ct_Blacksword_font' >Accessories</a>
                   </div>
                 </div>
@@ -308,7 +306,7 @@ function Home() {
           <div>
             <div className="tab-content pt-2" id="collections-tab-content">
               {isLoader == true ? (
-                <div class="custom-loader"></div>
+                <div className="custom-loader"></div>
               ) : allProduct?.length != 0 ? (
 
                 <>
@@ -400,7 +398,7 @@ function Home() {
                                       title="Add To Wishlist"
                                     >
                                       <i
-                                        class="fa-regular fa-heart"
+                                        className="fa-regular fa-heart"
 
                                       ></i>{" "}
                                     </button>
@@ -411,7 +409,7 @@ function Home() {
                                       title="Add To Wishlist"
                                     >
                                       <i
-                                        class="fa-solid fa-heart"
+                                        className="fa-solid fa-heart"
                                         style={{ color: "red" }}
 
                                       ></i>
@@ -433,12 +431,12 @@ function Home() {
         <section className='mt-5 py-5 ' style={{ background: "#f5f5f5" }}>
           <div className='container'>
             <div className='col-md-8 mx-auto'>
-              <div class="block-newsletter">
-                <h3 class="block__title text-center ">Quick Search</h3>
+              <div className="block-newsletter">
+                <h3 className="block__title text-center ">Quick Search</h3>
                 {/* <p>Get the latest products and news update daily in fastest.</p> */}
-                <form action="./" class="block-newsletter__form">
-                  <input class="form-control" type="email" name="email" placeholder="Search " />
-                  <button class="btn btn-secondary fw-medium" type="button">Submit</button>
+                <form action="./" className="block-newsletter__form">
+                  <input className="form-control" type="email" name="email" placeholder="Search " />
+                  <button className="btn btn-secondary fw-medium" type="button">Submit</button>
                 </form>
               </div>
             </div>
