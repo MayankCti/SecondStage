@@ -32,7 +32,7 @@ function Shop_checkout() {
   const [allTotal, setAllTotal] = useState(shopCartData?.total);
   const [vat, setVal] = useState(shopCartData?.vat)
   const navigate = useNavigate()
-  const [isShipping,setIsShipping]  = useState(false)
+  const [isShipping, setIsShipping] = useState(false)
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -44,7 +44,7 @@ function Shop_checkout() {
 
   const placeOrder = () => {
     setIsLoader(true);
-    if(isShipping == false){
+    if (isShipping == false) {
       const data = {
         first_name: fname,
         last_name: lname,
@@ -84,7 +84,7 @@ function Shop_checkout() {
       } else {
         MESSAGE.error("Fill all the BILLING DETAILS!!!")
       }
-    }else{
+    } else {
       addCheckout()
     }
   }
@@ -121,18 +121,7 @@ function Shop_checkout() {
       setIsLoader(false)
     }
   }
-  const handleCountrySearch = (val) => {
-    const search = val?.toLowerCase()
-    setCountrySearch(val)
-    if (val) {
-      const data = countryOptions?.filter((item) => {
-        return item?.name?.toLowerCase()?.includes(search)
-      })
-      setCountryOptions(data)
-    } else {
-      setCountryOptions(Country.getAllCountries())
-    }
-  }
+
   return (
     <>
       <svg className="d-none">
@@ -348,13 +337,18 @@ function Shop_checkout() {
                           </div>
                           <div className="filters-container js-hidden-content mt-2">
                             <div className="search-field__input-wrapper">
-                              <input type="text" value={countrySearch} onChange={(e) => handleCountrySearch(e.target.value)} className="search-field__input form-control form-control-sm bg-lighter border-lighter" placeholder="Search" />
+                              <input type="text" value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} className="search-field__input form-control form-control-sm bg-lighter border-lighter" placeholder="Search" />
                             </div>
                             <ul className="search-suggestion list-unstyled ct_country_scroll" onClick={() => setIsCountry(!isCountry)}>
 
                               {
                                 countryOptions?.map((item) => (
-                                  <li onClick={(e) => setContryRegion(item?.name)} className="search-suggestion__item js-search-select">{item?.name}</li>
+                                  <>
+                                    {
+                                      item?.name?.toLocaleLowerCase()?.includes(countrySearch.toLowerCase()) &&
+                                      <li onClick={(e) => setContryRegion(item?.name)} className="search-suggestion__item js-search-select">{item?.name}</li>
+                                    }
+                                  </>
                                 ))
                               }
                               {/* <li onClick={(e) => setContryRegion("Australia")} className="search-suggestion__item js-search-select">Australia</li>

@@ -21,6 +21,7 @@ function FilterBy(props) {
   const [bilingCondition, setBilingCondition] = useState([])
   const [padding, setPadding] = useState([])
   const [location, setLocation] = useState([])
+  const [search, setSearch] = useState("")
 
   useEffect(() => {
     getFilterContent()
@@ -144,8 +145,8 @@ function FilterBy(props) {
   }
   const filter = () => {
     const userID = localStorage.getItem("user_id")
-const randomeUserId = Cookies.get('RandomUserId');
-const token = JSON.parse(localStorage.getItem("token"))
+    const randomeUserId = Cookies.get('RandomUserId');
+    const token = JSON.parse(localStorage.getItem("token"))
     const data = {
       userId: token && userID ? userID : parseInt(randomeUserId),
       style_top: styleTop,
@@ -159,13 +160,13 @@ const token = JSON.parse(localStorage.getItem("token"))
       billing_level: bilingLevel,
       billing_type: bilingType,
       billing_condition: bilingCondition,
-      price_sale_lend_price_min: buyPrice?.length !=0 ? [buyPrice[0]] : [],
-      price_sale_lend_price_max: buyPrice?.length !=0 ? [buyPrice[1]] : [],
-      price_sale_lend_price_min_rent: rentPrice?.length !=0 ? [rentPrice[0]] : [],
-      price_sale_lend_price_max_rent: rentPrice?.length !=0 ? [rentPrice[1]] : [],
+      price_sale_lend_price_min: buyPrice?.length != 0 ? [buyPrice[0]] : [],
+      price_sale_lend_price_max: buyPrice?.length != 0 ? [buyPrice[1]] : [],
+      price_sale_lend_price_min_rent: rentPrice?.length != 0 ? [rentPrice[0]] : [],
+      price_sale_lend_price_max_rent: rentPrice?.length != 0 ? [rentPrice[1]] : [],
       product_padding: padding,
       location: location,
-  }
+    }
     props.handlefilter(data)
   }
   return (
@@ -179,6 +180,7 @@ const token = JSON.parse(localStorage.getItem("token"))
                 <input
                   type="text"
                   className="search-field__input form-control form-control-sm border-light border-2"
+
                   placeholder="Search"
                 />
               </div>
@@ -225,19 +227,27 @@ const token = JSON.parse(localStorage.getItem("token"))
                         <input
                           type="text"
                           className="search-field__input form-control form-control-sm border-light border-2"
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
                           placeholder="Search"
                         />
                       </div>
                       <ul className="search-suggestion list-unstyled">
                         {
                           filterContent?.product_brand?.map((item) => (
-                            <li className="search-suggestion__item js-search-select d-flex align-items-center py-0">
-                              <label className="cyberpunk-checkbox-label">
-                                <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleBrand(item)} />
-                              </label>
-                              <span className="me-auto">{item}</span>
-                              <span className="text-secondary">2</span>
-                            </li>
+                            <>
+                              {
+                                item?.toLowerCase()?.includes(search.toLowerCase()) && <li className="search-suggestion__item js-search-select d-flex align-items-center py-0">
+                                  <label className="cyberpunk-checkbox-label">
+                                    <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleBrand(item)} />
+                                  </label>
+                                  <span className="me-auto">{item}</span>
+                                  <span className="text-secondary">2</span>
+                                </li>
+                              }
+                            </>
+
+
                           ))
                         }
                       </ul>
@@ -365,11 +375,11 @@ const token = JSON.parse(localStorage.getItem("token"))
                           <div className="price-range__info d-flex align-items-center mt-2">
                             <div className="me-auto">
                               <span className="text-secondary">Min Price: </span>
-                              <span className="price-range__min">${buyPrice?.length !=0 ? buyPrice[0] : 0}</span>
+                              <span className="price-range__min">${buyPrice?.length != 0 ? buyPrice[0] : 0}</span>
                             </div>
                             <div>
                               <span className="text-secondary">Max Price: </span>
-                              <span className="price-range__max">${buyPrice?.length !=0 ? buyPrice[1] : 0}</span>
+                              <span className="price-range__max">${buyPrice?.length != 0 ? buyPrice[1] : 0}</span>
                             </div>
                           </div>
                         </div>
@@ -414,11 +424,11 @@ const token = JSON.parse(localStorage.getItem("token"))
                           <div className="price-range__info d-flex align-items-center mt-2">
                             <div className="me-auto">
                               <span className="text-secondary">Min Price: </span>
-                              <span className="price-range__min">${rentPrice?.length !=0 ? rentPrice[0] : 0}</span>
+                              <span className="price-range__min">${rentPrice?.length != 0 ? rentPrice[0] : 0}</span>
                             </div>
                             <div>
                               <span className="text-secondary">Max Price: </span>
-                              <span className="price-range__max">${rentPrice?.length !=0 ? rentPrice[1] : 0}</span>
+                              <span className="price-range__max">${rentPrice?.length != 0 ? rentPrice[1] : 0}</span>
                             </div>
                           </div>
                           <small>(Per week/month or season)</small>
@@ -612,7 +622,7 @@ const token = JSON.parse(localStorage.getItem("token"))
                   </div>
                 </div>
               </div>
-             
+
               <div className="accordion" id="color-filters">
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-color-1">
@@ -838,7 +848,7 @@ const token = JSON.parse(localStorage.getItem("token"))
                   </div>
                 </div>
               </div>
-              
+
               <div className="accordion" id="categories-list8">
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-heading-8">
@@ -919,10 +929,10 @@ const token = JSON.parse(localStorage.getItem("token"))
                 </div>
               </div>
 
-              
-              
-             
-             
+
+
+
+
               <div className="accordion" id="categories-list2">
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-heading-2">
@@ -1023,7 +1033,7 @@ const token = JSON.parse(localStorage.getItem("token"))
                   </div>
                 </div>
               </div>
-              <button type='button'className="btn btn-primary w-100 text-uppercase" onClick={filter}>Apply</button>
+              <button type='button' className="btn btn-primary w-100 text-uppercase" onClick={filter}>Apply</button>
 
             </> : <h3>Please try after some time !!!</h3>
       }
