@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import { message, message as MESSAGE } from "antd";
 import axios from "axios";
-import { Formik, useFormikContext } from 'formik';
+import { Formik } from 'formik';
 import { Schema_login_form } from "./Schema";
 import React, { useEffect, useState } from 'react'
 import Header from './header'
@@ -13,7 +13,7 @@ const countryCodes = require('country-codes-list')
 export const configJSON = require("../components/config");
 function UserRegister() {
   const myCountryCodesObject = countryCodes.customList('countryCode', '{countryCallingCode}')
-  const formik = useFormikContext();
+
   const navigate = useNavigate();
   const [eye, setEye] = useState(false)
   const [type, setType] = useState("password")
@@ -38,14 +38,11 @@ function UserRegister() {
   const handleSell = () => {
     navigate("/sell");
   };
-  const handleTermsCondition = (values) => {
-    sessionStorage.setItem('registerData', JSON.stringify(values));
-    navigate("/terms")
-  }
+
   const handleRegister = (val, { resetForm }) => {
     const randomeUserId = Cookies.get('RandomUserId');
     setIsLoader(true)
-    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: licenseStateOption, license_number: val.license_number, password: val.password, guest_token: parseInt(randomeUserId),seller_sigup :0 }
+    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: licenseStateOption, license_number: val.license_number, password: val.password, guest_token: parseInt(randomeUserId), seller_sigup: 0 }
 
     axios({
       url: configJSON.baseUrl + configJSON.signUpBuyer,
@@ -57,6 +54,7 @@ function UserRegister() {
         if (res?.data?.success == true) {
           MESSAGE.success(res?.data?.message);
           resetForm();
+          sessionStorage.removeItem("registerData")
           navigate("/login");
         } else {
           MESSAGE.error(res?.data?.message);
@@ -77,9 +75,8 @@ function UserRegister() {
     setType1(val)
     setEye1(!eye1)
   }
-  const handlePhoneCode = (val)=>{
+  const handlePhoneCode = (val) => {
     setphoneCode(val)
-console.log(val,"val")
   }
   return (
     <>
@@ -250,35 +247,20 @@ console.log(val,"val")
                 <a className="nav-link nav-link_underscore ps-2 active" id="register-tab"> Register</a>
               </li>
             </ul>
-            {/* {dropdownOption?.length !== 0 &&
-              <>
-                <Select
-                  showSearch
-                  style={{ width: 200 }}
-                  placeholder="Search to Select"
-                  optionFilterProp="children"
-                  filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                  }
-                  
-                  options={dropdownOption}
-                />
-              </>
-            } */}
+           
+            {
+              isLoader == true ?
+                <div className="custom-loader"></div> :
+                <div className="tab-content pt-2" id="login_register_tab_content">
+                  <div className=" fade show" >
+                    <div className="register-form">
 
-            <div className="tab-content pt-2" id="login_register_tab_content">
-              <div className=" fade show" >
-                <div className="register-form">
-                  {
-                    isLoader == true ?
-                      <div className="custom-loader"></div> :
 
 
                       <div className="login-form">
                         <Formik
                           initialValues={JSON.parse(sessionStorage.getItem("registerData")) ??
-                            { buyer_name: '', user_name: '', email: '', phone_number: '', license_state: '', password: '' }}
+                            { buyer_name: '', user_name: '', email: '', phone_number: '', license_state: '', password: '', isCheck: false }}
                           validationSchema={Schema_login_form}
                           onSubmit={(values, actions) => {
                             handleRegister(values, actions)
@@ -357,10 +339,10 @@ console.log(val,"val")
                                   </div>
                                   <div className="col-md-6">
                                     <div className="d-flex ">
-                                      <select className="form-control ct_country_drop_list" onChange={(e)=>handlePhoneCode(e.target.value)}>
+                                      <select className="form-control ct_country_drop_list" onChange={(e) => handlePhoneCode(e.target.value)}>
                                         {
-                                          Object?.values(myCountryCodesObject)?.map((item) => (
-                                            <option>+{item}</option>
+                                          Object?.keys(myCountryCodesObject)?.map((item) => (
+                                            <option value={myCountryCodesObject[item]}>{item}</option>
 
                                           ))
                                         }
@@ -372,10 +354,11 @@ console.log(val,"val")
                                           type="number"
                                           value={values.phone_number}
                                           onChange={handleChange}
+                                          min={0}
                                           className="form-control form-control_gray"
                                           id="customerNameEmailInput"
                                           placeholder="Email Phone*"
-                                          required="" style={{ borderLeft: "0px" }}
+                                          required=""
                                         />
                                         <label htmlFor="customerNameEmailInput">Phone*</label>
                                         <span style={{ color: "red" }}>{errors.phone_number && touched.phone_number && errors.phone_number}</span>
@@ -404,23 +387,7 @@ console.log(val,"val")
 
                                   </div>
                                   <div className="col-md-6">
-                                    {/* <div className="form-floating mb-3">
-                            <input
-                              name="license_state"
-                              type="text"
-                              value={values.license_state}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-control form-control_gray"
-                              id="customerNameEmailInput"
-                              placeholder="Email Licence Number *"
 
-                            />
-                            <label htmlFor="customerNameEmailInput">
-                              Licence State *
-                            </label>
-                            <span style={{ color: "red" }}>{errors.license_state && touched.license_state && errors.license_state}</span>
-                          </div> */}
                                     <div className="search-field mb-3">
                                       <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
                                         <label for="search-dropdown7" className="form-label">Licence State *</label>
@@ -431,7 +398,7 @@ console.log(val,"val")
                                             id="search-dropdown7"
                                             name="search-keyword"
                                             value={licenseStateOption}
-
+                                            autofill={false}
                                           />
                                         </div>
                                         <div className="filters-container js-hidden-content mt-2">
@@ -507,22 +474,25 @@ console.log(val,"val")
                                 <div className="d-flex align-items-center mb-3 pb-2">
                                   <div className="form-check ct_check_input mb-0">
                                     <input
-                                      name="remember"
+                                      name="isCheck"
                                       className="form-check-input form-check-input_fill "
                                       type="checkbox"
-                                      value=""
                                       id="flexCheckDefault"
+                                      checked={values?.isCheck}
+                                      onChange={handleChange}
                                     />
                                     <label
                                       className="form-check-label text-secondary"
                                       htmlFor="flexCheckDefault"
                                     >
                                       Agreement to{" "}
-                                      <a onClick={() => handleTermsCondition(values)}>
+                                      <a href="/terms" target="_blank">
                                         Terms and Conditions
                                       </a>{" "}
                                     </label>
                                   </div>
+                                  <span style={{ color: "red" }}>{errors.isCheck && touched.isCheck && errors.isCheck}</span>
+
                                 </div>
                                 <button
                                   className="btn btn-primary w-100 text-uppercase"
@@ -536,17 +506,18 @@ console.log(val,"val")
                           }
                         </Formik>
                       </div>
-                  }
+
+                    </div>
+
+
+
+
+                    <div className='text-center mt-0'>
+                      <p className="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
+                    </div>
+                  </div>
                 </div>
-
-
-
-
-                <div className='text-center mt-0'>
-                  <p className="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
-                </div>
-              </div>
-            </div>
+            }
           </section>
           <div className="mb-0 pb-xl-5"></div>
         </main>

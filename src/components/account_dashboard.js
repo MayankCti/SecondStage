@@ -14,6 +14,7 @@ function Account_dashboard() {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
+    window.scroll(0, 0);
     if (token == null) {
       navigate('/login')
     } else {

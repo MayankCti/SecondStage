@@ -40,7 +40,7 @@ import UserLogin from "./components/userLogin";
 import UserRegister from "./components/userRegister";
 import EditProduct from "./components/editProduct";
 import Demo from "./components/Demo";
-function App() {
+function App(){
   return (
     <div className="App">
       <Router basename="/">

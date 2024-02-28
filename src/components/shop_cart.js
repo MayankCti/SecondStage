@@ -89,7 +89,6 @@ function Shop_cart() {
   };
 
   const getDataFromChild = () => {
-    // getCartData(accessToken, true);
     getShopCart()
   };
   const toChekout = () => {
@@ -587,7 +586,7 @@ const data = {
                   </div>
                 </div>
               ) : (
-                <h3>Empty Cart !!!</h3>
+                <h3 className="text-center mt-4 pt-4">Empty Cart !!!</h3>
               )}
             </section>
           </main>

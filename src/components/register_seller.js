@@ -5,9 +5,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { message, message as MESSAGE } from "antd";
 import Box from '@mui/material/Box';
+import { Formik } from 'formik';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { Seller_Schema } from "./Schema";
 export const configJSON = require("../components/config");
 
 function Register_seller() {
@@ -56,6 +58,19 @@ function Register_seller() {
   const [brandOption, setBrandOption] = useState("--Select--Brand--");
   const [colorData, setColorData] = useState("--Select--Color--");
 
+  const [islicenseState, setIsLicenseState] = useState(false)
+  const [profileData, setProfileData] = useState([])
+
+  const [name, setName] = useState()
+  const [userName, setUserName] = useState()
+  const [licenseNumber, setLicenseNumber] = useState()
+  const [licenseStateOption, setLicenseStateOption] = useState("")
+  const [email, setEmail] = useState()
+  const [phone, setPhone] = useState()
+  const [cardNumber, setCardNumber] = useState()
+  const [formObj, setFormObj] = useState({ buyer_name: "", user_name: '', email: '', phone_number: '', license_state: '', license_number: '', seller_sigup: 1, buyer_card_number: '', guest_token: 0, isCheck: false })
+  const [isAgree, setIsAgree] = useState(false)
+  const navigate = useNavigate();
   const style = {
     position: 'absolute',
     top: '50%',
@@ -71,40 +86,35 @@ function Register_seller() {
   const handleOpen = () => {
     if (product_name && categoryOption && priceSellLend && priceBuyOption && colorData && brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && replacementPrice) {
       setOpen(true);
-  } else {
-    MESSAGE.error("fill all the fields.!");
-  }
+    } else {
+      MESSAGE.error("fill all the fields.!");
+
+    }
   }
   const handleClose = () => setOpen(false);
-  const [islicenseState, setIsLicenseState] = useState(false)
-  const [profileData, setProfileData] = useState([])
 
-  const [name, setName] = useState()
-  const [userName, setUserName] = useState()
-  const [licenseNumber, setLicenseNumber] = useState()
-  const [licenseStateOption, setLicenseStateOption] = useState("")
-  const [email, setEmail] = useState()
-  const [phone, setPhone] = useState()
-  const [cardNumber, setCardNumber] = useState()
-
-  const navigate = useNavigate();
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     if (token == null) {
       navigate('/login')
     } else {
-    if (categoryOption == "biknis" || categoryOption == "figure" || categoryOption == "fmg_wbff") {
-      setIsSizeTopBottom(true)
-      setIsSizeShow(false)
+      if (categoryOption == "biknis" || categoryOption == "figure" || categoryOption == "fmg_wbff") {
+        setIsSizeTopBottom(true)
+        setIsSizeShow(false)
+      }
+      else if (categoryOption == "swimsuit" || categoryOption == "themewear") {
+        setIsSizeTopBottom(false)
+        setIsSizeShow(true)
+      }
+
     }
-    else if (categoryOption == "swimsuit" || categoryOption == "themewear") {
-      setIsSizeTopBottom(false)
-      setIsSizeShow(true)
-    }
-    getFilterContent()
-    getMyProfile()
-  }
   }, [categoryOption])
+  useEffect(() => {
+    getMyProfile()
+    getFilterContent()
+  
+  }, [])
+
 
 
   const onHandleSizeTop = () => {
@@ -178,25 +188,25 @@ function Register_seller() {
     setFile1(val => val?.filter((item, index) => index !== i));
     setFile(val => val?.filter((item, index) => index !== i));
   }
-
-
-  const handleRegister = () => {
-    
+  const handleRegister = (values) => {
+    delete values.isCheck
+    values = { ...values, buyer_card_number: values?.buyer_card_number?.toString() }
     setIsLoader(true)
-    const data = { buyer_name:name , user_name: userName, email: email, phone_number: phone, license_state: licenseStateOption, license_number:licenseNumber,seller_sigup :1,buyer_card_number :cardNumber,guest_token:0 }
 
     axios({
       url: configJSON.baseUrl + configJSON.signUpBuyer,
       method: "post",
-      data: data,
+      data: values,
     })
       .then((res) => {
         setIsLoader(false)
         if (res?.data?.success == true) {
+          sessionStorage.removeItem("sellerForm")
           // MESSAGE.success(res?.data?.message);
           addProduct()
         } else {
           MESSAGE.error(res?.data?.message);
+
         }
       })
       .catch((error) => {
@@ -206,10 +216,6 @@ function Register_seller() {
       });
 
   };
-
-
-
-
   const addProduct = () => {
     setIsLoader(true)
     const fata = file.flat()
@@ -234,9 +240,9 @@ function Register_seller() {
     for (let i = 0; i < file.length; i++) {
       data.append("files", file[i]);
     }
-    // if (lengthRentalOption) {
-    data.append("product_rental_period", `val`)
-    // }
+    if (lengthRentalOption) {
+      data.append("product_rental_period", `${lengthRentalOption}`)
+    }
 
     if (sizeTopOption && sizeBottomOption) {
       data.append("size_top", sizeTopOption)
@@ -245,27 +251,28 @@ function Register_seller() {
     else if (sizeStandardOption) {
       data.append("size_standard", sizeStandardOption)
     }
-   
-      axios({
-        url: configJSON.baseUrl + configJSON.addProduct,
-        method: "post",
-        data: data,
-        headers: { 'content-type': 'multipart/form-data' },
+
+    axios({
+      url: configJSON.baseUrl + configJSON.addProduct,
+      method: "post",
+      data: data,
+      headers: { 'content-type': 'multipart/form-data' },
+    })
+      .then((res) => {
+        setIsLoader(false)
+        if (res?.data?.success == true) {
+          MESSAGE.success(res?.data?.message);
+          localStorage.removeItem("productForm")
+          navigate("/sell-lend")
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
       })
-        .then((res) => {
-          setIsLoader(false)
-          if (res?.data?.success == true) {
-            MESSAGE.success(res?.data?.message);
-            navigate("/sell-lend")
-          } else {
-            MESSAGE.error(res?.data?.message);
-          }
-        })
-        .catch((error) => {
-          setIsLoader(false)
-          console.log(error);
-        });
-    
+      .catch((error) => {
+        setIsLoader(false)
+        console.log(error);
+      });
+
   }
   const getFilterContent = () => {
     setIsLoader(true);
@@ -300,12 +307,10 @@ function Register_seller() {
       setIsLoader(false)
       if (res?.data?.success == true) {
         setProfileData(res?.data?.user_info[0])
-        setName(res?.data?.user_info[0]?.buyer_name)
-        setUserName(res?.data?.user_info[0]?.user_name)
-        setLicenseNumber(res?.data?.user_info[0]?.license_number)
+        console.log(res?.data?.user_info[0]?.buyer_name)
+        setFormObj({ ...formObj, buyer_name: res?.data?.user_info[0]?.buyer_name, user_name: res?.data?.user_info[0]?.user_name, license_number: res?.data?.user_info[0]?.license_number, license_state: res?.data?.user_info[0]?.license_state, email: res?.data?.user_info[0]?.email, phone_number: res?.data?.user_info[0]?.phone_number })
+
         setLicenseStateOption(res?.data?.user_info[0]?.license_state)
-        setEmail(res?.data?.user_info[0]?.email)
-        setPhone(res?.data?.user_info[0]?.phone_number)
       }
       else {
         setProfileData([])
@@ -315,6 +320,7 @@ function Register_seller() {
       console.log(error)
     })
   }
+ 
   return (
     <>
       <svg className="d-none">
@@ -659,7 +665,7 @@ function Register_seller() {
                         <div className="form-floating ">
                           <input
                             name="login_email"
-                            type="number"
+                            type="number" min={0}
                             className="form-control form-control_gray"
                             id="customerNameEmailInput"
                             placeholder="Email address *"
@@ -682,7 +688,7 @@ function Register_seller() {
                         <div className="form-floating">
                           <input
                             name="login_email"
-                            type="number"
+                            type="number" min={0}
                             className="form-control form-control_gray"
                             id="customerNameEmailInput"
                             placeholder="Email address *"
@@ -1282,7 +1288,7 @@ function Register_seller() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="col-md-12">
                       <div className=" mb-3">
                         <fieldset className="form-control form-control_gray">
@@ -1367,111 +1373,139 @@ function Register_seller() {
               </div>
             </section>
             <div className="login-form">
-              <form
-                name="login-form"
-                className="needs-validation"
-                novalidate=""
+              <Formik
+                initialValues={JSON.parse(sessionStorage.getItem("sellerForm")) ?? formObj}
+                validationSchema={Seller_Schema}
+                onSubmit={(values, actions) => {
+                  handleRegister(values)
+                }}
+                enableReinitialize
               >
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="text"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Name*"
-                        required=""
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">Name*</label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="text"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Create Username*"
-                        required=""
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">
-                        Create Username*
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="email"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Email*"
-                        required=""
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">Email*</label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="number"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Phone*"
-                        required=""
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">Phone*</label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="number"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Licence Number *"
-                        required=""
-                        value={licenseNumber}
-                        // onChange={(e)=>setLicenseNumber(e.target.value)}
-                        readOnly={true}
-                      />
-                      <label htmlFor="customerNameEmailInput">
-                        Licence Number *
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="search-field mb-3">
-                      <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                        <label for="search-dropdown7" className="form-label">Licence State *</label>
-                        <div className="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
-                          <input
-                            type="text"
-                            className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                            id="search-dropdown7"
-                            name="search-keyword"
-                            value={licenseStateOption}
-readOnly={true}
-                          />
+                {
+                  ({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                  }) => (
+                    <form
+                      name="login-form"
+                      className="needs-validation"
+                      novalidate=""
+                    >
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="form-floating mb-3">
+                            <input
+                              name="buyer_name"
+                              type="text"
+                              className="form-control form-control_gray"
+                              id="customerNameEmailInput"
+                              placeholder="Email Name*"
+                              required=""
+                              value={values?.buyer_name}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              readOnly={true}
+                            />
+                            <label htmlFor="customerNameEmailInput">Name*</label>
+                            <span style={{ color: "red" }}>{errors.buyer_name && touched.buyer_name && errors.buyer_name}</span>
+                          </div>
                         </div>
-                        {/* <div className="filters-container js-hidden-content mt-2">
+                        <div className="col-md-6">
+                          <div className="form-floating mb-3">
+                            <input
+                              name="user_name"
+                              type="text"
+                              className="form-control form-control_gray"
+                              id="customerNameEmailInput"
+                              placeholder="Email Create Username*"
+                              required=""
+                              value={values?.user_name}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              readOnly={true}
+                            />
+                            <label htmlFor="customerNameEmailInput">
+                              Create Username*
+                            </label>
+                            <span style={{ color: "red" }}>{errors.user_name && touched.user_name && errors.user_name}</span>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-floating mb-3">
+                            <input
+                              name="email"
+                              type="email"
+                              className="form-control form-control_gray"
+                              id="customerNameEmailInput"
+                              placeholder="Email Email*"
+                              required=""
+                              value={values?.email}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              readOnly={true}
+                            />
+                            <label htmlFor="customerNameEmailInput">Email*</label>
+                            <span style={{ color: "red" }}>{errors.email && touched.email && errors.email}</span>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-floating mb-3">
+                            <input
+                              name="phone_number"
+                              type="number" min={0}
+                              className="form-control form-control_gray"
+                              id="customerNameEmailInput"
+                              placeholder="Email Phone*"
+                              required=""
+                              value={values?.phone_number}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={true}
+                            />
+                            <label htmlFor="customerNameEmailInput">Phone*</label>
+                            <span style={{ color: "red" }}>{errors.phone_number && touched.phone_number && errors.phone_number}</span>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-floating mb-3">
+                            <input
+                              name="license_number"
+                              type="number" min={0}
+                              className="form-control form-control_gray"
+                              id="customerNameEmailInput"
+                              placeholder="Email Licence Number *"
+                              required=""
+                              value={values?.license_number}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              readOnly={true}
+                            />
+                            <label htmlFor="customerNameEmailInput">
+                              Licence Number *
+                            </label>
+                            <span style={{ color: "red" }}>{errors.license_number && touched.license_number && errors.license_number}</span>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="search-field mb-3">
+                            <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                              <label for="search-dropdown7" className="form-label">Licence State *</label>
+                              <div className="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
+                                <input
+                                  name="license_state"
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown7"
+                                  value={licenseStateOption}
+                                  readOnly={true}
+                                />
+                              </div>
+                              {/* <div className="filters-container js-hidden-content mt-2">
                           <ul className="search-suggestion list-unstyled" onClick={() => setIsLicenseState(!islicenseState)}>
                             <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("ACT")}>
                               <a className=" mb-3 me-3 js-filter">
@@ -1510,56 +1544,74 @@ readOnly={true}
                             </li>
                           </ul>
                         </div> */}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className="form-floating mb-3">
+                            <input
+                              name="buyer_card_number"
+                              type="text"
+                              className="form-control form-control_gray"
+                              id="customerNameEmailInput"
+                              placeholder="Email Licence Number *"
+                              required=""
+                              value={values.buyer_card_number}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                            <label htmlFor="customerNameEmailInput">
+                              Credit/Debit Card Number *
+                            </label>
+                            <span style={{ color: "red" }}>{errors.buyer_card_number && touched.buyer_card_number && errors.buyer_card_number}</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="form-floating mb-3">
-                      <input
-                        name="login_email"
-                        type="number"
-                        className="form-control form-control_gray"
-                        id="customerNameEmailInput"
-                        placeholder="Email Licence Number *"
-                        required=""
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
-                      />
-                      <label htmlFor="customerNameEmailInput">
-                        Credit/Debit Card Number *
-                      </label>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="d-flex align-items-center mb-3 pb-2">
-                  <div className="form-check ct_check_input mb-0">
-                    <input
-                      name="remember"
-                      className="form-check-input form-check-input_fill "
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label text-secondary"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Agreement to{" "}
-                      <a onClick={() => navigate("/terms")}>
-                        Terms and Conditions
-                      </a>{" "}
-                    </label>
-                  </div>
-                </div>
-                <button
-                  className="btn btn-primary w-100 text-uppercase"
-                  type="button"
-                  onClick={handleRegister}
-                >
-                  Submit
-                </button>
-              </form>
+                      <div className="d-flex align-items-center mb-3 pb-2">
+                        <div className="form-check ct_check_input mb-0">
+                          <input
+                            name="isCheck"
+                            className="form-check-input form-check-input_fill "
+                            type="checkbox"
+                            value=""
+                            checked={values?.isCheck}
+                            onChange={handleChange}
+                            id="flexCheckDefault"
+                          />
+                          <label
+                            className="form-check-label text-secondary"
+                            htmlFor="flexCheckDefault"
+                          >
+                            Agreement to{" "}
+                            <a href="/terms" target="_blank">
+                              Terms and Conditions
+                            </a>{" "}
+                          </label>
+                        </div>
+                        <span style={{ color: "red" }}>{errors.isCheck && touched.isCheck && errors.isCheck}</span>
+                      </div>
+                      <div className="d-flex justify-content-evenly ">
+
+                        <button
+                          className="btn btn-primary  text-uppercase"
+                          type="button"
+                          onClick={handleSubmit}
+                        >
+                          Submit
+                        </button>
+                        <button
+                          className="btn btn-primary  text-uppercase"
+                          type="button"
+                          onClick={handleClose}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  )
+                }
+              </Formik>
             </div>
           </section>
         </Box>

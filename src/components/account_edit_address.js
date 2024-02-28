@@ -14,7 +14,7 @@ function Account_edit_address() {
     const token = JSON.parse(localStorage.getItem("token"))
 
     if (token == null)
-      navigate('/login-register')
+      navigate('/login')
     else
       getData(token)
   }, [])

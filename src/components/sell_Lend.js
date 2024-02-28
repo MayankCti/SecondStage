@@ -463,7 +463,7 @@ function SellLend() {
                                     >
                                       {/* {item?.product_description}
                                    */}
-                                      Size Top :
+                                      Size Bottom :
                                       {item?.product_size?.map((obj) => (
                                         <span>{obj?.size_bottom}</span>
                                       ))}

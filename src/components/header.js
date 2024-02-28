@@ -6,6 +6,7 @@ import axios from "axios";
 import { message, message as MESSAGE } from "antd";
 import { DateRangePicker } from "react-date-range";
 import moment from "moment";
+import CloseDropdown from './closeDropdown';
 export const configJSON = require("../components/config");
 function Header(props) {
   const navigate = useNavigate();
@@ -169,6 +170,7 @@ function Header(props) {
         setIsLoader(false);
         if (res.data.success == true) {
           MESSAGE.success("Cart item deleted successfully");
+          props?.onClick()
           getCartData(accessToken);
         } else {
           MESSAGE.error("Unable to delete cart item.");
@@ -239,14 +241,7 @@ function Header(props) {
     setIsSearch(!isSearch);
   };
 
-  // const qtyInc = (item, selColor, top, bottom, qnt) => {
-  //   upDateCartData(item, selColor, top, bottom, qnt + 1)
-  // }
-  // const qtyDec = (item, selColor, top, bottom, qnt) => {
-  //   if (qnt >= 2) {
-  //     upDateCartData(item, selColor, top, bottom, qnt - 1)
-  //   }
-  // }
+
   const hanleDate = (item, item1) => {
     setState([item?.selection]);
 
@@ -634,8 +629,10 @@ function Header(props) {
                         {profileData?.user_name ? profileData?.user_name : ""}
                       </p>
                     </div>
-                    {isdropdown && (
-                      <ul className="ct_dropdown-menu">
+
+                    {isdropdown && (<>
+                        <CloseDropdown callback={()=>setDropdown(false)}/>
+                      <ul className="ct_dropdown-menu" onClick={()=>setDropdown(false)}>
                         <li onClick={() => navigate("/account-edit")}>
                           <a className="dropdown-item">Profile</a>
                         </li>
@@ -667,10 +664,11 @@ function Header(props) {
                           <a className="dropdown-item">Log Out</a>
                         </li>
                       </ul>
+                    </>
                     )}
                   </div>
                 </div>
-              )}
+                )}
               <div className="header-tools__item hover-container ct_desktop_login align-items-center">
                 {!accessToken && (
                   <a
@@ -762,7 +760,6 @@ function Header(props) {
                               )
                             }
                           >
-                            <option value={item?.color}> {item?.color}</option>
                             {item?.product_color?.map((obj) => (
                               <option value={obj}> {obj}</option>
                             ))}
@@ -785,10 +782,7 @@ function Header(props) {
                               )
                             }
                           >
-                            <option value={item?.size_top}>
-                              {" "}
-                              {item?.size_top}
-                            </option>
+                           
                             {item?.product_size?.map((obj) => (
                               <option value={obj?.size_top}>
                                 {" "}
@@ -801,7 +795,7 @@ function Header(props) {
                     </div>
 
                     <p className="cart-drawer-item__option text-secondary mt-2">
-                      <label>Size bottom</label>
+                      <label>Size Bottom</label>
                       <select
                         className="form-control ct_cart_select"
                         onChange={(e) =>
@@ -813,10 +807,7 @@ function Header(props) {
                           )
                         }
                       >
-                        <option value={item?.size_bottom}>
-                          {" "}
-                          {item?.size_bottom}
-                        </option>
+                       
                         {item?.product_size?.map((obj) => (
                           <option value={obj?.size_bottom}>
                             {" "}
@@ -892,7 +883,7 @@ function Header(props) {
               </>
             ))
           ) : (
-            <h3>Your cart is Empty!!!</h3>
+            <h3 className='text-center'>Your cart is Empty!!!</h3>
           )}
         </div>
 
@@ -900,7 +891,7 @@ function Header(props) {
           <hr className="cart-drawer-divider" />
           <div className="d-flex justify-content-between">
             <h6 className="fs-base fw-medium">SUBTOTAL:</h6>
-            <span className="cart-subtotal fw-medium">${subtotal}</span>
+            <span className="cart-subtotal fw-medium">${allProduct?.length ==0 ? "0" : subtotal}</span>
           </div>
           <a
             onClick={() => handleShopCart()}

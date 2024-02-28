@@ -20753,7 +20753,7 @@ margin-bottom: 0px;
   color: #fff;
 }
 
-/* .ct_golden_bg{
+.ct_golden_bg{
   position: relative;
   z-index: 1;
 }
@@ -20763,14 +20763,14 @@ margin-bottom: 0px;
   position: absolute;
   left: 0px;
   top: 0px;
-  background-image: url('../images/golden_wave.jpg');
+  background-image: url('../images/sparky_start.png');
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   width: 100%;
 height: 100%;
 opacity: 0.4;
 z-index: -1;
-} */
+}
 
 main{
   position: relative;
@@ -20778,7 +20778,7 @@ main{
   margin-top: 119px;
 }
 
-main:before {
+/* main:before {
   content: "";
   position: absolute;
   left: 0px;
@@ -20792,8 +20792,8 @@ main:before {
   height: 100%;
   opacity: 0.5;
   z-index: -1;
-}
-main:after {
+} */
+/* main:after {
   content: "";
   position: absolute;
   right: 0px;
@@ -20807,7 +20807,7 @@ main:after {
   height:100%;
   opacity: 0.5;
   z-index: -1;
-}
+} */
 
 
 
@@ -21384,10 +21384,9 @@ justify-content: center;
   /* top: 0px; */
   width: fit-content;
   background-color: unset;
-  border-right: 0px;
   padding-inline: 6px !important;
   appearance: auto;
-  border-right: 0px;
+  /* border-right: 0px; */
   height: 60px;
 }
 .ct_country_drop_list:focus ~ .form-floating ~ .form-control{
@@ -21472,8 +21471,26 @@ color:#fff;
   max-height: 200px;
   overflow-y: auto;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
 @media screen and (max-width:767px){
   .ct_click_dropdown > p {
     display: none !important;
   }
+  .ct_buy_rent_tag {
+    padding: 4px 10px;
+}
+.ct_buy_rent_tag h4 {
+  
+    font-size: 14px;
+   
+}
 }

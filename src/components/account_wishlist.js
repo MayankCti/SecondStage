@@ -78,6 +78,7 @@ const addToWishlist = (productId) => {
 };
 const handleProduct1Simple = (productId) => {
   localStorage.setItem("productID", productId)
+
   navigate("/product1-simple");
 };
 return (
@@ -289,7 +290,7 @@ return (
                               <p className="pc__category">{item?.product_brand}</p>
                               <h6 className="pc__title">
                                 {/* {item?.product_description} */}
-                                <a onClick={() => handleProduct1Simple(item?.id)}>
+                                <a onClick={() => handleProduct1Simple(item?.product_id)}>
                                   {/* {item?.product_description}
                                */}
                                   Size Top :
@@ -300,10 +301,10 @@ return (
                                   }
                                 </a>
                                 <br />
-                                <a onClick={() => handleProduct1Simple(item?.id)}>
+                                <a onClick={() => handleProduct1Simple(item?.product_id)}>
                                   {/* {item?.product_description}
                                */}
-                                  Size Top :
+                                  Size Bottom :
                                   {
                                     item?.product_size?.map((obj) => (
                                       <span>{obj?.size_bottom}</span>

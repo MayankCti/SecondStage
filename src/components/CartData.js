@@ -13,7 +13,7 @@
 //     useEffect(()=>{
 //         const token = JSON.parse(localStorage.getItem("token"))
 //         if (token == null) {
-//             navigate('/login-register')
+//             navigate('/login')
 //         } else {
 //             // getCartData(token)
 //         }

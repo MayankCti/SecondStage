@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from './header'
 import Footer from './footer'
 
 function Contact() {
+  useEffect(()=>{
+    window.scroll(0, 0);
+  },[])
   return (
     <>
      <svg className="d-none">

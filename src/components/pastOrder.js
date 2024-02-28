@@ -251,7 +251,7 @@ function PastOrder() {
                                                   width="120"
                                                   height="120"
                                                   alt=""
-                                                  onClick={() => handleProduct1Simple(obj?.id)}
+                                                  onClick={() => handleProduct1Simple(obj?.product_id)}
                                                 />
                                               </div>
                                             </td>

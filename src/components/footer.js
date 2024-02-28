@@ -60,25 +60,25 @@ const HandleWbff=()=>{
             </a>
           </div>
           <p className="m-0">
-            <strong className="fw-medium"><a href="mailto:Support@secondstagebikini.com">Support@secondstagebikini.com</a></strong>
+            <strong className="fw-medium"><a >Support@secondstagebikini.com</a></strong>
           </p>
           <p className="m-0">
-            <strong className="fw-medium"><a href="mailto:Cley@secondstagebikini.com">Cley@secondstagebikini.com</a></strong>
+            <strong className="fw-medium"><a >Cley@secondstagebikini.com</a></strong>
           </p>
           <ul className="social-links list-unstyled d-flex flex-wrap mb-0">
             <li>
               <a  className="footer__social-link d-block">
-                <svg className="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15" xmlns="http://www.w3.org/2000/svg"><use href="#icon_facebook" /></svg>
+                <svg className="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15" xmlns="http://www.w3.org/2000/svg"><use  /></svg>
               </a>
             </li>
             <li>
               <a  className="footer__social-link d-block">
-                <svg className="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg"><use href="#icon_twitter" /></svg>
+                <svg className="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg"><use  /></svg>
               </a>
             </li>
             <li>
               <a  className="footer__social-link d-block">
-                <svg className="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg"><use href="#icon_instagram" /></svg>
+                <svg className="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg"><use  /></svg>
               </a>
             </li>
             <li>
@@ -88,7 +88,7 @@ const HandleWbff=()=>{
             </li>
             <li>
               <a  className="footer__social-link d-block">
-                <svg className="svg-icon svg-icon_pinterest" width="14" height="15" viewBox="0 0 14 15" xmlns="http://www.w3.org/2000/svg"><use href="#icon_pinterest" /></svg>
+                <svg className="svg-icon svg-icon_pinterest" width="14" height="15" viewBox="0 0 14 15" xmlns="http://www.w3.org/2000/svg"><use /></svg>
               </a>
             </li>
           </ul>

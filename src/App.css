@@ -20,8 +20,6 @@
     background-image: linear-gradient(#e9c746, #b47e11);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
-  
 }
 .cssload-loader::before, .cssload-loader::after {
 	content: "";

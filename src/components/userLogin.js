@@ -229,13 +229,14 @@ function UserLogin() {
                                 <a className="nav-link nav-link_underscore ps-2"> Register</a>
                             </li>
                         </ul>
-                        <div className="tab-content pt-2" id="login_register_tab_content">
-                            <div className="tab-pane fade show active">
-                                <div className="login-form">
+                        {
+                            isLoader == true ?
+                                <div className="custom-loader"></div> :
+                                <div className="tab-content pt-2" id="login_register_tab_content">
+                                    <div className="tab-pane fade show active">
+                                        <div className="login-form">
 
-                                    {
-                                        isLoader == true ?
-                                            <div className="custom-loader"></div> : <Formik
+                                            <Formik
                                                 initialValues={{ email: '', password: '' }}
                                                 validationSchema={Schema_login_form1}
                                                 onSubmit={(values, actions) => {
@@ -281,20 +282,21 @@ function UserLogin() {
                                                     )
                                                 }
                                             </Formik>
-                                    }
 
-                                </div>
-                                <div className='text-center mt-4'>
-                                    <p className="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
-                                </div>
-                            </div>
-                            {/* <div className="tab-pane fade" id="tab-item-register" role="tabpanel" aria-labelledby="register-tab">
+
+                                        </div>
+                                        <div className='text-center mt-4'>
+                                            <p className="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
+                                        </div>
+                                    </div>
+                                    {/* <div className="tab-pane fade" id="tab-item-register" role="tabpanel" aria-labelledby="register-tab">
                                     <UserRegister />
                                     <div className='text-center mt-0'>
                                         <p className="ct_fs_16" style={{ color: "#be891d" }} onClick={() => handleSell()}>Sell/Lend</p>
                                     </div>
                                 </div> */}
-                        </div>
+                                </div>
+                        }
                     </section>
                     <div className="mb-0 pb-xl-5"></div>
                 </main>

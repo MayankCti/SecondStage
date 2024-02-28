@@ -24,6 +24,7 @@ function CategoryContent(props) {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
+    window.scroll(0, 0);
     getData();
   }, []);
   const handleHome = () => {
@@ -31,6 +32,7 @@ function CategoryContent(props) {
   };
   const handleProduct1Simple = (productId) => {
     localStorage.setItem("productID", productId);
+
     navigate("/product1-simple");
   };
   const getData = (val) => {
@@ -246,7 +248,7 @@ function CategoryContent(props) {
                   name="total-number"
                 >
                   <option selected>Sort by</option>
-                  {/* <option value="1" >Featured</option> */}
+                  <option value="4" >Featured</option>
                   <option value="3">newest/oldest</option>
                   <option value="2">price high/low, </option>
                   <option value="1">Price, low/high</option>
@@ -324,7 +326,9 @@ function CategoryContent(props) {
                                   ))}
                                 </Swiper>
                               </div>
-                             
+                              <div className="ct_buy_rent_tag">
+                                <h4 className="mb-0">{item.product_buy_rent.charAt(0).toUpperCase() + item.product_buy_rent.slice(1)}</h4>
+                              </div>
                             </div>
                             <div className="pc__info position-relative">
                               <p className="pc__category">
@@ -350,7 +354,7 @@ function CategoryContent(props) {
                                 >
                                   {/* {item?.product_description}
                                    */}
-                                  Size Top :
+                                  Size Bottom :
                                   {item?.product_size?.map((obj) => (
                                     <span>{obj?.size_bottom}</span>
                                   ))}

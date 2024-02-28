@@ -33,7 +33,7 @@ function Shop_checkout() {
   const [vat, setVal] = useState(shopCartData?.vat)
   const navigate = useNavigate()
   const [isShipping, setIsShipping] = useState(false)
-
+const [isAgree,setIsAgree] = useState(false)
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
@@ -43,49 +43,53 @@ function Shop_checkout() {
   }, [])
 
   const placeOrder = () => {
-    setIsLoader(true);
-    if (isShipping == false) {
-      const data = {
-        first_name: fname,
-        last_name: lname,
-        company_name: companyName,
-        country_region: contryRegion,
-        street_address: streetAddress,
-        town_city: townCity,
-        postcode_zip: `${postZipCode}`,
-        province: province,
-        phone: `${phone}`,
-        mail: email,
-        order_notes: orderNotes
-      };
-      if (fname && lname && contryRegion && streetAddress && townCity && postZipCode && province && phone && email) {
-        axios({
-          method: "post",
-          url: configJSON.baseUrl + configJSON.add_shipping_details,
-          data: data,
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-          .then((res) => {
-            setIsLoader(false);
-            if (res.data.success == true) {
-              // MESSAGE.success(res?.data?.message);
-              setIsShipping(true)
-              addCheckout()
-            } else {
-              MESSAGE.error(res?.data?.message);
-            }
+    if( isAgree === false ){
+      MESSAGE.error("Please accept terms and condition.")
+    }else{
+      setIsLoader(true);
+      if (isShipping == false) {
+        const data = {
+          first_name: fname,
+          last_name: lname,
+          company_name: companyName,
+          country_region: contryRegion,
+          street_address: streetAddress,
+          town_city: townCity,
+          postcode_zip: `${postZipCode}`,
+          province: province,
+          phone: `${phone}`,
+          mail: email,
+          order_notes: orderNotes
+        };
+        if (fname && lname && contryRegion && streetAddress && townCity && postZipCode && province && phone && email) {
+          axios({
+            method: "post",
+            url: configJSON.baseUrl + configJSON.add_shipping_details,
+            data: data,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           })
-          .catch((err) => {
-            setIsLoader(false);
-            console.log(err);
-          });
+            .then((res) => {
+              setIsLoader(false);
+              if (res.data.success == true) {
+                // MESSAGE.success(res?.data?.message);
+                setIsShipping(true)
+                addCheckout()
+              } else {
+                MESSAGE.error(res?.data?.message);
+              }
+            })
+            .catch((err) => {
+              setIsLoader(false);
+              console.log(err);
+            });
+        } else {
+          MESSAGE.error("Fill all the BILLING DETAILS!!!")
+        }
       } else {
-        MESSAGE.error("Fill all the BILLING DETAILS!!!")
+        addCheckout()
       }
-    } else {
-      addCheckout()
     }
   }
   const addCheckout = () => {
@@ -275,7 +279,7 @@ function Shop_checkout() {
       </svg>
 
       <Header />
-
+.
       <main>
         <div className="mb-4 pb-4"></div>
         <section className="shop-checkout container">
@@ -519,6 +523,7 @@ function Shop_checkout() {
                             name="remember"
                             className="form-check-input form-check-input_fill "
                             type="checkbox"
+                            onChange={(e)=>setIsAgree(e.target.checked)}
                             value=""
                             id="flexCheckDefault"
                           />
@@ -527,14 +532,14 @@ function Shop_checkout() {
                             htmlFor="flexCheckDefault"
                           >
                             Agreement to{" "}
-                            <a onClick={() => navigate("/terms")}>
+                            <a href="/terms" target="_blank">
                               Terms and Conditions
                             </a>{" "}
                           </label>
                         </div>
                       </div>
                     </div>
-                    <button className="btn btn-primary btn-checkout" type='button' onClick={() => placeOrder()}>PLACE ORDER</button>
+                    <button className="btn btn-primary btn-checkout" type='button' onClick={() => placeOrder()} >PLACE ORDER</button>
                   </div>
                 </div>
               </div>

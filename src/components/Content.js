@@ -17,6 +17,7 @@ function Content(props) {
   const navigate = useNavigate();
   const handleProduct1Simple = (productId) => {
     localStorage.setItem("productID", productId)
+
     navigate("/product1-simple");
   };
   useEffect(() => {
@@ -146,9 +147,9 @@ function Content(props) {
                               ))}
                             </Swiper>
                           </div>
-                          {/* <div className="ct_buy_rent_tag">
+                          <div className="ct_buy_rent_tag">
                             <h4 className="mb-0">{item.product_buy_rent.charAt(0).toUpperCase() + item.product_buy_rent.slice(1)}</h4>
-                          </div> */}
+                          </div>
                           {/* <button
                           onClick={() => addToCart(item?.id)}
                           className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
@@ -175,7 +176,7 @@ function Content(props) {
                             <a onClick={() => handleProduct1Simple(item?.id)}>
                               {/* {item?.product_description}
                                */}
-                              Size Top :
+                              Size Bottom :
                               {
                                 item?.product_size?.map((obj) => (
                                   <span>{obj?.size_bottom}</span>

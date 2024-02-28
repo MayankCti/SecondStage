@@ -207,9 +207,7 @@ function Product1_simple(props) {
         userId: accessToken && userID ? userID : parseInt(randomeUserId),
       };
     }
-
-    console.log(data, "the data");
-    if (size_bottom && size_top && color) {
+    if (type == "buy" ? size_bottom && size_top && color : size_bottom && size_top && color && startDate && endDate && total_rend_days) {
       axios({
         method: "post",
         url: configJSON.baseUrl + configJSON.addToCart,
@@ -236,17 +234,12 @@ function Product1_simple(props) {
         });
     } else {
       setIsLoader(false);
-      MESSAGE.error("Please choose color and size");
+      type == "buy" ? MESSAGE.error("Please select color and size") : MESSAGE.error("Please select date,color and size")
     }
+
+
   };
-  const qtyInc = () => {
-    setQty(qty + 1);
-  };
-  const qtyDnc = () => {
-    if (qty >= 2) {
-      setQty(qty - 1);
-    }
-  };
+
 
   const getData = (val) => {
     const userID = localStorage.getItem("user_id")
@@ -263,7 +256,7 @@ function Product1_simple(props) {
         val +
         `/4`,
       method: "post",
-      data : data
+      data: data
     })
       .then((res) => {
         setIsLoader(false);
@@ -278,13 +271,7 @@ function Product1_simple(props) {
         console.log(error);
       });
   };
-  const backToPrevious = (val) => {
-    if (val == "biknis") navigate("/bikinis");
-    else if (val == "fmg_wbff") navigate("/wbff");
-    else if (val == "bikini") navigate("/bikinis");
-    else
-      navigate(`/${val}`);
-  };
+
   return (
     <>
       <svg className="d-none">
@@ -649,11 +636,11 @@ function Product1_simple(props) {
                   <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
                     <a
                       className="menu-link menu-link_us-s text-uppercase fw-medium pe-4"
-                      onClick={() => backToPrevious(product?.product_category)}
+                      onClick={() => navigate(-1)}
                     >
                       <i className="fa-solid fa-arrow-left"></i> Back to previous
                     </a>
-                    <a className="menu-link menu-link_us-s text-uppercase fw-medium">
+                    <a className="menu-link menu-link_us-s text-uppercase fw-medium" onClick={() => navigate("/")}>
                       Home
                     </a>
                     <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">
@@ -1259,16 +1246,31 @@ function Product1_simple(props) {
                               alt="Cropped Faux leather Jacket"
                               className="pc__img"
                             />
-                            {/* <img loading="lazy" src="images/products/product_3-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img pc__img-second"> */}
                           </a>
-                          {/* <button onClick={() => addToCart(item?.id, "1")} type="button" className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> */}
                         </div>
-
                         <div className="pc__info position-relative">
                           <p className="pc__category">{item?.product_category}</p>
                           <h6 className="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
                               {item?.product_brand}
+                            </a>
+                            <a onClick={() => handleProduct1Simple(item?.product_id)}>
+
+                              Size Top :
+                              {
+                                item?.product_size?.map((obj) => (
+                                  <span>{obj?.size_top}</span>
+                                ))
+                              }
+                            </a>
+                            <br />
+                            <a onClick={() => handleProduct1Simple(item?.product_id)}>
+                              Size Bottom :
+                              {
+                                item?.product_size?.map((obj) => (
+                                  <span>{obj?.size_bottom}</span>
+                                ))
+                              }
                             </a>
                           </h6>
                           <div className="product-card__price d-flex">
