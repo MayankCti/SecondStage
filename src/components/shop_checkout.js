@@ -14,9 +14,6 @@ function Shop_checkout() {
   const [lname, setLname] = useState("")
   const [companyName, setCompanyName] = useState("")
   const [contryRegion, setContryRegion] = useState("")
-  var [countryOptions, setCountryOptions] = useState(Country.getAllCountries())
-  const [countrySearch, setCountrySearch] = useState("")
-
   const [streetAddress, setStreetAddress] = useState("")
   const [townCity, setTownCity] = useState("")
   const [postZipCode, setPostZipCode] = useState("")
@@ -24,6 +21,7 @@ function Shop_checkout() {
   const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
   const [orderNotes, setOrderNotes] = useState("")
+
   const [paymentMethod, setPaymentMethod] = useState("")
   const [accessToken, setAccessToken] = useState();
   const [isCountry, setIsCountry] = useState(false)
@@ -31,9 +29,12 @@ function Shop_checkout() {
   const [subtotal, setSubTotal] = useState(shopCartData?.subTotal);
   const [allTotal, setAllTotal] = useState(shopCartData?.total);
   const [vat, setVal] = useState(shopCartData?.vat)
+  var [countryOptions, setCountryOptions] = useState(Country.getAllCountries())
+  const [countrySearch, setCountrySearch] = useState("")
   const navigate = useNavigate()
   const [isShipping, setIsShipping] = useState(false)
-const [isAgree,setIsAgree] = useState(false)
+  const [isAgree, setIsAgree] = useState(false)
+  const [isNewAdress, setIsNewAdress] = useState(false)
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
@@ -43,9 +44,10 @@ const [isAgree,setIsAgree] = useState(false)
   }, [])
 
   const placeOrder = () => {
-    if( isAgree === false ){
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (isAgree === false) {
       MESSAGE.error("Please accept terms and condition.")
-    }else{
+    } else {
       setIsLoader(true);
       if (isShipping == false) {
         const data = {
@@ -67,7 +69,7 @@ const [isAgree,setIsAgree] = useState(false)
             url: configJSON.baseUrl + configJSON.add_shipping_details,
             data: data,
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${token}`,
             },
           })
             .then((res) => {
@@ -125,7 +127,53 @@ const [isAgree,setIsAgree] = useState(false)
       setIsLoader(false)
     }
   }
+  const [address, setAddress] = useState([])
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token == null)
+      navigate('/login')
+    else
+      getAddresses(token)
+  }, [])
+  const getAddresses = (val) => {
+    setIsLoader(true)
+    axios({
+      url: configJSON.baseUrl + configJSON.fetch_shipping_details,
+      method: "post",
+      headers: {
+        'Authorization': `Bearer ${val}`
+      },
 
+    }).then((res) => {
+      setIsLoader(false)
+      if (res?.data?.success == true) {
+        setAddress(res?.data?.shipping_details ? res?.data?.shipping_details : [])
+      }
+      else {
+        setAddress([])
+      }
+    }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+    })
+  }
+  const handleAddress = (item) => {
+    console.log(item, "item");
+    setFname(item?.first_name)
+    setLname(item?.last_name)
+    setCompanyName(item?.company_name)
+    setContryRegion(item?.country_region)
+    setStreetAddress(item?.street_address)
+    setTownCity(item?.town_city)
+    setPostZipCode(item?.postcode_zip)
+    setProvince(item?.province)
+    setPhone(item?.phone)
+    setEmail(item?.mail)
+    setOrderNotes(item?.order_notes)
+  }
+  useEffect(()=>{
+window.scroll(0,0);
+  },[isNewAdress])
   return (
     <>
       <svg className="d-none">
@@ -279,7 +327,7 @@ const [isAgree,setIsAgree] = useState(false)
       </svg>
 
       <Header />
-.
+      
       <main>
         <div className="mb-4 pb-4"></div>
         <section className="shop-checkout container">
@@ -311,7 +359,7 @@ const [isAgree,setIsAgree] = useState(false)
           {
             isLoader == false ? <form name="checkout-form" action="#">
               <div className="checkout-form">
-                <div className="billing-info__wrapper">
+                {isNewAdress && <div className="billing-info__wrapper">
                   <h4>BILLING DETAILS</h4>
                   <div className="row">
                     <div className="col-md-6">
@@ -417,7 +465,44 @@ const [isAgree,setIsAgree] = useState(false)
                       <textarea onChange={(e) => setOrderNotes(e.target.value)} value={orderNotes} className="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
                     </div>
                   </div>
+                  <button className="btn btn-primary btn-checkout" onClick={()=>setIsNewAdress(false)} type='button' >Retrieve addresses from previous records.</button>
                 </div>
+                }
+                {
+                  isNewAdress == false && <div className="my-account__address-list">
+
+                    <div className="my-account__address-item">
+                      <div className="my-account__address-item__title">
+                        <h5>Shipping Address</h5>
+
+                      </div>
+                      <div className=' row'>
+                        {
+
+                          address?.map((item) => (
+                            <>
+                              <div className="col-md-6 my-account__address-item__detail mb-4 border gap-3 ">
+
+                                <p>{item?.first_name} {item?.last_name},</p>
+                                <p>{item?.street_address},</p>
+                                <p>{item?.town_city},{item?.country_region}.</p>
+
+                                <p>{item?.mail}</p>
+                                <p>{item?.phone}</p>
+
+                                <input type='radio' name='gender' onChange={() => handleAddress(item)}>
+                                </input>
+                              </div>
+
+
+                            </>
+                          ))
+                        }
+                    <button className="btn btn-primary btn-checkout" onClick={()=>setIsNewAdress(true)} type='button' >Add new addres</button>
+                      </div>
+                    </div>
+                  </div>
+                }
                 <div className="checkout__totals-wrapper">
                   <div className="sticky-content">
                     <div className="checkout__totals">
@@ -523,7 +608,7 @@ const [isAgree,setIsAgree] = useState(false)
                             name="remember"
                             className="form-check-input form-check-input_fill "
                             type="checkbox"
-                            onChange={(e)=>setIsAgree(e.target.checked)}
+                            onChange={(e) => setIsAgree(e.target.checked)}
                             value=""
                             id="flexCheckDefault"
                           />

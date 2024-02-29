@@ -247,7 +247,7 @@ function UserRegister() {
                 <a className="nav-link nav-link_underscore ps-2 active" id="register-tab"> Register</a>
               </li>
             </ul>
-           
+
             {
               isLoader == true ?
                 <div className="custom-loader"></div> :
@@ -446,11 +446,10 @@ function UserRegister() {
                                   </div>
                                   <div className="col-md-12">
                                     <div className="form-floating mb-3 position-relative">
-                                      <input name="password" onBlur={handleBlur} onChange={handleChange} type={type} value={values.password} className="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Password *" required="" />
-                                      {
-                                        eye != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
-                                          : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
-                                      }
+                                      <input name="password" onBlur={handleBlur} onChange={handleChange} type={eye ? 'password' : 'text'} value={values.password} className="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Password *" required="" />
+
+                                      <i className={`fa-solid ct_pass_eye ${!eye ? 'fa-eye-slash' : 'fa-eye'}`} onClick={() => setEye(!eye)}></i>
+
                                       <label for="customerPasswodRegisterInput">Password *</label>
                                       <span style={{ color: "red" }}>{errors.password && touched.password && errors.password}</span>
 
@@ -458,11 +457,10 @@ function UserRegister() {
                                   </div>
                                   <div className="col-md-12">
                                     <div className="form-floating mb-3 position-relative">
-                                      <input name="Confirm_Password" onBlur={handleBlur} onChange={handleChange} type={type1} value={values.Confirm_Password} className="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Confirm Password *" required="" />
-                                      {
-                                        eye1 != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye1("text")}></i>
-                                          : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye1("password")}></i>
-                                      }
+                                      <input name="Confirm_Password" onBlur={handleBlur} onChange={handleChange} type={eye1 ? 'password' : 'text'} value={values.Confirm_Password} className="form-control form-control_gray" id="customerPasswodRegisterInput" placeholder="Confirm Password *" required="" />
+                                     
+                                      <i className={`fa-solid ct_pass_eye ${!eye1 ? 'fa-eye-slash' : 'fa-eye'}`} onClick={() => setEye1(!eye1)}></i>
+
                                       <label for="customerPasswodRegisterInput">Confirm Password *</label>
                                       <span style={{ color: "red" }}>{errors.Confirm_Password && touched.Confirm_Password && errors.Confirm_Password}</span>
 

@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from './header'
 import Footer from "./footer";
-
+import { Formik } from 'formik';
+import { buyer_issue } from "./Schema";
 const BuyerForm = () => {
+
+  const [obj, setObj] = useState({
+    issue_claimed: '',
+    date_from: '',
+    date_to: '',
+    damaged_product: '',
+    cleaning_fee: '',
+    additional_not_listed: '',
+    value_of_claim: '',
+    upload_product_photo: null,
+    tracking_number: '',
+    add_note: ''
+  })
+  const handleBuyerIssue = (val) => {
+    console.log(val, "val")
+  }
   return (
     <div>
       <svg className="d-none">
@@ -161,101 +178,187 @@ const BuyerForm = () => {
           <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">
             <strong>Buyer Issue Response Form</strong>
           </h2>
-          <form>
-            <div className="row">
-              <div className="col-md-12">
-                <div className="form-group mb-3">
-                  <label>Issue Claimed </label>
-                  <select className="form-control">
-                    <option>
-                      Not-Received ($Full refund incl service fee and postage)
-                    </option>
-                    <option>
-                      Received Late ($Partial refund)
-                    </option>
-                  </select>
+          <Formik
+            initialValues={obj}
+            validationSchema={buyer_issue}
+            onSubmit={(values, actions) => {
+              handleBuyerIssue(values)
+            }}
+          >
+            {
+              ({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                setFieldValue,
+                isSubmitting,
+              }) => (
+                <form>
+                  {console.log(errors)}
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group mb-3">
+                        <label>Issue Claimed </label>
+                        <select
+                          className="form-control"
+                          name="issue_claimed"
+                          value={values.issue_claimed}
+                          onChange={handleChange}
+                          onBlur={handleBlur}>
+                          <option value="Not-Received">
+                            Not-Received ($Full refund incl service fee and postage)
+                          </option>
+                          <option value="Received Late">
+                            Received Late ($Partial refund)
+                          </option>
+                        </select>
+                        {errors.issue_claimed && touched.issue_claimed && <div className="error" style={{ color: "red" }}>{errors.issue_claimed}</div>}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>From </label>
+                        <input
+                          type="date"
+                          className="form-control"
+                          name="date_from"
+                          value={values.date_from}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        {errors.date_from && touched.date_from && <div className="error" style={{ color: "red" }}>{errors.date_from}</div>}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>To </label>
+                        <input type="date"
+                          name="date_to"
+                          value={values.date_to}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          className="form-control" />
+                        {errors.date_to && touched.date_to && <div className="error" style={{ color: "red" }}>{errors.date_to}</div>}
 
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group mb-3">
-                  <label>From </label>
-                  <input
-                    type="date"
-                    className="form-control"
+                      </div>
+                    </div>
 
-                  />
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group mb-3">
-                  <label>To </label>
-                  <input type="date" className="form-control" />
-                </div>
-              </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Damaged Product</label>
+                        <select className="form-control"
+                          name="damaged_product"
+                          value={values.damaged_product}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        >
 
-              <div className="col-md-6">
-                <div className="form-group mb-3">
-                  <label>Damaged Product</label>
-                  <select className="form-control">
-                    <option>
-                      Unwearable ($ Full refund incl service fee and postage)
-                    </option>
-                    <option>
-                      Wearable ($Partial refund)
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group mb-3">
-                  <label>Cleaning Fee</label>
-                  <div className="position-relative">
-                    <input type="text" className="form-control ct_text_indent_15" />
-                    <span className="ct_price_position">$</span>
+                          <option value={"Unwearable"}>
+                            Unwearable ($ Full refund incl service fee and postage)
+                          </option>
+                          <option value={"Wearable"}>
+                            Wearable ($Partial refund)
+                          </option>
+                        </select>
+                        {errors.damaged_product && touched.damaged_product && <div className="error" style={{ color: "red" }}>{errors.damaged_product}</div>}
+
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Cleaning Fee</label>
+                        <div className="position-relative">
+                          <input type="text"
+                            name="cleaning_fee"
+                            value={values.cleaning_fee}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form-control ct_text_indent_15" />
+                          {errors.cleaning_fee && touched.cleaning_fee && <div className="error" style={{ color: "red" }}>{errors.cleaning_fee}</div>}
+
+                          <span className="ct_price_position">$</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Additional not listed</label>
+                        <div className="position-relative">
+                          <input type="text"
+                            name="additional_not_listed"
+                            value={values.additional_not_listed}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form-control ct_text_indent_15" />
+                          {errors.additional_not_listed && touched.additional_not_listed && <div className="error" style={{ color: "red" }}>{errors.additional_not_listed}</div>}
+
+                          <span className="ct_price_position">$</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Value of Claim</label>
+                        <div className="position-relative">
+                          <input type="text"
+                            name="value_of_claim"
+                            value={values.value_of_claim}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form-control ct_text_indent_15" />
+                          {errors.value_of_claim && touched.value_of_claim && <div className="error" style={{ color: "red" }}>{errors.value_of_claim}</div>}
+
+                          <span className="ct_price_position">$</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Upload Product Photo </label>
+                        <input type="file"
+                          onChange={(event) => {
+                            setFieldValue("upload_product_photo", event.currentTarget.files[0]);
+                          }}
+                          className="form-control" />
+                        {errors.upload_product_photo && touched.upload_product_photo && <div className="error" style={{ color: "red" }}>{errors.upload_product_photo}</div>}
+
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Tracking Number</label>
+                        <input type="text"
+                          name="tracking_number"
+                          value={values.tracking_number}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          className="form-control" />
+                        {errors.tracking_number && touched.tracking_number && <div className="error" style={{ color: "red" }}>{errors.tracking_number}</div>}
+
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group mb-3">
+                        <label> Add a note about how/why the value claimed</label>
+                        <textarea className="form-control"
+                          name="add_note"
+                          value={values.add_note}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          rows={4} ></textarea>
+                        {errors.add_note && touched.add_note && <div className="error" style={{ color: "red" }}>{errors.add_note}</div>}
+
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group mb-3">
-                  <label>Additional not listed</label>
-                  <div className="position-relative">
-                    <input type="text" className="form-control ct_text_indent_15" />
-                    <span className="ct_price_position">$</span>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group mb-3">
-                  <label>Value of Claim</label>
-                  <div className="position-relative">
-                    <input type="text" className="form-control ct_text_indent_15" />
-                    <span className="ct_price_position">$</span>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group mb-3">
-                  <label>Upload Product Photo </label>
-                  <input type="file" className="form-control" />
-
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group mb-3">
-                  <label>Tracking Number</label>
-                  <input type="text" className="form-control" />
-                </div>
-              </div>
-              <div className="col-md-12">
-                <div className="form-group mb-3">
-                  <label> Add a note about how/why the value claimed</label>
-                  <textarea className="form-control" rows={4} ></textarea>
-                </div>
-              </div>
-            </div>
-            <div className="my-4 text-center"><button type="submit" className="btn btn-primary">Submit</button></div>
-          </form>
+                  <div className="my-4 text-center"><button type="button" onClick={handleSubmit} className="btn btn-primary">Submit</button></div>
+                </form>
+              )
+            }
+          </Formik>
         </div>
         <div className="mb-0 pb-lg-4 mt-5 pt-5 "></div>
       </main>

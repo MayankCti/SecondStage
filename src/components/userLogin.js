@@ -54,10 +54,10 @@ function UserLogin() {
                 console.log(error)
             })
     }
-    const handleEye = (val) => {
-        setType(val)
-        setEye(!eye)
-    }
+    // const handleEye = (val) => {
+    //     setType(val)
+    //     setEye(!eye)
+    // }
     return (
         <>
 
@@ -262,11 +262,11 @@ function UserLogin() {
                                                             </div>
                                                             <div className="pb-3"></div>
                                                             <div className="form-floating mb-3 position-relative">
-                                                                <input name="password" onBlur={handleBlur} onChange={handleChange} type={type} value={values.password} className="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required />
-                                                                {
-                                                                    eye != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
-                                                                        : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
-                                                                }
+                                                                <input name="password" onBlur={handleBlur} onChange={handleChange} type={eye ? 'password' : 'text'} value={values.password} className="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required />
+
+                                                                <i className={`fa-solid ct_pass_eye ${!eye ? 'fa-eye-slash' : 'fa-eye'}`} onClick={() => setEye(!eye)}></i>
+
+
                                                                 <label htmlFor="customerPasswodInput">Password *</label>
                                                                 <span style={{ color: "red" }}>{errors.password && touched.password && errors.password}</span>
                                                             </div>

@@ -8,17 +8,16 @@ export const configJSON = require("../components/config");
 
 function Account_edit_address() {
   const navigate = useNavigate()
-  const [address, setAddress] = useState([])
   const [isLoader, setIsLoader] = useState(false);
+  const [address, setAddress] = useState([])
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
-
     if (token == null)
       navigate('/login')
     else
-      getData(token)
+      getAddresses(token)
   }, [])
-  const getData = (val) => {
+  const getAddresses = (val) => {
     setIsLoader(true)
     axios({
       url: configJSON.baseUrl + configJSON.fetch_shipping_details,

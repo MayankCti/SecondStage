@@ -44,7 +44,7 @@ function Shop_order_complete() {
           setSubTotal(res?.data?.vat_sub_total);
           setVat(res?.data?.vat_percentage);
           setOrderData(res?.data?.Card_details);
-          setOrderDetails(res?.data?.order_details[0])
+          setOrderDetails(res?.data?.order_details[res?.data?.order_details?.length-1])
         } else {
           setOrderData([]);
         }

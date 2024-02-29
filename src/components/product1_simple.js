@@ -112,6 +112,7 @@ function Product1_simple(props) {
     setshowCalender(!showCalender);
   };
   const getProduct = () => {
+    window.scroll(0, 0);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const randomeUserId = Cookies.get('RandomUserId');
     const token = JSON.parse(localStorage.getItem("token"))
@@ -150,6 +151,7 @@ function Product1_simple(props) {
   };
 
   const addToWishlist = (productId) => {
+    window.scroll(0, 0);
     setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")

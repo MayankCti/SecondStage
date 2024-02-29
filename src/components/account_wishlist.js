@@ -50,6 +50,7 @@ function Account_wishlist() {
 };
 
 const addToWishlist = (productId) => {
+  window.scroll(0, 0);
   setIsLoader(true)
   const token = JSON.parse(localStorage.getItem("token"))
   const randomeUserId = Cookies.get('RandomUserId');

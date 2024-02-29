@@ -19750,6 +19750,7 @@ a.add-to-wishlist.active .flaticon.flaticon-heart {
 }
 .my-account__address-item__detail {
   line-height: 1.5rem;
+
 }
 .my-account__address-item__detail p {
   margin: 0;
@@ -20758,7 +20759,7 @@ margin-bottom: 0px;
   z-index: 1;
 }
 
-.ct_golden_bg:before{
+/* .ct_golden_bg:before{
   content: "";
   position: absolute;
   left: 0px;
@@ -20770,7 +20771,7 @@ margin-bottom: 0px;
 height: 100%;
 opacity: 0.4;
 z-index: -1;
-}
+} */
 
 main{
   position: relative;
@@ -20778,7 +20779,7 @@ main{
   margin-top: 119px;
 }
 
-/* main:before {
+main:before {
   content: "";
   position: absolute;
   left: 0px;
@@ -20792,8 +20793,8 @@ main{
   height: 100%;
   opacity: 0.5;
   z-index: -1;
-} */
-/* main:after {
+}
+main:after {
   content: "";
   position: absolute;
   right: 0px;
@@ -20807,7 +20808,7 @@ main{
   height:100%;
   opacity: 0.5;
   z-index: -1;
-} */
+}
 
 
 

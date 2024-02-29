@@ -69,6 +69,7 @@ function CategoryContent(props) {
 
 
   const addToWishlist = (productId) => {
+    window.scroll(0, 0);
     setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
