@@ -58,7 +58,6 @@ export const buyer_issue = Yup.object().shape({
   cleaning_fee: Yup.number().required('Cleaning Fee is required').positive('Cleaning Fee must be a positive number'),
   additional_not_listed: Yup.number().required('Additional not listed is required').positive('Additional not listed must be a positive number'),
   value_of_claim: Yup.number().required('Value of Claim is required').positive('Value of Claim must be a positive number'),
-  // upload_product_photo: Yup.mixed().required('Upload Product Photo is required'),
   upload_product_photo: Yup.mixed().test('fileType', 'Invalid file type', (value) => {
     if (!value) return true; // Allow if no file is selected
     const validFileTypes = ['image/jpeg', 'image/png', 'image/gif']; // Example valid file types
@@ -66,4 +65,24 @@ export const buyer_issue = Yup.object().shape({
   }).required('Upload Product Photo is required'),
   tracking_number: Yup.string().required('Tracking Number is required'),
   add_note: Yup.string().required('Add a note is required'),
+});
+
+export const lender_issue = Yup.object().shape({
+  issue_claimed: Yup.string().required('Issue Claimed is required'),
+  date_from: Yup.date().required('From date is required'),
+  date_to: Yup.date().required('To date is required'),
+  damage_fee: Yup.number().required('Damage Fee is required').positive('Damage Fee must be a positive number'),
+  total: Yup.number().required('Total is required').positive('Total must be a positive number'),
+  standard: Yup.number().required('Standard is required').positive('Standard must be a positive number'),
+  complex: Yup.number().required('Complex is required').positive('Complex must be a positive number'),
+  cleaning_fee: Yup.number().required('Cleaning Fee is required').positive('Cleaning Fee must be a positive number'),
+  additional_not_listed: Yup.number().required('Additional not listed is required').positive('Additional not listed must be a positive number'),
+  value_of_claim: Yup.number().required('Value of Claim is required').positive('Value of Claim must be a positive number'),
+  u_product_photo: Yup.mixed().test('fileType', 'Invalid file type', (value) => {
+    if (!value) return true; // Allow if no file is selected
+    const validFileTypes = ['image/jpeg', 'image/png', 'image/gif']; // Example valid file types
+    return validFileTypes.includes(value.type);
+  }).required('Upload Product Photo is required'),
+  tracking_number: Yup.string().required('Tracking Number is required'),
+  reason: Yup.string().required('Reason is required'),
 });

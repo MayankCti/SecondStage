@@ -188,14 +188,14 @@ function FilterBy(props) {
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-heading-brand">
                     <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      className="accordion-button p-0 border-0 fs-5  collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#accordion-filter-brand"
                       aria-expanded="true"
                       aria-controls="accordion-filter-brand"
                     >
-                      Brands
+                      Brand/Type
                       <svg
                         className="accordion-button__icon type2"
                         viewBox="0 0 10 6"
@@ -255,65 +255,19 @@ function FilterBy(props) {
                   </div>
                 </div>
               </div>
-              <div className="accordion" id="category_list_drop">
-                <div className="accordion-item mb-4 ">
-                  <h5 className="accordion-header" id="accordion-heading-category1">
-                    <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordion-filter-category_12"
-                      aria-expanded="true"
-                      aria-controls="accordion-filter-category_12"
-                    >
-                      Category
-                      <svg
-                        className="accordion-button__icon type2"
-                        viewBox="0 0 10 6"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                          <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                        </g>
-                      </svg>
-                    </button>
-                  </h5>
-                  <div
-                    id="accordion-filter-category_12"
-                    className="accordion-collapse collapse  border-0"
-                    aria-labelledby="accordion-heading-category1"
-                    data-bs-parent="#category_list_drop"
-                  >
-                    <div className="accordion-body px-0 pb-0 pt-3">
-                      <ul className="list list-inline mb-0 ps-3">
-                        {
-                          filterContent?.product_categories?.map((item) => (
-                            <li className="list-item d-flex align-items-center">
-                              <label className="cyberpunk-checkbox-label">
-                                <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleCategory(item)} />
-                              </label>
-                              {item}
-                              {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
-                            </li>
-                          ))
-                        }
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
               <div className="accordion" id="price-filters">
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header mb-2" id="accordion-heading-price">
                     <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      className="accordion-button p-0 border-0 fs-5 collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#accordion-filter-price"
                       aria-expanded="true"
                       aria-controls="accordion-filter-price"
                     >
-                      Price
+                      Cost
                       <svg
                         className="accordion-button__icon type2"
                         viewBox="0 0 10 6"
@@ -431,7 +385,7 @@ function FilterBy(props) {
                               <span className="price-range__max">${rentPrice?.length != 0 ? rentPrice[1] : 0}</span>
                             </div>
                           </div>
-                          <small>(Per week/month or season)</small>
+                          <small>(total or per week/month/season)</small>
                         </div>
                       </div>
                     </div>
@@ -442,7 +396,7 @@ function FilterBy(props) {
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-color-main_size_1">
                     <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      className="accordion-button p-0 border-0 fs-5 collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#accordion-color_main_size_2"
@@ -627,14 +581,14 @@ function FilterBy(props) {
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-color-1">
                     <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      className="accordion-button p-0 border-0 fs-5 collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#accordion-color-2"
                       aria-expanded="true"
                       aria-controls="accordion-color-2"
                     >
-                      Color
+                      Colour
                       <svg
                         className="accordion-button__icon type2"
                         viewBox="0 0 10 6"
@@ -674,7 +628,7 @@ function FilterBy(props) {
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-color-bling">
                     <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      className="accordion-button p-0 border-0 fs-5 collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#accordion-color-biling"
@@ -790,8 +744,6 @@ function FilterBy(props) {
 
                                 ))
                               }
-
-
                             </ul>
                           </div>
                         </div>
@@ -804,7 +756,7 @@ function FilterBy(props) {
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-heading-5">
                     <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      className="accordion-button p-0 border-0 fs-5 collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#accordion-filter-5"
@@ -849,85 +801,7 @@ function FilterBy(props) {
                 </div>
               </div>
 
-              <div className="accordion" id="categories-list8">
-                <div className="accordion-item mb-4 ">
-                  <h5 className="accordion-header" id="accordion-heading-8">
-                    <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordion-filter-8"
-                      aria-expanded="true"
-                      aria-controls="accordion-filter-8"
-                    >
-                      Style
-                      <svg
-                        className="accordion-button__icon type2"
-                        viewBox="0 0 10 6"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                          <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                        </g>
-                      </svg>
-                    </button>
-                  </h5>
-                  <div
-                    id="accordion-filter-8"
-                    className="accordion-collapse collapse  border-0"
-                    aria-labelledby="accordion-heading-8"
-                    data-bs-parent="#categories-list8"
-                  >
-                    <div className="accordion-body px-0 pb-0 pt-3">
-                      <ul className="list list-inline mb-0 ps-3">
-                        <li className="list-item">
-                          {/* <a  className="menu-link py-1"><h5>Bikini/Fitness</h5></a> */}
-                          <ul className="mb-3 ps-0">
-                            <h6>Top</h6>
-                            <ul className="ct_list_style_none">
-                              {
-                                filterContent?.styleTop?.map((item) => (
-                                  <li >
-                                    <label className="cyberpunk-checkbox-label">
-                                      <input
-                                        type="checkbox"
-                                        className="cyberpunk-checkbox"
-                                        onChange={() => handleStyleTop(item)}
-                                      />
-                                    </label>
-                                    {item}
-                                  </li>
-                                ))
-                              }
 
-
-                            </ul>
-                          </ul>
-                          <ul className="ps-0">
-                            <h6>Bottom</h6>
-                            <ul className="ct_list_style_none">
-                              {
-                                filterContent?.styleBottom?.map((item) => (
-                                  <li>
-                                    <label className="cyberpunk-checkbox-label">
-                                      <input
-                                        type="checkbox"
-                                        className="cyberpunk-checkbox"
-                                        onChange={() => handleStyleBottom(item)}
-                                      />
-                                    </label>
-                                    {item}
-                                  </li>
-                                ))
-                              }
-                            </ul>
-                          </ul>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
 
 
@@ -937,7 +811,7 @@ function FilterBy(props) {
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-heading-2">
                     <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      className="accordion-button p-0 border-0 fs-5 collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#accordion-filter-2"
@@ -983,11 +857,144 @@ function FilterBy(props) {
                   </div>
                 </div>
               </div>
+
+              {/* Commented */}
+
+              {/* <div className="accordion" id="category_list_drop">
+                <div className="accordion-item mb-4 ">
+                  <h5 className="accordion-header" id="accordion-heading-category1">
+                    <button
+                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#accordion-filter-category_12"
+                      aria-expanded="true"
+                      aria-controls="accordion-filter-category_12"
+                    >
+                      Category
+                      <svg
+                        className="accordion-button__icon type2"
+                        viewBox="0 0 10 6"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g aria-hidden="true" stroke="none" fill-rule="evenodd">
+                          <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
+                        </g>
+                      </svg>
+                    </button>
+                  </h5>
+                  <div
+                    id="accordion-filter-category_12"
+                    className="accordion-collapse collapse  border-0"
+                    aria-labelledby="accordion-heading-category1"
+                    data-bs-parent="#category_list_drop"
+                  >
+                    <div className="accordion-body px-0 pb-0 pt-3">
+                      <ul className="list list-inline mb-0 ps-3">
+                        {
+                          filterContent?.product_categories?.map((item) => (
+                            <li className="list-item d-flex align-items-center">
+                              <label className="cyberpunk-checkbox-label">
+                                <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleCategory(item)} />
+                              </label>
+                              {item}
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="accordion" id="categories-list8">
+                <div className="accordion-item mb-4 ">
+                  <h5 className="accordion-header" id="accordion-heading-8">
+                    <button
+                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#accordion-filter-8"
+                      aria-expanded="true"
+                      aria-controls="accordion-filter-8"
+                    >
+                      Style
+                      <svg
+                        className="accordion-button__icon type2"
+                        viewBox="0 0 10 6"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g aria-hidden="true" stroke="none" fill-rule="evenodd">
+                          <path d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
+                        </g>
+                      </svg>
+                    </button>
+                  </h5>
+                  <div
+                    id="accordion-filter-8"
+                    className="accordion-collapse collapse  border-0"
+                    aria-labelledby="accordion-heading-8"
+                    data-bs-parent="#categories-list8"
+                  >
+                    <div className="accordion-body px-0 pb-0 pt-3">
+                      <ul className="list list-inline mb-0 ps-3">
+                        <li className="list-item">
+                          <ul className="mb-3 ps-0">
+                            <h6>Top</h6>
+                            <ul className="ct_list_style_none">
+                              {
+                                filterContent?.styleTop?.map((item) => (
+                                  <li >
+                                    <label className="cyberpunk-checkbox-label">
+                                      <input
+                                        type="checkbox"
+                                        className="cyberpunk-checkbox"
+                                        onChange={() => handleStyleTop(item)}
+                                      />
+                                    </label>
+                                    {item}
+                                  </li>
+                                ))
+                              }
+
+
+                            </ul>
+                          </ul>
+                          <ul className="ps-0">
+                            <h6>Bottom</h6>
+                            <ul className="ct_list_style_none">
+                              {
+                                filterContent?.styleBottom?.map((item) => (
+                                  <li>
+                                    <label className="cyberpunk-checkbox-label">
+                                      <input
+                                        type="checkbox"
+                                        className="cyberpunk-checkbox"
+                                        onChange={() => handleStyleBottom(item)}
+                                      />
+                                    </label>
+                                    {item}
+                                  </li>
+                                ))
+                              }
+                            </ul>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div> */}
+
+              {/* Commented */}
+
+
+
               <div className="accordion" id="location">
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header mb-2" id="accordion-heading_location">
                     <button
-                      className="accordion-button p-0 border-0 fs-5 text-uppercase collapsed"
+                      className="accordion-button p-0 border-0 fs-5 collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#accordion-filter-location"

@@ -70,6 +70,7 @@ function Register_seller() {
   const [cardNumber, setCardNumber] = useState()
   const [formObj, setFormObj] = useState({ buyer_name: "", user_name: '', email: '', phone_number: '', license_state: '', license_number: '', seller_sigup: 1, buyer_card_number: '', guest_token: 0, isCheck: false })
   const [isAgree, setIsAgree] = useState(false)
+  const [product,setProduct] = useState('product')
   const navigate = useNavigate();
   const style = {
     position: 'absolute',
@@ -82,7 +83,7 @@ function Register_seller() {
     boxShadow: 24,
     p: 4,
   };
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const handleOpen = () => {
     if (product_name && categoryOption && priceSellLend && priceBuyOption && colorData && brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && replacementPrice) {
       setOpen(true);
@@ -206,7 +207,6 @@ function Register_seller() {
           addProduct()
         } else {
           MESSAGE.error(res?.data?.message);
-
         }
       })
       .catch((error) => {
@@ -220,6 +220,7 @@ function Register_seller() {
     setIsLoader(true)
     const fata = file.flat()
     const data = new FormData();
+    // data.append("product",product)
     data.append("product_category", categoryOption)
     data.append("product_name", product_name)
     data.append("price_sale_lend_price", priceSellLend)
@@ -235,6 +236,7 @@ function Register_seller() {
     data.append("product_padding", paddingOption)
     data.append("location", locationOption)
     data.append("product_description", description)
+    
     const userID = localStorage.getItem("user_id")
     data.append("userId", userID)
     for (let i = 0; i < file.length; i++) {
@@ -599,6 +601,15 @@ function Register_seller() {
                   className="needs-validation"
                   novalidate=""
                 >
+                  <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
+              <li className="nav-item" role="presentation">
+                <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" onClick={() => setProduct("product")}>Product</a>
+              </li>
+              <li className="nav-item" role="presentation">
+                <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100" onClick={() => setProduct("featured_product")}>Featured Product</a>
+              </li>
+
+            </ul>
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-floating my-3">

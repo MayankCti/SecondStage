@@ -238,9 +238,9 @@ function Account_dashboard() {
                   </div>
 
                   <div className="d-flex align-items-center gap-2 flex-wrap">
-                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleSellLend()} >Your Items for Sale/Lend </a>
+                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleSellLend()} >Items for Sale/Lend </a>
                     <a className='ct_sell_btn ct_border_zero' onClick={() => handleAccountOrders()}>Current Orders </a>
-                    <a className='ct_sell_btn ct_border_zero' onClick={() => handlePastOrder()} >Your Past Orders</a>
+                    <a className='ct_sell_btn ct_border_zero' onClick={() => handlePastOrder()} >Past Orders</a>
                     {/* <a className='ct_sell_btn ct_border_zero' onClick={()=>handlePastOrder()} >Issue Request </a> */}
                     <select className='ct_sell_btn ct_select_option_hover'>
                       <option>Issue Request</option>

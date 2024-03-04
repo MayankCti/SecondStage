@@ -27,6 +27,7 @@ function Shop_order_complete() {
   }, [])
 
   const getOrderStatus = () => {
+    window.scroll(0,0)
     const token = JSON.parse(localStorage.getItem("token"));
     setIsLoader(true);
     axios({
@@ -43,8 +44,9 @@ function Shop_order_complete() {
           setTotal(res?.data?.totalPrice)
           setSubTotal(res?.data?.vat_sub_total);
           setVat(res?.data?.vat_percentage);
-          setOrderData(res?.data?.Card_details);
-          setOrderDetails(res?.data?.order_details[res?.data?.order_details?.length-1])
+          console.log(res?.data?.Card_details, "gkffjssl")
+          setOrderData(res?.data?.Card_details?.length != 0 ? res?.data?.Card_details : []);
+          setOrderDetails(res?.data?.order_details[res?.data?.order_details?.length - 1])
         } else {
           setOrderData([]);
         }
@@ -218,17 +220,18 @@ function Shop_order_complete() {
 
       <Header />
       {
-        isLoader == true ?
-          <div className="custom-loader"></div>
-          :
-          orderData?.length!=0 ?
+        isLoader == true &&
+        <div className="custom-loader"></div>
+      }
+      {
+        orderData?.length != 0 ?
           <>
             <main>
               <div className="mb-4 pb-4"></div>
               <section className="shop-checkout container">
                 <h2 className="page-title">Order Received</h2>
                 <div className="checkout-steps">
-                  <a  className="checkout-steps__item active">
+                  <a className="checkout-steps__item active">
                     <span className="checkout-steps__item-number">01</span>
                     <span className="checkout-steps__item-title">
                       <span>Shopping Bag</span>
@@ -290,7 +293,7 @@ function Shop_order_complete() {
                         <tbody>
                           {
 
-                            orderData.map((item) => (
+                            orderData?.map((item) => (
                               <tr>
                                 <td>
                                   {item?.product_brand}
@@ -328,11 +331,13 @@ function Shop_order_complete() {
                 </div>
               </section>
             </main>
-
             <div className="mb-5 pb-xl-5"></div>
-          </> : <h3>Something went wrong.!!!</h3>
+          </>
+          :
+          <>
+            <h3 className='text-center' style={{ marginTop: '15%', marginBottom:"10%" }}>Something went wrong.!!!</h3>
+          </>
       }
-
 
       <Footer />
     </>

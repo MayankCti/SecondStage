@@ -42,12 +42,12 @@ function UserRegister() {
   const handleRegister = (val, { resetForm }) => {
     const randomeUserId = Cookies.get('RandomUserId');
     setIsLoader(true)
-    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: licenseStateOption, license_number: val.license_number, password: val.password, guest_token: parseInt(randomeUserId), seller_sigup: 0 }
+    const data = { buyer_name: val.buyer_name, user_name: val.user_name, email: val.email, phone_number: val.phone_number, license_state: licenseStateOption, license_number: val.license_number, password: val.password, seller_sigup: 0 }
 
     axios({
       url: configJSON.baseUrl + configJSON.signUpBuyer,
       method: "post",
-      data: data,
+      data: randomeUserId ? {...data, guest_token: parseInt(randomeUserId)}: data,
     })
       .then((res) => {
         setIsLoader(false)

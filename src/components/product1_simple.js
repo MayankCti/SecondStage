@@ -130,6 +130,10 @@ function Product1_simple(props) {
       .then((res) => {
         setIsLoader(false);
         if (res?.data?.success == true) {
+          console.log(res?.data?.products[0].product_color[0], "ciorkfd")
+          setColor(res?.data?.products[0].product_color[0])
+          setSize_top(res?.data?.products[0].product_size[0].size_top)
+          setSize_bottom(res?.data?.products[0].product_size[0].size_bottom)
           setProduct(res?.data?.products[0]);
           getData(res?.data?.products[0].product_category);
         } else {
@@ -140,9 +144,6 @@ function Product1_simple(props) {
         console.log(error);
         setIsLoader(false);
       });
-  };
-  const handleClickRent = () => {
-    setshowCalender(!showCalender);
   };
 
   const handleProduct1Simple = (productId) => {
@@ -236,7 +237,7 @@ function Product1_simple(props) {
         });
     } else {
       setIsLoader(false);
-      type == "buy" ? MESSAGE.error("Please select color and size") : MESSAGE.error("Please select date,color and size")
+      type == "rent" && MESSAGE.error("Please select date.")
     }
 
 
@@ -709,14 +710,7 @@ function Product1_simple(props) {
                                       id="swatch-1"
                                     />
                                     <label
-                                      onClick={() =>
-                                        setSize_top(item?.size_top)
-                                      }
-                                      className={
-                                        size_top != item?.size_top
-                                          ? "swatch js-swatch"
-                                          : "swatch js-swatch ct_size_active"
-                                      }
+                                      className="swatch js-swatch ct_size_active"
                                       for="swatch-1"
                                       aria-label="Extra Small"
                                       data-bs-toggle="tooltip"
@@ -741,14 +735,7 @@ function Product1_simple(props) {
                                       id="swatch-1"
                                     />
                                     <label
-                                      onClick={() =>
-                                        setSize_bottom(item?.size_bottom)
-                                      }
-                                      className={
-                                        size_bottom != item?.size_bottom
-                                          ? "swatch js-swatch"
-                                          : "swatch js-swatch ct_size_active"
-                                      }
+                                      className="swatch js-swatch ct_size_active"
                                       for="swatch-1"
                                       aria-label="Extra Small"
                                       data-bs-toggle="tooltip"
@@ -762,31 +749,27 @@ function Product1_simple(props) {
                                 ))}
                               </div>
                             </div>
-                            <div className="product-swatch color-swatches">
+                            <div className="product-swatch text-swatches">
                               <label>Color</label>
                               <div className="swatch-list">
                                 {product?.product_color?.map((item) => (
                                   <>
                                     <input
                                       type="radio"
-                                      name="color"
-                                      id="swatch-11"
+                                      name="size"
+                                      id="swatch-1"
                                     />
                                     <label
-                                      onClick={() => setColor(item)}
-                                      className={
-                                        color != item
-                                          ? "swatch swatch-color js-swatch"
-                                          : "swatch swatch-color js-swatch ct_active_color1"
-                                      }
-                                      for="swatch-11"
-                                      aria-label="Black"
+                                      className="swatch js-swatch ct_size_active"
+                                      for="swatch-1"
+                                      aria-label="Extra Small"
                                       data-bs-toggle="tooltip"
                                       data-bs-placement="top"
                                       title=""
-                                      style={{ color: `${item}` }}
-                                      data-bs-original-title="Black"
-                                    ></label>
+                                      data-bs-original-title="Extra Small"
+                                    >
+                                      {item}
+                                    </label>
                                   </>
                                 ))}
                               </div>
@@ -923,9 +906,7 @@ function Product1_simple(props) {
                                       id="swatch-1"
                                     />
                                     <label
-                                      onClick={() =>
-                                        setSize_top(item?.size_top)
-                                      }
+
                                       className={
                                         size_top != item?.size_top
                                           ? "swatch js-swatch"
@@ -955,14 +936,7 @@ function Product1_simple(props) {
                                       id="swatch-1"
                                     />
                                     <label
-                                      onClick={() =>
-                                        setSize_bottom(item?.size_bottom)
-                                      }
-                                      className={
-                                        size_bottom != item?.size_bottom
-                                          ? "swatch js-swatch"
-                                          : "swatch js-swatch ct_size_active"
-                                      }
+                                      className="swatch js-swatch ct_size_active"
                                       for="swatch-1"
                                       aria-label="Extra Small"
                                       data-bs-toggle="tooltip"
@@ -976,36 +950,32 @@ function Product1_simple(props) {
                                 ))}
                               </div>
                             </div>
-
-                            <div className="product-swatch color-swatches">
+                            <div className="product-swatch text-swatches">
                               <label>Color</label>
                               <div className="swatch-list">
                                 {product?.product_color?.map((item) => (
                                   <>
                                     <input
                                       type="radio"
-                                      name="color"
-                                      id="swatch-11"
+                                      name="size"
+                                      id="swatch-1"
                                     />
                                     <label
-                                      onClick={() => setColor(item)}
-                                      className={
-                                        color != item
-                                          ? "swatch swatch-color js-swatch"
-                                          : "swatch swatch-color js-swatch ct_active_color1"
-                                      }
-                                      for="swatch-11"
-                                      aria-label="Black"
+                                      className="swatch js-swatch ct_size_active"
+                                      for="swatch-1"
+                                      aria-label="Extra Small"
                                       data-bs-toggle="tooltip"
                                       data-bs-placement="top"
                                       title=""
-                                      style={{ color: `${item}` }}
-                                      data-bs-original-title="Black"
-                                    ></label>
+                                      data-bs-original-title="Extra Small"
+                                    >
+                                      {item}
+                                    </label>
                                   </>
                                 ))}
                               </div>
                             </div>
+
                           </div>
                           <form name="addtocart-form">
                             <div className="product-single__addtocart">

@@ -1,10 +1,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true,
 });
-// local  
-// export const baseUrl = "http://192.168.1.33:4005/web/"
-// live 
-export const baseUrl = "http://34.195.103.99:4005/web/"
+// local
+export const baseUrl = "http://192.168.1.3:4005/web/"
+// live
+// export const baseUrl = "http://34.195.103.99:4005/web/"
 
 export const signUpBuyer = "signUp"
 export const loginBuyer = "login_buyer"

@@ -35,6 +35,15 @@ function Shop_checkout() {
   const [isShipping, setIsShipping] = useState(false)
   const [isAgree, setIsAgree] = useState(false)
   const [isNewAdress, setIsNewAdress] = useState(false)
+  const [address, setAddress] = useState([])
+  const [addressId, setAddressId] = useState([])
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token == null)
+      navigate('/login')
+    else
+      getAddresses(token)
+  }, [])
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
@@ -61,13 +70,13 @@ function Shop_checkout() {
           province: province,
           phone: `${phone}`,
           mail: email,
-          order_notes: orderNotes
+          order_notes: orderNotes,
         };
         if (fname && lname && contryRegion && streetAddress && townCity && postZipCode && province && phone && email) {
           axios({
             method: "post",
             url: configJSON.baseUrl + configJSON.add_shipping_details,
-            data: data,
+            data: isNewAdress == true ? data : {...data,adress_id : addressId},
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -127,14 +136,7 @@ function Shop_checkout() {
       setIsLoader(false)
     }
   }
-  const [address, setAddress] = useState([])
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"))
-    if (token == null)
-      navigate('/login')
-    else
-      getAddresses(token)
-  }, [])
+
   const getAddresses = (val) => {
     setIsLoader(true)
     axios({
@@ -158,7 +160,7 @@ function Shop_checkout() {
     })
   }
   const handleAddress = (item) => {
-    console.log(item, "item");
+    setAddressId(item.id)
     setFname(item?.first_name)
     setLname(item?.last_name)
     setCompanyName(item?.company_name)

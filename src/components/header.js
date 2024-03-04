@@ -26,9 +26,7 @@ function Header(props) {
   const [isdropdown, setDropdown] = useState(false);
 
   const [showCalender, setshowCalender] = useState(false);
-  const [total_rend_days, setTotalRendDays] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+
   const [state, setState] = useState([
     {
       startDate: new Date(
@@ -43,7 +41,7 @@ function Header(props) {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
-    if(token){
+    if (token) {
       getMyProfile(token);
     }
     getCartData(token);
@@ -52,7 +50,7 @@ function Header(props) {
 
   const getMyProfile = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
-    
+
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.myProfile_buyer,
@@ -104,7 +102,7 @@ function Header(props) {
       });
   };
 
-  const upDateCartData = (item, selColor, top, bottom) => {
+  const upDateCartData = (item,s,e,d) => {
     setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
     const token = JSON.parse(localStorage.getItem("token"))
@@ -115,21 +113,21 @@ function Header(props) {
         user_id: token && user_id ? user_id : parseInt(randomeUserId),
         card_id: item?.new_cart_id,
         cart_quantity: 1,
-        size_top: `${top}`,
-        size_bottom: `${bottom}`,
-        color: `${selColor}`,
+        color: `${item?.product_color[0]}`,
+        size_top: `${item?.product_size[0].size_top}`,
+        size_bottom: `${item?.product_size[0].size_bottom}`,
       };
     } else if (item?.product_buy_rent == "rent") {
       data = {
         user_id: token && user_id ? user_id : parseInt(randomeUserId),
         card_id: item?.new_cart_id,
         cart_quantity: 1,
-        size_top: `${top}`,
-        size_bottom: `${bottom}`,
-        color: `${selColor}`,
-        start_date: `${startDate}`,
-        end_date: `${endDate}`,
-        total_rend_days: total_rend_days,
+        color: `${item?.product_color[0]}`,
+        size_top: `${item?.product_size[0].size_top}`,
+        size_bottom: `${item?.product_size[0].size_bottom}`,
+        start_date: `${s}`,
+        end_date: `${e}`,
+        total_rend_days: d,
       };
     }
     axios({
@@ -164,7 +162,7 @@ function Header(props) {
     axios({
       method: "delete",
       url: configJSON.baseUrl + configJSON.deleteCartData + cart_id,
-      data:data
+      data: data
     })
       .then((res) => {
         setIsLoader(false);
@@ -244,18 +242,15 @@ function Header(props) {
 
   const hanleDate = (item, item1) => {
     setState([item?.selection]);
-
-    var sDate = moment(item?.selection?.startDate).format("DD-MM-YYYY");
-    var eDate = moment(item?.selection?.endDate).format("DD-MM-YYYY");
-    setStartDate(sDate);
-    setEndDate(eDate);
+    const sDate = moment(item?.selection?.startDate).format("DD-MM-YYYY");
+    const eDate = moment(item?.selection?.endDate).format("DD-MM-YYYY");
 
     var startDate = moment(item?.selection?.startDate);
     var endDate = moment(item?.selection?.endDate);
     var diffInDays = endDate.diff(startDate, "days");
-    setTotalRendDays(diffInDays);
+   
     setshowCalender(!showCalender);
-    upDateCartData(item1, item1?.color, item1?.size_top, item1?.size_bottom);
+    upDateCartData(item1,sDate,eDate,diffInDays);
   };
 
   return (
@@ -631,12 +626,12 @@ function Header(props) {
                     </div>
 
                     {isdropdown && (<>
-                        <CloseDropdown callback={()=>setDropdown(false)}/>
-                      <ul className="ct_dropdown-menu" onClick={()=>setDropdown(false)}>
+                      <CloseDropdown callback={() => setDropdown(false)} />
+                      <ul className="ct_dropdown-menu" onClick={() => setDropdown(false)}>
                         <li onClick={() => navigate("/account-edit")}>
                           <a className="dropdown-item">Profile</a>
                         </li>
-                        <li>
+                        {/* <li>
                           <a
                             className="dropdown-item"
                             onClick={() => navigate("/lenderform")}
@@ -659,7 +654,7 @@ function Header(props) {
                           >
                             Renter issue response form
                           </a>
-                        </li>
+                        </li> */}
                         <li onClick={handleLogout}>
                           <a className="dropdown-item">Log Out</a>
                         </li>
@@ -668,7 +663,7 @@ function Header(props) {
                     )}
                   </div>
                 </div>
-                )}
+              )}
               <div className="header-tools__item hover-container ct_desktop_login align-items-center">
                 {!accessToken && (
                   <a
@@ -747,74 +742,28 @@ function Header(props) {
                       <div>
                         <p className="cart-drawer-item__option text-secondary">
                           {/* Color:  */}
-                          <label>Color</label>
-
-                          <select
-                            className="form-control ct_cart_select"
-                            onChange={(e) =>
-                              upDateCartData(
-                                item,
-                                e.target.value,
-                                item?.size_top,
-                                item?.size_bottom
-                              )
-                            }
-                          >
-                            {item?.product_color?.map((obj) => (
-                              <option value={obj}> {obj}</option>
-                            ))}
-                          </select>
+                          <label>Color</label> <br />
+                          {item?.product_color?.map((obj) => (
+                            <label > {obj}</label>
+                          ))}
                         </p>
                       </div>
                       <div>
                         <p className="cart-drawer-item__option text-secondary">
                           {/* Size: {item?.product_size[0]?.size_bottom} */}
-                          <label>Size Top</label>
-
-                          <select
-                            className="form-control ct_cart_select"
-                            onChange={(e) =>
-                              upDateCartData(
-                                item,
-                                item?.color,
-                                e.target.value,
-                                item?.size_bottom
-                              )
-                            }
-                          >
-                           
-                            {item?.product_size?.map((obj) => (
-                              <option value={obj?.size_top}>
-                                {" "}
-                                {obj?.size_top}
-                              </option>
-                            ))}
-                          </select>
+                          <label>Size Top :&nbsp;</label>
+                          {item?.product_size?.map((obj) => (
+                            <label>{obj?.size_top}</label>
+                          ))}
                         </p>
                       </div>
                     </div>
 
                     <p className="cart-drawer-item__option text-secondary mt-2">
-                      <label>Size Bottom</label>
-                      <select
-                        className="form-control ct_cart_select"
-                        onChange={(e) =>
-                          upDateCartData(
-                            item,
-                            item?.color,
-                            item?.size_top,
-                            e.target.value
-                          )
-                        }
-                      >
-                       
-                        {item?.product_size?.map((obj) => (
-                          <option value={obj?.size_bottom}>
-                            {" "}
-                            {obj?.size_bottom}
-                          </option>
-                        ))}
-                      </select>
+                      <label>Size Bottom :&nbsp;</label>
+                      {item?.product_size?.map((obj) => (
+                        <label>{obj?.size_bottom}</label>
+                      ))}
                     </p>
                     {item?.product_buy_rent == "rent" && (
                       <p className="cart-drawer-item__option text-secondary mt-2 text-center  mx-auto my-2">
@@ -883,7 +832,7 @@ function Header(props) {
               </>
             ))
           ) : (
-            <h3 className='text-center'>Your cart is Empty!!!</h3>
+            <h3 className='text-center'>Cart is Empty!!!</h3>
           )}
         </div>
 
@@ -891,7 +840,7 @@ function Header(props) {
           <hr className="cart-drawer-divider" />
           <div className="d-flex justify-content-between">
             <h6 className="fs-base fw-medium">SUBTOTAL:</h6>
-            <span className="cart-subtotal fw-medium">${allProduct?.length ==0 ? "0" : subtotal}</span>
+            <span className="cart-subtotal fw-medium">${allProduct?.length == 0 ? "0" : subtotal}</span>
           </div>
           <a
             onClick={() => handleShopCart()}

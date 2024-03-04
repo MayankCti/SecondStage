@@ -347,7 +347,7 @@ return (
                           </div>
                         </div>
                       )) :
-                      <h3>Your wishlist is empty !!!</h3>
+                      <h3>Wishlist is empty !!!</h3>
                 }
 
 

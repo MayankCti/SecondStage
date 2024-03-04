@@ -17,6 +17,7 @@ const BuyerForm = () => {
     tracking_number: '',
     add_note: ''
   })
+
   const handleBuyerIssue = (val) => {
     console.log(val, "val")
   }
@@ -197,7 +198,6 @@ const BuyerForm = () => {
                 isSubmitting,
               }) => (
                 <form>
-                  {console.log(errors)}
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-group mb-3">

@@ -93,10 +93,6 @@ function App(){
           <Route exact path="/edit-product" element={<EditProduct />} />
           <Route exact path="/demo" element={<Demo />} />
 
-
-
-
-
         </Routes>
       </Router>
     </div>
