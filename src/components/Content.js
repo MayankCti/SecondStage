@@ -182,6 +182,7 @@ function Content(props) {
               >
                 {
                   allProduct?.map((item) => (
+                    item?.product_type == 'featured' &&
                     item?.product_buy_rent == show &&
                     <div className="product-card-wrapper">
                       <div className="product-card mb-3 mb-md-4 mb-xxl-5">

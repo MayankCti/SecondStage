@@ -70,7 +70,7 @@ function Register_seller() {
   const [cardNumber, setCardNumber] = useState()
   const [formObj, setFormObj] = useState({ buyer_name: "", user_name: '', email: '', phone_number: '', license_state: '', license_number: '', seller_sigup: 1, buyer_card_number: '', guest_token: 0, isCheck: false })
   const [isAgree, setIsAgree] = useState(false)
-  const [product,setProduct] = useState('product')
+  const [product, setProduct] = useState('product')
   const navigate = useNavigate();
   const style = {
     position: 'absolute',
@@ -83,7 +83,7 @@ function Register_seller() {
     boxShadow: 24,
     p: 4,
   };
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     if (product_name && categoryOption && priceSellLend && priceBuyOption && colorData && brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && replacementPrice) {
       setOpen(true);
@@ -113,7 +113,7 @@ function Register_seller() {
   useEffect(() => {
     getMyProfile()
     getFilterContent()
-  
+
   }, [])
 
 
@@ -220,7 +220,7 @@ function Register_seller() {
     setIsLoader(true)
     const fata = file.flat()
     const data = new FormData();
-    // data.append("product",product)
+    data.append("product_type",product)
     data.append("product_category", categoryOption)
     data.append("product_name", product_name)
     data.append("price_sale_lend_price", priceSellLend)
@@ -236,7 +236,7 @@ function Register_seller() {
     data.append("product_padding", paddingOption)
     data.append("location", locationOption)
     data.append("product_description", description)
-    
+
     const userID = localStorage.getItem("user_id")
     data.append("userId", userID)
     for (let i = 0; i < file.length; i++) {
@@ -322,7 +322,7 @@ function Register_seller() {
       console.log(error)
     })
   }
- 
+
   return (
     <>
       <svg className="d-none">
@@ -602,14 +602,14 @@ function Register_seller() {
                   novalidate=""
                 >
                   <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
-              <li className="nav-item" role="presentation">
-                <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" onClick={() => setProduct("product")}>Product</a>
-              </li>
-              <li className="nav-item" role="presentation">
-                <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100" onClick={() => setProduct("featured_product")}>Featured Product</a>
-              </li>
+                    <li className="nav-item" role="presentation">
+                      <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" onClick={() => setProduct("product")}>Product</a>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                      <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100" onClick={() => setProduct("featured")}>Featured Product</a>
+                    </li>
 
-            </ul>
+                  </ul>
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-floating my-3">
@@ -824,20 +824,20 @@ function Register_seller() {
                             className="filters-container js-hidden-content mt-2"
                             onClick={onHandleOpenColor}
                           >
+                            
                             <ul className="search-suggestion list-unstyled">
-                              <div className="d-flex flex-wrap gap-2">
-                                {
-                                  filterContent?.productColor?.map((item) => (
+                              {
+                                filterContent?.productColor?.map((item) => (
 
-                                    <a
-                                      onClick={() => setColorData(item)}
-                                      className="swatch-color js-filter"
-                                      style={{ color: `${item}` }}
-                                    ></a>
-                                  ))
-                                }
-                              </div>
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setColorData(item)}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      {item}
+                                    </a>
+                                  </li>
+                                ))
+                              }
                             </ul>
+                            
                           </div>
                         </div>
                       </div>
@@ -1365,12 +1365,16 @@ function Register_seller() {
           </div>
         </section>
       </main>
+
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
+        {
+              isLoader == true ?
+                <div className="custom-loader"></div>:
         <Box sx={style}>
           <section
             className="login-register container mx-0 w-75 mx-auto pb-5"
@@ -1384,6 +1388,7 @@ function Register_seller() {
               </div>
             </section>
             <div className="login-form">
+
               <Formik
                 initialValues={JSON.parse(sessionStorage.getItem("sellerForm")) ?? formObj}
                 validationSchema={Seller_Schema}
@@ -1625,7 +1630,7 @@ function Register_seller() {
               </Formik>
             </div>
           </section>
-        </Box>
+        </Box>}
       </Modal>
       <Footer />
     </>

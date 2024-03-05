@@ -608,17 +608,25 @@ function FilterBy(props) {
                   >
                     <div className="accordion-body px-0 pb-0">
                       <div className="d-flex flex-wrap">
+                      <ul className="search-suggestion list-unstyled px-2">
                         {
                           filterContent?.productColor?.map((item) => (
+                            <>
+                              {
+                                 <li className="search-suggestion__item js-search-select d-flex align-items-center py-0">
+                                  <label className="cyberpunk-checkbox-label">
+                                    <input type="checkbox" className="cyberpunk-checkbox" onChange={() => handleColor(item)} />
+                                  </label>
+                                  <span className="me-auto">{item}</span>
+                                </li>
+                              }
+                            </>
 
-                            <a
-                              onClick={() => handleColor(item)}
-                              className={color.includes(item) == true ? "swatch-color js-filter ct_select_clr_active" : "swatch-color js-filter"}
-                              style={{ color: `${item}` }}
-                            >
-                            </a>
+
                           ))
                         }
+                      </ul>
+                        
                       </div>
                     </div>
                   </div>

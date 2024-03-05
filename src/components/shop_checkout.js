@@ -76,7 +76,7 @@ function Shop_checkout() {
           axios({
             method: "post",
             url: configJSON.baseUrl + configJSON.add_shipping_details,
-            data: isNewAdress == true ? data : {...data,adress_id : addressId},
+            data: isNewAdress == true ? data : { ...data, shipping_id: addressId },
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -122,7 +122,7 @@ function Shop_checkout() {
         setIsLoader(false)
         if (res?.data?.success == true) {
           MESSAGE.success(res?.data?.message);
-          navigate("/shop-order-complete")
+          navigate("/shop-order-complete", { state: { cart_id: res?.data?.data[0]?.cart_id } })
         }
         else {
           MESSAGE.error(res?.data?.message)
@@ -150,6 +150,7 @@ function Shop_checkout() {
       setIsLoader(false)
       if (res?.data?.success == true) {
         setAddress(res?.data?.shipping_details ? res?.data?.shipping_details : [])
+        setIsNewAdress(res?.data?.shipping_details?.length != 0 ? false : true)
       }
       else {
         setAddress([])
@@ -173,9 +174,9 @@ function Shop_checkout() {
     setEmail(item?.mail)
     setOrderNotes(item?.order_notes)
   }
-  useEffect(()=>{
-window.scroll(0,0);
-  },[isNewAdress])
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, [isNewAdress])
   return (
     <>
       <svg className="d-none">
@@ -329,7 +330,7 @@ window.scroll(0,0);
       </svg>
 
       <Header />
-      
+
       <main>
         <div className="mb-4 pb-4"></div>
         <section className="shop-checkout container">
@@ -467,7 +468,7 @@ window.scroll(0,0);
                       <textarea onChange={(e) => setOrderNotes(e.target.value)} value={orderNotes} className="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
                     </div>
                   </div>
-                  <button className="btn btn-primary btn-checkout" onClick={()=>setIsNewAdress(false)} type='button' >Retrieve addresses from previous records.</button>
+                  <button className="btn btn-primary btn-checkout" onClick={() => setIsNewAdress(false)} type='button' >Retrieve addresses from previous records.</button>
                 </div>
                 }
                 {
@@ -500,7 +501,7 @@ window.scroll(0,0);
                             </>
                           ))
                         }
-                    <button className="btn btn-primary btn-checkout" onClick={()=>setIsNewAdress(true)} type='button' >Add new addres</button>
+                        <button className="btn btn-primary btn-checkout" onClick={() => setIsNewAdress(true)} type='button' >Add new addres</button>
                       </div>
                     </div>
                   </div>

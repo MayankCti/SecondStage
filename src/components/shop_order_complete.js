@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Header from './header'
 import Footer from './footer'
 import axios, { all } from 'axios'
@@ -15,7 +15,8 @@ function Shop_order_complete() {
   const [total, setTotal] = useState()
   const [subTotal, setSubTotal] = useState()
   const [vat, setVat] = useState()
-
+  const cart_id = useLocation().state?.cart_id
+  console.log(cart_id,"dsafs")
   const [isLoader, setIsLoader] = useState(false);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -27,12 +28,16 @@ function Shop_order_complete() {
   }, [])
 
   const getOrderStatus = () => {
-    window.scroll(0,0)
+    window.scroll(0, 0)
     const token = JSON.parse(localStorage.getItem("token"));
+    const data = {
+      cart_id : `${cart_id}`
+    }
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.fetchOrder,
-      method: "get",
+      method: "post",
+      data : data,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -295,8 +300,9 @@ function Shop_order_complete() {
 
                             orderData?.map((item) => (
                               <tr>
+                                {console.log(item?.product_details?.sub_total)}
                                 <td>
-                                  {item?.product_brand}
+                                  {item?.product_details?.product_brand}
                                 </td>
                                 <td align="right">
                                   ${item?.sub_total}
@@ -335,7 +341,7 @@ function Shop_order_complete() {
           </>
           :
           <>
-            <h3 className='text-center' style={{ marginTop: '15%', marginBottom:"10%" }}>Something went wrong.!!!</h3>
+            <h3 className='text-center' style={{ marginTop: '15%', marginBottom: "10%" }}>Something went wrong.!!!</h3>
           </>
       }
 
