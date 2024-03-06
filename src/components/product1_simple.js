@@ -40,14 +40,13 @@ function Product1_simple(props) {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
+  // "Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)"
+  // "Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)"
+
   const [state, setState] = useState([
     {
-      startDate: new Date(
-        "Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)"
-      ),
-      endDate: new Date(
-        "Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)"
-      ),
+      startDate: new Date(),
+      endDate: new Date(),
       key: "selection",
     },
   ]);
@@ -130,7 +129,6 @@ function Product1_simple(props) {
       .then((res) => {
         setIsLoader(false);
         if (res?.data?.success == true) {
-          console.log(res?.data?.products[0].product_color[0], "ciorkfd")
           setColor(res?.data?.products[0].product_color[0])
           setSize_top(res?.data?.products[0].product_size[0].size_top)
           setSize_bottom(res?.data?.products[0].product_size[0].size_bottom)
@@ -184,37 +182,28 @@ function Product1_simple(props) {
   const addToCart = (product_id, type) => {
     const userID = localStorage.getItem("user_id")
     const randomeUserId = Cookies.get('RandomUserId');
-    var data;
+
     setIsLoader(true);
-    if (type == "buy") {
-      data = {
-        product_id: product_id,
-        cart_quantity: 1,
-        size_bottom: `${size_bottom}`,
-        size_top: `${size_top}`,
-        color: `${color}`,
-        guest_user: accessToken && userID ? 0 : 1,
-        userId: accessToken && userID ? userID : parseInt(randomeUserId)
-      };
-    } else if (type == "rent") {
-      data = {
-        product_id: product_id,
-        cart_quantity: 1,
-        size_bottom: `${size_bottom}`,
-        size_top: `${size_top}`,
-        color: `${color}`,
-        start_date: `${startDate}`,
-        end_date: `${endDate}`,
-        total_rend_days: `${total_rend_days}`,
-        guest_user: accessToken && userID ? 0 : 1,
-        userId: accessToken && userID ? userID : parseInt(randomeUserId),
-      };
-    }
+
+    const data = {
+      product_id: product_id,
+      cart_quantity: 1,
+      size_bottom: `${size_bottom}`,
+      size_top: `${size_top}`,
+      color: `${color}`,
+      guest_user: accessToken && userID ? 0 : 1,
+      userId: accessToken && userID ? userID : parseInt(randomeUserId)
+    };
+
     if (type == "buy" ? size_bottom && size_top && color : size_bottom && size_top && color && startDate && endDate && total_rend_days) {
       axios({
         method: "post",
         url: configJSON.baseUrl + configJSON.addToCart,
-        data: data,
+        data: type === 'buy' ? data : {
+          ...data, start_date: `${startDate}`,
+          end_date: `${endDate}`,
+          total_rend_days: `${total_rend_days}`
+        },
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

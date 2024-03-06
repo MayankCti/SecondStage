@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import Header from "./header";
 import Footer from "./footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { message, message as MESSAGE } from "antd";
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { Formik } from 'formik';
+import { useDrag, useDrop } from "react-dnd";
 import Modal from '@mui/material/Modal';
+import { Seller_Schema } from "./Schema";
 export const configJSON = require("../components/config");
 
-function EditProduct() {
+function Register_seller() {
   const [isLoader, setIsLoader] = useState(false)
   const [isBrandDropdownOpen, setIsBrandDropdownOpen] = useState(false);
   const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
@@ -30,7 +31,6 @@ function EditProduct() {
   const [isSizeTopBottom, setIsSizeTopBottom] = useState(false)
   const [isSizeShow, setIsSizeShow] = useState(false)
   const [file, setFile] = useState([])
-  const [file1, setFile1] = useState([])
   const [filterContent, setFilterContent] = useState([])
 
   const [locationOption, setLocationOption] = useState()
@@ -43,49 +43,60 @@ function EditProduct() {
   const [styleBottomOption, setStyleBottomOption] = useState()
   const [styleTopOption, setStyleTopOption] = useState()
   const [product_name, setProduct_name] = useState()
-  const [sizeTopOption, setSizeTopOption] = useState("--Select--Top--");
+  const [sizeTopOption, setSizeTopOption] = useState("normal");
   const [sizeBottomOption, setSizeBottomOption] =
-    useState("--Select--Bottom--");
+    useState("M");
   const [sizeStandardOption, setSizeStandardOption] = useState(
-    "--Select--Standard--"
+    "Universal"
   )
   const [description, setDescription] = useState("")
   const [priceSellLend, setPriceSellLend] = useState("")
   const [replacementPrice, setReplacementPrice] = useState("")
-  const [categoryOption, setCategoryOption] = useState("--Select--Category--");
+  const [categoryOption, setCategoryOption] = useState("biknis");
   const [brandOption, setBrandOption] = useState("--Select--Brand--");
   const [colorData, setColorData] = useState("--Select--Color--");
-  
+
   const [islicenseState, setIsLicenseState] = useState(false)
   const [profileData, setProfileData] = useState([])
-
-  const [name, setName] = useState()
-  const [userName, setUserName] = useState()
-  const [licenseNumber, setLicenseNumber] = useState()
   const [licenseStateOption, setLicenseStateOption] = useState("")
-  const [email, setEmail] = useState()
-  const [phone, setPhone] = useState()
-  const [cardNumber, setCardNumber] = useState()
 
+  const [formObj, setFormObj] = useState({ buyer_name: "", user_name: '', email: '', phone_number: '', license_state: '', license_number: '', seller_sigup: 1, buyer_card_number: '', guest_token: 0, isCheck: false })
+  const [product, setProduct] = useState('product')
+  const [images, setImages] = useState([])
   const navigate = useNavigate();
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    if (token == null) {
-      navigate("/login");
-    } else {
-    if (categoryOption == "Bikini" || categoryOption == "Figure" || categoryOption == "FMG/WBFF") {
-      setIsSizeTopBottom(true)
-      setIsSizeShow(false)
-    }
-    else if (categoryOption == "Swimsuit" || categoryOption == "Themewear") {
-      setIsSizeTopBottom(false)
-      setIsSizeShow(true)
-    }
-    getFilterContent()
-    getMyProfile()
-  }
-  }, [categoryOption])
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: "700px",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token == null) {
+      navigate('/login')
+    } else {
+      if (categoryOption == "biknis" || categoryOption == "figure" || categoryOption == "fmg_wbff") {
+        setIsSizeTopBottom(true)
+        setIsSizeShow(false)
+      }
+      else if (categoryOption == "swimsuit" || categoryOption == "themewear") {
+        setIsSizeTopBottom(false)
+        setIsSizeShow(true)
+      }
+
+    }
+  }, [categoryOption])
+  useEffect(() => {
+    getProductById()
+    getFilterContent()
+  }, [])
 
   const onHandleSizeTop = () => {
     if (isSizeTop == true) {
@@ -143,25 +154,123 @@ function EditProduct() {
       setIsColorDropdownOpen(true);
     }
   };
+
   const handleFile = (e) => {
     const fileData = e?.target?.files;
     for (var i = 0; i < fileData?.length; i++) {
-      file.push(fileData[i])
-      setFile(file => file?.filter((item) => item));
-      let blob = new Blob([fileData[i]], { type: fileData[i]?.type });
-      const blobUrl = URL.createObjectURL(blob)
-      file1?.push(blobUrl)
+      images.push({
+        id: i + 1,
+        title: "Hill" + i + 1,
+        img: URL.createObjectURL(fileData[i])
+      })
+      setImages(file => file?.filter((item) => item));
     }
-    setFile1(file1 => file1?.filter((item) => item));
+    for (var i = 0; i < fileData?.length; i++) {
+      file.push({
+        'id': i + 1,
+        'file': fileData[i]
+      })
+      // file.push(fileData[i])
+      setFile(file => file?.filter((item) => item));
+    }
   }
-  const removeImage = (val, i) => {
-    setFile1(val => val?.filter((item, index) => index !== i));
-    setFile(val => val?.filter((item, index) => index !== i));
+
+  const moveImage = useCallback((dragIndex, hoverIndex) => {
+    setImages((prevCards) => {
+      const clonedCards = [...prevCards];
+      const removedItem = clonedCards.splice(dragIndex, 1)[0];
+      clonedCards.splice(hoverIndex, 0, removedItem);
+      console.log(clonedCards, "clone")
+      return clonedCards;
+    });
+    setFile((prevCards) => {
+      const clonedCards = [...prevCards];
+      const removedItem = clonedCards.splice(dragIndex, 1)[0];
+      clonedCards.splice(hoverIndex, 0, removedItem);
+      console.log(clonedCards, "file")
+      return clonedCards;
+    })
+  }, []);
+
+  const Card = ({ src, title, id, index, moveImage }) => {
+    const ref = useRef(null);
+    const [, drop] = useDrop({
+      accept: "image",
+      hover: (item, monitor) => {
+        if (!ref.current) {
+          return;
+        }
+        const dragIndex = item.index;
+        const hoverIndex = index;
+        if (dragIndex === hoverIndex) {
+          return;
+        }
+        const hoverBoundingRect = ref.current.getBoundingClientRect();
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const clientOffset = monitor.getClientOffset();
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return;
+        }
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return;
+        }
+        moveImage(dragIndex, hoverIndex);
+        item.index = hoverIndex;
+      }
+    }
+    );
+    const [{ isDragging }, drag] = useDrag({
+      type: "image",
+      item: () => {
+        return { id, index };
+      },
+      collect: (monitor) => {
+        return {
+          isDragging: monitor.isDragging()
+        };
+      }
+    });
+
+    const opacity = isDragging ? 0 : 1;
+
+    drag(drop(ref));
+
+    return (
+      <>
+        <div className="preview-images-zone mt-2" ref={ref} style={{ opacity }} >
+          <div className="preview-image preview-show-4">
+            <div className="image-cancel" onClick={() => removeImage(title, id)}>
+              x
+            </div>
+            <div className="image-zone">
+              <img
+                id="pro-img-4"
+                src={src}
+                alt="/productImage"
+              />
+            </div>
+          </div>
+
+        </div>
+
+        {/* <div ref={ref} style={{ opacity }} className="card">
+          <img className='w-25' src={src} alt={title} />
+        </div> */}
+      </>
+
+    );
+  };
+
+  const removeImage = (data, i) => {
+    setFile(val => val?.filter((item, index) => item.id !== i));
+    setImages(val => val?.filter((item, index) => item.title != data));
   }
-  const addProduct = () => {
+  const updateProduct = () => {
     setIsLoader(true)
     const fata = file.flat()
     const data = new FormData();
+    data.append("product_type", product)
     data.append("product_category", categoryOption)
     data.append("product_name", product_name)
     data.append("price_sale_lend_price", priceSellLend)
@@ -177,12 +286,15 @@ function EditProduct() {
     data.append("product_padding", paddingOption)
     data.append("location", locationOption)
     data.append("product_description", description)
+
+    const userID = localStorage.getItem("user_id")
+    data.append("userId", userID)
     for (let i = 0; i < file.length; i++) {
-      data.append("files", file[i]);
+      data.append("files", file[i].file);
     }
-    // if (lengthRentalOption) {
-    data.append("product_rental_period", `val`)
-    // }
+    if (lengthRentalOption) {
+      data.append("product_rental_period", `${lengthRentalOption}`)
+    }
 
     if (sizeTopOption && sizeBottomOption) {
       data.append("size_top", sizeTopOption)
@@ -191,27 +303,55 @@ function EditProduct() {
     else if (sizeStandardOption) {
       data.append("size_standard", sizeStandardOption)
     }
-   
-      axios({
-        url: configJSON.baseUrl + configJSON.addProduct,
-        method: "post",
-        data: data,
-        headers: { 'content-type': 'multipart/form-data' },
-      })
-        .then((res) => {
-          setIsLoader(false)
-          if (res?.data?.success == true) {
-            MESSAGE.success(res?.data?.message);
-          } else {
-            MESSAGE.error(res?.data?.message);
-          }
-        })
-        .catch((error) => {
-          setIsLoader(false)
-          console.log(error);
-        });
-    
+
+    // axios({
+    //   url: configJSON.baseUrl + configJSON.addProduct,
+    //   method: "post",
+    //   data: data,
+    //   headers: { 'content-type': 'multipart/form-data' },
+    // })
+    //   .then((res) => {
+    //     setIsLoader(false)
+    //     if (res?.data?.success == true) {
+    //       MESSAGE.success(res?.data?.message);
+    //       localStorage.removeItem("productForm")
+    //       navigate("/sell-lend")
+    //     } else {
+    //       MESSAGE.error(res?.data?.message);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     setIsLoader(false)
+    //     console.log(error);
+    //   });
+
   }
+  const getProductById = () => {
+    const productId = localStorage.getItem("productID");
+    const data ={ 
+      product_id : `${productId}`
+    }
+
+    setIsLoader(true)
+    axios({
+      url: configJSON.baseUrl + configJSON.product_details,
+      method: "post",
+      data : data
+    }).then((res) => {
+      setIsLoader(false)
+      console.log(res,"response")
+      if (res?.data?.success == true) {
+       
+      }
+      else {
+
+      }
+    }).catch((error) => {
+      setIsLoader(false)
+      console.log(error)
+    })
+  }
+
   const getFilterContent = () => {
     setIsLoader(true);
     axios({
@@ -231,35 +371,8 @@ function EditProduct() {
         setIsLoader(false);
       });
   };
-  const getMyProfile = () => {
-    const token = JSON.parse(localStorage.getItem("token"));
+ 
 
-    setIsLoader(true)
-    axios({
-      url: configJSON.baseUrl + configJSON.myProfile_buyer,
-      method: "get",
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-    }).then((res) => {
-      setIsLoader(false)
-      if (res?.data?.success == true) {
-        setProfileData(res?.data?.user_info[0])
-        setName(res?.data?.user_info[0]?.buyer_name)
-        setUserName(res?.data?.user_info[0]?.user_name)
-        setLicenseNumber(res?.data?.user_info[0]?.license_number)
-        setLicenseStateOption(res?.data?.user_info[0]?.license_state)
-        setEmail(res?.data?.user_info[0]?.email)
-        setPhone(res?.data?.user_info[0]?.phone_number)
-      }
-      else {
-        setProfileData([])
-      }
-    }).catch((error) => {
-      setIsLoader(false)
-      console.log(error)
-    })
-  }
   return (
     <>
       <svg className="d-none">
@@ -524,8 +637,8 @@ function EditProduct() {
         <section className="login-register container mx-0 w-75 mx-auto pb-5">
           <section className="contact-us container">
             <div className="mw-930">
-              <h2 className="page-title text-center mb-4 ct_lowercase  section-title">
-                Edit <strong> Product Form</strong>
+              <h2 className="page-title text-center mb-5 ct_lowercase  section-title">
+                Update <strong>Product</strong>
               </h2>
             </div>
           </section>
@@ -538,6 +651,16 @@ function EditProduct() {
                   className="needs-validation"
                   novalidate=""
                 >
+                  <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
+                    <li className="nav-item" role="presentation">
+                      <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" onClick={() => setProduct("product")}>Product</a>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                      <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100" onClick={() => setProduct("featured")}>Featured Product</a>
+                    </li>
+
+                  </ul>
+                  {/* Product Name */}
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-floating my-3">
@@ -545,8 +668,8 @@ function EditProduct() {
                         <label for="checkout_first_name">Product Name</label></div>
 
                     </div>
-
                   </div>
+                  {/* Category */}
                   <div className="row">
                     <div className="col-md-12">
                       <div className="search-field mb-3">
@@ -595,6 +718,7 @@ function EditProduct() {
                       </div>
                     </div>
                   </div>
+                  {/* Price for sell/lend && Replacement Price */}
                   <div className="row">
                     <div className="col-md-6 mb-3">
                       <div className=" border-0">
@@ -604,7 +728,7 @@ function EditProduct() {
                         <div className="form-floating ">
                           <input
                             name="login_email"
-                            type="number"
+                            type="number" min={0}
                             className="form-control form-control_gray"
                             id="customerNameEmailInput"
                             placeholder="Email address *"
@@ -627,7 +751,7 @@ function EditProduct() {
                         <div className="form-floating">
                           <input
                             name="login_email"
-                            type="number"
+                            type="number" min={0}
                             className="form-control form-control_gray"
                             id="customerNameEmailInput"
                             placeholder="Email address *"
@@ -642,9 +766,7 @@ function EditProduct() {
                       </div>
                     </div>
                   </div>
-
-
-
+                  {/* Sell/Lend && Length of Rental Period*/}
                   <div className="row">
                     <div className="col-md-6 mb-3">
                       <label htmlFor="" className="mb-3">
@@ -722,6 +844,7 @@ function EditProduct() {
                       </div>
                     }
                   </div>
+                  {/* Colour && Brand */}
                   <div className="row">
                     <div className="col-md-6">
                       <div className="search-field mb-3">
@@ -752,20 +875,20 @@ function EditProduct() {
                             className="filters-container js-hidden-content mt-2"
                             onClick={onHandleOpenColor}
                           >
-                            <ul className="search-suggestion list-unstyled">
-                              <div className="d-flex flex-wrap gap-2">
-                                {
-                                  filterContent?.productColor?.map((item) => (
 
-                                    <a
-                                      onClick={() => setColorData(item)}
-                                      className="swatch-color js-filter"
-                                      style={{ color: `${item}` }}
-                                    ></a>
-                                  ))
-                                }
-                              </div>
+                            <ul className="search-suggestion list-unstyled">
+                              {
+                                filterContent?.productColor?.map((item) => (
+
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setColorData(item)}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      {item}
+                                    </a>
+                                  </li>
+                                ))
+                              }
                             </ul>
+
                           </div>
                         </div>
                       </div>
@@ -824,6 +947,7 @@ function EditProduct() {
                     </div>
 
                   </div>
+                  {/* Size && Style*/}
                   <div className="row">
                     <div className="col-md-12">
                       {isSizeTopBottom == true && isSizeShow == false &&
@@ -1025,8 +1149,8 @@ function EditProduct() {
                       </div>
                     </div>
                   </div>
+                  {/* Bling && Padding*/}
                   <div className="row mb-3">
-
                     <div className="col-md-6">
                       <div className="row">
                         <label htmlFor="" className="mb-3">
@@ -1180,6 +1304,7 @@ function EditProduct() {
                     </div>
 
                   </div>
+                  {/* Location && Upload Image*/}
                   <div className="row">
                     <div className="col-md-12">
                       <div className="search-field mb-3">
@@ -1199,19 +1324,7 @@ function EditProduct() {
                           </div>
                           <div className="filters-container js-hidden-content mt-2" onClick={() => setIsLocation(!isLocation)}>
                             <ul className="search-suggestion list-unstyled">
-                              {/* <li className="search-suggestion__item js-search-select">
-                                <a
 
-                                  className="mb-0 d-block me-3 js-filter swatch_active"
-                                >
-                                  <h4>Item Location</h4>
-                                  <input
-                                    type="text"
-                                    className="search-field__input form-control form-control-sm border-light border-2"
-
-                                  />
-                                </a>
-                              </li> */}
                               {
                                 filterContent?.location?.map((item) => (
                                   <li className="search-suggestion__item js-search-select" onClick={() => setLocationOption(item)}>
@@ -1230,10 +1343,7 @@ function EditProduct() {
                     <div className="col-md-12">
                       <div className=" mb-3">
                         <fieldset className="form-control form-control_gray">
-                          <a
-                          // href="javascript:void(0)"
-                          // onClick="$('#pro-image').click()"
-                          >
+                          <a>
                             Upload Image
                           </a>
                           <input
@@ -1244,28 +1354,23 @@ function EditProduct() {
                             onChange={(e) => handleFile(e)}
                           />
                         </fieldset>
-                        <div className="preview-images-zone mt-2">
-                          {
-                            file1?.length > 0 &&
-                            file1?.map((item, i) => (
-                              <div className="preview-image preview-show-4">
-                                <div className="image-cancel" onClick={() => removeImage(item, i)}>
-                                  x
-                                </div>
-                                <div className="image-zone">
-                                  <img
-                                    id="pro-img-4"
-                                    src={item}
-                                    alt="/productImage"
-                                  />
-                                </div>
-                              </div>
-                            ))
-                          }
-                        </div>
+                        <main>
+                          {images.map((image, index) => (
+                            <Card
+                              key={image.id}
+                              src={image.img}
+                              title={image.title}
+                              id={image.id}
+                              index={index}
+                              moveImage={moveImage}
+                            />
+                          ))}
+                        </main>
+
                       </div>
                     </div>
                   </div>
+                  {/* Description */}
                   <div className="row">
                     <div className="col-md-12">
                       <div className="pb-3">
@@ -1279,11 +1384,10 @@ function EditProduct() {
                       </div>
                     </div>
                   </div>
-
                   <button
                     className="btn btn-primary mx-auto d-block mt-4 text-uppercase"
                     type="button"
-                    onClick={addProduct}
+                    onClick={updateProduct}
                   >
                     Submit
                   </button>
@@ -1292,10 +1396,11 @@ function EditProduct() {
           </div>
         </section>
       </main>
-      
+
+
       <Footer />
     </>
   );
 }
 
-export default EditProduct;
+export default Register_seller;

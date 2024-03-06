@@ -14,6 +14,7 @@ export const myProfile_buyer = "myProfile"
 export const editProfile_buyer = "editProfile"
 
 export const addProduct = "add_product"
+export const product_details = 'product_details'
 export const getAllProduct = "get_all_Product"
 export const getProductDetailsById = "getProductDetails_by_id"
 export const fetch_categories = "fetch_categories"
@@ -25,6 +26,8 @@ export const upDateCartData = "upDateCartData"
 export const deleteCartData = "deleteCartData/"
 export const add_wishlist = "add_wishlist"
 export const get_wishlist = "get_wishlist"
+
+
 
 export const fetch_checkout = "fetch_checkout"
 export const add_shipping_details = "add_shipping_details"

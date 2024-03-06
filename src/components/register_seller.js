@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import Header from "./header";
 import Footer from "./footer";
 import axios from "axios";
@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { message, message as MESSAGE } from "antd";
 import Box from '@mui/material/Box';
 import { Formik } from 'formik';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { useDrag, useDrop } from "react-dnd";
 import Modal from '@mui/material/Modal';
 import { Seller_Schema } from "./Schema";
 export const configJSON = require("../components/config");
@@ -32,7 +31,6 @@ function Register_seller() {
   const [isSizeTopBottom, setIsSizeTopBottom] = useState(false)
   const [isSizeShow, setIsSizeShow] = useState(false)
   const [file, setFile] = useState([])
-  const [file1, setFile1] = useState([])
   const [filterContent, setFilterContent] = useState([])
 
   const [locationOption, setLocationOption] = useState()
@@ -60,17 +58,11 @@ function Register_seller() {
 
   const [islicenseState, setIsLicenseState] = useState(false)
   const [profileData, setProfileData] = useState([])
-
-  const [name, setName] = useState()
-  const [userName, setUserName] = useState()
-  const [licenseNumber, setLicenseNumber] = useState()
   const [licenseStateOption, setLicenseStateOption] = useState("")
-  const [email, setEmail] = useState()
-  const [phone, setPhone] = useState()
-  const [cardNumber, setCardNumber] = useState()
+
   const [formObj, setFormObj] = useState({ buyer_name: "", user_name: '', email: '', phone_number: '', license_state: '', license_number: '', seller_sigup: 1, buyer_card_number: '', guest_token: 0, isCheck: false })
-  const [isAgree, setIsAgree] = useState(false)
   const [product, setProduct] = useState('product')
+  const [images, setImages] = useState([])
   const navigate = useNavigate();
   const style = {
     position: 'absolute',
@@ -83,7 +75,7 @@ function Register_seller() {
     boxShadow: 24,
     p: 4,
   };
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => {
     if (product_name && categoryOption && priceSellLend && priceBuyOption && colorData && brandOption && styleTopOption && styleBottomOption && blingTypeOption && blingLevelOption && blingConditionOption && paddingOption && locationOption && file && description && replacementPrice) {
       setOpen(true);
@@ -113,10 +105,7 @@ function Register_seller() {
   useEffect(() => {
     getMyProfile()
     getFilterContent()
-
   }, [])
-
-
 
   const onHandleSizeTop = () => {
     if (isSizeTop == true) {
@@ -174,20 +163,117 @@ function Register_seller() {
       setIsColorDropdownOpen(true);
     }
   };
+
   const handleFile = (e) => {
     const fileData = e?.target?.files;
     for (var i = 0; i < fileData?.length; i++) {
-      file.push(fileData[i])
-      setFile(file => file?.filter((item) => item));
-      let blob = new Blob([fileData[i]], { type: fileData[i]?.type });
-      const blobUrl = URL.createObjectURL(blob)
-      file1?.push(blobUrl)
+      images.push({
+        id: i + 1,
+        title: "Hill" + i + 1,
+        img: URL.createObjectURL(fileData[i])
+      })
+      setImages(file => file?.filter((item) => item));
     }
-    setFile1(file1 => file1?.filter((item) => item));
+    for (var i = 0; i < fileData?.length; i++) {
+      file.push({
+        'id': i + 1,
+        'file': fileData[i]
+      })
+      // file.push(fileData[i])
+      setFile(file => file?.filter((item) => item));
+    }
   }
-  const removeImage = (val, i) => {
-    setFile1(val => val?.filter((item, index) => index !== i));
-    setFile(val => val?.filter((item, index) => index !== i));
+
+  const moveImage = useCallback((dragIndex, hoverIndex) => {
+    setImages((prevCards) => {
+      const clonedCards = [...prevCards];
+      const removedItem = clonedCards.splice(dragIndex, 1)[0];
+      clonedCards.splice(hoverIndex, 0, removedItem);
+      console.log(clonedCards, "clone")
+      return clonedCards;
+    });
+    setFile((prevCards) => {
+      const clonedCards = [...prevCards];
+      const removedItem = clonedCards.splice(dragIndex, 1)[0];
+      clonedCards.splice(hoverIndex, 0, removedItem);
+      console.log(clonedCards, "file")
+      return clonedCards;
+    })
+  }, []);
+
+  const Card = ({ src, title, id, index, moveImage }) => {
+    const ref = useRef(null);
+    const [, drop] = useDrop({
+      accept: "image",
+      hover: (item, monitor) => {
+        if (!ref.current) {
+          return;
+        }
+        const dragIndex = item.index;
+        const hoverIndex = index;
+        if (dragIndex === hoverIndex) {
+          return;
+        }
+        const hoverBoundingRect = ref.current.getBoundingClientRect();
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const clientOffset = monitor.getClientOffset();
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return;
+        }
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return;
+        }
+        moveImage(dragIndex, hoverIndex);
+        item.index = hoverIndex;
+      }
+    }
+    );
+    const [{ isDragging }, drag] = useDrag({
+      type: "image",
+      item: () => {
+        return { id, index };
+      },
+      collect: (monitor) => {
+        return {
+          isDragging: monitor.isDragging()
+        };
+      }
+    });
+
+    const opacity = isDragging ? 0 : 1;
+
+    drag(drop(ref));
+
+    return (
+      <>
+        <div className="preview-images-zone mt-2" ref={ref} style={{ opacity }} >
+          <div className="preview-image preview-show-4">
+            <div className="image-cancel" onClick={() => removeImage(title, id)}>
+              x
+            </div>
+            <div className="image-zone">
+              <img
+                id="pro-img-4"
+                src={src}
+                alt="/productImage"
+              />
+            </div>
+          </div>
+
+        </div>
+
+        {/* <div ref={ref} style={{ opacity }} className="card">
+          <img className='w-25' src={src} alt={title} />
+        </div> */}
+      </>
+
+    );
+  };
+
+  const removeImage = (data, i) => {
+    setFile(val => val?.filter((item, index) => item.id !== i));
+    setImages(val => val?.filter((item, index) => item.title != data));
   }
   const handleRegister = (values) => {
     delete values.isCheck
@@ -220,7 +306,7 @@ function Register_seller() {
     setIsLoader(true)
     const fata = file.flat()
     const data = new FormData();
-    data.append("product_type",product)
+    data.append("product_type", product)
     data.append("product_category", categoryOption)
     data.append("product_name", product_name)
     data.append("price_sale_lend_price", priceSellLend)
@@ -240,7 +326,7 @@ function Register_seller() {
     const userID = localStorage.getItem("user_id")
     data.append("userId", userID)
     for (let i = 0; i < file.length; i++) {
-      data.append("files", file[i]);
+      data.append("files", file[i].file);
     }
     if (lengthRentalOption) {
       data.append("product_rental_period", `${lengthRentalOption}`)
@@ -610,6 +696,7 @@ function Register_seller() {
                     </li>
 
                   </ul>
+                  {/* Product Name */}
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-floating my-3">
@@ -617,8 +704,8 @@ function Register_seller() {
                         <label for="checkout_first_name">Product Name</label></div>
 
                     </div>
-
                   </div>
+                  {/* Category */}
                   <div className="row">
                     <div className="col-md-12">
                       <div className="search-field mb-3">
@@ -667,6 +754,7 @@ function Register_seller() {
                       </div>
                     </div>
                   </div>
+                  {/* Price for sell/lend && Replacement Price */}
                   <div className="row">
                     <div className="col-md-6 mb-3">
                       <div className=" border-0">
@@ -714,9 +802,7 @@ function Register_seller() {
                       </div>
                     </div>
                   </div>
-
-
-
+                  {/* Sell/Lend && Length of Rental Period*/}
                   <div className="row">
                     <div className="col-md-6 mb-3">
                       <label htmlFor="" className="mb-3">
@@ -794,6 +880,7 @@ function Register_seller() {
                       </div>
                     }
                   </div>
+                  {/* Colour && Brand */}
                   <div className="row">
                     <div className="col-md-6">
                       <div className="search-field mb-3">
@@ -824,7 +911,7 @@ function Register_seller() {
                             className="filters-container js-hidden-content mt-2"
                             onClick={onHandleOpenColor}
                           >
-                            
+
                             <ul className="search-suggestion list-unstyled">
                               {
                                 filterContent?.productColor?.map((item) => (
@@ -837,7 +924,7 @@ function Register_seller() {
                                 ))
                               }
                             </ul>
-                            
+
                           </div>
                         </div>
                       </div>
@@ -896,6 +983,7 @@ function Register_seller() {
                     </div>
 
                   </div>
+                  {/* Size && Style*/}
                   <div className="row">
                     <div className="col-md-12">
                       {isSizeTopBottom == true && isSizeShow == false &&
@@ -1097,8 +1185,8 @@ function Register_seller() {
                       </div>
                     </div>
                   </div>
+                  {/* Bling && Padding*/}
                   <div className="row mb-3">
-
                     <div className="col-md-6">
                       <div className="row">
                         <label htmlFor="" className="mb-3">
@@ -1252,6 +1340,7 @@ function Register_seller() {
                     </div>
 
                   </div>
+                  {/* Location && Upload Image*/}
                   <div className="row">
                     <div className="col-md-12">
                       <div className="search-field mb-3">
@@ -1299,14 +1388,10 @@ function Register_seller() {
                         </div>
                       </div>
                     </div>
-
                     <div className="col-md-12">
                       <div className=" mb-3">
                         <fieldset className="form-control form-control_gray">
-                          <a
-                          // href="javascript:void(0)"
-                          // onClick="$('#pro-image').click()"
-                          >
+                          <a>
                             Upload Image
                           </a>
                           <input
@@ -1317,10 +1402,22 @@ function Register_seller() {
                             onChange={(e) => handleFile(e)}
                           />
                         </fieldset>
-                        <div className="preview-images-zone mt-2">
+                        <main>
+                          {images.map((image, index) => (
+                            <Card
+                              key={image.id}
+                              src={image.img}
+                              title={image.title}
+                              id={image.id}
+                              index={index}
+                              moveImage={moveImage}
+                            />
+                          ))}
+                        </main>
+                        {/* <div className="preview-images-zone mt-2">
                           {
-                            file1?.length > 0 &&
-                            file1?.map((item, i) => (
+                            file?.length > 0 &&
+                            file?.map((item, i) => (
                               <div className="preview-image preview-show-4">
                                 <div className="image-cancel" onClick={() => removeImage(item, i)}>
                                   x
@@ -1328,14 +1425,14 @@ function Register_seller() {
                                 <div className="image-zone">
                                   <img
                                     id="pro-img-4"
-                                    src={item}
+                                    src={URL.createObjectURL(item)}
                                     alt="/productImage"
                                   />
                                 </div>
                               </div>
                             ))
                           }
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -1352,7 +1449,6 @@ function Register_seller() {
                       </div>
                     </div>
                   </div>
-
                   <button
                     className="btn btn-primary mx-auto d-block mt-4 text-uppercase"
                     type="button"
@@ -1373,155 +1469,155 @@ function Register_seller() {
         aria-describedby="modal-modal-description"
       >
         {
-              isLoader == true ?
-                <div className="custom-loader"></div>:
-        <Box sx={style}>
-          <section
-            className="login-register container mx-0 w-75 mx-auto pb-5"
-            id="rgister_form1"
-          >
-            <section className="contact-us container">
-              <div className="mw-930   ">
-                <h2 className="page-title section-title text-center mb-5 ct_lowercase">
-                  Seller form
-                </h2>
-              </div>
-            </section>
-            <div className="login-form">
-
-              <Formik
-                initialValues={JSON.parse(sessionStorage.getItem("sellerForm")) ?? formObj}
-                validationSchema={Seller_Schema}
-                onSubmit={(values, actions) => {
-                  handleRegister(values)
-                }}
-                enableReinitialize
+          isLoader == true ?
+            <div className="custom-loader"></div> :
+            <Box sx={style}>
+              <section
+                className="login-register container mx-0 w-75 mx-auto pb-5"
+                id="rgister_form1"
               >
-                {
-                  ({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    isSubmitting,
-                  }) => (
-                    <form
-                      name="login-form"
-                      className="needs-validation"
-                      novalidate=""
-                    >
-                      <div className="row">
-                        <div className="col-md-6">
-                          <div className="form-floating mb-3">
-                            <input
-                              name="buyer_name"
-                              type="text"
-                              className="form-control form-control_gray"
-                              id="customerNameEmailInput"
-                              placeholder="Email Name*"
-                              required=""
-                              value={values?.buyer_name}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              readOnly={true}
-                            />
-                            <label htmlFor="customerNameEmailInput">Name*</label>
-                            <span style={{ color: "red" }}>{errors.buyer_name && touched.buyer_name && errors.buyer_name}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-floating mb-3">
-                            <input
-                              name="user_name"
-                              type="text"
-                              className="form-control form-control_gray"
-                              id="customerNameEmailInput"
-                              placeholder="Email Create Username*"
-                              required=""
-                              value={values?.user_name}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              readOnly={true}
-                            />
-                            <label htmlFor="customerNameEmailInput">
-                              Create Username*
-                            </label>
-                            <span style={{ color: "red" }}>{errors.user_name && touched.user_name && errors.user_name}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-floating mb-3">
-                            <input
-                              name="email"
-                              type="email"
-                              className="form-control form-control_gray"
-                              id="customerNameEmailInput"
-                              placeholder="Email Email*"
-                              required=""
-                              value={values?.email}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              readOnly={true}
-                            />
-                            <label htmlFor="customerNameEmailInput">Email*</label>
-                            <span style={{ color: "red" }}>{errors.email && touched.email && errors.email}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-floating mb-3">
-                            <input
-                              name="phone_number"
-                              type="number" min={0}
-                              className="form-control form-control_gray"
-                              id="customerNameEmailInput"
-                              placeholder="Email Phone*"
-                              required=""
-                              value={values?.phone_number}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={true}
-                            />
-                            <label htmlFor="customerNameEmailInput">Phone*</label>
-                            <span style={{ color: "red" }}>{errors.phone_number && touched.phone_number && errors.phone_number}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-floating mb-3">
-                            <input
-                              name="license_number"
-                              type="number" min={0}
-                              className="form-control form-control_gray"
-                              id="customerNameEmailInput"
-                              placeholder="Email Licence Number *"
-                              required=""
-                              value={values?.license_number}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              readOnly={true}
-                            />
-                            <label htmlFor="customerNameEmailInput">
-                              Licence Number *
-                            </label>
-                            <span style={{ color: "red" }}>{errors.license_number && touched.license_number && errors.license_number}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="search-field mb-3">
-                            <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                              <label for="search-dropdown7" className="form-label">Licence State *</label>
-                              <div className="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
+                <section className="contact-us container">
+                  <div className="mw-930   ">
+                    <h2 className="page-title section-title text-center mb-5 ct_lowercase">
+                      Seller form
+                    </h2>
+                  </div>
+                </section>
+                <div className="login-form">
+
+                  <Formik
+                    initialValues={JSON.parse(sessionStorage.getItem("sellerForm")) ?? formObj}
+                    validationSchema={Seller_Schema}
+                    onSubmit={(values, actions) => {
+                      handleRegister(values)
+                    }}
+                    enableReinitialize
+                  >
+                    {
+                      ({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        isSubmitting,
+                      }) => (
+                        <form
+                          name="login-form"
+                          className="needs-validation"
+                          novalidate=""
+                        >
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-floating mb-3">
                                 <input
-                                  name="license_state"
+                                  name="buyer_name"
                                   type="text"
-                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                                  id="search-dropdown7"
-                                  value={licenseStateOption}
+                                  className="form-control form-control_gray"
+                                  id="customerNameEmailInput"
+                                  placeholder="Email Name*"
+                                  required=""
+                                  value={values?.buyer_name}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
                                   readOnly={true}
                                 />
+                                <label htmlFor="customerNameEmailInput">Name*</label>
+                                <span style={{ color: "red" }}>{errors.buyer_name && touched.buyer_name && errors.buyer_name}</span>
                               </div>
-                              {/* <div className="filters-container js-hidden-content mt-2">
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-floating mb-3">
+                                <input
+                                  name="user_name"
+                                  type="text"
+                                  className="form-control form-control_gray"
+                                  id="customerNameEmailInput"
+                                  placeholder="Email Create Username*"
+                                  required=""
+                                  value={values?.user_name}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  readOnly={true}
+                                />
+                                <label htmlFor="customerNameEmailInput">
+                                  Create Username*
+                                </label>
+                                <span style={{ color: "red" }}>{errors.user_name && touched.user_name && errors.user_name}</span>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-floating mb-3">
+                                <input
+                                  name="email"
+                                  type="email"
+                                  className="form-control form-control_gray"
+                                  id="customerNameEmailInput"
+                                  placeholder="Email Email*"
+                                  required=""
+                                  value={values?.email}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  readOnly={true}
+                                />
+                                <label htmlFor="customerNameEmailInput">Email*</label>
+                                <span style={{ color: "red" }}>{errors.email && touched.email && errors.email}</span>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-floating mb-3">
+                                <input
+                                  name="phone_number"
+                                  type="number" min={0}
+                                  className="form-control form-control_gray"
+                                  id="customerNameEmailInput"
+                                  placeholder="Email Phone*"
+                                  required=""
+                                  value={values?.phone_number}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  readOnly={true}
+                                />
+                                <label htmlFor="customerNameEmailInput">Phone*</label>
+                                <span style={{ color: "red" }}>{errors.phone_number && touched.phone_number && errors.phone_number}</span>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-floating mb-3">
+                                <input
+                                  name="license_number"
+                                  type="number" min={0}
+                                  className="form-control form-control_gray"
+                                  id="customerNameEmailInput"
+                                  placeholder="Email Licence Number *"
+                                  required=""
+                                  value={values?.license_number}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  readOnly={true}
+                                />
+                                <label htmlFor="customerNameEmailInput">
+                                  Licence Number *
+                                </label>
+                                <span style={{ color: "red" }}>{errors.license_number && touched.license_number && errors.license_number}</span>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="search-field mb-3">
+                                <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                                  <label for="search-dropdown7" className="form-label">Licence State *</label>
+                                  <div className="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
+                                    <input
+                                      name="license_state"
+                                      type="text"
+                                      className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                      id="search-dropdown7"
+                                      value={licenseStateOption}
+                                      readOnly={true}
+                                    />
+                                  </div>
+                                  {/* <div className="filters-container js-hidden-content mt-2">
                           <ul className="search-suggestion list-unstyled" onClick={() => setIsLicenseState(!islicenseState)}>
                             <li className="search-suggestion__item js-search-select" onClick={() => setLicenseStateOption("ACT")}>
                               <a className=" mb-3 me-3 js-filter">
@@ -1560,77 +1656,77 @@ function Register_seller() {
                             </li>
                           </ul>
                         </div> */}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="">
+                              <div className="form-floating mb-3">
+                                <input
+                                  name="buyer_card_number"
+                                  type="text"
+                                  className="form-control form-control_gray"
+                                  id="customerNameEmailInput"
+                                  placeholder="Email Licence Number *"
+                                  required=""
+                                  value={values.buyer_card_number}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                />
+                                <label htmlFor="customerNameEmailInput">
+                                  Credit/Debit Card Number *
+                                </label>
+                                <span style={{ color: "red" }}>{errors.buyer_card_number && touched.buyer_card_number && errors.buyer_card_number}</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="">
-                          <div className="form-floating mb-3">
-                            <input
-                              name="buyer_card_number"
-                              type="text"
-                              className="form-control form-control_gray"
-                              id="customerNameEmailInput"
-                              placeholder="Email Licence Number *"
-                              required=""
-                              value={values.buyer_card_number}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            />
-                            <label htmlFor="customerNameEmailInput">
-                              Credit/Debit Card Number *
-                            </label>
-                            <span style={{ color: "red" }}>{errors.buyer_card_number && touched.buyer_card_number && errors.buyer_card_number}</span>
+
+                          <div className="d-flex align-items-center mb-3 pb-2">
+                            <div className="form-check ct_check_input mb-0">
+                              <input
+                                name="isCheck"
+                                className="form-check-input form-check-input_fill "
+                                type="checkbox"
+                                value=""
+                                checked={values?.isCheck}
+                                onChange={handleChange}
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                className="form-check-label text-secondary"
+                                htmlFor="flexCheckDefault"
+                              >
+                                Agreement to{" "}
+                                <a href="/terms" target="_blank">
+                                  Terms and Conditions
+                                </a>{" "}
+                              </label>
+                            </div>
+                            <span style={{ color: "red" }}>{errors.isCheck && touched.isCheck && errors.isCheck}</span>
                           </div>
-                        </div>
-                      </div>
+                          <div className="d-flex justify-content-evenly ">
 
-                      <div className="d-flex align-items-center mb-3 pb-2">
-                        <div className="form-check ct_check_input mb-0">
-                          <input
-                            name="isCheck"
-                            className="form-check-input form-check-input_fill "
-                            type="checkbox"
-                            value=""
-                            checked={values?.isCheck}
-                            onChange={handleChange}
-                            id="flexCheckDefault"
-                          />
-                          <label
-                            className="form-check-label text-secondary"
-                            htmlFor="flexCheckDefault"
-                          >
-                            Agreement to{" "}
-                            <a href="/terms" target="_blank">
-                              Terms and Conditions
-                            </a>{" "}
-                          </label>
-                        </div>
-                        <span style={{ color: "red" }}>{errors.isCheck && touched.isCheck && errors.isCheck}</span>
-                      </div>
-                      <div className="d-flex justify-content-evenly ">
-
-                        <button
-                          className="btn btn-primary  text-uppercase"
-                          type="button"
-                          onClick={handleSubmit}
-                        >
-                          Submit
-                        </button>
-                        <button
-                          className="btn btn-primary  text-uppercase"
-                          type="button"
-                          onClick={handleClose}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
-                  )
-                }
-              </Formik>
-            </div>
-          </section>
-        </Box>}
+                            <button
+                              className="btn btn-primary  text-uppercase"
+                              type="button"
+                              onClick={handleSubmit}
+                            >
+                              Submit
+                            </button>
+                            <button
+                              className="btn btn-primary  text-uppercase"
+                              type="button"
+                              onClick={handleClose}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </form>
+                      )
+                    }
+                  </Formik>
+                </div>
+              </section>
+            </Box>}
       </Modal>
       <Footer />
     </>
