@@ -13,8 +13,11 @@ export const forgotPassword = "forgotPassword"
 export const myProfile_buyer = "myProfile"
 export const editProfile_buyer = "editProfile"
 
-export const addProduct = "add_product"
 export const product_details = 'product_details'
+export const delete_product_image = 'delete_product_image'
+export const edit_product = 'edit_product'
+
+export const addProduct = "add_product"
 export const getAllProduct = "get_all_Product"
 export const getProductDetailsById = "getProductDetails_by_id"
 export const fetch_categories = "fetch_categories"

@@ -288,7 +288,7 @@ return (
                             </div>
 
                             <div className="pc__info position-relative">
-                              <p className="pc__category">{item?.product_brand}</p>
+                              <p className="pc__category">{item?.product_name?? 'Product Name'}</p>
                               <h6 className="pc__title">
                                 {/* {item?.product_description} */}
                                 <a onClick={() => handleProduct1Simple(item?.product_id)}>

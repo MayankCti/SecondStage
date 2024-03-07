@@ -425,7 +425,7 @@ function SellLend() {
                                       aria-labelledby="dropdownMenuButton1"
                                     >
                                       <li>
-                                        <a className="dropdown-item" onClick={() => navigate("/edit-product")}>
+                                        <a className="dropdown-item" onClick={() => navigate("/edit-product",{state:{productId:item?.id}})}>
                                           Edit Product
                                         </a>
                                       </li>
@@ -442,9 +442,7 @@ function SellLend() {
 
                                 <div className="pc__info position-relative">
                                   <p className="pc__category">
-                                    {item?.product_brand
-                                      ? item?.product_brand
-                                      : "Featured Products"}
+                                    {item?.product_name?? 'Product Name'}
                                   </p>
                                   <h6 className="pc__title">
                                     {/* <a  onClick={() => handleProduct1Simple(item?.id)}>{item?.product_description}</a> */}

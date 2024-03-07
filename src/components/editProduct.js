@@ -2,16 +2,18 @@ import React, { useCallback, useEffect, useState, useRef } from "react";
 import Header from "./header";
 import Footer from "./footer";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { message, message as MESSAGE } from "antd";
 import Box from '@mui/material/Box';
 import { Formik } from 'formik';
 import { useDrag, useDrop } from "react-dnd";
 import Modal from '@mui/material/Modal';
 import { Seller_Schema } from "./Schema";
+import { useLocale } from "antd/es/locale";
 export const configJSON = require("../components/config");
 
 function Register_seller() {
+  const productId = useLocation().state?.productId
   const [isLoader, setIsLoader] = useState(false)
   const [isBrandDropdownOpen, setIsBrandDropdownOpen] = useState(false);
   const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
@@ -43,18 +45,16 @@ function Register_seller() {
   const [styleBottomOption, setStyleBottomOption] = useState()
   const [styleTopOption, setStyleTopOption] = useState()
   const [product_name, setProduct_name] = useState()
-  const [sizeTopOption, setSizeTopOption] = useState("normal");
+  const [sizeTopOption, setSizeTopOption] = useState("");
   const [sizeBottomOption, setSizeBottomOption] =
-    useState("M");
-  const [sizeStandardOption, setSizeStandardOption] = useState(
-    "Universal"
-  )
+    useState("");
+  const [sizeStandardOption, setSizeStandardOption] = useState('')
   const [description, setDescription] = useState("")
   const [priceSellLend, setPriceSellLend] = useState("")
   const [replacementPrice, setReplacementPrice] = useState("")
-  const [categoryOption, setCategoryOption] = useState("biknis");
-  const [brandOption, setBrandOption] = useState("--Select--Brand--");
-  const [colorData, setColorData] = useState("--Select--Color--");
+  const [categoryOption, setCategoryOption] = useState();
+  const [brandOption, setBrandOption] = useState("");
+  const [colorData, setColorData] = useState('');
 
   const [islicenseState, setIsLicenseState] = useState(false)
   const [profileData, setProfileData] = useState([])
@@ -164,6 +164,7 @@ function Register_seller() {
         img: URL.createObjectURL(fileData[i])
       })
       setImages(file => file?.filter((item) => item));
+
     }
     for (var i = 0; i < fileData?.length; i++) {
       file.push({
@@ -262,89 +263,156 @@ function Register_seller() {
     );
   };
 
-  const removeImage = (data, i) => {
-    setFile(val => val?.filter((item, index) => item.id !== i));
-    setImages(val => val?.filter((item, index) => item.title != data));
+  const removeImage = (title, id) => {
+    // setIsLoader(true);
+    const data = {
+      image_id: `${id}`
+    }
+    console.log(file, "before file 1st statment")
+    console.log(images, "before image 2nd statment")
+    let count = 0;
+    for (let i = 0; i < file.length; i++) {
+      if (file[i].id == id) {
+        count = 0;
+        break;
+      } else {
+        count = 1;
+      }
+    }
+    if (count == 0) {
+      console.log("0 normal statment")
+      setFile(val => val?.filter((item, index) => item.id !== id));
+      setImages(val => val?.filter((item, index) => item.id != id));
+    }
+ 
+    if (count === 1) {
+      console.log("api call statment")
+      // axios({
+      //   url: configJSON.baseUrl + configJSON.delete_product_image,
+      //   method: "post",
+      //   data: data,
+      // }).then((res) => {
+      //   setIsLoader(false);
+      //   console.log(res.data, "res.data")
+      //   if (res?.data?.success == true) {
+      //     MESSAGE.success(res?.data?.message)
+      //     getProductById()
+      //   } else {
+      //     MESSAGE.error(res?.data?.message);
+      //   }
+      // }).catch((error) => {
+      //   setIsLoader(false);
+      //   console.log(error)
+      // })
+
+    }
+    console.log(file, "after file 1st statment")
+    console.log(images, "after image 2nd statment")
   }
   const updateProduct = () => {
     setIsLoader(true)
     const fata = file.flat()
     const data = new FormData();
-    data.append("product_type", product)
-    data.append("product_category", categoryOption)
-    data.append("product_name", product_name)
-    data.append("price_sale_lend_price", priceSellLend)
-    data.append("product_replacement_price", replacementPrice)
-    data.append("product_buy_rent", priceBuyOption)
-    data.append("product_color", colorData)
-    data.append("product_brand", brandOption)
-    data.append("style_top", styleTopOption)
-    data.append("style_bottom", styleBottomOption)
-    data.append("billing_type", blingTypeOption)
-    data.append("billing_level", blingLevelOption)
-    data.append("billing_condition", blingConditionOption)
-    data.append("product_padding", paddingOption)
-    data.append("location", locationOption)
-    data.append("product_description", description)
-
-    const userID = localStorage.getItem("user_id")
-    data.append("userId", userID)
-    for (let i = 0; i < file.length; i++) {
-      data.append("files", file[i].file);
-    }
-    if (lengthRentalOption) {
-      data.append("product_rental_period", `${lengthRentalOption}`)
-    }
-
+    data.append("product_id", productId)
     if (sizeTopOption && sizeBottomOption) {
-      data.append("size_top", sizeTopOption)
-      data.append("size_bottom", sizeBottomOption)
+      data.append("product_size_top", sizeTopOption)
+      data.append("product_size_bottom", sizeBottomOption)
     }
     else if (sizeStandardOption) {
       data.append("size_standard", sizeStandardOption)
     }
+    data.append("product_buy_rent", priceBuyOption)
+    data.append("location", locationOption)
+    data.append("product_brand", brandOption)
+    data.append("product_category", categoryOption)
+    data.append("product_name", product_name)
+    data.append("price_sale_lend_price", priceSellLend)
+    data.append("product_replacement_price", replacementPrice)
+    if (lengthRentalOption) {
+      data.append("product_rental_period", `${lengthRentalOption}`)
+    }
+    data.append("product_description", description)
+    data.append("colour", colorData)
+    data.append("product_type", product)
+    data.append("product_style_top", styleTopOption)
+    data.append("product_style_bottom", styleBottomOption)
+    data.append("billing_type", blingTypeOption)
+    data.append("billing_level", blingLevelOption)
+    data.append("billing_condition", blingConditionOption)
+    data.append("product_padding", paddingOption)
 
-    // axios({
-    //   url: configJSON.baseUrl + configJSON.addProduct,
-    //   method: "post",
-    //   data: data,
-    //   headers: { 'content-type': 'multipart/form-data' },
-    // })
-    //   .then((res) => {
-    //     setIsLoader(false)
-    //     if (res?.data?.success == true) {
-    //       MESSAGE.success(res?.data?.message);
-    //       localStorage.removeItem("productForm")
-    //       navigate("/sell-lend")
-    //     } else {
-    //       MESSAGE.error(res?.data?.message);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setIsLoader(false)
-    //     console.log(error);
-    //   });
+    // for (let i = 0; i < file.length; i++) {
+    //   data.append("files", file[i].file);
+    // }
+    
+
+    axios({
+      url: configJSON.baseUrl + configJSON.edit_product,
+      method: "post",
+      data: data,
+      headers: { 'content-type': 'multipart/form-data' },
+    })
+      .then((res) => {
+        setIsLoader(false)
+        if (res?.data?.success == true) {
+          MESSAGE.success(res?.data?.message);
+          navigate("/sell-lend")
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
+      })
+      .catch((error) => {
+        setIsLoader(false)
+        console.log(error);
+      });
 
   }
   const getProductById = () => {
-    const productId = localStorage.getItem("productID");
-    const data ={ 
-      product_id : `${productId}`
+    const data = {
+      product_id: `${productId}`
     }
 
     setIsLoader(true)
     axios({
       url: configJSON.baseUrl + configJSON.product_details,
       method: "post",
-      data : data
+      data: data
     }).then((res) => {
       setIsLoader(false)
-      console.log(res,"response")
+      console.log(res, "response")
       if (res?.data?.success == true) {
-       
+        setProduct(res?.data?.data?.product_type)
+        setProduct_name(res?.data?.data?.product_name)
+        setCategoryOption(res?.data?.data?.product_category)
+        setPriceSellLend(res?.data?.data?.price_sale_lend_price)
+        setReplacementPrice(res?.data?.data?.product_replacement_price)
+        setPriceBuyOption(res?.data?.data?.product_buy_rent)
+        setLengthRentalOption(res?.data?.data?.product_rental_period)
+        setColorData(res?.data?.data?.product_color)
+        setBrandOption(res?.data?.data?.product_brand)
+        setSizeBottomOption(res?.data?.data?.product_size?.size_bottom)
+        setSizeTopOption(res?.data?.data?.product_size?.size_top)
+        setSizeStandardOption(res?.data?.data?.size_standard)
+        setDescription(res?.data?.data?.product_description)
+        setStyleBottomOption(res?.data?.data?.product_style?.style_bottom)
+        setStyleTopOption(res?.data?.data?.product_style?.style_top)
+        setBlingConditionOption(res?.data?.data?.product_billing?.billing_condition)
+        setBlingLevelOption(res?.data?.data?.product_billing?.billing_level)
+        setBlingTypeOption(res?.data?.data?.product_billing?.billing_type)
+        setPaddingOption(res?.data?.data?.product_padding)
+        setLocationOption(res?.data?.data?.location)
+        const arr = []
+        for (var i = 0; i < res?.data?.data?.product_images?.length; i++) {
+          arr.push({
+            id: res?.data?.data?.product_images[i]?.id,
+            title: "Hill" + res?.data?.data?.product_images[i]?.id,
+            img: res?.data?.data?.product_images[i]?.product_image
+          })
+          setImages(arr)
+        }
       }
       else {
-
+        message.error("Something went wrong.!")
       }
     }).catch((error) => {
       setIsLoader(false)
@@ -371,7 +439,7 @@ function Register_seller() {
         setIsLoader(false);
       });
   };
- 
+
 
   return (
     <>
@@ -651,14 +719,13 @@ function Register_seller() {
                   className="needs-validation"
                   novalidate=""
                 >
-                  <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
+                  <ul className="nav nav-tabs mb-3 text-uppercase ct_active_btn1 justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
                     <li className="nav-item" role="presentation">
-                      <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" onClick={() => setProduct("product")}>Product</a>
+                      <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white ${product == 'product' ? 'ct_active_1' : ''}`} onClick={() => setProduct("product")}>Product</a>
                     </li>
                     <li className="nav-item" role="presentation">
-                      <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100" onClick={() => setProduct("featured")}>Featured Product</a>
+                      <a className={` nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100 ${product == 'featured' ? 'ct_active_1' : ''}`} onClick={() => setProduct("featured")}>Featured Product</a>
                     </li>
-
                   </ul>
                   {/* Product Name */}
                   <div className="row">
@@ -1156,7 +1223,7 @@ function Register_seller() {
                         <label htmlFor="" className="mb-3">
                           Bling
                         </label>
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                           <div className="search-field mb-3">
                             <div className={isBlingType == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
                               <label
@@ -1193,7 +1260,7 @@ function Register_seller() {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                           <div className="search-field mb-3">
                             <div className={isBlingLevel == false ? "form-label-fixed hover-container" : "form-label-fixed hover-container js-content_visible"} >
                               <label
@@ -1228,42 +1295,7 @@ function Register_seller() {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-4">
-                          <div className="search-field mb-3">
-                            <div className={isBlingCondition == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                              <label
-                                htmlFor="search-dropdown4"
-                                className="form-label"
-                              >
-                                Condition{" "}
-                              </label>
-                              <div className="js-hover__open" onClick={() => setIsBlingCondition(!isBlingCondition)}>
-                                <input
-                                  type="text"
-                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                                  id="search-dropdown4"
-                                  name="search-keyword"
-                                  readonly=""
-                                  value={blingConditionOption}
-                                />
-                              </div>
-                              <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
-                                <ul className="search-suggestion list-unstyled">
 
-                                  {
-                                    filterContent?.billingCondition?.map((item) => (
-                                      <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption(item)}>
-                                        <a className=" mb-3 me-3 js-filter">
-                                          {item}
-                                        </a>
-                                      </li>
-                                    ))
-                                  }
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -1304,9 +1336,45 @@ function Register_seller() {
                     </div>
 
                   </div>
-                  {/* Location && Upload Image*/}
+                  {/* condition && Location && Upload Image*/}
                   <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-6">
+                      <div className="search-field mb-3">
+                        <div className={isBlingCondition == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                          <label
+                            htmlFor="search-dropdown4"
+                            className="form-label"
+                          >
+                            Condition{" "}
+                          </label>
+                          <div className="js-hover__open" onClick={() => setIsBlingCondition(!isBlingCondition)}>
+                            <input
+                              type="text"
+                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                              id="search-dropdown4"
+                              name="search-keyword"
+                              readonly=""
+                              value={blingConditionOption}
+                            />
+                          </div>
+                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
+                            <ul className="search-suggestion list-unstyled">
+
+                              {
+                                filterContent?.billingCondition?.map((item) => (
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption(item)}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      {item}
+                                    </a>
+                                  </li>
+                                ))
+                              }
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
                       <div className="search-field mb-3">
                         <div className={isLocation == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
                           <label htmlFor="search-dropdown" className="form-label">
@@ -1354,7 +1422,7 @@ function Register_seller() {
                             onChange={(e) => handleFile(e)}
                           />
                         </fieldset>
-                        <main>
+                        <main className="ct_img_upload_priview mt-0">
                           {images.map((image, index) => (
                             <Card
                               key={image.id}

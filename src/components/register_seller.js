@@ -247,7 +247,7 @@ function Register_seller() {
 
     return (
       <>
-        <div className="preview-images-zone mt-2" ref={ref} style={{ opacity }} >
+        <div className="preview-images-zone mt-2" ref={ref} >
           <div className="preview-image preview-show-4">
             <div className="image-cancel" onClick={() => removeImage(title, id)}>
               x
@@ -670,7 +670,7 @@ function Register_seller() {
       <Header />
       <main>
         <div className="mb-4 pb-4"></div>
-        <section className="login-register container mx-0 w-75 mx-auto pb-5">
+        <section className="login-register container mx-0 w-75 ct_px_mob_0 mx-auto pb-5">
           <section className="contact-us container">
             <div className="mw-930">
               <h2 className="page-title text-center mb-5 ct_lowercase  section-title">
@@ -687,12 +687,12 @@ function Register_seller() {
                   className="needs-validation"
                   novalidate=""
                 >
-                  <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
+                  <ul className="nav nav-tabs mb-3 text-uppercase ct_active_btn1 justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
                     <li className="nav-item" role="presentation">
-                      <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" onClick={() => setProduct("product")}>Product</a>
+                      <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white ${product == 'product' ? 'ct_active_1': ''}`} onClick={() => setProduct("product")}>Product</a>
                     </li>
                     <li className="nav-item" role="presentation">
-                      <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100" onClick={() => setProduct("featured")}>Featured Product</a>
+                      <a className={` nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100 ${product == 'featured' ? 'ct_active_1' : ''}`} onClick={() => setProduct("featured")}>Featured Product</a>
                     </li>
 
                   </ul>
@@ -1192,7 +1192,7 @@ function Register_seller() {
                         <label htmlFor="" className="mb-3">
                           Bling
                         </label>
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                           <div className="search-field mb-3">
                             <div className={isBlingType == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
                               <label
@@ -1229,7 +1229,7 @@ function Register_seller() {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                           <div className="search-field mb-3">
                             <div className={isBlingLevel == false ? "form-label-fixed hover-container" : "form-label-fixed hover-container js-content_visible"} >
                               <label
@@ -1264,42 +1264,7 @@ function Register_seller() {
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-4">
-                          <div className="search-field mb-3">
-                            <div className={isBlingCondition == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                              <label
-                                htmlFor="search-dropdown4"
-                                className="form-label"
-                              >
-                                Condition{" "}
-                              </label>
-                              <div className="js-hover__open" onClick={() => setIsBlingCondition(!isBlingCondition)}>
-                                <input
-                                  type="text"
-                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                                  id="search-dropdown4"
-                                  name="search-keyword"
-                                  readonly=""
-                                  value={blingConditionOption}
-                                />
-                              </div>
-                              <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
-                                <ul className="search-suggestion list-unstyled">
-
-                                  {
-                                    filterContent?.billingCondition?.map((item) => (
-                                      <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption(item)}>
-                                        <a className=" mb-3 me-3 js-filter">
-                                          {item}
-                                        </a>
-                                      </li>
-                                    ))
-                                  }
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -1340,9 +1305,45 @@ function Register_seller() {
                     </div>
 
                   </div>
-                  {/* Location && Upload Image*/}
+                  {/* Location && condition && Upload Image*/}
                   <div className="row">
-                    <div className="col-md-12">
+                  <div className="col-md-6">
+                          <div className="search-field mb-3">
+                            <div className={isBlingCondition == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                              <label
+                                htmlFor="search-dropdown4"
+                                className="form-label"
+                              >
+                                Condition{" "}
+                              </label>
+                              <div className="js-hover__open" onClick={() => setIsBlingCondition(!isBlingCondition)}>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                  id="search-dropdown4"
+                                  name="search-keyword"
+                                  readonly=""
+                                  value={blingConditionOption}
+                                />
+                              </div>
+                              <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
+                                <ul className="search-suggestion list-unstyled">
+
+                                  {
+                                    filterContent?.billingCondition?.map((item) => (
+                                      <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption(item)}>
+                                        <a className=" mb-3 me-3 js-filter">
+                                          {item}
+                                        </a>
+                                      </li>
+                                    ))
+                                  }
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    <div className="col-md-6">
                       <div className="search-field mb-3">
                         <div className={isLocation == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
                           <label htmlFor="search-dropdown" className="form-label">
@@ -1402,7 +1403,7 @@ function Register_seller() {
                             onChange={(e) => handleFile(e)}
                           />
                         </fieldset>
-                        <main>
+                        <main className="ct_img_upload_priview mt-0">
                           {images.map((image, index) => (
                             <Card
                               key={image.id}

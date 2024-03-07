@@ -524,7 +524,7 @@ function Shop_checkout() {
 
                               <tr>
                                 <td>
-                                  {item?.product_brand}
+                                  {item?.product_name?? 'Product Name'}
                                 </td>
                                 <td align="right">
                                   ${item?.sub_total}

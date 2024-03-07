@@ -138,16 +138,11 @@ function Content(props) {
                     onClick={() => setIsFilter(true)}
                     data-aside="shopFilter"
                   >
-                    <svg
-                      className="d-inline-block align-middle me-2"
-                      width="14"
-                      height="10"
-                      viewBox="0 0 14 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <use href="#icon_filter" />
-                    </svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter d-inline-block align-middle me-2" viewBox="0 0 16 16">
+  <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+</svg>
+                    
                     <span className="text-uppercase fw-medium d-inline-block align-middle">
                       Filter
                     </span>
@@ -227,7 +222,7 @@ function Content(props) {
                         </button> */}
                         </div>
                         <div className="pc__info position-relative">
-                          <p className="pc__category">{item?.product_brand ? item?.product_brand : "Featured Products"}</p>
+                          <p className="pc__category">{item?.product_name?? 'Product Name'}</p>
                           <h6 className="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
                               {/* {item?.product_description}

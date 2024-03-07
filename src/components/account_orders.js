@@ -260,13 +260,10 @@ function Account_orders() {
                                             </td>
                                             <td>
                                               <div className="shopping-cart__product-item__detail">
-                                                <h4>{obj?.product_brand}</h4>
+                                                <h4>{obj?.product_name?? 'Product Name'}</h4>
                                                 <ul className="shopping-cart__product-item__options">
-                                                  <li className="d-flex align-items-center gap-3">Color: <div className="swatch-list">
-                                                    <label className="swatch ct_swatch_after swatch-color js-swatch ct_active_color1 mb-0" for="swatch-11" aria-label="Black"
-                                                      data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${obj?.color}` }}
-                                                      data-bs-original-title="Black"></label>
-                                                  </div></li>
+                                                  
+                                                  <li>Color: {obj?.color}</li>
                                                   <li>Size top: {obj?.size_top}</li>
                                                   <li>Size bottom: {obj?.size_bottom}</li>
                                                   <li>Quantity: {obj?.cart_quantity}</li>

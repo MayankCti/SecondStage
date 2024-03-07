@@ -102,7 +102,7 @@ function Header(props) {
       });
   };
 
-  const upDateCartData = (item,s,e,d) => {
+  const upDateCartData = (item, s, e, d) => {
     setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
     const token = JSON.parse(localStorage.getItem("token"))
@@ -248,9 +248,9 @@ function Header(props) {
     var startDate = moment(item?.selection?.startDate);
     var endDate = moment(item?.selection?.endDate);
     var diffInDays = endDate.diff(startDate, "days");
-   
+
     setshowCalender(!showCalender);
-    upDateCartData(item1,sDate,eDate,diffInDays);
+    upDateCartData(item1, sDate, eDate, diffInDays);
   };
 
   return (
@@ -735,7 +735,7 @@ function Header(props) {
                   </div>
                   <div className="cart-drawer-item__info flex-grow-1">
                     <h6 className="cart-drawer-item__title fw-normal">
-                      {item?.product_brand}
+                      {item?.product_name ?? 'Product Name'}
                     </h6>
 
                     <div className="d-flex gap-3 mt-3">

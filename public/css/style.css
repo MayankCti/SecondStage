@@ -20784,7 +20784,7 @@ main:before {
   position: absolute;
   left: 0px;
   top: 0px;
-  background-image: url(../images/golden_wave_left_12.png);
+  background-image: url(../images/star.png);
   background-position: center;
   background-size: cover;
   max-width: 300px;
@@ -20799,7 +20799,7 @@ main:after {
   position: absolute;
   right: 0px;
   bottom: 0px;
-  background-image: url(../images/golden_wave_right_12.png);
+  background-image: url(../images/star.png);
   background-position: center;
   background-size: cover;
   max-width: 800px;
@@ -20915,6 +20915,12 @@ main:after {
 }
 .ct_sell_btn:hover.ct_sell_btn:before{
   transform: scale(1);
+}
+.ct_active_btn1  a.nav-link.nav-link_underscore.ct_sell_btn.ct_btn_large.text-white.ct_active_1:before {
+  transform: scale(1);
+}
+.ct_active_btn1  a.nav-link.nav-link_underscore.ct_sell_btn.ct_btn_large.text-white.ct_active_1{
+  color: #be891d !important;
 }
 .ct_sell_btn:before{
   content: '';
@@ -21482,6 +21488,23 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.ct_img_upload_priview{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: unset;
+  background-color: #fff;
+  box-shadow: 0px 10px 24px rgba(0,0,0,0.15);
+  padding: 6px;
+}
+.ct_img_upload_priview .preview-images-zone {
+  width: auto;
+  margin-inline:1px
+}
+.ct_img_upload_priview:before{
+  background-image: unset;
+}
 @media screen and (max-width:767px){
   .ct_click_dropdown > p {
     display: none !important;
@@ -21493,5 +21516,15 @@ input[type=number] {
   
     font-size: 14px;
    
+}
+.ct_px_mob_0{
+  padding-inline: 0px !important;
+}
+.preview-image .image-zone img{
+  width:100%
+}
+.preview-image .image-zone img {
+  width: 100% !important;
+  height: auto !important;
 }
 }

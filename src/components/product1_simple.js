@@ -24,7 +24,7 @@ export const configJSON = require("../components/config");
 
 function Product1_simple(props) {
   const navigate = useNavigate();
-  const productId = localStorage.getItem("productID");
+
   const [product, setProduct] = useState([]);
   const [cartData, setCartData] = useState([]);
   const [isCartSidebar, setIsCartSidebar] = useState(false);
@@ -40,9 +40,6 @@ function Product1_simple(props) {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
-  // "Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)"
-  // "Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)"
-
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -50,11 +47,6 @@ function Product1_simple(props) {
       key: "selection",
     },
   ]);
-  // const selectionRange = {
-  //   startDate: new Date(),
-  //   endDate: new Date(),
-  //   key: 'selection',
-  // }
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -105,7 +97,7 @@ function Product1_simple(props) {
 
     var startDate = moment(item?.selection?.startDate);
     var endDate = moment(item?.selection?.endDate);
-    var diffInDays = endDate.diff(startDate, "days");
+    var diffInDays = endDate?.diff(startDate, "days");
     setTotalRendDays(diffInDays);
 
     setshowCalender(!showCalender);
@@ -129,11 +121,11 @@ function Product1_simple(props) {
       .then((res) => {
         setIsLoader(false);
         if (res?.data?.success == true) {
-          setColor(res?.data?.products[0].product_color[0])
-          setSize_top(res?.data?.products[0].product_size[0].size_top)
-          setSize_bottom(res?.data?.products[0].product_size[0].size_bottom)
+          setColor(res?.data?.products[0]?.product_color[0])
+          setSize_top(res?.data?.products[0]?.product_size[0]?.size_top)
+          setSize_bottom(res?.data?.products[0]?.product_size[0]?.size_bottom)
           setProduct(res?.data?.products[0]);
-          getData(res?.data?.products[0].product_category);
+          getData(res?.data?.products[0]?.product_category);
         } else {
           setProduct([]);
         }
@@ -160,6 +152,7 @@ function Product1_simple(props) {
       product_id: productId,
       userId: token && userID ? userID : parseInt(randomeUserId),
     };
+
     axios({
       method: "post",
       url: configJSON.baseUrl + configJSON.add_wishlist,
@@ -167,7 +160,7 @@ function Product1_simple(props) {
     })
       .then((res) => {
         setIsLoader(false);
-        if (res.data.success == true) {
+        if (res?.data?.success == true) {
           MESSAGE.success(res?.data?.message);
           getProduct();
         } else {
@@ -666,7 +659,7 @@ function Product1_simple(props) {
                     )}
                   </ul>
                   <div className="tab-content">
-                    {product?.product_buy_rent == "buy" && (
+                    {product && product?.product_buy_rent == "buy" && (
                       <div
                         className="tab-pane fade show active"
                         id="tab-buy"
@@ -675,7 +668,7 @@ function Product1_simple(props) {
                       >
                         <div>
                           <h1 className="product-single__name">
-                            {product?.product_brand[0]}
+                            {product?.product_name}
                           </h1>
 
                           <div className="product-single__price">
@@ -684,7 +677,7 @@ function Product1_simple(props) {
                             </span>
                           </div>
                           <div className="product-single__short-desc">
-                            <p>{product?.product_brand[0]}</p>
+                            <p>{product?.product_brand}</p>
                           </div>
 
                           <div className="product-single__swatches">
@@ -821,16 +814,16 @@ function Product1_simple(props) {
                             <script src="js/share.js" defer="defer"></script>
                           </div>
 
-                          <div className="product-single__meta-info">
-                            {/* <div className="meta-item">
-                          <label>SKU:</label>
-                          <span>N/A</span>
-                        </div> */}
+                          {/*<div className="product-single__meta-info">
+                            <div className="meta-item">
+                                <label>SKU:</label>
+                              <span>N/A</span>
+                              </div> 
                             <div className="meta-item">
                               <label>Categories:</label>
                               <span> {product?.product_Categories}</span>
                             </div>
-                          </div>
+                          </div>*/}
                         </div>
                       </div>
                     )}
@@ -843,7 +836,7 @@ function Product1_simple(props) {
                       >
                         <div>
                           <h1 className="product-single__name">
-                            {product?.product_brand[0]}
+                            {product?.product_name}
                             <small className="ms-2 ct_fs_14">
                               {product?.product_rental_period}
                             </small>
@@ -1094,91 +1087,68 @@ function Product1_simple(props) {
                       </li>
                     </ul>
                     <div className="item">
+                      <label className="h6">Product Name</label>
+                      <span>{product?.product_name}</span>
+                    </div>
+                    <div className="item">
                       <label className="h6">Category</label>
-
                       <span>{product?.product_category}</span>
+                    </div>
+                    <div className="item">
+                      <label className="h6">Price</label>
+                      <span>${product?.price_sale_lend_price}</span>
                     </div>
 
                     <div className="item">
                       <label className="h6">Size Top</label>
-                      {product?.product_size?.map((item) => (
-                        <span>{item?.size_top},</span>
-                      ))}
+
+                      <span>{product && product?.product_size?.length > 0 && product?.product_size[0]?.size_top}</span>
+
                     </div>
                     <div className="item">
                       <label className="h6">Size Bottom</label>
-                      {product?.product_size?.map((item) => (
-                        <span>{item?.size_bottom},</span>
-                      ))}
+                      <span>{product && product?.product_size?.length > 0 && product?.product_size[0]?.size_bottom}</span>
+
                     </div>
-                    <div className="item d-flex align-items-center">
+                    <div className="item">
                       <label className="h6">Color</label>
-                      <div className="swatch-list">
-                        {product?.product_color?.map((item) => (
-                          <label
-                            className="swatch ct_swatch_after swatch-color js-swatch ct_active_color1"
-                            for="swatch-11"
-                            aria-label="Black"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title=""
-                            style={{ color: `${item}` }}
-                            data-bs-original-title="Black"
-                          ></label>
-                        ))}
-                      </div>
-                      {/* <span>{product?.product_color}</span> */}
+                      <span>{product && product?.product_color?.length > 0 && product?.product_color[0]}</span>
+
                     </div>
+
                     <div className="item">
                       <label className="h6">Location</label>
                       <span>{product?.location}</span>
                     </div>
+                    <div className="item">
+                      <label className="h6">Brand</label>
+                      <span>{product?.product_brand}</span>
+                    </div>
+                    <div className="item">
+                      <label className="h6">Replacement Price</label>
+                      <span>{product?.product_replacement_price}</span>
+                    </div>
+                    <div className="item">
+                      <label className="h6">Product Type</label>
+                      <span>{product?.product_type}</span>
+                    </div>
+
+
+                    {product?.product_buy_rent == 'rent' &&
+                      <div className="item">
+                        <label className="h6">Size Standard</label>
+                        <span>{product?.size_standard}</span>
+                      </div>
+                    }
+                    {product?.product_buy_rent == 'rent' &&
+                      <div className="item">
+                        <label className="h6">Product Rental Period</label>
+                        <span>{product?.product_rental_period}</span>
+                      </div>
+                    }
                   </div>
                 </div>
-                {/* <div
-                  className="tab-pane fade"
-                  id="tab-additional-info"
-                  role="tabpanel"
-                  aria-labelledby="tab-additional-info-tab"
-                >
-                  <div className="product-single__addtional-info">
-                  
-                    <div className="item">
-                      <label className="h6">Size Top</label>
-                      {
-                        product?.product_size?.map((item) => (
 
-                          <span>{item?.size_top},</span>
-                        ))
-                      }
-
-                    </div>
-                    <div className="item">
-                      <label className="h6">Size Bottom</label>
-                      {
-                        product?.product_size?.map((item) => (
-
-                          <span>{item?.size_bottom},</span>
-                        ))
-                      }
-                    </div>
-                    <div className="item d-flex align-items-center">
-                      <label className="h6">Color</label>
-                      <div className="swatch-list">
-                        {
-                          product?.product_color?.map((item) => (
-                            <label className="swatch ct_swatch_after swatch-color js-swatch ct_active_color1" for="swatch-11" aria-label="Black"
-                              data-bs-toggle="tooltip" data-bs-placement="top" title="" style={{ color: `${item}` }}
-                              data-bs-original-title="Black"></label>
-                          ))
-                        }
-
-                      </div>
-                     
-                    </div>
-                   
-                  </div>
-                </div> */}
               </div>
             </div>
           </section>
@@ -1210,7 +1180,7 @@ function Product1_simple(props) {
                           </a>
                         </div>
                         <div className="pc__info position-relative">
-                          <p className="pc__category">{item?.product_category}</p>
+                          <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
                           <h6 className="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
                               {item?.product_brand}

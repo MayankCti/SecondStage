@@ -39,7 +39,11 @@ import SellLend from "./components/sell_Lend";
 import UserLogin from "./components/userLogin";
 import UserRegister from "./components/userRegister";
 import EditProduct from "./components/editProduct";
+import { useEffect } from "react";
 function App(){
+  useEffect(()=>{
+
+  },[])
   return (
     <div className="App">
       <Router basename="/">

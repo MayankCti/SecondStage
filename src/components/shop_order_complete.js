@@ -302,7 +302,7 @@ function Shop_order_complete() {
                               <tr>
                                 {console.log(item?.product_details?.sub_total)}
                                 <td>
-                                  {item?.product_details?.product_brand}
+                                  {item?.product_details?.product_name}
                                 </td>
                                 <td align="right">
                                   ${item?.sub_total}
