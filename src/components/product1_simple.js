@@ -20,6 +20,7 @@ import Cookies from 'js-cookie';
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Calendar } from "react-date-range";
 import moment from "moment";
+import ProductInfo from "./Product_Info";
 export const configJSON = require("../components/config");
 
 function Product1_simple(props) {
@@ -1086,65 +1087,23 @@ function Product1_simple(props) {
                         </a>
                       </li>
                     </ul>
-                    <div className="item">
-                      <label className="h6">Product Name</label>
-                      <span>{product?.product_name}</span>
-                    </div>
-                    <div className="item">
-                      <label className="h6">Category</label>
-                      <span>{product?.product_category}</span>
-                    </div>
-                    <div className="item">
-                      <label className="h6">Price</label>
-                      <span>${product?.price_sale_lend_price}</span>
-                    </div>
 
-                    <div className="item">
-                      <label className="h6">Size Top</label>
-
-                      <span>{product && product?.product_size?.length > 0 && product?.product_size[0]?.size_top}</span>
-
-                    </div>
-                    <div className="item">
-                      <label className="h6">Size Bottom</label>
-                      <span>{product && product?.product_size?.length > 0 && product?.product_size[0]?.size_bottom}</span>
-
-                    </div>
-                    <div className="item">
-                      <label className="h6">Color</label>
-                      <span>{product && product?.product_color?.length > 0 && product?.product_color[0]}</span>
-
-                    </div>
-
-                    <div className="item">
-                      <label className="h6">Location</label>
-                      <span>{product?.location}</span>
-                    </div>
-                    <div className="item">
-                      <label className="h6">Brand</label>
-                      <span>{product?.product_brand}</span>
-                    </div>
-                    <div className="item">
-                      <label className="h6">Replacement Price</label>
-                      <span>{product?.product_replacement_price}</span>
-                    </div>
-                    <div className="item">
-                      <label className="h6">Product Type</label>
-                      <span>{product?.product_type}</span>
-                    </div>
-
+                    <ProductInfo label={"Product Name"} value={product?.product_name} />
+                    <ProductInfo label={"Category"} value={product?.product_category} />
+                    <ProductInfo label={"Price"} value={product?.price_sale_lend_price} />
+                    <ProductInfo label={"Size Top"} value={product && product?.product_size?.length > 0 && product?.product_size[0]?.size_top} />
+                    <ProductInfo label={"Size Bottom"} value={product && product?.product_size?.length > 0 && product?.product_size[0]?.size_bottom} />
+                    <ProductInfo label={"Color"} value={product && product?.product_color?.length > 0 && product?.product_color[0]} />
+                    <ProductInfo label={"Location"} value={product?.location} />
+                    <ProductInfo label={"Brand"} value={product?.product_brand} />
+                    <ProductInfo label={"Replacement Price"} value={product?.product_replacement_price} />
+                    <ProductInfo label={"Product Type"} value={product?.product_type} />
 
                     {product?.product_buy_rent == 'rent' &&
-                      <div className="item">
-                        <label className="h6">Size Standard</label>
-                        <span>{product?.size_standard}</span>
-                      </div>
+                      <ProductInfo label={"Size Standard"} value={product?.size_standard} />
                     }
                     {product?.product_buy_rent == 'rent' &&
-                      <div className="item">
-                        <label className="h6">Product Rental Period</label>
-                        <span>{product?.product_rental_period}</span>
-                      </div>
+                      <ProductInfo label={"Product Rental Period"} value={product?.product_rental_period} />
                     }
                   </div>
                 </div>
