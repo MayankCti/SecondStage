@@ -35,7 +35,10 @@ function Account_dashboard() {
   const handleAccountEditAddress = () => {
     navigate("/account-edit-address")
   }
-
+  const handleForm = (val) => {
+    if (val)
+      navigate('/'+val);
+  }
   const myProfileData = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -221,7 +224,7 @@ function Account_dashboard() {
             </symbol>
           </svg>
 
-          <Header/>
+          <Header />
 
           <main>
             <div className="mb-4 pb-4"></div>
@@ -242,11 +245,11 @@ function Account_dashboard() {
                     <a className='ct_sell_btn ct_border_zero' onClick={() => handleAccountOrders()}>Current Orders </a>
                     <a className='ct_sell_btn ct_border_zero' onClick={() => handlePastOrder()} >Past Orders</a>
                     {/* <a className='ct_sell_btn ct_border_zero' onClick={()=>handlePastOrder()} >Issue Request </a> */}
-                    <select className='ct_sell_btn ct_select_option_hover'>
-                      <option>Issue Request</option>
-                      <option>Lender issue response form</option>
-                      <option>Buyer issue response form</option>
-                      <option>Renter issue response form</option>
+                    <select className='ct_sell_btn ct_select_option_hover' onChange={(e) => handleForm(e.target.value)}>
+                      <option value=''>Issue Request</option>
+                      <option value='lenderform'>Lender issue response form</option>
+                      <option value='buyerform'>Buyer issue response form</option>
+                      <option value='renterform'>Renter issue response form</option>
                     </select>
                     <a className='ct_sell_btn ct_border_zero' onClick={() => handleAccountEdit()} >Account Details </a>
                     <a className='ct_sell_btn ct_border_zero' onClick={() => handleWishList()} >Wishlist </a>

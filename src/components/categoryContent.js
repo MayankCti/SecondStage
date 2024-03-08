@@ -336,30 +336,39 @@ function CategoryContent(props) {
                                 {item?.product_name ?? 'Product Name'}
                                   
                               </p>
-                              <h6 className="pc__title">
-                                {/* <a  onClick={() => handleProduct1Simple(item?.id)}>{item?.product_description}</a> */}
+
+                              {
+                                item?.product_buy_rent == 'buy' ? 
+                                <h6 className="pc__title">
                                 <a
                                   onClick={() => handleProduct1Simple(item?.id)}
                                 >
-                                  {/* {item?.product_description}
-                                   */}
-                                  Size Top :
-                                  {item?.product_size?.map((obj) => (
-                                    <span>{obj?.size_top}</span>
-                                  ))}
+                                  Size Top : <span>{item?.product_size[0]?.size_top}</span>
                                 </a>
                                 <br />
                                 <a
                                   onClick={() => handleProduct1Simple(item?.id)}
                                 >
-                                  {/* {item?.product_description}
-                                   */}
-                                  Size Bottom :
-                                  {item?.product_size?.map((obj) => (
-                                    <span>{obj?.size_bottom}</span>
-                                  ))}
+                                  Size Bottom : <span>{item?.product_size[0]?.size_bottom}</span>
+                             
                                 </a>
                               </h6>
+                              :
+                              <h6 className="pc__title">
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Size Standard : <span>{item?.size_standard}</span>
+                                </a>
+                                <br />
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Rental Period : <span>{item?.product_rental_period}</span>
+                             
+                                </a>
+                              </h6>
+                              }
                               <div className="product-card__price d-flex">
                                 <span className="money price">
                                   ${item?.price_sale_lend_price}

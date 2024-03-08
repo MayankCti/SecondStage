@@ -3,7 +3,15 @@ import Header from './header'
 import Footer from "./footer";
 import { Formik } from 'formik';
 import { buyer_issue, lender_issue } from "./Schema";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
+import { lightGreen } from "@mui/material/colors";
+export const configJSON = require("../components/config");
+
 const LenderForm = () => {
+  const [isLoader, setIsLoader] = useState(false)
+  const navigate = useNavigate()
   const [obj, setObj] = useState({
     issue_claimed: '',
     date_from: '',
@@ -15,12 +23,37 @@ const LenderForm = () => {
     cleaning_fee: '',
     additional_not_listed: '',
     value_of_claim: '',
-    u_product_photo: '',
+    file: null,
     tracking_number: '',
     reason: '',
+
+
   })
   const lenderIssue = (val) => {
+    const userID = localStorage.getItem("user_id");
+    const data = {
+      ...val, user_id: userID
+    }
+    setIsLoader(true)
     console.log(val, "value")
+    axios({
+      url: configJSON.baseUrl + configJSON.lenderissue,
+      method: "post",
+      data: data,
+      headers: { 'content-type': 'multipart/form-data' },
+    }).then((res) => {
+      setIsLoader(false)
+      console.log("helo", res)
+      if (res?.data?.success) {
+        message.success('Your request has been sent successfully')
+        navigate('/account-dashboard')
+      } else {
+        message.error('Something went wrong! Please try again later');
+      }
+    }).catch((err) => {
+      setIsLoader(false)
+      console.error(err);
+    });
   }
   return (
     <div>
@@ -199,7 +232,7 @@ const LenderForm = () => {
                 isSubmitting,
               }) => (
                 <form>
-                  
+
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-group mb-3">
@@ -369,10 +402,10 @@ const LenderForm = () => {
                         <label>Upload Product Photo </label>
                         <input type="file"
                           onChange={(event) => {
-                            setFieldValue("u_product_photo", event.currentTarget.files[0]);
+                            setFieldValue("file", event.currentTarget.files[0]);
                           }}
                           className="form-control" />
-                        {errors.u_product_photo && touched.u_product_photo && <div className="error" style={{ color: "red" }}>{errors.u_product_photo}</div>}
+                        {errors.file && touched.file && <div className="error" style={{ color: "red" }}>{errors.file}</div>}
 
                       </div>
                     </div>

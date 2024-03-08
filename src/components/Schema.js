@@ -58,9 +58,9 @@ export const buyer_issue = Yup.object().shape({
   cleaning_fee: Yup.number().required('Cleaning Fee is required').positive('Cleaning Fee must be a positive number'),
   additional_not_listed: Yup.number().required('Additional not listed is required').positive('Additional not listed must be a positive number'),
   value_of_claim: Yup.number().required('Value of Claim is required').positive('Value of Claim must be a positive number'),
-  upload_product_photo: Yup.mixed().test('fileType', 'Invalid file type', (value) => {
-    if (!value) return true; // Allow if no file is selected
-    const validFileTypes = ['image/jpeg', 'image/png', 'image/gif']; // Example valid file types
+  file: Yup.mixed().test('fileType', 'Invalid file type', (value) => {
+    if (!value) return true; 
+    const validFileTypes = ['image/jpeg','image/jpg', 'image/png', 'image/gif']; // Example valid file types
     return validFileTypes.includes(value.type);
   }).required('Upload Product Photo is required'),
   tracking_number: Yup.string().required('Tracking Number is required'),
@@ -78,9 +78,9 @@ export const lender_issue = Yup.object().shape({
   cleaning_fee: Yup.number().required('Cleaning Fee is required').positive('Cleaning Fee must be a positive number'),
   additional_not_listed: Yup.number().required('Additional not listed is required').positive('Additional not listed must be a positive number'),
   value_of_claim: Yup.number().required('Value of Claim is required').positive('Value of Claim must be a positive number'),
-  u_product_photo: Yup.mixed().test('fileType', 'Invalid file type', (value) => {
+  file: Yup.mixed().test('fileType', 'Invalid file type', (value) => {
     if (!value) return true; // Allow if no file is selected
-    const validFileTypes = ['image/jpeg', 'image/png', 'image/gif']; // Example valid file types
+    const validFileTypes = ['image/jpeg','image/jpg', 'image/png', 'image/gif']; // Example valid file types
     return validFileTypes.includes(value.type);
   }).required('Upload Product Photo is required'),
   tracking_number: Yup.string().required('Tracking Number is required'),

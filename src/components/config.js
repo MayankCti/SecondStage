@@ -2,9 +2,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true,
 });
 // local
-export const baseUrl = "http://192.168.1.9:4005/web/"
+// export const baseUrl = "http://192.168.1.9:4005/web/"
 // live
-// export const baseUrl = "http://34.195.103.99:4005/web/"
+export const baseUrl = "http://34.195.103.99:4005/web/"
 
 export const signUpBuyer = "signUp"
 export const loginBuyer = "login_buyer"
@@ -30,7 +30,9 @@ export const deleteCartData = "deleteCartData/"
 export const add_wishlist = "add_wishlist"
 export const get_wishlist = "get_wishlist"
 
-
+export const lenderissue = 'lenderissue'
+export const buyer_issue = 'buyer_issue'
+export const renter_issue = 'renter_issue'
 
 export const fetch_checkout = "fetch_checkout"
 export const add_shipping_details = "add_shipping_details"

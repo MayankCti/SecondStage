@@ -133,21 +133,21 @@ function Content(props) {
 
             <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Featured <strong>Products</strong></h2>
             <div className="shop-filter d-flex align-items-center order-0 order-md-3">
-                  <button
-                    className="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside"
-                    onClick={() => setIsFilter(true)}
-                    data-aside="shopFilter"
-                  >
+              <button
+                className="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside"
+                onClick={() => setIsFilter(true)}
+                data-aside="shopFilter"
+              >
 
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter d-inline-block align-middle me-2" viewBox="0 0 16 16">
-  <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
-</svg>
-                    
-                    <span className="text-uppercase fw-medium d-inline-block align-middle">
-                      Filter
-                    </span>
-                  </button>
-                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter d-inline-block align-middle me-2" viewBox="0 0 16 16">
+                  <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
+                </svg>
+
+                <span className="text-uppercase fw-medium d-inline-block align-middle">
+                  Filter
+                </span>
+              </button>
+            </div>
             <div
               className={
                 isFilter == false
@@ -212,40 +212,42 @@ function Content(props) {
                           <div className="ct_buy_rent_tag">
                             <h4 className="mb-0">{item.product_buy_rent.charAt(0).toUpperCase() + item.product_buy_rent.slice(1)}</h4>
                           </div>
-                          {/* <button
-                          onClick={() => addToCart(item?.id)}
-                          className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                          data-aside="cartDrawer"
-                          title="Add To Cart"
-                        >
-                          Add To Cart
-                        </button> */}
+
                         </div>
                         <div className="pc__info position-relative">
-                          <p className="pc__category">{item?.product_name?? 'Product Name'}</p>
-                          <h6 className="pc__title">
-                            <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {/* {item?.product_description}
-                               */}
-                              Size Top :
-                              {
-                                item?.product_size?.map((obj) => (
-                                  <span>{obj?.size_top}</span>
-                                ))
-                              }
-                            </a>
-                            <br />
-                            <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {/* {item?.product_description}
-                               */}
-                              Size Bottom :
-                              {
-                                item?.product_size?.map((obj) => (
-                                  <span>{obj?.size_bottom}</span>
-                                ))
-                              }
-                            </a>
-                          </h6>
+                          <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
+                          {
+                            item?.product_buy_rent == 'buy' ?
+                              <h6 className="pc__title">
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Size Top : <span>{item?.product_size[0]?.size_top}</span>
+                                </a>
+                                <br />
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Size Bottom : <span>{item?.product_size[0]?.size_bottom}</span>
+
+                                </a>
+                              </h6>
+                              :
+                              <h6 className="pc__title">
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Size Standard : <span>{item?.size_standard}</span>
+                                </a>
+                                <br />
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Rental Period : <span>{item?.product_rental_period}</span>
+
+                                </a>
+                              </h6>
+                          }
                           <div className="product-card__price d-flex">
                             <span className="money price">
                               ${item?.price_sale_lend_price}

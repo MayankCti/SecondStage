@@ -743,28 +743,47 @@ function Header(props) {
                         <p className="cart-drawer-item__option text-secondary">
                           {/* Color:  */}
                           <label>Color</label> <br />
-                          {item?.product_color?.map((obj) => (
-                            <label > {obj}</label>
-                          ))}
+                          <label > {item?.product_color[0]}</label>
                         </p>
                       </div>
-                      <div>
-                        <p className="cart-drawer-item__option text-secondary">
-                          {/* Size: {item?.product_size[0]?.size_bottom} */}
-                          <label>Size Top :&nbsp;</label>
-                          {item?.product_size?.map((obj) => (
-                            <label>{obj?.size_top}</label>
-                          ))}
-                        </p>
-                      </div>
+                      {
+                        item?.product_buy_rent == 'buy' ?
+                          <>
+                            <div>
+                              <p className="cart-drawer-item__option text-secondary">
+                                {/* Size: {item?.product_size[0]?.size_bottom} */}
+                                <label>Size Top :&nbsp;</label>
+                                <label>{item?.product_size[0]?.size_bottom}</label>
+                              </p>
+                            </div>
+                            <div>
+                              <p className="cart-drawer-item__option text-secondary mt-2">
+                                <label>Size Bottom :&nbsp;</label>
+                                <label>{item?.product_size[0]?.size_bottom}</label>
+                              </p>
+                            </div>
+                          </>
+                          :
+                          <>
+                            <div>
+                              <p className="cart-drawer-item__option text-secondary">
+                                {/* Size: {item?.product_size[0]?.size_bottom} */}
+                                <label>Size Standard </label>
+                                <label>{item?.size_standard}</label>
+                              </p>
+                            </div>
+                            <div>
+                              <p className="cart-drawer-item__option text-secondary">
+                                {/* Size: {item?.product_size[0]?.size_bottom} */}
+                                <label>Rental Period </label>
+                                <label>{item?.product_rental_period}</label>
+                              </p>
+                            </div>
+                          </>
+                      }
                     </div>
 
-                    <p className="cart-drawer-item__option text-secondary mt-2">
-                      <label>Size Bottom :&nbsp;</label>
-                      {item?.product_size?.map((obj) => (
-                        <label>{obj?.size_bottom}</label>
-                      ))}
-                    </p>
+
                     {item?.product_buy_rent == "rent" && (
                       <p className="cart-drawer-item__option text-secondary mt-2 text-center  mx-auto my-2">
                         <button

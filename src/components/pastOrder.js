@@ -261,8 +261,17 @@ function PastOrder() {
                                                 <ul className="shopping-cart__product-item__options">
 
                                                   <li>Color: {obj?.color}</li>
-                                                  <li>Size top: {obj?.size_top}</li>
-                                                  <li>Size bottom: {obj?.size_bottom}</li>
+                                                  {
+                                                    obj?.product_buy_rent == "rent" ? <>
+                                                      <li>rent for : {obj?.total_rend_days} {obj?.total_rend_days == "1" ? "day" : 'days'} </li>
+                                                      <li>Size Standard: {obj?.size_standard}</li>
+                                                    </>
+                                                      :
+                                                      <>
+                                                        <li>Size top: {obj?.size_top}</li>
+                                                        <li>Size bottom: {obj?.size_bottom}</li>
+                                                      </>
+                                                  }
                                                   <li>Quantity: {obj?.cart_quantity}</li>
                                                 </ul>
                                               </div>

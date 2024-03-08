@@ -669,7 +669,7 @@ function Product1_simple(props) {
                       >
                         <div>
                           <h1 className="product-single__name">
-                            {product?.product_name}
+                            {product?.product_name ?? "Product Name"}
                           </h1>
 
                           <div className="product-single__price">
@@ -837,7 +837,7 @@ function Product1_simple(props) {
                       >
                         <div>
                           <h1 className="product-single__name">
-                            {product?.product_name}
+                            {product?.product_name ?? "Product Name"}
                             <small className="ms-2 ct_fs_14">
                               {product?.product_rental_period}
                             </small>
@@ -1087,24 +1087,25 @@ function Product1_simple(props) {
                         </a>
                       </li>
                     </ul>
-
-                    <ProductInfo label={"Product Name"} value={product?.product_name} />
+                    <ProductInfo label={"Product Name"} value={product?.product_name ??  'Product Name'} />
                     <ProductInfo label={"Category"} value={product?.product_category} />
                     <ProductInfo label={"Price"} value={product?.price_sale_lend_price} />
-                    <ProductInfo label={"Size Top"} value={product && product?.product_size?.length > 0 && product?.product_size[0]?.size_top} />
-                    <ProductInfo label={"Size Bottom"} value={product && product?.product_size?.length > 0 && product?.product_size[0]?.size_bottom} />
+                    {product?.product_buy_rent == 'rent' ?
+                      <>
+                        <ProductInfo label={"Size Standard"} value={product?.size_standard} />
+                        <ProductInfo label={"Product Rental Period"} value={product?.product_rental_period} />
+                      </>
+                      :
+                      <>
+                        <ProductInfo label={"Size Top"} value={product && product?.product_size?.length > 0 && product?.product_size[0]?.size_top} />
+                        <ProductInfo label={"Size Bottom"} value={product && product?.product_size?.length > 0 && product?.product_size[0]?.size_bottom} />
+                      </>
+                    }
                     <ProductInfo label={"Color"} value={product && product?.product_color?.length > 0 && product?.product_color[0]} />
                     <ProductInfo label={"Location"} value={product?.location} />
                     <ProductInfo label={"Brand"} value={product?.product_brand} />
                     <ProductInfo label={"Replacement Price"} value={product?.product_replacement_price} />
-                    <ProductInfo label={"Product Type"} value={product?.product_type} />
-
-                    {product?.product_buy_rent == 'rent' &&
-                      <ProductInfo label={"Size Standard"} value={product?.size_standard} />
-                    }
-                    {product?.product_buy_rent == 'rent' &&
-                      <ProductInfo label={"Product Rental Period"} value={product?.product_rental_period} />
-                    }
+                  {product?.product_type &&   <ProductInfo label={"Product Type"} value={product?.product_type} />}
                   </div>
                 </div>
 
@@ -1140,7 +1141,39 @@ function Product1_simple(props) {
                         </div>
                         <div className="pc__info position-relative">
                           <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
-                          <h6 className="pc__title">
+                          {
+                            item?.product_buy_rent == 'buy' ?
+                              <h6 className="pc__title">
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Size Top : <span>{item?.product_size[0]?.size_top}</span>
+                                </a>
+                                <br />
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Size Bottom : <span>{item?.product_size[0]?.size_bottom}</span>
+
+                                </a>
+                              </h6>
+                              :
+                              <h6 className="pc__title">
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Size Standard : <span>{item?.size_standard}</span>
+                                </a>
+                                <br />
+                                <a
+                                  onClick={() => handleProduct1Simple(item?.id)}
+                                >
+                                  Rental Period : <span>{item?.product_rental_period}</span>
+
+                                </a>
+                              </h6>
+                          }
+                          {/* <h6 className="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
                               {item?.product_brand}
                             </a>
@@ -1162,7 +1195,7 @@ function Product1_simple(props) {
                                 ))
                               }
                             </a>
-                          </h6>
+                          </h6> */}
                           <div className="product-card__price d-flex">
                             <span className="money price">
                               ${item?.price_sale_lend_price}

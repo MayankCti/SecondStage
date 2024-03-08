@@ -23,7 +23,7 @@ function Shop_cart() {
     setAccessToken(token);
     getCartData();
     getShopCart();
-   
+
   }, []);
 
   const getCartData = (val2) => {
@@ -65,7 +65,7 @@ function Shop_cart() {
     axios({
       method: "delete",
       url: configJSON.baseUrl + configJSON.deleteCartData + item?.id,
-      data : data
+      data: data
     })
       .then((res) => {
         // setIsLoader(false);
@@ -83,7 +83,7 @@ function Shop_cart() {
         console.log(err);
       });
   };
-  
+
   const handleShopCart = () => {
     navigate("/shop-cart");
   };
@@ -99,15 +99,15 @@ function Shop_cart() {
   const getShopCart = () => {
     const token = JSON.parse(localStorage.getItem("token"));
     const userID = localStorage.getItem("user_id")
-const randomeUserId = Cookies.get('RandomUserId');
-const data = {
-  userId: token && userID ? userID : randomeUserId
-}
+    const randomeUserId = Cookies.get('RandomUserId');
+    const data = {
+      userId: token && userID ? userID : randomeUserId
+    }
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.fetch_checkout,
       method: "post",
-      data : data
+      data: data
     })
       .then((res) => {
         setIsLoader(false);
@@ -459,15 +459,22 @@ const data = {
                               </td>
                               <td>
                                 <div className="shopping-cart__product-item__detail">
-                                  <h4>{item?.product_name?? 'Product Name'}</h4>
+                                  <h4>{item?.product_name ?? 'Product Name'}</h4>
                                   <ul className="shopping-cart__product-item__options">
-                                   
+
                                     <li>Color: {item?.color}</li>
-                                    <li>Size top: {item?.size_top}</li>
-                                    <li>Size bottom: {item?.size_bottom}</li>
+
                                     <li>Product Type : {item?.product_buy_rent}</li>
                                     {
-                                      item?.product_buy_rent == "rent" && <li>rent for : {item?.total_rend_days} {item?.total_rend_days == "1" ? "day" : 'days'} </li>
+                                      item?.product_buy_rent == "rent" ? <>
+                                      <li>rent for : {item?.total_rend_days} {item?.total_rend_days == "1" ? "day" : 'days'} </li>
+                                      <li>Size Standard: {item?.size_standard}</li>
+                                      </>
+                                        : 
+                                        <>
+                                          <li>Size top: {item?.size_top}</li>
+                                          <li>Size bottom: {item?.size_bottom}</li>
+                                        </>
                                     }
 
                                   </ul>
@@ -478,7 +485,7 @@ const data = {
                                   ${item?.cart_price}
                                 </span>
                               </td>
-                             
+
                               <td>
                                 <span className="shopping-cart__subtotal">
                                   ${item?.sub_total}

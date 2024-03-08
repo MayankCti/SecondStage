@@ -43,10 +43,10 @@ function Account_orders() {
       });
   }
   const handleProduct1Simple = (productId) => {
-    localStorage.setItem("productID",productId)
+    localStorage.setItem("productID", productId)
     navigate("/product1-simple");
   };
-  const IssueRequest = (val)=>{
+  const IssueRequest = (val) => {
     navigate(`/${val}`)
   }
   return (
@@ -210,15 +210,15 @@ function Account_orders() {
           <div className="row">
             <List7 data="account-orders" />
             <div className="col-lg-9">
-               <div>
-             
-              <select className='ct_sell_btn ct_select_option_hover' onChange={(e)=>IssueRequest(e.target.value)}>
-                <option>Issue Request</option>
-                <option value="lenderform" >Lender issue response form</option>
-                <option value="buyerform">Buyer issue response form</option>
-                <option value="renterform" >Renter issue response form</option>
-              </select>
-                  </div>
+              <div>
+
+                <select className='ct_sell_btn ct_select_option_hover' onChange={(e) => IssueRequest(e.target.value)}>
+                  <option>Issue Request</option>
+                  <option value="lenderform" >Lender issue response form</option>
+                  <option value="buyerform">Buyer issue response form</option>
+                  <option value="renterform" >Renter issue response form</option>
+                </select>
+              </div>
               <div className="page-content my-account__orders-list">
                 {
                   isLoader == true ?
@@ -238,7 +238,7 @@ function Account_orders() {
                             </thead>
                             <>
                               {
-                                data?.map((item,i) => (
+                                data?.map((item, i) => (
                                   <>
                                     {
                                       item?.Cart_details?.map((obj) => (
@@ -260,24 +260,33 @@ function Account_orders() {
                                             </td>
                                             <td>
                                               <div className="shopping-cart__product-item__detail">
-                                                <h4>{obj?.product_name?? 'Product Name'}</h4>
+                                                <h4>{obj?.product_name ?? 'Product Name'}</h4>
                                                 <ul className="shopping-cart__product-item__options">
-                                                  
+
                                                   <li>Color: {obj?.color}</li>
-                                                  <li>Size top: {obj?.size_top}</li>
-                                                  <li>Size bottom: {obj?.size_bottom}</li>
+                                                  {
+                                                    obj?.product_buy_rent == "rent" ? <>
+                                                      <li>rent for : {obj?.total_rend_days} {obj?.total_rend_days == "1" ? "day" : 'days'} </li>
+                                                      <li>Size Standard: {obj?.size_standard}</li>
+                                                    </>
+                                                      :
+                                                      <>
+                                                        <li>Size top: {obj?.size_top}</li>
+                                                        <li>Size bottom: {obj?.size_bottom}</li>
+                                                      </>
+                                                  }
                                                   <li>Quantity: {obj?.cart_quantity}</li>
                                                 </ul>
                                               </div>
                                             </td>
                                             <td>
                                               <span className="shopping-cart__subtotal">
-                                               {item?.order_number}
+                                                {item?.order_number}
                                               </span>
                                             </td>
                                             <td>
                                               <span className="shopping-cart__subtotal">
-                                              {moment(item?.order_date).format('DD MMM  YYYY')}
+                                                {moment(item?.order_date).format('DD MMM  YYYY')}
                                               </span>
                                             </td>
                                             <td>

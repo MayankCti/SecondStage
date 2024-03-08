@@ -176,14 +176,14 @@ function FilterBy(props) {
           filterContent?.length != 0 ?
             <>
               <div className="pt-4 pt-lg-0"></div>
-              <div className="search-field__input-wrapper mb-3">
+              {/* <div className="search-field__input-wrapper mb-3">
                 <input
                   type="text"
                   className="search-field__input form-control form-control-sm border-light border-2"
 
                   placeholder="Search"
                 />
-              </div>
+              </div> */}
               <div className="accordion" id="brand-filters">
                 <div className="accordion-item mb-4 ">
                   <h5 className="accordion-header" id="accordion-heading-brand">

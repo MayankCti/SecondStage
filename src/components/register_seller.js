@@ -43,18 +43,15 @@ function Register_seller() {
   const [styleBottomOption, setStyleBottomOption] = useState()
   const [styleTopOption, setStyleTopOption] = useState()
   const [product_name, setProduct_name] = useState()
-  const [sizeTopOption, setSizeTopOption] = useState("normal");
-  const [sizeBottomOption, setSizeBottomOption] =
-    useState("M");
-  const [sizeStandardOption, setSizeStandardOption] = useState(
-    "Universal"
-  )
+  const [sizeTopOption, setSizeTopOption] = useState();
+  const [sizeBottomOption, setSizeBottomOption] = useState();
+  const [sizeStandardOption, setSizeStandardOption] = useState()
   const [description, setDescription] = useState("")
   const [priceSellLend, setPriceSellLend] = useState("")
   const [replacementPrice, setReplacementPrice] = useState("")
-  const [categoryOption, setCategoryOption] = useState("biknis");
-  const [brandOption, setBrandOption] = useState("--Select--Brand--");
-  const [colorData, setColorData] = useState("--Select--Color--");
+  const [categoryOption, setCategoryOption] = useState();
+  const [brandOption, setBrandOption] = useState();
+  const [colorData, setColorData] = useState();
 
   const [islicenseState, setIsLicenseState] = useState(false)
   const [profileData, setProfileData] = useState([])

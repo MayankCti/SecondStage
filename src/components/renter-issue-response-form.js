@@ -3,11 +3,14 @@ import Header from './header'
 import Footer from "./footer";
 import { buyer_issue } from "./Schema";
 import { Formik } from "formik";
-import {message} from "antd";
+import { message } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export const configJSON = require("../components/config");
 
 const RenterFrom = () => {
+  const [isLoader, setIsLoader] = useState(false)
+  const navigate = useNavigate()
   const [obj, setObj] = useState({
     issue_claimed: '',
     date_from: '',
@@ -16,35 +19,39 @@ const RenterFrom = () => {
     cleaning_fee: '',
     additional_not_listed: '',
     value_of_claim: '',
-    upload_product_photo: null,
+    file: null,
     tracking_number: '',
     add_note: ''
+
   })
 
-const handleRentelIssue = async(val)=>{
-  const userID = localStorage.getItem("user_id");
-  const data = {
-    ...val,user_id:userID
+  const handleRentelIssue = async (val) => {
+    const userID = localStorage.getItem("user_id");
+    const data = {
+      ...val, user_id: userID
+    }
+    setIsLoader(true)
+    console.log(data, "data")
+    axios({
+      url: configJSON.baseUrl + configJSON.renter_issue,
+      method: "post",
+      data: data,
+      headers: { 'content-type': 'multipart/form-data' },
+    }).then((res) => {
+      setIsLoader(false)
+      console.log("helo", res)
+      if (res?.data?.success) {
+        message.success('Your request has been sent successfully')
+        navigate('/account-dashboard')
+      } else {
+        message.error('Something went wrong! Please try again later');
+      }
+    }).catch((err) => {
+      setIsLoader(false)
+      console.error(err);
+    });
+
   }
-  
-
-axios({
-  url: configJSON.baseUrl + configJSON.loginBuyer,
-  method: "post",
-  data:data
-}).then((res)=>{
-if(res?.data?.success == true){
-  message.success(res?.data?.message)
-  
-}else{
-  message.success(res?.data?.message)
-
-}
-}).catch((error)=>{
-  console.log(error);
-})
-
-}
   return (
     <div>
       <svg className="d-none">
@@ -344,10 +351,10 @@ if(res?.data?.success == true){
                         <label>Upload Product Photo </label>
                         <input type="file"
                           onChange={(event) => {
-                            setFieldValue("upload_product_photo", event.currentTarget.files[0]);
+                            setFieldValue("file", event.currentTarget.files[0]);
                           }}
                           className="form-control" />
-                        {errors.upload_product_photo && touched.upload_product_photo && <div className="error" style={{ color: "red" }}>{errors.upload_product_photo}</div>}
+                        {errors.file && touched.file && <div className="error" style={{ color: "red" }}>{errors.file}</div>}
 
                       </div>
                     </div>
