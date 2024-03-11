@@ -760,17 +760,6 @@ function Product1_simple(props) {
                           </div>
                           <form>
                             <div className="product-single__addtocart">
-                              {/* <div className="qty-control position-relative">
-                              <input
-                                type="number"
-                                name="quantity"
-                                value={qty}
-                                min={1}
-                                className="qty-control__number text-center"
-                              />
-                              <div className="qty-control__reduce" onClick={() => qtyDnc()}>-</div>
-                              <div className="qty-control__increase" onClick={() => qtyInc()}>+</div>
-                            </div> */}
 
                               <button
                                 type="button"
@@ -815,16 +804,6 @@ function Product1_simple(props) {
                             <script src="js/share.js" defer="defer"></script>
                           </div>
 
-                          {/*<div className="product-single__meta-info">
-                            <div className="meta-item">
-                                <label>SKU:</label>
-                              <span>N/A</span>
-                              </div> 
-                            <div className="meta-item">
-                              <label>Categories:</label>
-                              <span> {product?.product_Categories}</span>
-                            </div>
-                          </div>*/}
                         </div>
                       </div>
                     )}
@@ -1087,25 +1066,26 @@ function Product1_simple(props) {
                         </a>
                       </li>
                     </ul>
-                    <ProductInfo label={"Product Name"} value={product?.product_name ??  'Product Name'} />
+                    <ProductInfo label={"Product Name"} value={product?.product_name ?? 'Product Name'} />
                     <ProductInfo label={"Category"} value={product?.product_category} />
                     <ProductInfo label={"Price"} value={product?.price_sale_lend_price} />
-                    {product?.product_buy_rent == 'rent' ?
-                      <>
-                        <ProductInfo label={"Size Standard"} value={product?.size_standard} />
-                        <ProductInfo label={"Product Rental Period"} value={product?.product_rental_period} />
-                      </>
-                      :
-                      <>
-                        <ProductInfo label={"Size Top"} value={product && product?.product_size?.length > 0 && product?.product_size[0]?.size_top} />
-                        <ProductInfo label={"Size Bottom"} value={product && product?.product_size?.length > 0 && product?.product_size[0]?.size_bottom} />
-                      </>
-                    }
+
+                    <>
+                      <ProductInfo
+                        label={product?.product_buy_rent === 'rent' ? "Size Standard" : "Size Top"}
+                        value={product && product?.product_buy_rent === 'rent' ? product?.size_standard : (product?.product_size?.length > 0 && product?.product_size[0]?.size_top)}
+                      />
+                      <ProductInfo
+                        label={product?.product_buy_rent === 'rent' ? "Product Rental Period" : "Size Bottom"}
+                        value={product && product?.product_buy_rent === 'rent' ? product?.product_rental_period : (product?.product_size?.length > 0 && product?.product_size[0]?.size_bottom)}
+                      />
+                    </>
+
                     <ProductInfo label={"Color"} value={product && product?.product_color?.length > 0 && product?.product_color[0]} />
                     <ProductInfo label={"Location"} value={product?.location} />
                     <ProductInfo label={"Brand"} value={product?.product_brand} />
                     <ProductInfo label={"Replacement Price"} value={product?.product_replacement_price} />
-                  {product?.product_type &&   <ProductInfo label={"Product Type"} value={product?.product_type} />}
+                    {product?.product_type && <ProductInfo label={"Product Type"} value={product?.product_type} />}
                   </div>
                 </div>
 
@@ -1141,61 +1121,15 @@ function Product1_simple(props) {
                         </div>
                         <div className="pc__info position-relative">
                           <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
-                          {
-                            item?.product_buy_rent == 'buy' ?
-                              <h6 className="pc__title">
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Top : <span>{item?.product_size[0]?.size_top}</span>
-                                </a>
-                                <br />
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Bottom : <span>{item?.product_size[0]?.size_bottom}</span>
-
-                                </a>
-                              </h6>
-                              :
-                              <h6 className="pc__title">
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Standard : <span>{item?.size_standard}</span>
-                                </a>
-                                <br />
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Rental Period : <span>{item?.product_rental_period}</span>
-
-                                </a>
-                              </h6>
-                          }
-                          {/* <h6 className="pc__title">
+                          <h6 className="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {item?.product_brand}
-                            </a>
-                            <a onClick={() => handleProduct1Simple(item?.product_id)}>
-
-                              Size Top :
-                              {
-                                item?.product_size?.map((obj) => (
-                                  <span>{obj?.size_top}</span>
-                                ))
-                              }
+                              {item?.product_buy_rent === 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_top : item?.size_standard}</span>
                             </a>
                             <br />
-                            <a onClick={() => handleProduct1Simple(item?.product_id)}>
-                              Size Bottom :
-                              {
-                                item?.product_size?.map((obj) => (
-                                  <span>{obj?.size_bottom}</span>
-                                ))
-                              }
+                            <a onClick={() => handleProduct1Simple(item?.id)}>
+                              {item?.product_buy_rent === 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
                             </a>
-                          </h6> */}
+                          </h6>
                           <div className="product-card__price d-flex">
                             <span className="money price">
                               ${item?.price_sale_lend_price}
@@ -1269,12 +1203,6 @@ function Product1_simple(props) {
               {/* /.swiper-wrapper */}
             </div>
 
-            {/* <div className="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
-          <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_md" /></svg>
-        </div>/.products-carousel__prev */}
-            {/* <div className="products-carousel__next position-absolute top-50 d-flex align-items-center justify-content-center">
-          <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_md" /></svg>
-        </div>/.products-carousel__next */}
 
             <div className="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
             {/* /.products-pagination */}
@@ -1287,405 +1215,6 @@ function Product1_simple(props) {
 
       <Footer />
 
-      <div className="aside-filters aside aside_right" id="shopFilter">
-        <div className="aside-header d-flex align-items-center">
-          <h3 className="text-uppercase fs-6 mb-0">Filter By</h3>
-          <button className="btn-close-lg js-close-aside btn-close-aside ms-auto"></button>
-        </div>
-
-        <div className="aside-content">
-          <div className="accordion" id="categories-list">
-            <div className="accordion-item mb-4">
-              <h5 className="accordion-header" id="accordion-heading-1">
-                <button
-                  className="accordion-button p-0 border-0 fs-5 text-uppercase"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#accordion-filter-1"
-                  aria-expanded="true"
-                  aria-controls="accordion-filter-1"
-                >
-                  Product Categories
-                  <svg className="accordion-button__icon" viewBox="0 0 14 14">
-                    <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                      <path
-                        className="svg-path-vertical"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                      <path
-                        className="svg-path-horizontal"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                    </g>
-                  </svg>
-                </button>
-              </h5>
-              <div
-                id="accordion-filter-1"
-                className="accordion-collapse collapse show border-0"
-                aria-labelledby="accordion-heading-1"
-                data-bs-parent="#categories-list"
-              >
-                <div className="accordion-body px-0 pb-0">
-                  <ul className="list list-inline row row-cols-2 mb-0">
-                    <li className="list-item">
-                      <a className="menu-link py-1">Dresses</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">Shorts</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">Sweatshirts</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">Swimwear</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">Jackets</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">T-Shirts & Tops</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">Jeans</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">Trousers</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">Men</a>
-                    </li>
-                    <li className="list-item">
-                      <a className="menu-link py-1">Jumpers & Cardigans</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="accordion" id="color-filters">
-            <div className="accordion-item mb-4">
-              <h5 className="accordion-header" id="accordion-heading-1">
-                <button
-                  className="accordion-button p-0 border-0 fs-5 text-uppercase"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#accordion-filter-2"
-                  aria-expanded="true"
-                  aria-controls="accordion-filter-2"
-                >
-                  Color
-                  <svg className="accordion-button__icon" viewBox="0 0 14 14">
-                    <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                      <path
-                        className="svg-path-vertical"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                      <path
-                        className="svg-path-horizontal"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                    </g>
-                  </svg>
-                </button>
-              </h5>
-              <div
-                id="accordion-filter-2"
-                className="accordion-collapse collapse show border-0"
-                aria-labelledby="accordion-heading-1"
-                data-bs-parent="#color-filters"
-              >
-                <div className="accordion-body px-0 pb-0">
-                  <div className="d-flex flex-wrap">
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#0a2472" }}
-                    ></a>
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#d7bb4f" }}
-                    ></a>
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#282828" }}
-                    ></a>
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#b1d6e8" }}
-                    ></a>
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#9c7539" }}
-                    ></a>
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#d29b48" }}
-                    ></a>
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#e6ae95" }}
-                    ></a>
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#d76b67" }}
-                    ></a>
-                    <a
-                      className="swatch-color swatch_active js-filter"
-                      style={{ color: "#bababa" }}
-                    ></a>
-                    <a
-                      className="swatch-color js-filter"
-                      style={{ color: "#bfdcc4" }}
-                    ></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="accordion" id="size-filters">
-            <div className="accordion-item mb-4">
-              <h5 className="accordion-header" id="accordion-heading-size">
-                <button
-                  className="accordion-button p-0 border-0 fs-5 text-uppercase"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#accordion-filter-size"
-                  aria-expanded="true"
-                  aria-controls="accordion-filter-size"
-                >
-                  Sizes
-                  <svg className="accordion-button__icon" viewBox="0 0 14 14">
-                    <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                      <path
-                        className="svg-path-vertical"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                      <path
-                        className="svg-path-horizontal"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                    </g>
-                  </svg>
-                </button>
-              </h5>
-              <div
-                id="accordion-filter-size"
-                className="accordion-collapse collapse show border-0"
-                aria-labelledby="accordion-heading-size"
-                data-bs-parent="#size-filters"
-              >
-                {/* <div className="accordion-body px-0 pb-0">
-                  <div className="d-flex flex-wrap">
-                    <a
-
-                      className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
-                    >
-                      XS
-                    </a>
-                    <a
-
-                      className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
-                    >
-                      S
-                    </a>
-                    <a
-
-                      className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
-                    >
-                      M
-                    </a>
-                    <a
-
-                      className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
-                    >
-                      L
-                    </a>
-                    <a
-
-                      className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
-                    >
-                      XL
-                    </a>
-                    <a
-
-                      className="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter"
-                    >
-                      XXL
-                    </a>
-                  </div>
-                </div> */}
-              </div>
-            </div>
-          </div>
-
-          <div className="accordion" id="brand-filters">
-            <div className="accordion-item mb-4">
-              <h5 className="accordion-header" id="accordion-heading-brand">
-                <button
-                  className="accordion-button p-0 border-0 fs-5 text-uppercase"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#accordion-filter-brand"
-                  aria-expanded="true"
-                  aria-controls="accordion-filter-brand"
-                >
-                  Brands
-                  <svg className="accordion-button__icon" viewBox="0 0 14 14">
-                    <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                      <path
-                        className="svg-path-vertical"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                      <path
-                        className="svg-path-horizontal"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                    </g>
-                  </svg>
-                </button>
-              </h5>
-              <div
-                id="accordion-filter-brand"
-                className="accordion-collapse collapse show border-0"
-                aria-labelledby="accordion-heading-brand"
-                data-bs-parent="#brand-filters"
-              >
-                <div className="search-field multi-select accordion-body px-0 pb-0">
-                  <select className="d-none" multiple name="total-numbers-list">
-                    <option value="1">Adidas</option>
-                    <option value="2">Balmain</option>
-                    <option value="3">Balenciaga</option>
-                    <option value="4">Burberry</option>
-                    <option value="5">Kenzo</option>
-                    <option value="5">Givenchy</option>
-                    <option value="5">Zara</option>
-                  </select>
-                  <div className="search-field__input-wrapper mb-3">
-                    <input
-                      type="text"
-                      className="search-field__input form-control form-control-sm border-light border-2"
-                      placeholder="Search"
-                    />
-                  </div>
-                  <ul className="multi-select__list list-unstyled">
-                    <li className="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                      <span className="me-auto">Adidas</span>
-                      <span className="text-secondary">2</span>
-                    </li>
-                    <li className="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                      <span className="me-auto">Balmain</span>
-                      <span className="text-secondary">7</span>
-                    </li>
-                    <li className="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                      <span className="me-auto">Balenciaga</span>
-                      <span className="text-secondary">10</span>
-                    </li>
-                    <li className="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                      <span className="me-auto">Burberry</span>
-                      <span className="text-secondary">39</span>
-                    </li>
-                    <li className="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                      <span className="me-auto">Kenzo</span>
-                      <span className="text-secondary">95</span>
-                    </li>
-                    <li className="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                      <span className="me-auto">Givenchy</span>
-                      <span className="text-secondary">1092</span>
-                    </li>
-                    <li className="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                      <span className="me-auto">Zara</span>
-                      <span className="text-secondary">48</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="accordion" id="price-filters">
-            <div className="accordion-item mb-4">
-              <h5
-                className="accordion-header mb-2"
-                id="accordion-heading-price"
-              >
-                <button
-                  className="accordion-button p-0 border-0 fs-5 text-uppercase"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#accordion-filter-price"
-                  aria-expanded="true"
-                  aria-controls="accordion-filter-price"
-                >
-                  Price
-                  <svg className="accordion-button__icon" viewBox="0 0 14 14">
-                    <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                      <path
-                        className="svg-path-vertical"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                      <path
-                        className="svg-path-horizontal"
-                        d="M14,6 L14,8 L0,8 L0,6 L14,6"
-                      ></path>
-                    </g>
-                  </svg>
-                </button>
-              </h5>
-              <div
-                id="accordion-filter-price"
-                className="accordion-collapse collapse show border-0"
-                aria-labelledby="accordion-heading-price"
-                data-bs-parent="#price-filters"
-              >
-                <input
-                  className="price-range-slider"
-                  type="text"
-                  value=""
-                  data-slider-min="10"
-                  data-slider-max="1000"
-                  data-slider-step="5"
-                  data-slider-value="[250,450]"
-                  data-currency="$"
-                />
-                <div className="price-range__info d-flex align-items-center mt-2">
-                  <div className="me-auto">
-                    <span className="text-secondary">Min Price: </span>
-                    <span className="price-range__min">$250</span>
-                  </div>
-                  <div>
-                    <span className="text-secondary">Max Price: </span>
-                    <span className="price-range__max">$450</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="filter-active-tags pt-2">
-            <button className="filter-tag d-inline-flex align-items-center mb-3 me-3 text-uppercase js-filter">
-              <i className="btn-close-xs d-inline-block"></i>
-              <span className="ms-2">Blues</span>
-            </button>
-            <button className="filter-tag d-inline-flex align-items-center mb-3 me-3 text-uppercase js-filter">
-              <i className="btn-close-xs d-inline-block"></i>
-              <span className="ms-2">Max Price: $493</span>
-            </button>
-            <button className="filter-tag d-inline-flex align-items-center mb-3 text-uppercase js-filter">
-              <i className="btn-close-xs d-inline-block"></i>
-              <span className="ms-2">Zara</span>
-            </button>
-
-            <div>
-              <button className="filter-tag d-flex align-items-center text-uppercase js-filter">
-                <i className="btn-close-xs d-inline-block"></i>
-                <span className="ms-2">RESET FILTER</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }

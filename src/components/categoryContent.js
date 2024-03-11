@@ -32,40 +32,44 @@ function CategoryContent(props) {
   };
   const handleProduct1Simple = (productId) => {
     localStorage.setItem("productID", productId);
-
     navigate("/product1-simple");
   };
   const getData = (val) => {
-    let count = val ? val : 4;
-    setIsLoader(true);
-    const userID = localStorage.getItem("user_id")
-    const randomeUserId = Cookies.get('RandomUserId');
-    const token = JSON.parse(localStorage.getItem("token"))
-    const data = {
-      userId: token && userID ? userID : parseInt(randomeUserId)
-    }
-    axios({
-      url: configJSON.baseUrl + props?.apiurl + `/${count}`,
-      method: "post",
-      data: data
-    })
-      .then((res) => {
-        setIsLoader(false);
-        if (res?.data?.success == true) {
-          setAllProduct(res?.data?.product_by_category);
-        } else {
-          setAllProduct([]);
-        }
+    let count = val ?? 4;
+    if (val == 'Sort by') {
+      getData()
+    } else {
+      setIsLoader(true);
+      const userID = localStorage.getItem("user_id")
+      const randomeUserId = Cookies.get('RandomUserId');
+      const token = JSON.parse(localStorage.getItem("token"))
+      const data = {
+        userId: token && userID ? userID : parseInt(randomeUserId)
+      }
+      axios({
+        url: configJSON.baseUrl + props?.apiurl + `/${count}`,
+        method: "post",
+        data: data
       })
-      .catch((error) => {
-        setIsLoader(false);
-        console.log(error);
-      });
+        .then((res) => {
+          setIsLoader(false);
+          if (res?.data?.success == true) {
+            setAllProduct(res?.data?.product_by_category);
+          } else {
+            setAllProduct([]);
+          }
+        })
+        .catch((error) => {
+          setIsLoader(false);
+          console.log(error);
+        });
+    }
+
   };
   const filteredData =
     showProduct === "all"
       ? allProduct
-      : allProduct.filter((item) => item.product_buy_rent === showProduct);
+      : allProduct?.filter((item) => item.product_buy_rent === showProduct);
 
 
   const addToWishlist = (productId) => {
@@ -248,7 +252,7 @@ function CategoryContent(props) {
                   aria-label="Sort Items"
                   name="total-number"
                 >
-                  <option selected>Sort by</option>
+                  <option selected value='Sort by'>Sort by</option>
                   <option value="4" >Featured</option>
                   <option value="3">newest/oldest</option>
                   <option value="2">price high/low, </option>
@@ -334,41 +338,18 @@ function CategoryContent(props) {
                             <div className="pc__info position-relative">
                               <p className="pc__category">
                                 {item?.product_name ?? 'Product Name'}
-                                  
+
                               </p>
 
-                              {
-                                item?.product_buy_rent == 'buy' ? 
-                                <h6 className="pc__title">
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Top : <span>{item?.product_size[0]?.size_top}</span>
-                                </a>
-                                <br />
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Bottom : <span>{item?.product_size[0]?.size_bottom}</span>
-                             
-                                </a>
-                              </h6>
-                              :
                               <h6 className="pc__title">
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Standard : <span>{item?.size_standard}</span>
+                                <a onClick={() => handleProduct1Simple(item?.id)}>
+                                  {item?.product_buy_rent === 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_top : item?.size_standard}</span>
                                 </a>
                                 <br />
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Rental Period : <span>{item?.product_rental_period}</span>
-                             
+                                <a onClick={() => handleProduct1Simple(item?.id)}>
+                                  {item?.product_buy_rent === 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
                                 </a>
                               </h6>
-                              }
                               <div className="product-card__price d-flex">
                                 <span className="money price">
                                   ${item?.price_sale_lend_price}

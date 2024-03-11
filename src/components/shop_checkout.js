@@ -360,9 +360,9 @@ function Shop_checkout() {
             </a>
           </div>
           {
-            isLoader == false ? <form name="checkout-form" action="#">
+            isLoader == false ? <form name="checkout-form" >
               <div className="checkout-form">
-                {isNewAdress && <div className="billing-info__wrapper">
+                {isNewAdress || address?.length == 0 && <div className="billing-info__wrapper">
                   <h4>BILLING DETAILS</h4>
                   <div className="row">
                     <div className="col-md-6">
@@ -406,11 +406,7 @@ function Shop_checkout() {
                                   </>
                                 ))
                               }
-                              {/* <li onClick={(e) => setContryRegion("Australia")} className="search-suggestion__item js-search-select">Australia</li>
-                            <li onClick={(e) => setContryRegion("Canada")} className="search-suggestion__item js-search-select">Canada</li>
-                            <li onClick={(e) => setContryRegion("United Kingdom")} className="search-suggestion__item js-search-select">United Kingdom</li>
-                            <li onClick={(e) => setContryRegion("United States")} className="search-suggestion__item js-search-select">United States</li>
-                            <li onClick={(e) => setContryRegion("Turkey")} className="search-suggestion__item js-search-select">Turkey</li> */}
+
                             </ul>
                           </div>
                         </div>
@@ -452,57 +448,42 @@ function Shop_checkout() {
                         <label htmlFor="checkout_email">Your Mail *</label>
                       </div>
                     </div>
-                    {/* <div className="col-md-12">
-                    <div className="form-check mt-3">
-                      <input className="form-check-input form-check-input_fill" type="checkbox" value="" id="create_account" />
-                      <label className="form-check-label" htmlFor="create_account">CREATE AN ACCOUNT?</label>
-                    </div>
-                    <div className="form-check mb-3">
-                      <input className="form-check-input form-check-input_fill" type="checkbox" value="" id="ship_different_address" />
-                      <label className="form-check-label" htmlFor="ship_different_address">SHIP TO A DIFFERENT ADDRESS?</label>
-                    </div>
-                  </div> */}
+
                   </div>
                   <div className="col-md-12">
                     <div className="mt-3">
                       <textarea onChange={(e) => setOrderNotes(e.target.value)} value={orderNotes} className="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
                     </div>
                   </div>
-                  <button className="btn btn-primary btn-checkout" onClick={() => setIsNewAdress(false)} type='button' >Retrieve addresses from previous records.</button>
+                  {address?.length != 0 && <button className="btn btn-primary btn-checkout" onClick={() => setIsNewAdress(false)} type='button' >Retrieve addresses from previous records.</button>}
                 </div>
                 }
                 {
-                  isNewAdress == false && <div className="my-account__address-list">
+                  isNewAdress == false && address?.length != 0 &&
 
+                  <div className="my-account__address-list">
                     <div className="my-account__address-item">
-                      <div className="my-account__address-item__title">
+                      <div className="my-account__address-item__title mt-5">
                         <h5>Shipping Address</h5>
-
                       </div>
                       <div className=' row'>
                         {
-
                           address?.map((item) => (
                             <>
-                              <div className="col-md-6 my-account__address-item__detail mb-4 border gap-3 ">
-
+                              <div className="col-md-6 my-account__address-item__detail mb-2 border gap-3 ">
                                 <p>{item?.first_name} {item?.last_name},</p>
                                 <p>{item?.street_address},</p>
                                 <p>{item?.town_city},{item?.country_region}.</p>
-
                                 <p>{item?.mail}</p>
                                 <p>{item?.phone}</p>
-
                                 <input type='radio' name='gender' onChange={() => handleAddress(item)}>
                                 </input>
                               </div>
-
-
                             </>
                           ))
                         }
-                        <button className="btn btn-primary btn-checkout" onClick={() => setIsNewAdress(true)} type='button' >Add new addres</button>
                       </div>
+                      <button className="btn btn-primary btn-checkout" onClick={() => setIsNewAdress(true)} type='button' >Add new addres</button>
                     </div>
                   </div>
                 }
@@ -524,7 +505,7 @@ function Shop_checkout() {
 
                               <tr>
                                 <td>
-                                  {item?.product_name?? 'Product Name'}
+                                  {item?.product_name ?? 'Product Name'}
                                 </td>
                                 <td align="right">
                                   ${item?.sub_total}

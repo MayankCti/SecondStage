@@ -51,8 +51,12 @@ function Account_edit() {
     const token = JSON.parse(localStorage.getItem("token"));
     getMyProfile(token);
     setEditProfile(false)
-  }
 
+  }
+  const handleEditPass = ()=>{
+    setEditpass(!editpass)
+    setEditProfile(false)
+  }
   return (
     <>
       <svg className="d-none">
@@ -208,8 +212,6 @@ function Account_edit() {
         <Header data_value={profileData} />
         : <div className="custom-loader"></div>
       }
-
-
       <main>
         <div className="mb-4 pb-4"></div>
         <section className="my-account container pb-5">
@@ -230,7 +232,9 @@ function Account_edit() {
                         <div className="row ">
                           {
                             
-                            editProfile == true ? <EditProfile data={profileData} falsedata={() => handleEditProfile()} /> : <>
+                            editProfile == true  ? 
+                            <EditProfile data={profileData} falsedata={() => handleEditProfile()} /> : 
+                            <>
                               <div className="col-md-6 mt-4">
                                 <div className="form-floating my-3">
                                   <input
@@ -301,14 +305,13 @@ function Account_edit() {
                                 <div className="form-floating my-3">
                                   <input
                                     name="login_email"
-                                    type="number"
+                                    type="text"
                                     value={profileData.license_number}
                                     className="form-control form-control_gray"
                                     id="customerNameEmailInput"
                                     placeholder="Email Licence Number *"
                                     required=""
                                     readOnly={true}
-
                                   />
                                   <label htmlFor="customerNameEmailInput">
                                     Licence Number *
@@ -335,17 +338,12 @@ function Account_edit() {
                               </div>
                             </>
                           }
-
-
                           <div className="col-md-12">
                             <div className="mt-1 mb-3 max-auto text-end">
-                              <a className='menu-link_active ct_fw_600' onClick={() => setEditpass(!editpass)}>Change Password</a>
+                              <a className='menu-link_active ct_fw_600' onClick={() => handleEditPass()}>Change Password</a>
                             </div>
                           </div>
-
-
-
-                          {editpass && <EditPassword onClick={() => setEditpass(false)} />}
+                          {editpass && editProfile==false && <EditPassword onClick={() => setEditpass(false)} />}
 
                         </div>
                       </form>

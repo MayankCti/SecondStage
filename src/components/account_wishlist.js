@@ -303,7 +303,6 @@ return (
                                   onClick={() => handleProduct1Simple(item?.id)}
                                 >
                                   Size Bottom : <span>{item?.product_size[0]?.size_bottom}</span>
-                             
                                 </a>
                               </h6>
                               :

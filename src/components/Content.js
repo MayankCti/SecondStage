@@ -60,7 +60,7 @@ function Content(props) {
 
 
   const addToWishlist = (productId) => {
-    window.scroll(0, 0);
+    window.scrollTo(0, 0);
     setIsLoader(true)
     const randomeUserId = Cookies.get('RandomUserId');
     const userID = localStorage.getItem("user_id")
@@ -216,69 +216,32 @@ function Content(props) {
                         </div>
                         <div className="pc__info position-relative">
                           <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
-                          {
-                            item?.product_buy_rent == 'buy' ?
-                              <h6 className="pc__title">
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Top : <span>{item?.product_size[0]?.size_top}</span>
-                                </a>
-                                <br />
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Bottom : <span>{item?.product_size[0]?.size_bottom}</span>
+                          <h6 className="pc__title">
+                            <a onClick={() => handleProduct1Simple(item?.id)}>
+                              {item?.product_buy_rent === 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_top : item?.size_standard}</span>
+                            </a>
+                            <br />
+                            <a onClick={() => handleProduct1Simple(item?.id)}>
+                              {item?.product_buy_rent === 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
+                            </a>
+                          </h6>
 
-                                </a>
-                              </h6>
-                              :
-                              <h6 className="pc__title">
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Size Standard : <span>{item?.size_standard}</span>
-                                </a>
-                                <br />
-                                <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
-                                >
-                                  Rental Period : <span>{item?.product_rental_period}</span>
-
-                                </a>
-                              </h6>
-                          }
                           <div className="product-card__price d-flex">
                             <span className="money price">
                               ${item?.price_sale_lend_price}
                             </span>
                           </div>
+                          <button
+                            onClick={() => addToWishlist(item?.id)}
+                            className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                            title="Add To Wishlist"
+                          >
+                            <i
+                              className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
+                              style={item?.wishlist_like !== 0 ? { color: "red" } : null}
+                            ></i>{" "}
+                          </button>
 
-                          {
-                            item?.wishlist_like == 0 ? (
-                              <button
-                                onClick={() => addToWishlist(item?.id)}
-                                className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                title="Add To Wishlist"
-                              >
-                                <i
-                                  className="fa-regular fa-heart"
-
-                                ></i>{" "}
-                              </button>
-                            ) : (
-                              <button
-                                onClick={() => addToWishlist(item?.id)}
-                                className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                title="Add To Wishlist"
-                              >
-                                <i
-                                  className="fa-solid fa-heart"
-                                  style={{ color: "red" }}
-
-                                ></i>
-                              </button>
-                            )}
                         </div>
                       </div>
                     </div>

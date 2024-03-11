@@ -738,9 +738,9 @@ function Header(props) {
                       {item?.product_name ?? 'Product Name'}
                     </h6>
 
-                    <div className="d-flex gap-3 mt-3">
+                    <div className=" mt-3">
                       <div>
-                        <p className="cart-drawer-item__option text-secondary">
+                        <p className=" d-flex align-items-center gap-2 cart-drawer-item__option text-secondary">
                           {/* Color:  */}
                           <label>Color</label> <br />
                           <label > {item?.product_color[0]}</label>
@@ -750,14 +750,14 @@ function Header(props) {
                         item?.product_buy_rent == 'buy' ?
                           <>
                             <div>
-                              <p className="cart-drawer-item__option text-secondary">
+                              <p className="d-flex align-items-center gap-2  cart-drawer-item__option text-secondary">
                                 {/* Size: {item?.product_size[0]?.size_bottom} */}
                                 <label>Size Top :&nbsp;</label>
                                 <label>{item?.product_size[0]?.size_bottom}</label>
                               </p>
                             </div>
                             <div>
-                              <p className="cart-drawer-item__option text-secondary mt-2">
+                              <p className="d-flex align-items-center gap-2 cart-drawer-item__option text-secondary">
                                 <label>Size Bottom :&nbsp;</label>
                                 <label>{item?.product_size[0]?.size_bottom}</label>
                               </p>

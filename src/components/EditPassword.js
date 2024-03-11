@@ -5,11 +5,8 @@ import { message, message as MESSAGE } from "antd";
 export const configJSON = require("../components/config");
 function EditPassword(props) {
     const [eye, setEye] = useState(false)
-    const [type, setType] = useState("password")
     const [eye1, setEye1] = useState(false)
-    const [type1, setType1] = useState("password")
     const [eye2, setEye2] = useState(false)
-    const [type2, setType2] = useState("password")
     const [cpass, setCpass] = useState("")
     const [newPass, setNewPass] = useState("")
     const [confirmNewPass, setConfirmNewPass] = useState("")
@@ -66,18 +63,7 @@ function EditPassword(props) {
         }
 
     }
-    const handleEye = (val) => {
-        setType(val)
-        setEye(!eye)
-    }
-    const handleEye1 = (val) => {
-        setType1(val)
-        setEye1(!eye1)
-    }
-    const handleEye2 = (val) => {
-        setType2(val)
-        setEye2(!eye2)
-    }
+
     return (
         <>
             <div className='ct_change_password_div pt-3'>
@@ -92,31 +78,26 @@ function EditPassword(props) {
                         <>
                             <div className="col-md-12">
                                 <div className="form-floating my-3 position-relative">
-                                    <input onChange={(e) => setCpass(e.target.value)} value={cpass} type={type} className="form-control" id="account_current_password" placeholder="Current password" required />
-                                    {
-                                        eye != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye("text")}></i>
-                                            : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye("password")}></i>
-                                    }
+                                    <input onChange={(e) => setCpass(e.target.value)} value={cpass} type={eye ? 'text' : 'password'} className="form-control" id="account_current_password" placeholder="Current password" required />
+                               <i className={`fa-solid ct_pass_eye ${eye ? 'fa-eye-slash' : 'fa-eye'}`} onClick={() =>setEye(!eye)}></i>
+                                            
                                     <label htmlFor="account_current_password">Current password</label>
                                 </div>
                             </div>
                             <div className="col-md-12">
                                 <div className="form-floating my-3 position-relative">
-                                    <input onChange={(e) => setNewPass(e.target.value)} value={newPass} type={type1} className="form-control" id="account_new_password" placeholder="New password" required />
-                                    {
-                                        eye1 != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye1("text")}></i>
-                                            : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye1("password")}></i>
-                                    }
+                                    <input onChange={(e) => setNewPass(e.target.value)} value={newPass} type={eye1 ? 'text' : 'password'} className="form-control" id="account_new_password" placeholder="New password" required />
+                                
+                                         <i className={`fa-solid ct_pass_eye ${eye1 ? 'fa-eye-slash' : 'fa-eye'}`} onClick={() =>setEye1(!eye1)}></i>
+                                           
                                     <label htmlFor="account_new_password">New password</label>
                                 </div>
                             </div>
                             <div className="col-md-12">
                                 <div className="form-floating my-3 position-relative">
-                                    <input onChange={(e) => setConfirmNewPass(e.target.value)} value={confirmNewPass} type={type2} className="form-control" cfpwd data-cf-pwd="#account_new_password" id="account_confirm_password" placeholder="Confirm new password" required />
-                                    {
-                                        eye2 != true ? <i className="fa-solid fa-eye-slash ct_pass_eye" onClick={() => handleEye2("text")}></i>
-                                            : <i className="fa-solid fa-eye ct_pass_eye" onClick={() => handleEye2("password")}></i>
-                                    }
+                                    <input onChange={(e) => setConfirmNewPass(e.target.value)} value={confirmNewPass} type={eye2 ? 'text' : 'password'} className="form-control" cfpwd data-cf-pwd="#account_new_password" id="account_confirm_password" placeholder="Confirm new password" required />
+                                 <i className={`fa-solid ct_pass_eye ${eye2 ? 'fa-eye-slash' : 'fa-eye'}`} onClick={() =>setEye2(!eye2)}></i>
+                                         
                                     <label htmlFor="account_confirm_password">Confirm new password</label>
                                     <div className="invalid-feedback">Passwords did not match!</div>
                                 </div>

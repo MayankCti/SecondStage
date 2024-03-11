@@ -16709,7 +16709,7 @@ textarea.form-control.is-invalid {
   max-width: 100%;
   z-index: 9;
   transition: all 0.3s ease;
-  position: fixed;
+  position: fixed !important;
 }
 
 .header_sticky-active {
