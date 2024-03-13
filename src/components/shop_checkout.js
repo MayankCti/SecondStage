@@ -499,14 +499,18 @@ function Shop_checkout() {
                         {
                           address?.map((item) => (
                             <>
-                              <div className="col-md-6 my-account__address-item__detail mb-2 border gap-3 ">
-                                <p>{item?.first_name} {item?.last_name},</p>
+                              <div className="col-md-12 mb-2 my-account__address-item__detail mb-2 border gap-3 ">
+                             <div className='d-flex gap-2 justify-content-between align-items-start'>
+                             <div>
+                               <p>{item?.first_name} {item?.last_name},</p>
                                 <p>{item?.street_address},</p>
                                 <p>{item?.town_city},{item?.country_region}.</p>
                                 <p>{item?.mail}</p>
                                 <p>{item?.phone}</p>
+                               </div>
                                 <input type='radio' name='gender' onChange={() => handleAddress(item)}>
                                 </input>
+                             </div>
                               </div>
                             </>
                           ))

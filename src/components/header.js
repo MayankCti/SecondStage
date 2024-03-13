@@ -1,12 +1,11 @@
-
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message, message as MESSAGE } from "antd";
 import { DateRangePicker } from "react-date-range";
 import moment from "moment";
-import CloseDropdown from './closeDropdown';
+import CloseDropdown from "./closeDropdown";
 export const configJSON = require("../components/config");
 function Header(props) {
   const navigate = useNavigate();
@@ -47,21 +46,19 @@ function Header(props) {
       // getMyProfile(token);
     }
     getCartData(token);
-
   }, []);
-
 
   const getCartData = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
-    const randomeUserId = Cookies.get('RandomUserId');
-    const userID = localStorage.getItem("user_id")
+    const randomeUserId = Cookies.get("RandomUserId");
+    const userID = localStorage.getItem("user_id");
     const data = {
-      userId: token && userID ? userID : parseInt(randomeUserId)
-    }
+      userId: token && userID ? userID : parseInt(randomeUserId),
+    };
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
       method: "post",
-      data: data
+      data: data,
     })
       .then((res) => {
         setIsLoader(false);
@@ -82,8 +79,8 @@ function Header(props) {
 
   const upDateCartData = (item, s, e, d) => {
     setIsLoader(true);
-    const randomeUserId = Cookies.get('RandomUserId');
-    const token = JSON.parse(localStorage.getItem("token"))
+    const randomeUserId = Cookies.get("RandomUserId");
+    const token = JSON.parse(localStorage.getItem("token"));
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     var data;
     if (item?.product_buy_rent == "buy") {
@@ -111,7 +108,7 @@ function Header(props) {
     axios({
       url: configJSON.baseUrl + configJSON.upDateCartData,
       method: "post",
-      data: data
+      data: data,
     })
       .then((res) => {
         setIsLoader(false);
@@ -130,17 +127,17 @@ function Header(props) {
   };
 
   const deleteCartData = (cart_id) => {
-    const randomeUserId = Cookies.get('RandomUserId');
-    const userID = localStorage.getItem("user_id")
-    const token = JSON.parse(localStorage.getItem("token"))
+    const randomeUserId = Cookies.get("RandomUserId");
+    const userID = localStorage.getItem("user_id");
+    const token = JSON.parse(localStorage.getItem("token"));
     const data = {
-      user_id: token && userID ? userID : parseInt(randomeUserId)
-    }
+      user_id: token && userID ? userID : parseInt(randomeUserId),
+    };
     setIsLoader(true);
     axios({
       method: "delete",
       url: configJSON.baseUrl + configJSON.deleteCartData + cart_id,
-      data: data
+      data: data,
     })
       .then((res) => {
         setIsLoader(false);
@@ -401,19 +398,18 @@ function Header(props) {
                   </a>
                 </li>
                 {
-
-                <li className="navigation__item">
-                  <a
-                    onClick={() => handleSell()}
-                    className={
-                      props.active == "sell"
-                        ? "navigation__link ct_active"
-                        : "navigation__link"
-                    }
-                  >
-                    Sell/Lend
-                  </a>
-                </li>
+                  <li className="navigation__item ct_sell_land_desk_none">
+                    <a
+                      onClick={() => handleSell()}
+                      className={
+                        props.active == "sell"
+                          ? "navigation__link ct_active"
+                          : "navigation__link ct_sell_btn"
+                      }
+                    >
+                      Sell/Lend
+                    </a>
+                  </li>
                 }
                 <div className="header-tools__item hover-container ct_mobile_login">
                   <a
@@ -456,9 +452,7 @@ function Header(props) {
                 )}
 
                 <div className="search-popup js-hidden-content">
-                  <form
-                    className="search-field container"
-                  >
+                  <form className="search-field container">
                     <p className="text-uppercase text-secondary fw-medium mb-4">
                       What are you looking for?
                     </p>
@@ -489,7 +483,6 @@ function Header(props) {
                       <button
                         className="btn-icon btn-close-lg search-popup__reset"
                         type="button"
-
                       ></button>
                     </div>
 
@@ -604,8 +597,8 @@ function Header(props) {
                           props?.data_value?.profile_image
                             ? props?.data_value?.profile_image
                             : profileData?.profile_image
-                              ? profileData?.profile_image
-                              : "/images/buyer_profile.png"
+                            ? profileData?.profile_image
+                            : "/images/buyer_profile.png"
                         }
                       />
                       <p className="mb-0">
@@ -613,13 +606,17 @@ function Header(props) {
                       </p>
                     </div>
 
-                    {isdropdown && (<>
-                      <CloseDropdown callback={() => setDropdown(false)} />
-                      <ul className="ct_dropdown-menu" onClick={() => setDropdown(false)}>
-                        <li onClick={() => navigate("/account-edit")}>
-                          <a className="dropdown-item">Profile</a>
-                        </li>
-                        {/* <li>
+                    {isdropdown && (
+                      <>
+                        <CloseDropdown callback={() => setDropdown(false)} />
+                        <ul
+                          className="ct_dropdown-menu"
+                          onClick={() => setDropdown(false)}
+                        >
+                          <li onClick={() => navigate("/account-edit")}>
+                            <a className="dropdown-item">Profile</a>
+                          </li>
+                          {/* <li>
                           <a
                             className="dropdown-item"
                             onClick={() => navigate("/lenderform")}
@@ -643,11 +640,11 @@ function Header(props) {
                             Renter issue response form
                           </a>
                         </li> */}
-                        <li onClick={handleLogout}>
-                          <a className="dropdown-item">Log Out</a>
-                        </li>
-                      </ul>
-                    </>
+                          <li onClick={handleLogout}>
+                            <a className="dropdown-item">Log Out</a>
+                          </li>
+                        </ul>
+                      </>
                     )}
                   </div>
                 </div>
@@ -723,7 +720,7 @@ function Header(props) {
                   </div>
                   <div className="cart-drawer-item__info flex-grow-1">
                     <h6 className="cart-drawer-item__title fw-normal">
-                      {item?.product_name ?? 'Product Name'}
+                      {item?.product_name ?? "Product Name"}
                     </h6>
 
                     <div className=" mt-3">
@@ -731,46 +728,60 @@ function Header(props) {
                         <p className=" d-flex align-items-center gap-2 cart-drawer-item__option text-secondary">
                           {/* Color:  */}
                           <label>Color</label> <br />
-                          <label > {item?.product_color[0]}</label>
+                          <a
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title={
+                              `${item?.product_color[0]}`
+                            }
+                            class="swatch-color swatch_active pc__swatch-color"
+                            style={{
+                              color:
+                                `${item?.product_color[0]}`,
+                            }}
+                          ></a>
+                          {/* <label> {item?.product_color[0]}</label> */}
                         </p>
                       </div>
-                      {
-                        item?.product_buy_rent == 'buy' ?
-                          <>
-                            <div>
-                              <p className="d-flex align-items-center gap-2  cart-drawer-item__option text-secondary">
-                                {/* Size: {item?.product_size[0]?.size_bottom} */}
-                                <label>Size Top :&nbsp;</label>
-                                <label>{item?.product_size[0]?.size_bottom}</label>
-                              </p>
-                            </div>
-                            <div>
-                              <p className="d-flex align-items-center gap-2 cart-drawer-item__option text-secondary">
-                                <label>Size Bottom :&nbsp;</label>
-                                <label>{item?.product_size[0]?.size_bottom}</label>
-                              </p>
-                            </div>
-                          </>
-                          :
-                          <>
-                            <div>
-                              <p className="cart-drawer-item__option text-secondary">
-                                {/* Size: {item?.product_size[0]?.size_bottom} */}
-                                <label>Size Standard </label>
-                                <label>{item?.size_standard}</label>
-                              </p>
-                            </div>
-                            <div>
-                              <p className="cart-drawer-item__option text-secondary">
-                                {/* Size: {item?.product_size[0]?.size_bottom} */}
-                                <label>Rental Period </label>
-                                <label>{item?.product_rental_period}</label>
-                              </p>
-                            </div>
-                          </>
-                      }
+                      {item?.product_buy_rent == "buy" ? (
+                        <>
+                          <div>
+                            <p className="d-flex align-items-center gap-2  cart-drawer-item__option text-secondary">
+                              {/* Size: {item?.product_size[0]?.size_bottom} */}
+                              <label>Size Top :&nbsp;</label>
+                              <label>
+                                {item?.product_size[0]?.size_bottom}
+                              </label>
+                            </p>
+                          </div>
+                          <div>
+                            <p className="d-flex align-items-center gap-2 cart-drawer-item__option text-secondary">
+                              <label>Size Bottom :&nbsp;</label>
+                              <label>
+                                {item?.product_size[0]?.size_bottom}
+                              </label>
+                            </p>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div>
+                            <p className="cart-drawer-item__option text-secondary">
+                              {/* Size: {item?.product_size[0]?.size_bottom} */}
+                              <label>Size Standard </label>
+                              <label>{item?.size_standard}</label>
+                            </p>
+                          </div>
+                          <div>
+                            <p className="cart-drawer-item__option text-secondary">
+                              {/* Size: {item?.product_size[0]?.size_bottom} */}
+                              <label>Rental Period </label>
+                              <label>{item?.product_rental_period}</label>
+                            </p>
+                          </div>
+                        </>
+                      )}
                     </div>
-
 
                     {item?.product_buy_rent == "rent" && (
                       <p className="cart-drawer-item__option text-secondary mt-2 text-center  mx-auto my-2">
@@ -839,7 +850,7 @@ function Header(props) {
               </>
             ))
           ) : (
-            <h3 className='text-center'>Cart is Empty!!!</h3>
+            <h3 className="text-center">Cart is Empty!!!</h3>
           )}
         </div>
 
@@ -847,7 +858,9 @@ function Header(props) {
           <hr className="cart-drawer-divider" />
           <div className="d-flex justify-content-between">
             <h6 className="fs-base fw-medium">SUBTOTAL:</h6>
-            <span className="cart-subtotal fw-medium">${allProduct?.length == 0 ? "0" : subtotal}</span>
+            <span className="cart-subtotal fw-medium">
+              ${allProduct?.length == 0 ? "0" : subtotal}
+            </span>
           </div>
           <a
             onClick={() => handleShopCart()}
@@ -855,7 +868,6 @@ function Header(props) {
           >
             View Cart
           </a>
-
         </div>
       </div>
 

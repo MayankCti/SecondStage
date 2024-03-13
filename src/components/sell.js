@@ -293,9 +293,9 @@ function Sell() {
               <div className="content-wrapper col-lg-12 mx-auto">
                 <h6 className="text-center mb-4">
                   The first step is to{" "}
-                  <a className="btn-text ">
+                  <span >
                     Register
-                  </a>{" "}
+                  </span>{" "}
                   as a User on the Site then just upload your Product to{" "}
                   <a
                     onClick={() => handleRegisterSeller()}

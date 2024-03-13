@@ -221,7 +221,7 @@ function Account_edit_address() {
                             
                             address?.map((item) => (
                               <>
-                              <div className="col-md-6 my-account__address-item__detail mb-4">
+                              <div className="col-md-4 my-account__address-item__detail mb-4">
                                
                                   <p>{item?.first_name} {item?.last_name},</p>
                                   <p>{item?.street_address},</p>

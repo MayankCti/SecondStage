@@ -16,7 +16,7 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { DateRangePicker } from "react-date-range";
 import { addDays } from "date-fns";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Calendar } from "react-date-range";
 import moment from "moment";
@@ -55,21 +55,20 @@ function Product1_simple(props) {
     setAccessToken(token);
     // getCartData();
     getProduct();
-
   }, []);
 
   const getCartData = (val2) => {
-    const randomeUserId = Cookies.get('RandomUserId');
-    const userID = localStorage.getItem("user_id")
-    const token = JSON.parse(localStorage.getItem("token"))
+    const randomeUserId = Cookies.get("RandomUserId");
+    const userID = localStorage.getItem("user_id");
+    const token = JSON.parse(localStorage.getItem("token"));
     const data = {
-      userId: token && userID ? userID : parseInt(randomeUserId)
-    }
+      userId: token && userID ? userID : parseInt(randomeUserId),
+    };
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
       method: "post",
-      data: data
+      data: data,
     })
       .then((res) => {
         setIsLoader(false);
@@ -106,8 +105,8 @@ function Product1_simple(props) {
   const getProduct = () => {
     window.scroll(0, 0);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
-    const randomeUserId = Cookies.get('RandomUserId');
-    const token = JSON.parse(localStorage.getItem("token"))
+    const randomeUserId = Cookies.get("RandomUserId");
+    const token = JSON.parse(localStorage.getItem("token"));
     var id = localStorage.getItem("productID");
     const data = {
       user_id: token && user_id ? user_id : parseInt(randomeUserId),
@@ -122,9 +121,9 @@ function Product1_simple(props) {
       .then((res) => {
         setIsLoader(false);
         if (res?.data?.success == true) {
-          setColor(res?.data?.products[0]?.product_color[0])
-          setSize_top(res?.data?.products[0]?.product_size[0]?.size_top)
-          setSize_bottom(res?.data?.products[0]?.product_size[0]?.size_bottom)
+          setColor(res?.data?.products[0]?.product_color[0]);
+          setSize_top(res?.data?.products[0]?.product_size[0]?.size_top);
+          setSize_bottom(res?.data?.products[0]?.product_size[0]?.size_bottom);
           setProduct(res?.data?.products[0]);
           getData(res?.data?.products[0]?.product_category);
         } else {
@@ -145,9 +144,9 @@ function Product1_simple(props) {
   const addToWishlist = (productId) => {
     window.scroll(0, 0);
     setIsLoader(true);
-    const randomeUserId = Cookies.get('RandomUserId');
-    const userID = localStorage.getItem("user_id")
-    const token = JSON.parse(localStorage.getItem("token"))
+    const randomeUserId = Cookies.get("RandomUserId");
+    const userID = localStorage.getItem("user_id");
+    const token = JSON.parse(localStorage.getItem("token"));
 
     const data = {
       product_id: productId,
@@ -157,7 +156,7 @@ function Product1_simple(props) {
     axios({
       method: "post",
       url: configJSON.baseUrl + configJSON.add_wishlist,
-      data: data
+      data: data,
     })
       .then((res) => {
         setIsLoader(false);
@@ -174,8 +173,8 @@ function Product1_simple(props) {
       });
   };
   const addToCart = (product_id, type) => {
-    const userID = localStorage.getItem("user_id")
-    const randomeUserId = Cookies.get('RandomUserId');
+    const userID = localStorage.getItem("user_id");
+    const randomeUserId = Cookies.get("RandomUserId");
 
     setIsLoader(true);
 
@@ -186,18 +185,31 @@ function Product1_simple(props) {
       size_top: `${size_top}`,
       color: `${color}`,
       guest_user: accessToken && userID ? 0 : 1,
-      userId: accessToken && userID ? userID : parseInt(randomeUserId)
+      userId: accessToken && userID ? userID : parseInt(randomeUserId),
     };
 
-    if (type == "buy" ? size_bottom && size_top && color : size_bottom && size_top && color && startDate && endDate && total_rend_days) {
+    if (
+      type == "buy"
+        ? size_bottom && size_top && color
+        : size_bottom &&
+          size_top &&
+          color &&
+          startDate &&
+          endDate &&
+          total_rend_days
+    ) {
       axios({
         method: "post",
         url: configJSON.baseUrl + configJSON.addToCart,
-        data: type === 'buy' ? data : {
-          ...data, start_date: `${startDate}`,
-          end_date: `${endDate}`,
-          total_rend_days: `${total_rend_days}`
-        },
+        data:
+          type === "buy"
+            ? data
+            : {
+                ...data,
+                start_date: `${startDate}`,
+                end_date: `${endDate}`,
+                total_rend_days: `${total_rend_days}`,
+              },
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -220,20 +232,17 @@ function Product1_simple(props) {
         });
     } else {
       setIsLoader(false);
-      type == "rent" && MESSAGE.error("Please select date.")
+      type == "rent" && MESSAGE.error("Please select date.");
     }
-
-
   };
 
-
   const getData = (val) => {
-    const userID = localStorage.getItem("user_id")
-    const randomeUserId = Cookies.get('RandomUserId');
-    const token = JSON.parse(localStorage.getItem("token"))
+    const userID = localStorage.getItem("user_id");
+    const randomeUserId = Cookies.get("RandomUserId");
+    const token = JSON.parse(localStorage.getItem("token"));
     const data = {
-      userId: token && userID ? userID : parseInt(randomeUserId)
-    }
+      userId: token && userID ? userID : parseInt(randomeUserId),
+    };
     setIsLoader(true);
     axios({
       url:
@@ -242,7 +251,7 @@ function Product1_simple(props) {
         val +
         `/4`,
       method: "post",
-      data: data
+      data: data,
     })
       .then((res) => {
         setIsLoader(false);
@@ -566,7 +575,7 @@ function Product1_simple(props) {
                               height="16"
                               viewBox="0 0 16 16"
                               fill="none"
-                            // xmlns={item}
+                              // xmlns={item}
                             >
                               <use href="#icon_zoom" />
                             </svg>
@@ -602,18 +611,21 @@ function Product1_simple(props) {
                   <div className="product-single__thumbnail">
                     <div className="swiper-container">
                       <div className="ct_custom_verticle_slider">
-
-                        {
-                          product?.product_images?.length > 1 &&
-                          <OwlCarousel className="owl-theme" margin={5} lazyLoad={true} nav items={3}>
+                        {product?.product_images?.length > 1 && (
+                          <OwlCarousel
+                            className="owl-theme"
+                            margin={5}
+                            lazyLoad={true}
+                            nav
+                            items={3}
+                          >
                             {product?.product_images?.map((item) => (
                               <div className="ct_slidr_item">
                                 <img src={item} alt="" />
                               </div>
                             ))}
                           </OwlCarousel>
-
-                        }
+                        )}
                       </div>
                     </div>
                   </div>
@@ -626,9 +638,13 @@ function Product1_simple(props) {
                       className="menu-link menu-link_us-s text-uppercase fw-medium pe-4"
                       onClick={() => navigate(-1)}
                     >
-                      <i className="fa-solid fa-arrow-left"></i> Back to previous
+                      <i className="fa-solid fa-arrow-left"></i> Back to
+                      previous
                     </a>
-                    <a className="menu-link menu-link_us-s text-uppercase fw-medium" onClick={() => navigate("/")}>
+                    <a
+                      className="menu-link menu-link_us-s text-uppercase fw-medium"
+                      onClick={() => navigate("/")}
+                    >
                       Home
                     </a>
                     <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">
@@ -737,7 +753,24 @@ function Product1_simple(props) {
                             <div className="product-swatch text-swatches">
                               <label>Color</label>
                               <div className="swatch-list">
-                                {product?.product_color?.map((item) => (
+                                <div className="d-flex align-items-center mt-1">
+                                  <a
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title={
+                                      product?.product_color?.length > 0 &&
+                                      `${product?.product_color[0]}`
+                                    }
+                                    class="swatch-color swatch_active pc__swatch-color"
+                                    style={{
+                                      color:
+                                        product &&
+                                        product?.product_color?.length > 0 &&
+                                        `${product?.product_color[0]}`,
+                                    }}
+                                  ></a>
+                                </div>
+                                {/* {product?.product_color?.map((item) => (
                                   <>
                                     <input
                                       type="radio"
@@ -756,13 +789,12 @@ function Product1_simple(props) {
                                       {item}
                                     </label>
                                   </>
-                                ))}
+                                ))} */}
                               </div>
                             </div>
                           </div>
                           <form>
                             <div className="product-single__addtocart">
-
                               <button
                                 type="button"
                                 className="btn btn-primary btn-addtocart js-open-aside"
@@ -775,15 +807,25 @@ function Product1_simple(props) {
                           </form>
 
                           <div className="product-single__addtolinks">
-                            <a onClick={() => addToWishlist(product?.id)} className="menu-link menu-link_us-s add-to-wishlist pb-0">
-
+                            <a
+                              onClick={() => addToWishlist(product?.id)}
+                              className="menu-link menu-link_us-s add-to-wishlist pb-0"
+                            >
                               <button
                                 className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
                                 title="Add To Wishlist"
                               >
                                 <i
-                                  className={`fa-heart ${product?.wishlist_like == 0 ? 'fa-regular' : 'fa-solid'}`}
-                                  style={{ color: `${product?.wishlist_like == 0 ? null : 'red'}` }}
+                                  className={`fa-heart ${
+                                    product?.wishlist_like == 0
+                                      ? "fa-regular"
+                                      : "fa-solid"
+                                  }`}
+                                  style={{
+                                    color: `${
+                                      product?.wishlist_like == 0 ? null : "red"
+                                    }`,
+                                  }}
                                 ></i>{" "}
                               </button>
                               <span>Add to Wishlist</span>
@@ -795,7 +837,6 @@ function Product1_simple(props) {
                             ></script>
                             <script src="js/share.js" defer="defer"></script>
                           </div>
-
                         </div>
                       </div>
                     )}
@@ -860,7 +901,6 @@ function Product1_simple(props) {
                                       id="swatch-1"
                                     />
                                     <label
-
                                       className={
                                         size_top != item?.size_top
                                           ? "swatch js-swatch"
@@ -907,6 +947,21 @@ function Product1_simple(props) {
                             <div className="product-swatch text-swatches">
                               <label>Color</label>
                               <div className="swatch-list">
+                                <a
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title={
+                                    product?.product_color?.length > 0 &&
+                                    `${product?.product_color[0]}`
+                                  }
+                                  class="swatch-color swatch_active pc__swatch-color"
+                                  style={{
+                                    color:
+                                      product &&
+                                      product?.product_color?.length > 0 &&
+                                      `${product?.product_color[0]}`,
+                                  }}
+                                ></a>
                                 {product?.product_color?.map((item) => (
                                   <>
                                     <input
@@ -929,7 +984,6 @@ function Product1_simple(props) {
                                 ))}
                               </div>
                             </div>
-
                           </div>
                           <form name="addtocart-form">
                             <div className="product-single__addtocart">
@@ -956,16 +1010,25 @@ function Product1_simple(props) {
                           </form>
 
                           <div className="product-single__addtolinks">
-                            <a onClick={() => addToWishlist(product?.id)} className="menu-link menu-link_us-s add-to-wishlist pb-0">
-
+                            <a
+                              onClick={() => addToWishlist(product?.id)}
+                              className="menu-link menu-link_us-s add-to-wishlist pb-0"
+                            >
                               <button
-
                                 className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
                                 title="Add To Wishlist"
                               >
                                 <i
-                                  className={`fa-heart ${product?.wishlist_like == 0 ? 'fa-regular' : 'fa-solid'}`}
-                                  style={{ color: `${product?.wishlist_like == 0 ? null : 'red'}` }}
+                                  className={`fa-heart ${
+                                    product?.wishlist_like == 0
+                                      ? "fa-regular"
+                                      : "fa-solid"
+                                  }`}
+                                  style={{
+                                    color: `${
+                                      product?.wishlist_like == 0 ? null : "red"
+                                    }`,
+                                  }}
                                 ></i>{" "}
                               </button>
 
@@ -1048,29 +1111,94 @@ function Product1_simple(props) {
                         </a>
                       </li>
                     </ul>
-                    <ProductInfo label={"Product Name"} value={product?.product_name ?? 'Product Name'} />
-                    <ProductInfo label={"Category"} value={product?.product_category} />
-                    <ProductInfo label={"Price"} value={product?.price_sale_lend_price} />
+                    <ProductInfo
+                      label={"Product Name"}
+                      value={product?.product_name ?? "Product Name"}
+                    />
+                    <ProductInfo
+                      label={"Category"}
+                      value={product?.product_category}
+                    />
+                    <ProductInfo
+                      label={"Price"}
+                      value={product?.price_sale_lend_price}
+                    />
 
                     <>
                       <ProductInfo
-                        label={product?.product_buy_rent === 'rent' ? "Size Standard" : "Size Top"}
-                        value={product && product?.product_buy_rent === 'rent' ? product?.size_standard : (product?.product_size?.length > 0 && product?.product_size[0]?.size_top)}
+                        label={
+                          product?.product_buy_rent === "rent"
+                            ? "Size Standard"
+                            : "Size Top"
+                        }
+                        value={
+                          product && product?.product_buy_rent === "rent"
+                            ? product?.size_standard
+                            : product?.product_size?.length > 0 &&
+                              product?.product_size[0]?.size_top
+                        }
                       />
                       <ProductInfo
-                        label={product?.product_buy_rent === 'rent' ? "Product Rental Period" : "Size Bottom"}
-                        value={product && product?.product_buy_rent === 'rent' ? product?.product_rental_period : (product?.product_size?.length > 0 && product?.product_size[0]?.size_bottom)}
+                        label={
+                          product?.product_buy_rent === "rent"
+                            ? "Product Rental Period"
+                            : "Size Bottom"
+                        }
+                        value={
+                          product && product?.product_buy_rent === "rent"
+                            ? product?.product_rental_period
+                            : product?.product_size?.length > 0 &&
+                              product?.product_size[0]?.size_bottom
+                        }
                       />
                     </>
 
-                    <ProductInfo label={"Color"} value={product && product?.product_color?.length > 0 && product?.product_color[0]} />
+                    <div className="item">
+                      <label className="h6">Color</label>
+              
+                        <a
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title={
+                            product &&
+                            product?.product_color?.length > 0 &&
+                            `${product?.product_color[0]}`
+                          }
+                          class="swatch-color swatch_active pc__swatch-color"
+                          style={{
+                            color:
+                              product &&
+                              product?.product_color?.length > 0 &&
+                              `${product?.product_color[0]}`,
+                          }}
+                        ></a>
+                      
+                    </div>
+                    <ProductInfo
+                      label={"Color"}
+                      value={
+                        product &&
+                        product?.product_color?.length > 0 &&
+                        product?.product_color[0]
+                      }
+                    />
                     <ProductInfo label={"Location"} value={product?.location} />
-                    <ProductInfo label={"Brand"} value={product?.product_brand} />
-                    <ProductInfo label={"Replacement Price"} value={product?.product_replacement_price} />
-                    {product?.product_type && <ProductInfo label={"Product Type"} value={product?.product_type} />}
+                    <ProductInfo
+                      label={"Brand"}
+                      value={product?.product_brand}
+                    />
+                    <ProductInfo
+                      label={"Replacement Price"}
+                      value={product?.product_replacement_price}
+                    />
+                    {product?.product_type && (
+                      <ProductInfo
+                        label={"Product Type"}
+                        value={product?.product_type}
+                      />
+                    )}
                   </div>
                 </div>
-
               </div>
             </div>
           </section>
@@ -1102,14 +1230,32 @@ function Product1_simple(props) {
                           </a>
                         </div>
                         <div className="pc__info position-relative">
-                          <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
+                          <p className="pc__category">
+                            {item?.product_name ?? "Product Name"}
+                          </p>
                           <h6 className="pc__title">
                             <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {item?.product_buy_rent === 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_top : item?.size_standard}</span>
+                              {item?.product_buy_rent === "buy"
+                                ? "Size Top"
+                                : "Size Standard"}{" "}
+                              :{" "}
+                              <span>
+                                {item?.product_buy_rent === "buy"
+                                  ? item?.product_size[0]?.size_top
+                                  : item?.size_standard}
+                              </span>
                             </a>
                             <br />
                             <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {item?.product_buy_rent === 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
+                              {item?.product_buy_rent === "buy"
+                                ? "Size Bottom"
+                                : "Rental Period"}{" "}
+                              :{" "}
+                              <span>
+                                {item?.product_buy_rent === "buy"
+                                  ? item?.product_size[0]?.size_bottom
+                                  : item?.product_rental_period}
+                              </span>
                             </a>
                           </h6>
                           <div className="product-card__price d-flex">
@@ -1194,7 +1340,6 @@ function Product1_simple(props) {
       <div className="mb-5 pb-xl-5"></div>
 
       <Footer />
-
     </>
   );
 }

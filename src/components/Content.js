@@ -93,6 +93,7 @@ function Content(props) {
     })
   };
   const filterProducts = (val) => {
+    setIsFilter(false)
     const token = JSON.parse(localStorage.getItem("token"));
     setIsLoader(true);
     axios({

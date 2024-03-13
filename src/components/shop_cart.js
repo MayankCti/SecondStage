@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { message, message as MESSAGE } from "antd";
 import axios from "axios";
@@ -23,21 +23,20 @@ function Shop_cart() {
     setAccessToken(token);
     getCartData();
     getShopCart();
-
   }, []);
 
   const getCartData = (val2) => {
     setIsLoader(true);
-    const randomeUserId = Cookies.get('RandomUserId');
-    const userID = localStorage.getItem("user_id")
-    const token = JSON.parse(localStorage.getItem("token"))
+    const randomeUserId = Cookies.get("RandomUserId");
+    const userID = localStorage.getItem("user_id");
+    const token = JSON.parse(localStorage.getItem("token"));
     const data = {
-      userId: token && userID ? userID : parseInt(randomeUserId)
-    }
+      userId: token && userID ? userID : parseInt(randomeUserId),
+    };
     axios({
       url: configJSON.baseUrl + configJSON.getCartData,
       method: "post",
-      data: data
+      data: data,
     })
       .then((res) => {
         if (res?.data?.success == true) {
@@ -55,24 +54,24 @@ function Shop_cart() {
       });
   };
   const deleteCartData = (item) => {
-    const randomeUserId = Cookies.get('RandomUserId');
-    const userID = localStorage.getItem("user_id")
-    const token = JSON.parse(localStorage.getItem("token"))
+    const randomeUserId = Cookies.get("RandomUserId");
+    const userID = localStorage.getItem("user_id");
+    const token = JSON.parse(localStorage.getItem("token"));
     const data = {
-      user_id: token && userID ? userID : parseInt(randomeUserId)
-    }
+      user_id: token && userID ? userID : parseInt(randomeUserId),
+    };
     setIsLoader(true);
     axios({
       method: "delete",
       url: configJSON.baseUrl + configJSON.deleteCartData + item?.id,
-      data: data
+      data: data,
     })
       .then((res) => {
         // setIsLoader(false);
         if (res.data.success == true) {
           MESSAGE.success("Cart item deleted successfully");
           getCartData(true);
-          getShopCart()
+          getShopCart();
           // window.location.href = "/shop-cart"
         } else {
           MESSAGE.error("Unable to delete cart item.");
@@ -89,25 +88,33 @@ function Shop_cart() {
   };
 
   const getDataFromChild = () => {
-    getShopCart()
+    getShopCart();
   };
   const toChekout = () => {
     if (shopCartData.length != 0) {
-      navigate("/shop-checkout", { state: { shopCartData: shopCartData, shipping: shipingtipe, vat: vat, total: allTotal, subTotal: subtotal } });
+      navigate("/shop-checkout", {
+        state: {
+          shopCartData: shopCartData,
+          shipping: shipingtipe,
+          vat: vat,
+          total: allTotal,
+          subTotal: subtotal,
+        },
+      });
     }
   };
   const getShopCart = () => {
     const token = JSON.parse(localStorage.getItem("token"));
-    const userID = localStorage.getItem("user_id")
-    const randomeUserId = Cookies.get('RandomUserId');
+    const userID = localStorage.getItem("user_id");
+    const randomeUserId = Cookies.get("RandomUserId");
     const data = {
-      userId: token && userID ? userID : randomeUserId
-    }
+      userId: token && userID ? userID : randomeUserId,
+    };
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.fetch_checkout,
       method: "post",
-      data: data
+      data: data,
     })
       .then((res) => {
         setIsLoader(false);
@@ -459,24 +466,46 @@ function Shop_cart() {
                               </td>
                               <td>
                                 <div className="shopping-cart__product-item__detail">
-                                  <h4>{item?.product_name ?? 'Product Name'}</h4>
+                                  <h4>
+                                    {item?.product_name ?? "Product Name"}
+                                  </h4>
                                   <ul className="shopping-cart__product-item__options">
+                                    <li>
+                                      Color:{" "}
+                                      <a
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title={`${item?.color}`}
+                                        class="swatch-color swatch_active pc__swatch-color"
+                                        style={{
+                                          color: `${item?.color}`,
+                                        }}
+                                      ></a>
+                                    </li>
 
-                                    <li>Color: {item?.color}</li>
-
-                                    <li>Product Type : {item?.product_buy_rent}</li>
-                                    {
-                                      item?.product_buy_rent == "rent" ? <>
-                                      <li>rent for : {item?.total_rend_days} {item?.total_rend_days == "1" ? "day" : 'days'} </li>
-                                      <li>Size Standard: {item?.size_standard}</li>
+                                    <li>
+                                      Product Type : {item?.product_buy_rent}
+                                    </li>
+                                    {item?.product_buy_rent == "rent" ? (
+                                      <>
+                                        <li>
+                                          rent for : {item?.total_rend_days}{" "}
+                                          {item?.total_rend_days == "1"
+                                            ? "day"
+                                            : "days"}{" "}
+                                        </li>
+                                        <li>
+                                          Size Standard: {item?.size_standard}
+                                        </li>
                                       </>
-                                        : 
-                                        <>
-                                          <li>Size top: {item?.size_top}</li>
-                                          <li>Size bottom: {item?.size_bottom}</li>
-                                        </>
-                                    }
-
+                                    ) : (
+                                      <>
+                                        <li>Size top: {item?.size_top}</li>
+                                        <li>
+                                          Size bottom: {item?.size_bottom}
+                                        </li>
+                                      </>
+                                    )}
                                   </ul>
                                 </div>
                               </td>
@@ -494,9 +523,7 @@ function Shop_cart() {
                               <td>
                                 <a
                                   className="remove-cart"
-                                  onClick={() =>
-                                    deleteCartData(item)
-                                  }
+                                  onClick={() => deleteCartData(item)}
                                 >
                                   <svg
                                     width="10"

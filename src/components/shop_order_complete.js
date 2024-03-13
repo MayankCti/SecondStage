@@ -227,7 +227,7 @@ function Shop_order_complete() {
         <div className="custom-loader"></div>
       }
       {
-        orderData?.length != 0 ?
+        orderData?.length != 0 &&
           <>
             <main>
               <div className="mb-4 pb-4"></div>
@@ -335,10 +335,7 @@ function Shop_order_complete() {
             </main>
             <div className="mb-5 pb-xl-5"></div>
           </>
-          :
-          <>
-            <h3 className='text-center' style={{ marginTop: '15%', marginBottom: "10%" }}>Something went wrong.!!!</h3>
-          </>
+         
       }
 
       <Footer />
