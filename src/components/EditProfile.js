@@ -8,7 +8,6 @@ export const configJSON = require("../components/config");
 function EditProfile(props) {
 
   const data = props?.data
-  console.log(props.license_number, 'numvad')
   const navigate = useNavigate();
   const [name, setName] = useState(data?.buyer_name);
   const [userName, setUserName] = useState(data?.user_name);

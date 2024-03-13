@@ -181,14 +181,12 @@ function Register_seller() {
       const clonedCards = [...prevCards];
       const removedItem = clonedCards.splice(dragIndex, 1)[0];
       clonedCards.splice(hoverIndex, 0, removedItem);
-      console.log(clonedCards, "clone")
       return clonedCards;
     });
     setFile((prevCards) => {
       const clonedCards = [...prevCards];
       const removedItem = clonedCards.splice(dragIndex, 1)[0];
       clonedCards.splice(hoverIndex, 0, removedItem);
-      console.log(clonedCards, "file")
       return clonedCards;
     })
   }, []);
@@ -268,8 +266,6 @@ function Register_seller() {
     const data = {
       image_id: `${id}`
     }
-    console.log(file, "before file 1st statment")
-    console.log(images, "before image 2nd statment")
     let count = 0;
     for (let i = 0; i < file.length; i++) {
       if (file[i].id == id) {
@@ -280,13 +276,11 @@ function Register_seller() {
       }
     }
     if (count == 0) {
-      console.log("0 normal statment")
       setFile(val => val?.filter((item, index) => item.id !== id));
       setImages(val => val?.filter((item, index) => item.id != id));
     }
  
     if (count === 1) {
-      console.log("api call statment")
       // axios({
       //   url: configJSON.baseUrl + configJSON.delete_product_image,
       //   method: "post",
@@ -306,8 +300,6 @@ function Register_seller() {
       // })
 
     }
-    console.log(file, "after file 1st statment")
-    console.log(images, "after image 2nd statment")
   }
   const updateProduct = () => {
     setIsLoader(true)
@@ -379,7 +371,6 @@ function Register_seller() {
       data: data
     }).then((res) => {
       setIsLoader(false)
-      console.log(res, "response")
       if (res?.data?.success == true) {
         setProduct(res?.data?.data?.product_type)
         setProduct_name(res?.data?.data?.product_name)

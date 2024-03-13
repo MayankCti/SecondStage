@@ -8,7 +8,6 @@ export const configJSON = require("../components/config");
 function Themewear() {
   const [isLoader, setIsLoader] = useState(false);
 
- 
   return (
     <>
     {isLoader == false ?

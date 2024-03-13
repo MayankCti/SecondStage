@@ -31,7 +31,6 @@ const RenterFrom = () => {
       ...val, user_id: userID
     }
     setIsLoader(true)
-    console.log(data, "data")
     axios({
       url: configJSON.baseUrl + configJSON.renter_issue,
       method: "post",
@@ -39,7 +38,6 @@ const RenterFrom = () => {
       headers: { 'content-type': 'multipart/form-data' },
     }).then((res) => {
       setIsLoader(false)
-      console.log("helo", res)
       if (res?.data?.success) {
         message.success('Your request has been sent successfully')
         navigate('/account-dashboard')

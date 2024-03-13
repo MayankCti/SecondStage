@@ -13,7 +13,7 @@ function Shop_checkout() {
   const [fname, setFname] = useState("")
   const [lname, setLname] = useState("")
   const [companyName, setCompanyName] = useState("")
-  const [contryRegion, setContryRegion] = useState("")
+  const [contryRegion, setContryRegion] = useState("Australia")
   const [streetAddress, setStreetAddress] = useState("")
   const [townCity, setTownCity] = useState("")
   const [postZipCode, setPostZipCode] = useState("")
@@ -152,7 +152,6 @@ function Shop_checkout() {
       if (res?.data?.success == true) {
         setAddress(res?.data?.shipping_details ? res?.data?.shipping_details : [])
         setIsNewAdress(res?.data?.shipping_details?.length != 0 ? false : true)
-        console.log(res?.data?.shipping_details?.length != 0 ? false : true)
       }
       else {
         setAddress([])
@@ -175,6 +174,19 @@ function Shop_checkout() {
     setPhone(item?.phone)
     setEmail(item?.mail)
     setOrderNotes(item?.order_notes)
+  }
+  const handleNewAddress = ()=>{
+    setIsNewAdress(true)
+    setFname('')
+    setLname('')
+    setCompanyName('')
+    setStreetAddress('')
+    setTownCity('')
+    setPostZipCode('')
+    setProvince('')
+    setPhone('')
+    setEmail('')
+    setOrderNotes('')
   }
   useEffect(() => {
     window.scroll(0, 0);
@@ -392,7 +404,7 @@ function Shop_checkout() {
                           <div className="js-hover__open" onClick={() => setIsCountry(!isCountry)}>
                             <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down" id="search-dropdown" name="search-keyword" readonly value={contryRegion} placeholder="Choose a location..." />
                           </div>
-                          <div className="filters-container js-hidden-content mt-2">
+                          {/* <div className="filters-container js-hidden-content mt-2">
                             <div className="search-field__input-wrapper">
                               <input type="text" value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} className="search-field__input form-control form-control-sm bg-lighter border-lighter" placeholder="Search" />
                             </div>
@@ -410,7 +422,7 @@ function Shop_checkout() {
                               }
 
                             </ul>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -463,7 +475,7 @@ function Shop_checkout() {
                             setEmailError('Enter valid email.');
                           }
                         }} value={email} type="email" className="form-control" id="checkout_email" placeholder="Your Mail *" />
-                        <span style={{color:"red"}}> {emailError}</span>
+                        <span style={{ color: "red" }}> {emailError}</span>
                         <label htmlFor="checkout_email">Your Mail *</label>
                       </div>
                     </div>
@@ -500,7 +512,7 @@ function Shop_checkout() {
                           ))
                         }
                       </div>
-                      <button className="btn btn-primary btn-checkout" onClick={() => setIsNewAdress(true)} type='button' >Add new addres</button>
+                      <button className="btn btn-primary btn-checkout" onClick={() => handleNewAddress()} type='button' >Add new addres</button>
                     </div>
                   </div>
                 }

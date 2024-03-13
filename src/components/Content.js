@@ -11,9 +11,9 @@ import Cookies from 'js-cookie';
 import FilterBy from "./filterBy";
 export const configJSON = require("../components/config");
 function Content(props) {
-  console.log(props?.data, "props")
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
+  const [searchProducts, setSearchProducts] = useState([])
   const [accessToken, setAccessToken] = useState();
   const [isFilter, setIsFilter] = useState(false);
   const [show, setShow] = useState("buy")
@@ -34,6 +34,7 @@ function Content(props) {
   useEffect(() => {
     if (props?.data) {
       setAllProduct(props?.data);
+      setSearchProducts(props?.data);
     }
   }, [props])
   const getAllProduct = () => {
@@ -121,7 +122,7 @@ function Content(props) {
     const data = allProduct?.filter((item) => {
       if ((item?.product_name?.toLowerCase())?.includes(val?.toLowerCase())) { return item; }
     })
-    setAllProduct(data)
+    setSearchProducts(data)
   }
 
   return (
@@ -137,10 +138,14 @@ function Content(props) {
               <>
                 <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
                   <li className="nav-item" role="presentation">
-                    <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={() => setShow("buy")}>Buy</a>
+                    <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={() => {
+                      setSearchProducts([])
+                      setShow("buy")}}>Buy</a>
                   </li>
                   <li className="nav-item" role="presentation">
-                    <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true" onClick={() => setShow("rent")}>Rent</a>
+                    <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true" onClick={() => {
+                      setSearchProducts([])
+                      setShow("rent")}}>Rent</a>
                   </li>
 
                 </ul>
@@ -190,76 +195,150 @@ function Content(props) {
                     id="products-grid"
                   >
                     {
-                      allProduct?.map((item) => (
-                        item?.product_type == 'featured' &&
-                        item?.product_buy_rent == show &&
-                        <div className="product-card-wrapper">
-                          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-                            <div className="pc__img-wrapper">
-                              <div
-                                className="swiper-container background-img js-swiper-slider"
-                                data-settings='{"resizeObserver": true}'
-                              >
-                                <Swiper
-                                  spaceBetween={30}
-                                  centeredSlides={true}
-                                  autoplay={{
-                                    delay: 30000,
-                                    disableOnInteraction: false,
-                                  }}
-                                  pagination={{
-                                    clickable: true,
-                                  }}
-                                  navigation={true}
-                                  modules={[Autoplay, Pagination, Navigation]}
-                                  className="mySwiper"
+                      searchProducts?.length == '0' ?
+                        allProduct?.map((item) => (
+                          item?.product_type == 'featured' &&
+                          item?.product_buy_rent == show &&
+                          <div className="product-card-wrapper">
+                            
+                            <div className="product-card mb-3 mb-md-4 mb-xxl-5">
+                              <div className="pc__img-wrapper">
+                                <div
+                                  className="swiper-container background-img js-swiper-slider"
+                                  data-settings='{"resizeObserver": true}'
                                 >
-                                  {item?.product_images?.map((obj, i) => (
-                                    <SwiperSlide>
-                                      <a onClick={() => handleProduct1Simple(item?.id)}>
-                                        <img src={obj} />
-                                      </a>
-                                    </SwiperSlide>
-                                  ))}
-                                </Swiper>
-                              </div>
-                              <div className="ct_buy_rent_tag">
-                                <h4 className="mb-0">{item?.product_buy_rent?.charAt(0).toUpperCase() + item?.product_buy_rent?.slice(1)}</h4>
-                              </div>
+                                  <Swiper
+                                    spaceBetween={30}
+                                    centeredSlides={true}
+                                    autoplay={{
+                                      delay: 30000,
+                                      disableOnInteraction: false,
+                                    }}
+                                    pagination={{
+                                      clickable: true,
+                                    }}
+                                    navigation={true}
+                                    modules={[Autoplay, Pagination, Navigation]}
+                                    className="mySwiper"
+                                  >
+                                    {item?.product_images?.map((obj, i) => (
+                                      <SwiperSlide>
+                                        <a onClick={() => handleProduct1Simple(item?.id)}>
+                                          <img src={obj} />
+                                        </a>
+                                      </SwiperSlide>
+                                    ))}
+                                  </Swiper>
+                                </div>
+                                <div className="ct_buy_rent_tag">
+                                  <h4 className="mb-0">{item?.product_buy_rent?.charAt(0).toUpperCase() + item?.product_buy_rent?.slice(1)}</h4>
+                                </div>
 
-                            </div>
-                            <div className="pc__info position-relative">
-                              <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
-                              <h6 className="pc__title">
-                                <a onClick={() => handleProduct1Simple(item?.id)}>
-                                  {item?.product_buy_rent == 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0] && item?.product_size[0]?.size_top : item?.size_standard}</span>
-                                </a>
-                               
-                                <a onClick={() => handleProduct1Simple(item?.id)}>
-                                  {item?.product_buy_rent == 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item && item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
-                                </a>
-                              </h6>
-
-                              <div className="product-card__price d-flex">
-                                <span className="money price">
-                                  ${item?.price_sale_lend_price}
-                                </span>
                               </div>
-                              <button
-                                onClick={() => addToWishlist(item?.id)}
-                                className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                title="Add To Wishlist"
-                              >
-                                <i
-                                  className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
-                                  style={item?.wishlist_like !== 0 ? { color: "red" } : null}
-                                ></i>{" "}
-                              </button>
+                              <div className="pc__info position-relative">
+                                <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
+                                <h6 className="pc__title">
+                                  <a onClick={() => handleProduct1Simple(item?.id)}>
+                                    {item?.product_buy_rent == 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0] && item?.product_size[0]?.size_top : item?.size_standard}</span>
+                                  </a>
+                                  <br />
+                                  <a onClick={() => handleProduct1Simple(item?.id)}>
+                                    {item?.product_buy_rent == 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item && item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
+                                  </a>
+                                </h6>
 
+                                <div className="product-card__price d-flex">
+                                  <span className="money price">
+                                    ${item?.price_sale_lend_price}
+                                  </span>
+                                </div>
+                                <button
+                                  onClick={() => addToWishlist(item?.id)}
+                                  className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                  title="Add To Wishlist"
+                                >
+                                  <i
+                                    className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
+                                    style={item?.wishlist_like !== 0 ? { color: "red" } : null}
+                                  ></i>{" "}
+                                </button>
+
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))
+                        :
+                        searchProducts?.map((item) => (
+                          item?.product_type == 'featured' &&
+                          <div className="product-card-wrapper">
+                           
+                            <div className="product-card mb-3 mb-md-4 mb-xxl-5">
+                              <div className="pc__img-wrapper">
+                                <div
+                                  className="swiper-container background-img js-swiper-slider"
+                                  data-settings='{"resizeObserver": true}'
+                                >
+                                  <Swiper
+                                    spaceBetween={30}
+                                    centeredSlides={true}
+                                    autoplay={{
+                                      delay: 30000,
+                                      disableOnInteraction: false,
+                                    }}
+                                    pagination={{
+                                      clickable: true,
+                                    }}
+                                    navigation={true}
+                                    modules={[Autoplay, Pagination, Navigation]}
+                                    className="mySwiper"
+                                  >
+                                    {item?.product_images?.map((obj, i) => (
+                                      <SwiperSlide>
+                                        <a onClick={() => handleProduct1Simple(item?.id)}>
+                                          <img src={obj} />
+                                        </a>
+                                      </SwiperSlide>
+                                    ))}
+                                  </Swiper>
+                                </div>
+                                <div className="ct_buy_rent_tag">
+                                  <h4 className="mb-0">{item?.product_buy_rent?.charAt(0).toUpperCase() + item?.product_buy_rent?.slice(1)}</h4>
+                                </div>
+
+                              </div>
+                              <div className="pc__info position-relative">
+                                <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
+                                <h6 className="pc__title">
+                                  <a onClick={() => handleProduct1Simple(item?.id)}>
+                                    {item?.product_buy_rent == 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0] && item?.product_size[0]?.size_top : item?.size_standard}</span>
+                                  </a>
+                                  <br />
+                                  <a onClick={() => handleProduct1Simple(item?.id)}>
+                                    {item?.product_buy_rent == 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item && item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
+                                  </a>
+                                </h6>
+
+                                <div className="product-card__price d-flex">
+                                  <span className="money price">
+                                    ${item?.price_sale_lend_price}
+                                  </span>
+                                </div>
+                                <button
+                                  onClick={() => addToWishlist(item?.id)}
+                                  className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                  title="Add To Wishlist"
+                                >
+                                  <i
+                                    className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
+                                    style={item?.wishlist_like !== 0 ? { color: "red" } : null}
+                                  ></i>{" "}
+                                </button>
+
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                    }
                   </div>
                 </div>
               </>

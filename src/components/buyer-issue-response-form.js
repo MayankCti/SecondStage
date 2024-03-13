@@ -30,7 +30,6 @@ const BuyerForm = () => {
       ...val, user_id: userID
     }
     setIsLoader(true)
-    console.log(data, "data")
     axios({
       url: configJSON.baseUrl + configJSON.buyer_issue,
       method: "post",
@@ -38,7 +37,6 @@ const BuyerForm = () => {
       headers: { 'content-type': 'multipart/form-data' },
     }).then((res) => {
       setIsLoader(false)
-      console.log("helo", res)
       if (res?.data?.success) {
         message.success('Your request has been sent successfully')
         navigate('/account-dashboard')

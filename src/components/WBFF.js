@@ -169,7 +169,7 @@ function WBFF() {
 
       <Header  active="fmg/wbff"/>
 
-      <CategoryContent home="Fmg/Wbff" apiurl={configJSON.getProductDetails_by_Category_fmg_wbff} />
+      <CategoryContent home="FMG_WBFF" apiurl={configJSON.getProductDetails_by_Category_fmg_wbff} />
 
       <Footer /></>
         :<div className="custom-loader"></div>

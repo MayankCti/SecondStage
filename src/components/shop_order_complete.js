@@ -16,7 +16,6 @@ function Shop_order_complete() {
   const [subTotal, setSubTotal] = useState()
   const [vat, setVat] = useState()
   const cart_id = useLocation().state?.cart_id
-  console.log(cart_id,"dsafs")
   const [isLoader, setIsLoader] = useState(false);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -49,7 +48,6 @@ function Shop_order_complete() {
           setTotal(res?.data?.totalPrice)
           setSubTotal(res?.data?.vat_sub_total);
           setVat(res?.data?.vat_percentage);
-          console.log(res?.data?.Card_details, "gkffjssl")
           setOrderData(res?.data?.Card_details?.length != 0 ? res?.data?.Card_details : []);
           setOrderDetails(res?.data?.order_details[res?.data?.order_details?.length - 1])
         } else {
@@ -297,10 +295,8 @@ function Shop_order_complete() {
                         </thead>
                         <tbody>
                           {
-
                             orderData?.map((item) => (
                               <tr>
-                                {console.log(item?.product_details?.sub_total)}
                                 <td>
                                   {item?.product_details?.product_name}
                                 </td>

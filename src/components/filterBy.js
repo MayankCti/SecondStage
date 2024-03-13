@@ -2,7 +2,6 @@ import { Slider } from "antd";
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { CountryDropdown, StateDropdown, CityDropdown, LanguagesDropdown, PhoneInput } from "react-country-state-dropdown";
 
 export const configJSON = require("../components/config");
 function FilterBy(props) {

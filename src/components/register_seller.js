@@ -185,14 +185,12 @@ function Register_seller() {
       const clonedCards = [...prevCards];
       const removedItem = clonedCards.splice(dragIndex, 1)[0];
       clonedCards.splice(hoverIndex, 0, removedItem);
-      console.log(clonedCards, "clone")
       return clonedCards;
     });
     setFile((prevCards) => {
       const clonedCards = [...prevCards];
       const removedItem = clonedCards.splice(dragIndex, 1)[0];
       clonedCards.splice(hoverIndex, 0, removedItem);
-      console.log(clonedCards, "file")
       return clonedCards;
     })
   }, []);
@@ -391,7 +389,6 @@ function Register_seller() {
       setIsLoader(false)
       if (res?.data?.success == true) {
         setProfileData(res?.data?.user_info[0])
-        console.log(res?.data?.user_info[0]?.buyer_name)
         setFormObj({ ...formObj, buyer_name: res?.data?.user_info[0]?.buyer_name, user_name: res?.data?.user_info[0]?.user_name, license_number: res?.data?.user_info[0]?.license_number, license_state: res?.data?.user_info[0]?.license_state, email: res?.data?.user_info[0]?.email, phone_number: res?.data?.user_info[0]?.phone_number })
 
         setLicenseStateOption(res?.data?.user_info[0]?.license_state)

@@ -237,7 +237,6 @@ function Account_edit() {
                               <EditProfile data={profileData} falsedata={() => handleEditProfile()} /> :
                               <>
                                 <div className='col-md-12'>
-                                  {console.log(profileData)}
                                   <div className="ct_profile_img mb-2">
                                     <img
                                       src={profileData?.profile_image ? profileData.profile_image : "images/buyer_profile.png"} />

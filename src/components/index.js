@@ -43,11 +43,12 @@ function Index() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     const randomeUserId = Cookies.get('RandomUserId');
-    getMyProfile()
-    if (randomeUserId) {
+    if (token) {
+      getMyProfile()
+      Cookies.remove('RandomUserId');
       getAllProduct(randomeUserId);
-      console.log(typeof randomeUserId, 'helo')
-    } else {
+    }
+    else {
       const uuid = uuidv4();
       generateToken(uuid)
     }
@@ -60,8 +61,6 @@ function Index() {
     for (let i = 0, n = charset.length; i < length; ++i) {
       retVal += charset.charAt(Math.floor(Math.random() * n));
     }
-
-    console.log(typeof retVal, 'klfsld')
     Cookies.set('RandomUserId', retVal, { expires: 1 });
     setRandomUserId(retVal);
     getAllProduct(retVal);
@@ -95,28 +94,7 @@ function Index() {
       });
   };
 
-  const handleBikinis = () => {
-    navigate("/bikinis")
-  }
-  const handleFigure = () => {
-    navigate("/figure")
-  }
-  const HandleWbff = () => {
-    navigate("/wbff")
-  }
-  const handleThemewear = () => {
-    navigate("/themewear")
-  }
-  const handleAccessories = () => {
-    navigate("/accessories")
-  }
-  const handleSwimsuit = () => {
-    navigate("/swimsuit")
-  }
-
   const searchProducts = (val) => {
-    console.log("val", val)
-    console.log("allproduct", allProduct)
     const data = allProduct?.filter((item) => {
       if ((item?.product_name?.toLowerCase())?.includes(val?.toLowerCase())) { return item; }
     })

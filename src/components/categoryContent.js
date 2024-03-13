@@ -23,6 +23,15 @@ function CategoryContent(props) {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
+    if (!token) {
+      const length = 6;
+      let charset = "1234567890";
+      let retVal = "";
+      for (let i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+      }
+      Cookies.set('RandomUserId', retVal, { expires: 1 });
+    }
     setAccessToken(token);
     window.scroll(0, 0);
     getData();

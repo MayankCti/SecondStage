@@ -35,7 +35,6 @@ function SellLend() {
       method: "post",
       data: data
     }).then((res) => {
-      console.log(res, "hello")
       setIsLoader(false);
       if (res?.data?.success == true) {
         setData(res?.data?.products);
@@ -398,7 +397,7 @@ function SellLend() {
                                         {item?.product_images?.map((obj, i) => (
                                           <SwiperSlide>
                                             <a
-                                            onClick={() => handleProduct1Simple(item?.id)}
+                                              onClick={() => handleProduct1Simple(item?.id)}
                                             >
                                               <img src={obj} />
                                             </a>
@@ -406,7 +405,7 @@ function SellLend() {
 
                                         ))}
                                       </Swiper>
-                                      
+
                                     </div>
                                   </div>
 
@@ -425,7 +424,7 @@ function SellLend() {
                                       aria-labelledby="dropdownMenuButton1"
                                     >
                                       <li>
-                                        <a className="dropdown-item" onClick={() => navigate("/edit-product",{state:{productId:item?.id}})}>
+                                        <a className="dropdown-item" onClick={() => navigate("/edit-product", { state: { productId: item?.id } })}>
                                           Edit Product
                                         </a>
                                       </li>
@@ -442,30 +441,15 @@ function SellLend() {
 
                                 <div className="pc__info position-relative">
                                   <p className="pc__category">
-                                    {item?.product_name?? 'Product Name'}
+                                    {item?.product_name ?? 'Product Name'}
                                   </p>
                                   <h6 className="pc__title">
-                                    {/* <a  onClick={() => handleProduct1Simple(item?.id)}>{item?.product_description}</a> */}
-                                    <a
-                                      onClick={() => handleProduct1Simple(item?.id)}
-                                    >
-                                      {/* {item?.product_description}
-                                   */}
-                                      Size Top :
-                                      {item?.product_size?.map((obj) => (
-                                        <span>{obj?.size_top}</span>
-                                      ))}
+                                    <a onClick={() => handleProduct1Simple(item?.id)}>
+                                      {item?.product_buy_rent == 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0] && item?.product_size[0]?.size_top : item?.size_standard}</span>
                                     </a>
                                     <br />
-                                    <a
-                                      onClick={() => handleProduct1Simple(item?.id)}
-                                    >
-                                      {/* {item?.product_description}
-                                   */}
-                                      Size Bottom :
-                                      {item?.product_size?.map((obj) => (
-                                        <span>{obj?.size_bottom}</span>
-                                      ))}
+                                    <a onClick={() => handleProduct1Simple(item?.id)}>
+                                      {item?.product_buy_rent == 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item && item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
                                     </a>
                                   </h6>
                                   <div className="product-card__price d-flex">

@@ -457,8 +457,6 @@ function Header(props) {
 
                 <div className="search-popup js-hidden-content">
                   <form
-                    action="#"
-                    method="GET"
                     className="search-field container"
                   >
                     <p className="text-uppercase text-secondary fw-medium mb-4">
@@ -468,7 +466,6 @@ function Header(props) {
                       <input
                         className="search-field__input search-popup__input w-100 fw-medium"
                         type="text"
-                        name="search-keyword"
                         placeholder="Search products"
                         value={searchProduct}
                         onChange={(e) => setSearchProduct(e.target.value)}
@@ -491,7 +488,8 @@ function Header(props) {
                       </button>
                       <button
                         className="btn-icon btn-close-lg search-popup__reset"
-                        type="reset"
+                        type="button"
+
                       ></button>
                     </div>
 

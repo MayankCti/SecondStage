@@ -16,25 +16,12 @@ function UserRegister() {
 
   const navigate = useNavigate();
   const [eye, setEye] = useState(false)
-  const [type, setType] = useState("password")
   const [eye1, setEye1] = useState(false)
-  const [type1, setType1] = useState("password")
   const [isLoader, setIsLoader] = useState(false)
   const [islicenseState, setIsLicenseState] = useState(false)
   const [licenseStateOption, setLicenseStateOption] = useState("")
-  const [phoneCode, setphoneCode] = useState({})
-  const [isHome, setIsHome] = useState(false)
-  const [dropdownOption, setDropDownOption] = useState([]);
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"))
-    Object?.keys(myCountryCodesObject)?.map((item) => (
-      dropdownOption?.push({
-        value: myCountryCodesObject[item],
-        label: item
-      })
-    ))
-    setDropDownOption(dropdownOption => dropdownOption?.filter(item => item))
-  }, [])
+  const [phoneCode, setphoneCode] = useState('AU')
+
   const handleSell = () => {
     navigate("/sell");
   };
@@ -68,17 +55,7 @@ function UserRegister() {
       });
 
   };
-  const handleEye = (val) => {
-    setType(val)
-    setEye(!eye)
-  }
-  const handleEye1 = (val) => {
-    setType1(val)
-    setEye1(!eye1)
-  }
-  const handlePhoneCode = (val) => {
-    setphoneCode(val)
-  }
+
   return (
     <>
       <>
@@ -340,13 +317,10 @@ function UserRegister() {
                                   </div>
                                   <div className="col-md-6">
                                     <div className="d-flex ">
-                                      <select className="form-control ct_country_drop_list" onChange={(e) => handlePhoneCode(e.target.value)}>
-                                        {
-                                          Object?.keys(myCountryCodesObject)?.map((item) => (
-                                            <option value={myCountryCodesObject[item]}>{item}</option>
+                                      <select className="form-control ct_country_drop_list" >
+                                      
+                                            <option value='AU'>AU</option>
 
-                                          ))
-                                        }
                                       </select>
                                       <div className="form-floating mb-3">
                                         <input
