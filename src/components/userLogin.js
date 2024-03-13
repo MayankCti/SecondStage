@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { message, message as MESSAGE } from "antd";
+import Cookies from 'js-cookie';
 import axios from 'axios';
 import { Formik } from 'formik';
 import { Schema_login_form1 } from "./Schema";
@@ -32,10 +33,12 @@ function UserLogin() {
 
     const handleLogin = (values, { resetForm }) => {
         setIsLoader(true)
+        const randomeUserId = Cookies.get('RandomUserId');
+        const data = values
         axios({
             url: configJSON.baseUrl + configJSON.loginBuyer,
             method: "post",
-            data: values,
+            data: randomeUserId ? {...data, guest_token: parseInt(randomeUserId)}: data,
         }).then((res) => {
             setIsLoader(false)
             if (res?.data?.success == true) {
@@ -44,13 +47,15 @@ function UserLogin() {
                 localStorage.setItem("user_id", JSON.stringify(res?.data?.user_id))
                 resetForm()
                 navigate("/")
+                Cookies.remove("RandomUserId")
             }
             else {
                 MESSAGE.error(res?.data?.message)
-                setIsLoader(false)
+                
             }
         })
             .catch((error) => {
+                setIsLoader(false)
                 console.log(error)
             })
     }

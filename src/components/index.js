@@ -9,11 +9,7 @@ import Home from './home';
 import { v4 as uuidv4 } from 'uuid';
 export const configJSON = require("../components/config");
 function Index() {
-  const [isCartSidebar, setIsCartSidebar] = useState(false)
-  const [cartData, setCartData] = useState([])
-  const [accessToken, setAccessToken] = useState()
-  // const [isHome, setIsHome] = useState(false)
-  const [quickSearch, setQuickSearch] = useState("")
+
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
   const [sort, setSort] = useState(4)
@@ -21,9 +17,33 @@ function Index() {
   const [randomUserId, setRandomUserId] = useState()
   const navigate = useNavigate()
 
+  const getMyProfile = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    setIsLoader(true);
+    axios({
+      url: configJSON.baseUrl + configJSON.myProfile_buyer,
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          localStorage.setItem("Profile", JSON.stringify(res?.data?.user_info[0]));
+        }
+      })
+      .catch((error) => {
+        setIsLoader(false);
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     const randomeUserId = Cookies.get('RandomUserId');
+    getMyProfile()
     if (randomeUserId) {
       getAllProduct(randomeUserId);
       console.log(typeof randomeUserId, 'helo')
@@ -35,12 +55,12 @@ function Index() {
   }, [])
   const generateToken = (uuid) => {
     const length = 6;
-      let charset = "1234567890";
-      let retVal = "";
+    let charset = "1234567890";
+    let retVal = "";
     for (let i = 0, n = charset.length; i < length; ++i) {
       retVal += charset.charAt(Math.floor(Math.random() * n));
     }
-    
+
     console.log(typeof retVal, 'klfsld')
     Cookies.set('RandomUserId', retVal, { expires: 1 });
     setRandomUserId(retVal);
@@ -93,16 +113,17 @@ function Index() {
   const handleSwimsuit = () => {
     navigate("/swimsuit")
   }
-  const searchPage = (val) => {
-    const data = val.toLowerCase()
 
-
-  }
   const searchProducts = (val) => {
-    const data = allProduct.filter((item) => {
-      if (item?.product_Categories?.includes(val?.toLowerCase())) { return item; }
+    console.log("val", val)
+    console.log("allproduct", allProduct)
+    const data = allProduct?.filter((item) => {
+      if ((item?.product_name?.toLowerCase())?.includes(val?.toLowerCase())) { return item; }
     })
     setSearchProduct(data)
+  }
+  const handleNavigation = (val) => {
+    navigate(val);
   }
   return (
 
@@ -268,21 +289,21 @@ function Index() {
             <section className="instagram container-fluid">
 
               <div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
-                <div className="ct_quick_link_item mb-4">
+                <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/bikinis")}>
                   <a className="position-relative d-block effect ">
                     <img loading="lazy" className="instagram__img" src="images/products/product_3.jpg" width="150" height="150" alt="Insta image 1" />
                     <div className="ct_buy_rent_tag"><h4 className="mb-0">Bikini</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' onClick={() => handleBikinis()}>Bikini</a>
+                        <a className='text-white ct_fs_24 ct_Blacksword_font' >Bikini</a>
 
                       </div>
                     </div>
                   </a>
 
                 </div>
-                <div className="ct_quick_link_item mb-4">
+                <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/figure")}>
                   <a className="position-relative d-block effect ">
                     <img loading="lazy" className="instagram__img" src="images/products/product_1.jpg" width="180" height="180" alt="Insta image 2" />
                     <div className="ct_buy_rent_tag"><h4 className="mb-0">Figure</h4></div>
@@ -292,13 +313,13 @@ function Index() {
 
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' onClick={() => handleFigure()}>Figure</a>
+                        <a className='text-white ct_fs_24 ct_Blacksword_font'>Figure</a>
                       </div>
                     </div>
                   </a>
 
                 </div>
-                <div className="ct_quick_link_item mb-4">
+                <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/swimsuit")}>
                   <a className="position-relative d-block effect ">
                     <img loading="lazy" className="instagram__img" src="images/products/product_2.jpg" width="180" height="180" alt="Insta image 3" />
                     <div className="ct_buy_rent_tag"><h4 className="mb-0">Swimsuit</h4></div>
@@ -306,7 +327,7 @@ function Index() {
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' onClick={() => handleSwimsuit()}>Swimsuit</a>
+                        <a className='text-white ct_fs_24 ct_Blacksword_font' >Swimsuit</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
@@ -314,14 +335,14 @@ function Index() {
                   </a>
 
                 </div>
-                <div className="ct_quick_link_item mb-4">
+                <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/wbff")}>
                   <a className="position-relative d-block effect ">
                     <img loading="lazy" className="instagram__img" src="images/products/product_3.jpg" width="180" height="180" alt="Insta image 4" />
                     <div className="ct_buy_rent_tag"><h4 className="mb-0">Fmg/Wbff</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' onClick={() => HandleWbff()}>Fmg/Wbff</a>
+                        <a className='text-white ct_fs_24 ct_Blacksword_font' >Fmg/Wbff</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
@@ -329,14 +350,14 @@ function Index() {
                   </a>
 
                 </div>
-                <div className="ct_quick_link_item mb-4">
+                <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/themewear")}>
                   <a className="position-relative d-block effect ">
                     <img loading="lazy" className="instagram__img" src="images/products/product_2.jpg" width="180" height="180" alt="Insta image 5" />
                     <div className="ct_buy_rent_tag"><h4 className="mb-0">Themewear</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' onClick={() => handleThemewear()}>Themewear</a>
+                        <a className='text-white ct_fs_24 ct_Blacksword_font'>Themewear</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
@@ -344,7 +365,7 @@ function Index() {
                   </a>
 
                 </div>
-                <div className="ct_quick_link_item mb-4">
+                <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/accessories")}>
                   <a className="position-relative d-block effect">
                     <img loading="lazy" className="instagram__img" src="images/products/product_1.jpg" width="180" height="180" alt="Insta image 6" />
                     <div className="ct_buy_rent_tag"><h4 className="mb-0">Accessories</h4></div>
@@ -353,7 +374,7 @@ function Index() {
 
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' onClick={() => handleAccessories()}>Accessories</a>
+                        <a className='text-white ct_fs_24 ct_Blacksword_font' >Accessories</a>
                       </div>
                     </div>
                   </a>
@@ -362,23 +383,9 @@ function Index() {
 
             </section>
             <div className="mb-5 pb-5"></div>
-            <section className="products-grid container">
-              <Content data={searchData} />
-            </section>
-            <section className='mt-5 py-5 ' style={{ background: "#f5f5f5" }}>
-              <div className='container'>
-                <div className='col-md-8 mx-auto'>
-                  <div className="block-newsletter">
-                    <h3 className="block__title text-center ">Quick Search</h3>
-                    {/* <p>Get the latest products and news update daily in fastest.</p> */}
-                    <form className="block-newsletter__form">
-                      <input value={quickSearch} onChange={(e) => setQuickSearch(e.target.value)} className="form-control" type="email" name="email" placeholder="Search " />
-                      <button className="btn btn-secondary fw-medium" type="button" onClick={() => searchPage(quickSearch)}>Submit</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </section>
+            <Content data={searchData} />
+
+
             {/* <div className="mb-4 pb-4 pb-xl-5 mb-xl-5"></div> */}
           </main>
 

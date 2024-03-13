@@ -269,7 +269,7 @@ function Sell() {
         </symbol>
       </svg>
 
-      <Header />
+      <Header active="sell"/>
 
       <main>
         <div className="mb-4 pb-4"></div>

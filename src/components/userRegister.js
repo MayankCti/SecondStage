@@ -56,6 +56,7 @@ function UserRegister() {
           resetForm();
           sessionStorage.removeItem("registerData")
           navigate("/login");
+          Cookies.remove("RandomUserId")
         } else {
           MESSAGE.error(res?.data?.message);
         }

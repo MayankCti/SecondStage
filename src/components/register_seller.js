@@ -78,7 +78,6 @@ function Register_seller() {
       setOpen(true);
     } else {
       MESSAGE.error("fill all the fields.!");
-
     }
   }
   const handleClose = () => setOpen(false);
@@ -88,15 +87,15 @@ function Register_seller() {
     if (token == null) {
       navigate('/login')
     } else {
-      if (categoryOption == "biknis" || categoryOption == "figure" || categoryOption == "fmg_wbff") {
+      if (categoryOption == "Bikini" || categoryOption == "Figure" || categoryOption == "fmg_wbff" || categoryOption == "Accessories/Shoes") {
         setIsSizeTopBottom(true)
         setIsSizeShow(false)
       }
-      else if (categoryOption == "swimsuit" || categoryOption == "themewear") {
+      else if (categoryOption == "Swimsuit" || categoryOption == "Themewear") {
         setIsSizeTopBottom(false)
+        // setIsSizeTopBottom(true)
         setIsSizeShow(true)
       }
-
     }
   }, [categoryOption])
   useEffect(() => {
@@ -837,7 +836,7 @@ function Register_seller() {
                         </div>
                       </div>
                     </div>
-                    {priceBuyOption == "Rent" &&
+                    {priceBuyOption == "rent" &&
                       <div className="col-md-6 mb-3">
                         <label htmlFor="" className="mb-3">
                           &nbsp;
@@ -1013,7 +1012,7 @@ function Register_seller() {
                                   value={sizeStandardOption}
                                 />
                               </div>
-                              <div className="filters-container js-hidden-content mt-2">
+                              <div className="filters-container js-hidden-content mt-2" onClick={onHandleSizeStandard}>
                                 <ul className="search-suggestion list-unstyled">
                                   {
                                     filterContent?.sizeStandard?.map((item) => (

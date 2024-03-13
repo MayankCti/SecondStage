@@ -14,7 +14,7 @@ function Account_edit() {
   const [isLoader, setIsLoader] = useState(false);
   const [profileData, setProfileData] = useState([])
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token == null) {
@@ -37,6 +37,7 @@ function Account_edit() {
     }).then((res) => {
       setIsLoader(false)
       if (res?.data?.success == true) {
+        localStorage.setItem("Profile",JSON.stringify(res?.data?.user_info[0]));
         setProfileData(res?.data?.user_info[0])
       }
       else {
@@ -53,7 +54,7 @@ function Account_edit() {
     setEditProfile(false)
 
   }
-  const handleEditPass = ()=>{
+  const handleEditPass = () => {
     setEditpass(!editpass)
     setEditProfile(false)
   }
@@ -209,7 +210,7 @@ function Account_edit() {
         </symbol>
       </svg>
       {isLoader == false ?
-        <Header data_value={profileData} />
+        <Header  />
         : <div className="custom-loader"></div>
       }
       <main>
@@ -231,119 +232,126 @@ function Account_edit() {
                       <form name="account_edit_form" className="needs-validation" novalidate>
                         <div className="row ">
                           {
-                            
-                            editProfile == true  ? 
-                            <EditProfile data={profileData} falsedata={() => handleEditProfile()} /> : 
-                            <>
-                              <div className="col-md-6 mt-4">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="text"
-                                    value={profileData.buyer_name}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Name*"
-                                    required=""
-                                    readOnly={true}
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">Name*</label>
+                            editProfile == true ?
+                              <EditProfile data={profileData} falsedata={() => handleEditProfile()} /> :
+                              <>
+                                <div className='col-md-12'>
+                                  {console.log(profileData)}
+                                  <div className="ct_profile_img mb-2">
+                                    <img
+                                      src={profileData?.profile_image ? profileData.profile_image : "images/buyer_profile.png"} />
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-md-6 mt-4">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="text"
-                                    value={profileData.user_name}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Create Username*"
-                                    required=""
-                                    readOnly={true}
+                                <div className="col-md-6 mt-4">
+                                  <div className="form-floating my-3">
+                                    <input
+                                      name="login_email"
+                                      type="text"
+                                      value={profileData.buyer_name}
+                                      className="form-control form-control_gray"
+                                      id="customerNameEmailInput"
+                                      placeholder="Email Name*"
+                                      required=""
+                                      readOnly={true}
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">
-                                    Username*
-                                  </label>
+                                    />
+                                    <label htmlFor="customerNameEmailInput">Name*</label>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-md-6">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="email"
-                                    value={profileData.email}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Email*"
-                                    required=""
-                                    readOnly={true}
+                                <div className="col-md-6 mt-4">
+                                  <div className="form-floating my-3">
+                                    <input
+                                      name="login_email"
+                                      type="text"
+                                      value={profileData.user_name}
+                                      className="form-control form-control_gray"
+                                      id="customerNameEmailInput"
+                                      placeholder="Email Create Username*"
+                                      required=""
+                                      readOnly={true}
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">Email*</label>
+                                    />
+                                    <label htmlFor="customerNameEmailInput">
+                                      Username*
+                                    </label>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-md-6">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="number"
-                                    value={profileData.phone_number}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Phone*"
-                                    required=""
-                                    readOnly={true}
+                                <div className="col-md-6">
+                                  <div className="form-floating my-3">
+                                    <input
+                                      name="login_email"
+                                      type="email"
+                                      value={profileData.email}
+                                      className="form-control form-control_gray"
+                                      id="customerNameEmailInput"
+                                      placeholder="Email Email*"
+                                      required=""
+                                      readOnly={true}
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">Phone*</label>
+                                    />
+                                    <label htmlFor="customerNameEmailInput">Email*</label>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-md-6">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="text"
-                                    value={profileData.license_number}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Licence Number *"
-                                    required=""
-                                    readOnly={true}
-                                  />
-                                  <label htmlFor="customerNameEmailInput">
-                                    Licence Number *
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="col-md-6">
-                                <div className="form-floating my-3">
-                                  <input
-                                    name="login_email"
-                                    type="text"
-                                    value={profileData.license_state}
-                                    className="form-control form-control_gray"
-                                    id="customerNameEmailInput"
-                                    placeholder="Email Licence Number *"
-                                    required=""
-                                    readOnly={true}
+                                <div className="col-md-6">
+                                  <div className="form-floating my-3">
+                                    <input
+                                      name="login_email"
+                                      type="number"
+                                      value={profileData.phone_number}
+                                      className="form-control form-control_gray"
+                                      id="customerNameEmailInput"
+                                      placeholder="Email Phone*"
+                                      required=""
+                                      readOnly={true}
 
-                                  />
-                                  <label htmlFor="customerNameEmailInput">
-                                    Licence State *
-                                  </label>
+                                    />
+                                    <label htmlFor="customerNameEmailInput">Phone*</label>
+                                  </div>
                                 </div>
-                              </div>
-                            </>
+                                <div className="col-md-6">
+                                  <div className="form-floating my-3">
+                                    <input
+                                      name="login_email"
+                                      type="text"
+                                      value={profileData.license_number}
+                                      className="form-control form-control_gray"
+                                      id="customerNameEmailInput"
+                                      placeholder="Email Licence Number *"
+                                      required=""
+                                      readOnly={true}
+                                    />
+                                    <label htmlFor="customerNameEmailInput">
+                                      Licence Number *
+                                    </label>
+                                  </div>
+                                </div>
+                                <div className="col-md-6">
+                                  <div className="form-floating my-3">
+                                    <input
+                                      name="login_email"
+                                      type="text"
+                                      value={profileData.license_state}
+                                      className="form-control form-control_gray"
+                                      id="customerNameEmailInput"
+                                      placeholder="Email Licence Number *"
+                                      required=""
+                                      readOnly={true}
+
+                                    />
+                                    <label htmlFor="customerNameEmailInput">
+                                      Licence State *
+                                    </label>
+                                  </div>
+                                </div>
+                              </>
                           }
                           <div className="col-md-12">
                             <div className="mt-1 mb-3 max-auto text-end">
                               <a className='menu-link_active ct_fw_600' onClick={() => handleEditPass()}>Change Password</a>
                             </div>
                           </div>
-                          {editpass && editProfile==false && <EditPassword onClick={() => setEditpass(false)} />}
+                          {editpass && editProfile == false && <EditPassword onClick={() => setEditpass(false)} />}
 
                         </div>
                       </form>

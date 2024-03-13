@@ -10,6 +10,8 @@ import CloseDropdown from './closeDropdown';
 export const configJSON = require("../components/config");
 function Header(props) {
   const navigate = useNavigate();
+  const profileData = JSON.parse(localStorage.getItem("Profile"));
+
   const [subtotal, setSubTotal] = useState(0);
   const [isCartSidebar, setIsCartSidebar] = useState(
     props?.isCartSidebar ? props?.isCartSidebar : false
@@ -18,7 +20,7 @@ function Header(props) {
   const [isSearch, setIsSearch] = useState(false);
   const [allProduct, setAllProduct] = useState(props?.data ? props?.data : []);
 
-  const [profileData, setProfileData] = useState([]);
+  // const [profileData, setProfileData] = useState([]);
   const [accessToken, setAccessToken] = useState();
   const [isLoader, setIsLoader] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
@@ -42,36 +44,12 @@ function Header(props) {
     const token = JSON.parse(localStorage.getItem("token"));
     setAccessToken(token);
     if (token) {
-      getMyProfile(token);
+      // getMyProfile(token);
     }
     getCartData(token);
 
   }, []);
 
-  const getMyProfile = (val) => {
-    const token = JSON.parse(localStorage.getItem("token"));
-
-    setIsLoader(true);
-    axios({
-      url: configJSON.baseUrl + configJSON.myProfile_buyer,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        setIsLoader(false);
-        if (res?.data?.success == true) {
-          setProfileData(res?.data?.user_info[0]);
-        } else {
-          setProfileData([]);
-        }
-      })
-      .catch((error) => {
-        setIsLoader(false);
-        console.log(error);
-      });
-  };
 
   const getCartData = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -168,8 +146,8 @@ function Header(props) {
         setIsLoader(false);
         if (res.data.success == true) {
           MESSAGE.success("Cart item deleted successfully");
-          props?.onClick()
-          getCartData(accessToken);
+          if (props?.onClick) props?.onClick();
+          getCartData();
         } else {
           MESSAGE.error("Unable to delete cart item.");
         }
@@ -224,9 +202,7 @@ function Header(props) {
   const handleSell = () => {
     navigate("/sell");
   };
-  const handleShopCheckout = () => {
-    navigate("/shop-checkout");
-  };
+
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
@@ -238,7 +214,6 @@ function Header(props) {
     props?.searchProducts(searchProduct);
     setIsSearch(!isSearch);
   };
-
 
   const hanleDate = (item, item1) => {
     setState([item?.selection]);
@@ -425,6 +400,21 @@ function Header(props) {
                     Accessories
                   </a>
                 </li>
+                {
+
+                <li className="navigation__item">
+                  <a
+                    onClick={() => handleSell()}
+                    className={
+                      props.active == "sell"
+                        ? "navigation__link ct_active"
+                        : "navigation__link"
+                    }
+                  >
+                    Sell/Lend
+                  </a>
+                </li>
+                }
                 <div className="header-tools__item hover-container ct_mobile_login">
                   <a
                     onClick={() => handleLoginRegister()}
@@ -730,7 +720,7 @@ function Header(props) {
                     <img
                       loading="lazy"
                       className="cart-drawer-item__img"
-                      src={item?.profile_images}
+                      src={item?.profile_images?.product_image}
                     />
                   </div>
                   <div className="cart-drawer-item__info flex-grow-1">
@@ -867,12 +857,7 @@ function Header(props) {
           >
             View Cart
           </a>
-          {/* <a
-            onClick={() => handleShopCheckout()}
-            className="btn btn-primary mt-3 d-block"
-          >
-            Checkout
-          </a> */}
+
         </div>
       </div>
 

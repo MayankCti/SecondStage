@@ -603,15 +603,17 @@ function Product1_simple(props) {
                     <div className="swiper-container">
                       <div className="ct_custom_verticle_slider">
 
-                        <OwlCarousel className="owl-theme" margin={5} nav items={4}>
+                        {
+                          product?.product_images?.length > 1 &&
+                          <OwlCarousel className="owl-theme" margin={5} lazyLoad={true} nav items={3}>
+                            {product?.product_images?.map((item) => (
+                              <div className="ct_slidr_item">
+                                <img src={item} alt="" />
+                              </div>
+                            ))}
+                          </OwlCarousel>
 
-
-                          {product?.product_images?.map((item) => (
-                            <div className="ct_slidr_item">
-                              <img src={item} alt="" />
-                            </div>
-                          ))}
-                        </OwlCarousel>
+                        }
                       </div>
                     </div>
                   </div>
@@ -773,27 +775,17 @@ function Product1_simple(props) {
                           </form>
 
                           <div className="product-single__addtolinks">
-                            <a className="menu-link menu-link_us-s add-to-wishlist pb-0">
-                              {product?.wishlist_like == 0 ? (
-                                <button
-                                  onClick={() => addToWishlist(product?.id)}
-                                  className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                                  title="Add To Wishlist"
-                                >
-                                  <i className="fa-regular fa-heart"></i>{" "}
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => addToWishlist(product?.id)}
-                                  className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                                  title="Add To Wishlist"
-                                >
-                                  <i
-                                    className="fa-solid fa-heart"
-                                    style={{ color: "red" }}
-                                  ></i>
-                                </button>
-                              )}
+                            <a onClick={() => addToWishlist(product?.id)} className="menu-link menu-link_us-s add-to-wishlist pb-0">
+
+                              <button
+                                className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
+                                title="Add To Wishlist"
+                              >
+                                <i
+                                  className={`fa-heart ${product?.wishlist_like == 0 ? 'fa-regular' : 'fa-solid'}`}
+                                  style={{ color: `${product?.wishlist_like == 0 ? null : 'red'}` }}
+                                ></i>{" "}
+                              </button>
                               <span>Add to Wishlist</span>
                             </a>
 
@@ -964,29 +956,19 @@ function Product1_simple(props) {
                           </form>
 
                           <div className="product-single__addtolinks">
-                            <a className="menu-link menu-link_us-s add-to-wishlist pb-0">
-                              {product?.wishlist_like == 0 ? (
-                                <button
-                                  className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                                  title="Add To Wishlist"
-                                >
-                                  <i
-                                    onClick={() => addToWishlist(product?.id)}
-                                    className="fa-regular fa-heart"
-                                  ></i>{" "}
-                                </button>
-                              ) : (
-                                <button
-                                  className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
-                                  title="Add To Wishlist"
-                                >
-                                  <i
-                                    onClick={() => addToWishlist(product?.id)}
-                                    className="fa-solid fa-heart"
-                                    style={{ color: "red" }}
-                                  ></i>
-                                </button>
-                              )}
+                            <a onClick={() => addToWishlist(product?.id)} className="menu-link menu-link_us-s add-to-wishlist pb-0">
+
+                              <button
+
+                                className="pc__btn-wl bg-transparent border-0 js-add-wishlist"
+                                title="Add To Wishlist"
+                              >
+                                <i
+                                  className={`fa-heart ${product?.wishlist_like == 0 ? 'fa-regular' : 'fa-solid'}`}
+                                  style={{ color: `${product?.wishlist_like == 0 ? null : 'red'}` }}
+                                ></i>{" "}
+                              </button>
+
                               <span>Add to Wishlist</span>
                             </a>
 
@@ -996,7 +978,7 @@ function Product1_simple(props) {
                             ></script>
                             <script src="js/share.js" defer="defer"></script>
 
-                            <share-button className="share-button">
+                            {/* <share-button className="share-button">
                               <button className="menu-link menu-link_us-s to-share border-0 gap-2 bg-transparent d-flex align-items-center">
                                 <svg
                                   width="16"
@@ -1009,7 +991,7 @@ function Product1_simple(props) {
                                 </svg>
                                 <span>Share</span>
                               </button>
-                            </share-button>
+                            </share-button> */}
                             <script
                               src="js/details-disclosure.js"
                               defer="defer"
@@ -1022,10 +1004,10 @@ function Product1_simple(props) {
                             <label>SKU:</label>
                             <span>N/A</span>
                           </div> */}
-                            <div className="meta-item">
+                            {/* <div className="meta-item">
                               <label>Categories : </label>
-                              <span> {product?.product_Categories}</span>
-                            </div>
+                              <span> {product?.product_category}</span>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -1202,8 +1184,6 @@ function Product1_simple(props) {
               <div className="swiper-wrapper"></div>
               {/* /.swiper-wrapper */}
             </div>
-
-
             <div className="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
             {/* /.products-pagination */}
           </div>

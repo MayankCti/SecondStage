@@ -37,6 +37,7 @@ function Shop_checkout() {
   const [isNewAdress, setIsNewAdress] = useState(false)
   const [address, setAddress] = useState([])
   const [addressId, setAddressId] = useState([])
+  const [emailError, setEmailError] = useState()
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     if (token == null)
@@ -151,6 +152,7 @@ function Shop_checkout() {
       if (res?.data?.success == true) {
         setAddress(res?.data?.shipping_details ? res?.data?.shipping_details : [])
         setIsNewAdress(res?.data?.shipping_details?.length != 0 ? false : true)
+        console.log(res?.data?.shipping_details?.length != 0 ? false : true)
       }
       else {
         setAddress([])
@@ -362,7 +364,7 @@ function Shop_checkout() {
           {
             isLoader == false ? <form name="checkout-form" >
               <div className="checkout-form">
-                {isNewAdress || address?.length == 0 && <div className="billing-info__wrapper">
+                {(isNewAdress || address?.length == 0) && <div className="billing-info__wrapper">
                   <h4>BILLING DETAILS</h4>
                   <div className="row">
                     <div className="col-md-6">
@@ -438,17 +440,33 @@ function Shop_checkout() {
                     </div>
                     <div className="col-md-12">
                       <div className="form-floating my-3">
-                        <input onChange={(e) => setPhone(e.target.value)} value={phone} type="number" className="form-control" id="checkout_phone" placeholder="Phone *" />
+                        <input onChange={(e) => {
+                          if (e.target.value?.length <= 10 || e.target.value?.length == undefined) {
+                            setPhone(e.target.value)
+                          } else {
+                            if (e.target.value?.length < 10) {
+                              setPhone(e.target.value)
+                            }
+                          }
+                        }} value={phone} type="number" className="form-control" id="checkout_phone" placeholder="Phone *" />
                         <label htmlFor="checkout_phone">Phone *</label>
                       </div>
                     </div>
                     <div className="col-md-12">
                       <div className="form-floating my-3">
-                        <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" className="form-control" id="checkout_email" placeholder="Your Mail *" />
+                        <input onChange={(e) => {
+                          setEmail(e.target.value)
+                          const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                          if (emailRegex.test(e.target.value)) {
+                            setEmailError('');
+                          } else {
+                            setEmailError('Enter valid email.');
+                          }
+                        }} value={email} type="email" className="form-control" id="checkout_email" placeholder="Your Mail *" />
+                        <span style={{color:"red"}}> {emailError}</span>
                         <label htmlFor="checkout_email">Your Mail *</label>
                       </div>
                     </div>
-
                   </div>
                   <div className="col-md-12">
                     <div className="mt-3">
@@ -459,8 +477,7 @@ function Shop_checkout() {
                 </div>
                 }
                 {
-                  isNewAdress == false && address?.length != 0 &&
-
+                  (isNewAdress == false && address?.length != 0) &&
                   <div className="my-account__address-list">
                     <div className="my-account__address-item">
                       <div className="my-account__address-item__title mt-5">

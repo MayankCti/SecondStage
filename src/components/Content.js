@@ -11,15 +11,17 @@ import Cookies from 'js-cookie';
 import FilterBy from "./filterBy";
 export const configJSON = require("../components/config");
 function Content(props) {
+  console.log(props?.data, "props")
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
   const [accessToken, setAccessToken] = useState();
   const [isFilter, setIsFilter] = useState(false);
   const [show, setShow] = useState("buy")
   const navigate = useNavigate();
+  const [quickSearch, setQuickSearch] = useState("")
   const handleProduct1Simple = (productId) => {
-    localStorage.setItem("productID", productId)
 
+    localStorage.setItem("productID", productId)
     navigate("/product1-simple");
   };
   useEffect(() => {
@@ -29,7 +31,11 @@ function Content(props) {
       getAllProduct();
     }, 1000);
   }, []);
-
+  useEffect(() => {
+    if (props?.data) {
+      setAllProduct(props?.data);
+    }
+  }, [props])
   const getAllProduct = () => {
     setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
@@ -57,8 +63,6 @@ function Content(props) {
         setIsLoader(false);
       });
   };
-
-
   const addToWishlist = (productId) => {
     window.scrollTo(0, 0);
     setIsLoader(true)
@@ -76,7 +80,7 @@ function Content(props) {
       data: data
     }).then((res) => {
       setIsLoader(false)
-      if (res.data.success == true) {
+      if (res?.data?.success == true) {
         MESSAGE.success(res?.data?.message)
         getAllProduct()
       } else {
@@ -87,7 +91,6 @@ function Content(props) {
       console.log(err)
     })
   };
-
   const filterProducts = (val) => {
     const token = JSON.parse(localStorage.getItem("token"));
     setIsLoader(true);
@@ -113,147 +116,174 @@ function Content(props) {
         setIsLoader(false);
       });
   };
+  const searchPage = (val) => {
+    window.scrollTo(0, 0)
+    const data = allProduct?.filter((item) => {
+      if ((item?.product_name?.toLowerCase())?.includes(val?.toLowerCase())) { return item; }
+    })
+    setAllProduct(data)
+  }
+
   return (
-    <div>
-      <div className="tab-content pt-2" id="collections-tab-content">
-        {isLoader == true ? (
-          <div className="custom-loader"></div>
-        ) : allProduct?.length != 0 ? (
+    <>
+      <section className="products-grid container">
 
-          <>
-            <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
-              <li className="nav-item" role="presentation">
-                <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={() => setShow("buy")}>Buy</a>
-              </li>
-              <li className="nav-item" role="presentation">
-                <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true" onClick={() => setShow("rent")}>Rent</a>
-              </li>
+        <div>
+          <div className="tab-content pt-2" id="collections-tab-content">
+            {isLoader == true ? (
+              <div className="custom-loader"></div>
+            ) : allProduct?.length != 0 ? (
 
-            </ul>
+              <>
+                <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
+                  <li className="nav-item" role="presentation">
+                    <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={() => setShow("buy")}>Buy</a>
+                  </li>
+                  <li className="nav-item" role="presentation">
+                    <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true" onClick={() => setShow("rent")}>Rent</a>
+                  </li>
 
-            <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Featured <strong>Products</strong></h2>
-            <div className="shop-filter d-flex align-items-center order-0 order-md-3">
-              <button
-                className="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside"
-                onClick={() => setIsFilter(true)}
-                data-aside="shopFilter"
-              >
+                </ul>
 
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter d-inline-block align-middle me-2" viewBox="0 0 16 16">
-                  <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
-                </svg>
+                <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Featured <strong>Products</strong></h2>
+                <div className="shop-filter d-flex align-items-center order-0 order-md-3">
+                  <button
+                    className="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside"
+                    onClick={() => setIsFilter(true)}
+                    data-aside="shopFilter"
+                  >
 
-                <span className="text-uppercase fw-medium d-inline-block align-middle">
-                  Filter
-                </span>
-              </button>
-            </div>
-            <div
-              className={
-                isFilter == false
-                  ? "shop-sidebar side-sticky bg-body"
-                  : "shop-sidebar side-sticky bg-body aside_visible"
-              }
-              id="shopFilter"
-            >
-              <div className="aside-header d-flex pt-5 mt-5 align-items-center">
-                <h3 className="text-uppercase fs-6 mb-0">Filter By </h3>
-                <button
-                  className="btn-close-lg js-close-aside btn-close-aside ms-auto"
-                  onClick={() => setIsFilter(false)}
-                ></button>
-              </div>
-              <FilterBy handlefilter={(val) => filterProducts(val)} />
-            </div>
-            <div
-              className="tab-pane fade show active"
-              id="collections-tab-1"
-              role="tabpanel"
-              aria-labelledby="collections-tab-1-trigger"
-            >
-              <div
-                className="products-grid row row-cols-2 row-cols-md-4"
-                id="products-grid"
-              >
-                {
-                  allProduct?.map((item) => (
-                    item?.product_type == 'featured' &&
-                    item?.product_buy_rent == show &&
-                    <div className="product-card-wrapper">
-                      <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-                        <div className="pc__img-wrapper">
-                          <div
-                            className="swiper-container background-img js-swiper-slider"
-                            data-settings='{"resizeObserver": true}'
-                          >
-                            <Swiper
-                              spaceBetween={30}
-                              centeredSlides={true}
-                              autoplay={{
-                                delay: 30000,
-                                disableOnInteraction: false,
-                              }}
-                              pagination={{
-                                clickable: true,
-                              }}
-                              navigation={true}
-                              modules={[Autoplay, Pagination, Navigation]}
-                              className="mySwiper"
-                            >
-                              {item?.product_images?.map((obj, i) => (
-                                <SwiperSlide>
-                                  <a onClick={() => handleProduct1Simple(item?.id)}>
-                                    <img src={obj} />
-                                  </a>
-                                </SwiperSlide>
-                              ))}
-                            </Swiper>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter d-inline-block align-middle me-2" viewBox="0 0 16 16">
+                      <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
+                    </svg>
+
+                    <span className="text-uppercase fw-medium d-inline-block align-middle">
+                      Filter
+                    </span>
+                  </button>
+                </div>
+                <div
+                  className={
+                    isFilter == false
+                      ? "shop-sidebar side-sticky bg-body"
+                      : "shop-sidebar side-sticky bg-body aside_visible"
+                  }
+                  id="shopFilter"
+                >
+                  <div className="aside-header d-flex pt-5 mt-5 align-items-center">
+                    <h3 className="text-uppercase fs-6 mb-0">Filter By </h3>
+                    <button
+                      className="btn-close-lg js-close-aside btn-close-aside ms-auto"
+                      onClick={() => setIsFilter(false)}
+                    ></button>
+                  </div>
+                  <FilterBy handlefilter={(val) => filterProducts(val)} />
+                </div>
+                <div
+                  className="tab-pane fade show active"
+                  id="collections-tab-1"
+                  role="tabpanel"
+                  aria-labelledby="collections-tab-1-trigger"
+                >
+                  <div
+                    className="products-grid row row-cols-2 row-cols-md-4"
+                    id="products-grid"
+                  >
+                    {
+                      allProduct?.map((item) => (
+                        item?.product_type == 'featured' &&
+                        item?.product_buy_rent == show &&
+                        <div className="product-card-wrapper">
+                          <div className="product-card mb-3 mb-md-4 mb-xxl-5">
+                            <div className="pc__img-wrapper">
+                              <div
+                                className="swiper-container background-img js-swiper-slider"
+                                data-settings='{"resizeObserver": true}'
+                              >
+                                <Swiper
+                                  spaceBetween={30}
+                                  centeredSlides={true}
+                                  autoplay={{
+                                    delay: 30000,
+                                    disableOnInteraction: false,
+                                  }}
+                                  pagination={{
+                                    clickable: true,
+                                  }}
+                                  navigation={true}
+                                  modules={[Autoplay, Pagination, Navigation]}
+                                  className="mySwiper"
+                                >
+                                  {item?.product_images?.map((obj, i) => (
+                                    <SwiperSlide>
+                                      <a onClick={() => handleProduct1Simple(item?.id)}>
+                                        <img src={obj} />
+                                      </a>
+                                    </SwiperSlide>
+                                  ))}
+                                </Swiper>
+                              </div>
+                              <div className="ct_buy_rent_tag">
+                                <h4 className="mb-0">{item?.product_buy_rent?.charAt(0).toUpperCase() + item?.product_buy_rent?.slice(1)}</h4>
+                              </div>
+
+                            </div>
+                            <div className="pc__info position-relative">
+                              <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
+                              <h6 className="pc__title">
+                                <a onClick={() => handleProduct1Simple(item?.id)}>
+                                  {item?.product_buy_rent == 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0] && item?.product_size[0]?.size_top : item?.size_standard}</span>
+                                </a>
+                               
+                                <a onClick={() => handleProduct1Simple(item?.id)}>
+                                  {item?.product_buy_rent == 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item && item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
+                                </a>
+                              </h6>
+
+                              <div className="product-card__price d-flex">
+                                <span className="money price">
+                                  ${item?.price_sale_lend_price}
+                                </span>
+                              </div>
+                              <button
+                                onClick={() => addToWishlist(item?.id)}
+                                className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                title="Add To Wishlist"
+                              >
+                                <i
+                                  className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
+                                  style={item?.wishlist_like !== 0 ? { color: "red" } : null}
+                                ></i>{" "}
+                              </button>
+
+                            </div>
                           </div>
-                          <div className="ct_buy_rent_tag">
-                            <h4 className="mb-0">{item.product_buy_rent.charAt(0).toUpperCase() + item.product_buy_rent.slice(1)}</h4>
-                          </div>
-
                         </div>
-                        <div className="pc__info position-relative">
-                          <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
-                          <h6 className="pc__title">
-                            <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {item?.product_buy_rent === 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_top : item?.size_standard}</span>
-                            </a>
-                            <br />
-                            <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {item?.product_buy_rent === 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
-                            </a>
-                          </h6>
-
-                          <div className="product-card__price d-flex">
-                            <span className="money price">
-                              ${item?.price_sale_lend_price}
-                            </span>
-                          </div>
-                          <button
-                            onClick={() => addToWishlist(item?.id)}
-                            className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                            title="Add To Wishlist"
-                          >
-                            <i
-                              className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
-                              style={item?.wishlist_like !== 0 ? { color: "red" } : null}
-                            ></i>{" "}
-                          </button>
-
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-              </div>
+                      ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <h3 className="text-center mt-4">There is no product !!!</h3>
+            )}
+          </div>
+        </div>
+      </section>
+      <section className='mt-5 py-5 ' style={{ background: "#f5f5f5" }}>
+        <div className='container'>
+          <div className='col-md-8 mx-auto'>
+            <div className="block-newsletter">
+              <h3 className="block__title text-center ">Quick Search</h3>
+              {/* <p>Get the latest products and news update daily in fastest.</p> */}
+              <form className="block-newsletter__form">
+                <input value={quickSearch} onChange={(e) => setQuickSearch(e.target.value)} className="form-control" type="text" name="email" placeholder="Search " />
+                <button className="btn btn-secondary fw-medium" type="button" onClick={() => searchPage(quickSearch)}>Submit</button>
+              </form>
             </div>
-          </>
-        ) : (
-          <h3 className="text-center mt-4">There is no product !!!</h3>
-        )}
-      </div>
-    </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 

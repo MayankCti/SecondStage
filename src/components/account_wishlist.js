@@ -294,13 +294,13 @@ return (
                                 item?.product_buy_rent == 'buy' ? 
                                 <h6 className="pc__title">
                                 <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
+                                  onClick={() => handleProduct1Simple(item?.product_id)}
                                 >
                                   Size Top : <span>{item?.product_size[0]?.size_top}</span>
                                 </a>
                                 <br />
                                 <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
+                                  onClick={() => handleProduct1Simple(item?.product_id)}
                                 >
                                   Size Bottom : <span>{item?.product_size[0]?.size_bottom}</span>
                                 </a>
@@ -308,13 +308,13 @@ return (
                               :
                               <h6 className="pc__title">
                                 <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
+                                  onClick={() => handleProduct1Simple(item?.product_id)}
                                 >
                                   Size Standard : <span>{item?.size_standard}</span>
                                 </a>
                                 <br />
                                 <a
-                                  onClick={() => handleProduct1Simple(item?.id)}
+                                  onClick={() => handleProduct1Simple(item?.product_id)}
                                 >
                                   Rental Period : <span>{item?.product_rental_period}</span>
                              
