@@ -443,7 +443,40 @@ function SellLend() {
                                   <p className="pc__category">
                                     {item?.product_name ?? 'Product Name'}
                                   </p>
-                                  <h6 className="pc__title">
+                                  {
+                                    item?.size_standard && item?.size_standard != '0' ?
+                                      <>
+                                        <h6 className="pc__title">
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Standard {" "}
+                                            <span>
+                                              {item?.size_standard}
+                                            </span>
+                                          </a>
+                                        </h6>
+                                      </>
+                                      :
+                                      <>
+                                        <h6 className="pc__title">
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Top {" "}
+                                            <span>
+                                              {item?.product_size?.length > 0 &&
+                                                item?.product_size[0]?.size_top}
+                                            </span>
+                                          </a>
+                                          <br />
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Bottom {" "}
+                                            <span>
+                                              {item?.product_size?.length > 0 &&
+                                                item?.product_size[0]?.size_bottom}
+                                            </span>
+                                          </a>
+                                        </h6>
+                                      </>
+                                  }
+                                  {/* <h6 className="pc__title">
                                     <a onClick={() => handleProduct1Simple(item?.id)}>
                                       {item?.product_buy_rent == 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0] && item?.product_size[0]?.size_top : item?.size_standard}</span>
                                     </a>
@@ -451,7 +484,7 @@ function SellLend() {
                                     <a onClick={() => handleProduct1Simple(item?.id)}>
                                       {item?.product_buy_rent == 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item && item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
                                     </a>
-                                  </h6>
+                                  </h6> */}
                                   <div className="product-card__price d-flex">
                                     <span className="money price">
                                       ${item?.price_sale_lend_price}

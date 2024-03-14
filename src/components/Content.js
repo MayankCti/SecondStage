@@ -19,6 +19,7 @@ function Content(props) {
   const [show, setShow] = useState("buy")
   const navigate = useNavigate();
   const [quickSearch, setQuickSearch] = useState("")
+  const [isSearch,setIsSearch] = useState(false)
   const handleProduct1Simple = (productId) => {
 
     localStorage.setItem("productID", productId)
@@ -125,7 +126,7 @@ function Content(props) {
     })
     setSearchProducts(data)
   }
-
+  const filteredData = allProduct?.filter((item) => item?.product_type == 'featured' && item.product_buy_rent === show);
   return (
     <>
       <section className="products-grid container">
@@ -134,19 +135,21 @@ function Content(props) {
           <div className="tab-content pt-2" id="collections-tab-content">
             {isLoader == true ? (
               <div className="custom-loader"></div>
-            ) : allProduct?.length != 0 ? (
+            ) :
 
               <>
                 <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
                   <li className="nav-item" role="presentation">
-                    <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white" id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={() => {
+                    <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white " id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={() => {
                       setSearchProducts([])
-                      setShow("buy")}}>Buy</a>
+                      setShow("buy")
+                    }}>Buy</a>
                   </li>
                   <li className="nav-item" role="presentation">
                     <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true" onClick={() => {
                       setSearchProducts([])
-                      setShow("rent")}}>Rent</a>
+                      setShow("rent")
+                    }}>Rent</a>
                   </li>
 
                 </ul>
@@ -192,160 +195,218 @@ function Content(props) {
                   aria-labelledby="collections-tab-1-trigger"
                 >
                   <div
-                    className="products-grid row row-cols-2 row-cols-md-4"
+                    className={`products-grid row row-cols-2 ${filteredData?.length == '0' && searchProducts?.length == '0' && 'd-flex justify-content-center'} row-cols-md-4`}
                     id="products-grid"
                   >
                     {
                       searchProducts?.length == '0' ?
-                        allProduct?.map((item) => (
-                          item?.product_type == 'featured' &&
-                          item?.product_buy_rent == show &&
-                          <div className="product-card-wrapper">
-                            
-                            <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-                              <div className="pc__img-wrapper">
-                                <div
-                                  className="swiper-container background-img js-swiper-slider"
-                                  data-settings='{"resizeObserver": true}'
-                                >
-                                  <Swiper
-                                    spaceBetween={30}
-                                    centeredSlides={true}
-                                    autoplay={{
-                                      delay: 30000,
-                                      disableOnInteraction: false,
-                                    }}
-                                    pagination={{
-                                      clickable: true,
-                                    }}
-                                    navigation={true}
-                                    modules={[Autoplay, Pagination, Navigation]}
-                                    className="mySwiper"
+
+                        filteredData?.length != '0' ?
+                          (filteredData?.map((item) => (
+                            <div className="product-card-wrapper">
+
+                              <div className="product-card mb-3 mb-md-4 mb-xxl-5">
+                                <div className="pc__img-wrapper">
+                                  <div
+                                    className="swiper-container background-img js-swiper-slider"
+                                    data-settings='{"resizeObserver": true}'
                                   >
-                                    {item?.product_images?.map((obj, i) => (
-                                      <SwiperSlide>
-                                        <a onClick={() => handleProduct1Simple(item?.id)}>
-                                          <img src={obj} />
-                                        </a>
-                                      </SwiperSlide>
-                                    ))}
-                                  </Swiper>
+                                    <Swiper
+                                      spaceBetween={30}
+                                      centeredSlides={true}
+                                      autoplay={{
+                                        delay: 30000,
+                                        disableOnInteraction: false,
+                                      }}
+                                      pagination={{
+                                        clickable: true,
+                                      }}
+                                      navigation={true}
+                                      modules={[Autoplay, Pagination, Navigation]}
+                                      className="mySwiper"
+                                    >
+                                      {item?.product_images?.map((obj, i) => (
+                                        <SwiperSlide>
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            <img src={obj} />
+                                          </a>
+                                        </SwiperSlide>
+                                      ))}
+                                    </Swiper>
+                                  </div>
+                                  <div className="ct_buy_rent_tag">
+                                    <h4 className="mb-0">{item?.product_buy_rent?.charAt(0).toUpperCase() + item?.product_buy_rent?.slice(1)}</h4>
+                                  </div>
                                 </div>
-                                <div className="ct_buy_rent_tag">
-                                  <h4 className="mb-0">{item?.product_buy_rent?.charAt(0).toUpperCase() + item?.product_buy_rent?.slice(1)}</h4>
+                                <div className="pc__info position-relative">
+                                  <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
+                                  {
+                                    item?.size_standard && item?.size_standard != '0' ?
+                                      <>
+                                        <h6 className="pc__title">
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Standard {" "}
+                                            <span>
+                                              {item?.size_standard}
+                                            </span>
+                                          </a>
+
+
+                                        </h6>
+                                      </>
+                                      :
+                                      <>
+                                        <h6 className="pc__title">
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Top {" "}
+                                            <span>
+                                              {item?.product_size?.length > 0 &&
+                                                item?.product_size[0]?.size_top}
+                                            </span>
+                                          </a>
+                                          <br />
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Bottom {" "}
+                                            <span>
+                                              {item?.product_size?.length > 0 &&
+                                                item?.product_size[0]?.size_bottom}
+                                            </span>
+                                          </a>
+
+                                        </h6>
+                                      </>
+                                  }
+
+                                  <div className="product-card__price d-flex">
+                                    <span className="money price">
+                                      ${item?.price_sale_lend_price}
+                                    </span>
+                                  </div>
+                                  <button
+                                    onClick={() => addToWishlist(item?.id)}
+                                    className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                    title="Add To Wishlist"
+                                  >
+                                    <i
+                                      className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
+                                      style={item?.wishlist_like !== 0 ? { color: "red" } : null}
+                                    ></i>{" "}
+                                  </button>
+
                                 </div>
-
-                              </div>
-                              <div className="pc__info position-relative">
-                                <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
-                                <h6 className="pc__title">
-                                  <a onClick={() => handleProduct1Simple(item?.id)}>
-                                    {item?.product_buy_rent == 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0] && item?.product_size[0]?.size_top : item?.size_standard}</span>
-                                  </a>
-                                  <br />
-                                  <a onClick={() => handleProduct1Simple(item?.id)}>
-                                    {item?.product_buy_rent == 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item && item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
-                                  </a>
-                                </h6>
-
-                                <div className="product-card__price d-flex">
-                                  <span className="money price">
-                                    ${item?.price_sale_lend_price}
-                                  </span>
-                                </div>
-                                <button
-                                  onClick={() => addToWishlist(item?.id)}
-                                  className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                  title="Add To Wishlist"
-                                >
-                                  <i
-                                    className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
-                                    style={item?.wishlist_like !== 0 ? { color: "red" } : null}
-                                  ></i>{" "}
-                                </button>
-
                               </div>
                             </div>
-                          </div>
-                        ))
+                          )))
+                          :
+                          <h3 className="text-center  mt-4">There is no {show} product.!</h3>
                         :
-                        searchProducts?.map((item) => (
-                          item?.product_type == 'featured' &&
-                          <div className="product-card-wrapper">
-                           
-                            <div className="product-card mb-3 mb-md-4 mb-xxl-5">
-                              <div className="pc__img-wrapper">
-                                <div
-                                  className="swiper-container background-img js-swiper-slider"
-                                  data-settings='{"resizeObserver": true}'
-                                >
-                                  <Swiper
-                                    spaceBetween={30}
-                                    centeredSlides={true}
-                                    autoplay={{
-                                      delay: 30000,
-                                      disableOnInteraction: false,
-                                    }}
-                                    pagination={{
-                                      clickable: true,
-                                    }}
-                                    navigation={true}
-                                    modules={[Autoplay, Pagination, Navigation]}
-                                    className="mySwiper"
+                        searchProducts?.length != '0' ?
+                          (searchProducts?.map((item) => (
+                            item?.product_type == 'featured' &&
+                            <div className="product-card-wrapper">
+
+                              <div className="product-card mb-3 mb-md-4 mb-xxl-5">
+                                <div className="pc__img-wrapper">
+                                  <div
+                                    className="swiper-container background-img js-swiper-slider"
+                                    data-settings='{"resizeObserver": true}'
                                   >
-                                    {item?.product_images?.map((obj, i) => (
-                                      <SwiperSlide>
-                                        <a onClick={() => handleProduct1Simple(item?.id)}>
-                                          <img src={obj} />
-                                        </a>
-                                      </SwiperSlide>
-                                    ))}
-                                  </Swiper>
-                                </div>
-                                <div className="ct_buy_rent_tag">
-                                  <h4 className="mb-0">{item?.product_buy_rent?.charAt(0).toUpperCase() + item?.product_buy_rent?.slice(1)}</h4>
-                                </div>
+                                    <Swiper
+                                      spaceBetween={30}
+                                      centeredSlides={true}
+                                      autoplay={{
+                                        delay: 30000,
+                                        disableOnInteraction: false,
+                                      }}
+                                      pagination={{
+                                        clickable: true,
+                                      }}
+                                      navigation={true}
+                                      modules={[Autoplay, Pagination, Navigation]}
+                                      className="mySwiper"
+                                    >
+                                      {item?.product_images?.map((obj, i) => (
+                                        <SwiperSlide>
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            <img src={obj} />
+                                          </a>
+                                        </SwiperSlide>
+                                      ))}
+                                    </Swiper>
+                                  </div>
+                                  <div className="ct_buy_rent_tag">
+                                    <h4 className="mb-0">{item?.product_buy_rent?.charAt(0).toUpperCase() + item?.product_buy_rent?.slice(1)}</h4>
+                                  </div>
 
-                              </div>
-                              <div className="pc__info position-relative">
-                                <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
-                                <h6 className="pc__title">
-                                  <a onClick={() => handleProduct1Simple(item?.id)}>
-                                    {item?.product_buy_rent == 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0] && item?.product_size[0]?.size_top : item?.size_standard}</span>
-                                  </a>
-                                  <br />
-                                  <a onClick={() => handleProduct1Simple(item?.id)}>
-                                    {item?.product_buy_rent == 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item && item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
-                                  </a>
-                                </h6>
-
-                                <div className="product-card__price d-flex">
-                                  <span className="money price">
-                                    ${item?.price_sale_lend_price}
-                                  </span>
                                 </div>
-                                <button
-                                  onClick={() => addToWishlist(item?.id)}
-                                  className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                  title="Add To Wishlist"
-                                >
-                                  <i
-                                    className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
-                                    style={item?.wishlist_like !== 0 ? { color: "red" } : null}
-                                  ></i>{" "}
-                                </button>
+                                <div className="pc__info position-relative">
+                                  <p className="pc__category">{item?.product_name ?? 'Product Name'}</p>
 
+                                  {
+                                    item?.size_standard && item?.size_standard != '0' ?
+                                      <>
+                                        <h6 className="pc__title">
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Standard {" "}
+                                            <span>
+                                              {item?.size_standard}
+                                            </span>
+                                          </a>
+
+
+                                        </h6>
+                                      </>
+                                      :
+                                      <>
+                                        <h6 className="pc__title">
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Top {" "}
+                                            <span>
+                                              {item?.product_size?.length > 0 &&
+                                                item?.product_size[0]?.size_top}
+                                            </span>
+                                          </a>
+                                          <br />
+                                          <a onClick={() => handleProduct1Simple(item?.id)}>
+                                            Size Bottom {" "}
+                                            <span>
+                                              {item?.product_size?.length > 0 &&
+                                                item?.product_size[0]?.size_bottom}
+                                            </span>
+                                          </a>
+
+                                        </h6>
+                                      </>
+                                  }
+
+
+                                  <div className="product-card__price d-flex">
+                                    <span className="money price">
+                                      ${item?.price_sale_lend_price}
+                                    </span>
+                                  </div>
+                                  <button
+                                    onClick={() => addToWishlist(item?.id)}
+                                    className="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                    title="Add To Wishlist"
+                                  >
+                                    <i
+                                      className={item?.wishlist_like === 0 ? "fa-regular fa-heart" : "fa-solid fa-heart"}
+                                      style={item?.wishlist_like !== 0 ? { color: "red" } : null}
+                                    ></i>{" "}
+                                  </button>
+
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))
+                          )))
+                          :
+                          (<h3 className="text-center  mt-4">The product name you searched for does not exist.</h3>)
                     }
                   </div>
                 </div>
               </>
-            ) : (
-              <h3 className="text-center mt-4">There is no product !!!</h3>
-            )}
+            }
           </div>
         </div>
       </section>

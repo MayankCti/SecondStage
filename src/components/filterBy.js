@@ -453,7 +453,7 @@ function FilterBy(props) {
                           data-bs-parent="#size-filters"
                         >
                           <div className="accordion-body px-0 pb-0">
-                            <ul className="d-flex flex-wrap ct_list_style_none ps-2">
+                            <ul className="ct_list_style_none ps-2">
                               {
                                 filterContent?.sizeStandard?.map((item) => (
                                   <li className="list-item d-flex align-items-center">

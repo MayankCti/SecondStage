@@ -272,6 +272,7 @@ function UserRegister() {
                                         id="customerNameEmailInput"
                                         placeholder="Email Name*"
                                         required=""
+                                        autofill={false}
                                       />
                                       <label htmlFor="customerNameEmailInput">Name*</label>
                                       <span style={{ color: "red" }}>{errors.buyer_name && touched.buyer_name && errors.buyer_name}</span>
@@ -290,6 +291,7 @@ function UserRegister() {
                                         id="customerNameEmailInput"
                                         placeholder="Email Create Username*"
                                         required=""
+                                        autofill={false}
                                       />
                                       <label htmlFor="customerNameEmailInput">
                                         Create Username*
@@ -334,6 +336,7 @@ function UserRegister() {
                                           id="customerNameEmailInput"
                                           placeholder="Email Phone*"
                                           required=""
+                                          autofill={false}
                                         />
                                         <label htmlFor="customerNameEmailInput">Phone*</label>
                                         <span style={{ color: "red" }}>{errors.phone_number && touched.phone_number && errors.phone_number}</span>
@@ -353,6 +356,7 @@ function UserRegister() {
                                         id="customerNameEmailInput"
                                         placeholder="Email Licence Number *"
                                         required=""
+                                        autofill={false}
                                       />
                                       <label htmlFor="customerNameEmailInput">
                                         Licence Number *

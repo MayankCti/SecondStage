@@ -23,7 +23,8 @@ function CategoryContent(props) {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
-    if (!token) {
+    const randomeUserId = Cookies.get('RandomUserId');
+    if (!token && randomeUserId) {
       const length = 6;
       let charset = "1234567890";
       let retVal = "";
@@ -261,8 +262,9 @@ function CategoryContent(props) {
                   className="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0 "
                   aria-label="Sort Items"
                   name="total-number"
+                  defaultValue="Sort by"
                 >
-                  <option selected value='Sort by'>Sort by</option>
+                  <option disabled hidden value='Sort by'>Sort by</option>
                   <option value="4" >Featured</option>
                   <option value="3">newest/oldest</option>
                   <option value="2">price high/low, </option>
@@ -351,7 +353,40 @@ function CategoryContent(props) {
 
                               </p>
 
-                              <h6 className="pc__title">
+                              {
+                                item?.size_standard && item?.size_standard != '0' ?
+                                  <>
+                                    <h6 className="pc__title">
+                                      <a onClick={() => handleProduct1Simple(item?.id)}>
+                                        Size Standard {" "}
+                                        <span>
+                                          {item?.size_standard}
+                                        </span>
+                                      </a>
+                                    </h6>
+                                  </>
+                                  :
+                                  <>
+                                    <h6 className="pc__title">
+                                      <a onClick={() => handleProduct1Simple(item?.id)}>
+                                        Size Top {" "}
+                                        <span>
+                                          {item?.product_size?.length > 0 &&
+                                            item?.product_size[0]?.size_top}
+                                        </span>
+                                      </a>
+                                      <br/>
+                                      <a onClick={() => handleProduct1Simple(item?.id)}>
+                                        Size Bottom {" "}
+                                        <span>
+                                          {item?.product_size?.length > 0 &&
+                                            item?.product_size[0]?.size_bottom}
+                                        </span>
+                                      </a>
+                                    </h6>
+                                  </>
+                              }
+                              {/* <h6 className="pc__title">
                                 <a onClick={() => handleProduct1Simple(item?.id)}>
                                   {item?.product_buy_rent === 'buy' ? 'Size Top' : 'Size Standard'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_top : item?.size_standard}</span>
                                 </a>
@@ -359,7 +394,7 @@ function CategoryContent(props) {
                                 <a onClick={() => handleProduct1Simple(item?.id)}>
                                   {item?.product_buy_rent === 'buy' ? 'Size Bottom' : 'Rental Period'} : <span>{item?.product_buy_rent === 'buy' ? item?.product_size[0]?.size_bottom : item?.product_rental_period}</span>
                                 </a>
-                              </h6>
+                              </h6> */}
                               <div className="product-card__price d-flex">
                                 <span className="money price">
                                   ${item?.price_sale_lend_price}

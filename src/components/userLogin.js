@@ -267,7 +267,7 @@ function UserLogin() {
                                                             </div>
                                                             <div className="pb-3"></div>
                                                             <div className="form-floating mb-3 position-relative">
-                                                                <input name="password" onBlur={handleBlur} onChange={handleChange} type={eye ? 'password' : 'text'} value={values.password} className="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required />
+                                                                <input name="password" autofill={false} onBlur={handleBlur} onChange={handleChange} type={eye ? 'password' : 'text'} value={values.password} className="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required />
 
                                                                 <i className={`fa-solid ct_pass_eye ${!eye ? 'fa-eye-slash' : 'fa-eye'}`} onClick={() => setEye(!eye)}></i>
 

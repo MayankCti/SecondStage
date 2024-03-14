@@ -486,17 +486,20 @@ function Shop_cart() {
                                     <li>
                                       Product Type : {item?.product_buy_rent}
                                     </li>
-                                    {item?.product_buy_rent == "rent" ? (
+                                    {item?.size_standard && item?.size_standard != '0' ? (
                                       <>
-                                        <li>
-                                          rent for : {item?.total_rend_days}{" "}
-                                          {item?.total_rend_days == "1"
-                                            ? "day"
-                                            : "days"}{" "}
-                                        </li>
                                         <li>
                                           Size Standard: {item?.size_standard}
                                         </li>
+                                        {
+                                          item?.product_buy_rent == "rent" &&
+                                          <li>
+                                                Rent for : {item?.total_rend_days}{" "}
+                                                {item?.total_rend_days == "1"
+                                                  ? "day"
+                                                  : "days"}{" "}
+                                              </li>
+                                        }
                                       </>
                                     ) : (
                                       <>
@@ -504,8 +507,18 @@ function Shop_cart() {
                                         <li>
                                           Size bottom: {item?.size_bottom}
                                         </li>
+                                        {
+                                          item?.product_buy_rent == "rent" &&
+                                          <li>
+                                                Rent for : {item?.total_rend_days}{" "}
+                                                {item?.total_rend_days == "1"
+                                                  ? "day"
+                                                  : "days"}{" "}
+                                              </li>
+                                        }
                                       </>
                                     )}
+                                    
                                   </ul>
                                 </div>
                               </td>
@@ -621,8 +634,9 @@ function Shop_cart() {
           </main>
           <div className="mb-5 pb-xl-5"></div>
           <Footer />
-        </div>
-      )}
+        </div >
+      )
+}
     </>
   );
 }

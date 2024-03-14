@@ -50,7 +50,7 @@ function Index() {
     }
     else {
       const uuid = uuidv4();
-      generateToken(uuid)
+      if (!randomeUserId) generateToken(uuid)
     }
 
   }, [])

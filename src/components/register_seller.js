@@ -87,11 +87,11 @@ function Register_seller() {
     if (token == null) {
       navigate('/login')
     } else {
-      if (categoryOption == "Bikini" || categoryOption == "Figure" || categoryOption == "fmg_wbff" || categoryOption == "Accessories/Shoes") {
+      if (categoryOption == "Bikini" || categoryOption == "Figure" || categoryOption == "FMG_WBFF") {
         setIsSizeTopBottom(true)
         setIsSizeShow(false)
       }
-      else if (categoryOption == "Swimsuit" || categoryOption == "Themewear") {
+      else if (categoryOption == "Swimsuit" || categoryOption == "Themewear" || categoryOption == "Accessories_Shoes") {
         setIsSizeTopBottom(false)
         // setIsSizeTopBottom(true)
         setIsSizeShow(true)
@@ -682,10 +682,10 @@ function Register_seller() {
                 >
                   <ul className="nav nav-tabs mb-3 text-uppercase ct_active_btn1 justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
                     <li className="nav-item" role="presentation">
-                      <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white ${product == 'product' ? 'ct_active_1': ''}`} onClick={() => setProduct("product")}>Product</a>
+                      <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white ${product == 'product' ? '' : 'ct_active_1'}`} onClick={() => setProduct("product")}>Product</a>
                     </li>
                     <li className="nav-item" role="presentation">
-                      <a className={` nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100 ${product == 'featured' ? 'ct_active_1' : ''}`} onClick={() => setProduct("featured")}>Featured Product</a>
+                      <a className={` nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100 ${product == 'featured' ? '' : 'ct_active_1'}`} onClick={() => setProduct("featured")}>Featured Product</a>
                     </li>
 
                   </ul>
@@ -1257,7 +1257,7 @@ function Register_seller() {
                             </div>
                           </div>
                         </div>
-                        
+
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -1300,42 +1300,42 @@ function Register_seller() {
                   </div>
                   {/* Location && condition && Upload Image*/}
                   <div className="row">
-                  <div className="col-md-6">
-                          <div className="search-field mb-3">
-                            <div className={isBlingCondition == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
-                              <label
-                                htmlFor="search-dropdown4"
-                                className="form-label"
-                              >
-                                Condition{" "}
-                              </label>
-                              <div className="js-hover__open" onClick={() => setIsBlingCondition(!isBlingCondition)}>
-                                <input
-                                  type="text"
-                                  className="form-control form-control-lg search-field__actor search-field__arrow-down"
-                                  id="search-dropdown4"
-                                  name="search-keyword"
-                                  readonly=""
-                                  value={blingConditionOption}
-                                />
-                              </div>
-                              <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
-                                <ul className="search-suggestion list-unstyled">
+                    <div className="col-md-6">
+                      <div className="search-field mb-3">
+                        <div className={isBlingCondition == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                          <label
+                            htmlFor="search-dropdown4"
+                            className="form-label"
+                          >
+                            Condition{" "}
+                          </label>
+                          <div className="js-hover__open" onClick={() => setIsBlingCondition(!isBlingCondition)}>
+                            <input
+                              type="text"
+                              className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                              id="search-dropdown4"
+                              name="search-keyword"
+                              readonly=""
+                              value={blingConditionOption}
+                            />
+                          </div>
+                          <div className="filters-container js-hidden-content mt-2" onClick={() => setIsBlingCondition(!isBlingCondition)}>
+                            <ul className="search-suggestion list-unstyled">
 
-                                  {
-                                    filterContent?.billingCondition?.map((item) => (
-                                      <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption(item)}>
-                                        <a className=" mb-3 me-3 js-filter">
-                                          {item}
-                                        </a>
-                                      </li>
-                                    ))
-                                  }
-                                </ul>
-                              </div>
-                            </div>
+                              {
+                                filterContent?.billingCondition?.map((item) => (
+                                  <li className="search-suggestion__item js-search-select" onClick={() => setBlingConditionOption(item)}>
+                                    <a className=" mb-3 me-3 js-filter">
+                                      {item}
+                                    </a>
+                                  </li>
+                                ))
+                              }
+                            </ul>
                           </div>
                         </div>
+                      </div>
+                    </div>
                     <div className="col-md-6">
                       <div className="search-field mb-3">
                         <div className={isLocation == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>

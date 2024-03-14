@@ -4,7 +4,7 @@ const ProductInfo = ({ label, value }) => {
   return (
     <div className="item">
       <label className="h6">{label}</label>
-      <span>{value}</span>
+      <span>{label=='Price' && "$ "}{value}</span>
     </div>
   );
 };

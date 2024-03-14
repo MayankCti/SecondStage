@@ -30,12 +30,8 @@ function Header(props) {
 
   const [state, setState] = useState([
     {
-      startDate: new Date(
-        "Wed Feb 20 2024 00:00:00 GMT+0530 (India Standard Time)"
-      ),
-      endDate: new Date(
-        "Wed Feb 21 2024 00:00:00 GMT+0530 (India Standard Time)"
-      ),
+      startDate: new Date(),
+      endDate: new Date(),
       key: "selection",
     },
   ]);
@@ -463,6 +459,12 @@ function Header(props) {
                         placeholder="Search products"
                         value={searchProduct}
                         onChange={(e) => setSearchProduct(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleSearchProduct();
+                          }
+                        }}
                       />
                       <button
                         onClick={() => handleSearchProduct()}
@@ -597,8 +599,8 @@ function Header(props) {
                           props?.data_value?.profile_image
                             ? props?.data_value?.profile_image
                             : profileData?.profile_image
-                            ? profileData?.profile_image
-                            : "/images/buyer_profile.png"
+                              ? profileData?.profile_image
+                              : "/images/buyer_profile.png"
                         }
                       />
                       <p className="mb-0">
@@ -743,27 +745,8 @@ function Header(props) {
                           {/* <label> {item?.product_color[0]}</label> */}
                         </p>
                       </div>
-                      {item?.product_buy_rent == "buy" ? (
-                        <>
-                          <div>
-                            <p className="d-flex align-items-center gap-2  cart-drawer-item__option text-secondary">
-                              {/* Size: {item?.product_size[0]?.size_bottom} */}
-                              <label>Size Top :&nbsp;</label>
-                              <label>
-                                {item?.product_size[0]?.size_bottom}
-                              </label>
-                            </p>
-                          </div>
-                          <div>
-                            <p className="d-flex align-items-center gap-2 cart-drawer-item__option text-secondary">
-                              <label>Size Bottom :&nbsp;</label>
-                              <label>
-                                {item?.product_size[0]?.size_bottom}
-                              </label>
-                            </p>
-                          </div>
-                        </>
-                      ) : (
+                      {item?.size_standard && item?.size_standard != '0' ? (
+
                         <>
                           <div>
                             <p className="cart-drawer-item__option text-secondary">
@@ -771,14 +754,61 @@ function Header(props) {
                               <label>Size Standard </label>
                               <label>{item?.size_standard}</label>
                             </p>
+
                           </div>
+                          {
+                            item?.product_buy_rent == "rent" &&
+                            <div>
+                              <p className="cart-drawer-item__option text-secondary">
+                                {/* Size: {item?.product_size[0]?.size_bottom} */}
+                                <label> Rent for :</label>
+                                <label>{item?.total_rend_days}{" "}
+                                  {item?.total_rend_days == "1"
+                                    ? "day"
+                                    : "days"}{" "}</label>
+                              </p>
+
+                            </div>
+
+                          }
+
+                        </>
+                      ) : (
+                        <>
                           <div>
-                            <p className="cart-drawer-item__option text-secondary">
+                            <p className="d-flex align-items-center gap-2  cart-drawer-item__option text-secondary">
                               {/* Size: {item?.product_size[0]?.size_bottom} */}
-                              <label>Rental Period </label>
-                              <label>{item?.product_rental_period}</label>
+                              <label>Size Top :&nbsp;</label>
+                              <label>
+                                {item?.product_size?.length > 0 &&
+                                  item?.product_size[0]?.size_top}
+                              </label>
                             </p>
                           </div>
+                          <div>
+                            <p className="d-flex align-items-center gap-2 cart-drawer-item__option text-secondary">
+                              <label>Size Bottom :&nbsp;</label>
+                              <label>
+                                {item?.product_size?.length > 0 &&
+                                  item?.product_size[0]?.size_bottom}
+                              </label>
+                            </p>
+                          </div>
+                          {
+                            item?.product_buy_rent == "rent" &&
+                            <div>
+                              <p className="cart-drawer-item__option text-secondary">
+                                {/* Size: {item?.product_size[0]?.size_bottom} */}
+                                <label> Rent for :</label>
+                                <label>{item?.total_rend_days}{" "}
+                                  {item?.total_rend_days == "1"
+                                    ? "day"
+                                    : "days"}{" "}</label>
+                              </p>
+
+                            </div>
+
+                          }
                         </>
                       )}
                     </div>

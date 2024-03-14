@@ -192,11 +192,11 @@ function Product1_simple(props) {
       type == "buy"
         ? size_bottom && size_top && color
         : size_bottom &&
-          size_top &&
-          color &&
-          startDate &&
-          endDate &&
-          total_rend_days
+        size_top &&
+        color &&
+        startDate &&
+        endDate &&
+        total_rend_days
     ) {
       axios({
         method: "post",
@@ -205,11 +205,11 @@ function Product1_simple(props) {
           type === "buy"
             ? data
             : {
-                ...data,
-                start_date: `${startDate}`,
-                end_date: `${endDate}`,
-                total_rend_days: `${total_rend_days}`,
-              },
+              ...data,
+              start_date: `${startDate}`,
+              end_date: `${endDate}`,
+              total_rend_days: `${total_rend_days}`,
+            },
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -575,7 +575,7 @@ function Product1_simple(props) {
                               height="16"
                               viewBox="0 0 16 16"
                               fill="none"
-                              // xmlns={item}
+                            // xmlns={item}
                             >
                               <use href="#icon_zoom" />
                             </svg>
@@ -700,57 +700,89 @@ function Product1_simple(props) {
                           </div>
 
                           <div className="product-single__swatches">
-                            <div className="product-swatch text-swatches">
-                              <label>Size Top</label>
-                              <div className="swatch-list">
-                                {product?.product_size?.map((item) => (
-                                  <>
-                                    <input
-                                      type="radio"
-                                      name="size"
-                                      id="swatch-1"
-                                    />
-                                    <label
-                                      className="swatch js-swatch ct_size_active"
-                                      for="swatch-1"
-                                      aria-label="Extra Small"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Extra Small"
-                                    >
-                                      {item?.size_top}
-                                    </label>
-                                  </>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="product-swatch text-swatches">
-                              <label>Size Bottom</label>
-                              <div className="swatch-list">
-                                {product?.product_size?.map((item) => (
-                                  <>
-                                    <input
-                                      type="radio"
-                                      name="size"
-                                      id="swatch-1"
-                                    />
-                                    <label
-                                      className="swatch js-swatch ct_size_active"
-                                      for="swatch-1"
-                                      aria-label="Extra Small"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Extra Small"
-                                    >
-                                      {item?.size_bottom}
-                                    </label>
-                                  </>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="product-swatch text-swatches">
+
+                            {
+                              product?.size_standard && product?.size_standard != '0' ?
+                                <>
+                                  <div className="product-swatch text-swatches">
+                                    <label>Size Standard</label>
+                                    <div className="swatch-list">
+                                      <>
+                                        <input
+                                          type="radio"
+                                          name="size"
+                                          id="swatch-1"
+                                        />
+                                        <label
+                                          className="swatch js-swatch ct_size_active"
+                                          for="swatch-1"
+                                          aria-label="Extra Small"
+                                          data-bs-toggle="tooltip"
+                                          data-bs-placement="top"
+                                          title=""
+                                          data-bs-original-title="Extra Small"
+                                        >
+                                          {product?.size_standard}
+                                        </label>
+                                      </>
+                                    </div>
+                                  </div>
+                                </>
+                                :
+                                <>
+                                  <div className="product-swatch text-swatches">
+                                    <label>Size Top</label>
+                                    <div className="swatch-list">
+                                      {product?.product_size?.map((item) => (
+                                        <>
+                                          <input
+                                            type="radio"
+                                            name="size"
+                                            id="swatch-1"
+                                          />
+                                          <label
+                                            className="swatch js-swatch ct_size_active"
+                                            for="swatch-1"
+                                            aria-label="Extra Small"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title=""
+                                            data-bs-original-title="Extra Small"
+                                          >
+                                            {item?.size_top}
+                                          </label>
+                                        </>
+                                      ))}
+                                    </div>
+                                  </div>
+                                  <div className="product-swatch text-swatches">
+                                    <label>Size Bottom</label>
+                                    <div className="swatch-list">
+                                      {product?.product_size?.map((item) => (
+                                        <>
+                                          <input
+                                            type="radio"
+                                            name="size"
+                                            id="swatch-1"
+                                          />
+                                          <label
+                                            className="swatch js-swatch ct_size_active"
+                                            for="swatch-1"
+                                            aria-label="Extra Small"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title=""
+                                            data-bs-original-title="Extra Small"
+                                          >
+                                            {item?.size_bottom}
+                                          </label>
+                                        </>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </>
+                            }
+                            <div className="product-swatch text-swatches  d-flex align-items-center">
                               <label>Color</label>
                               <div className="swatch-list">
                                 <div className="d-flex align-items-center mt-1">
@@ -770,26 +802,7 @@ function Product1_simple(props) {
                                     }}
                                   ></a>
                                 </div>
-                                {/* {product?.product_color?.map((item) => (
-                                  <>
-                                    <input
-                                      type="radio"
-                                      name="size"
-                                      id="swatch-1"
-                                    />
-                                    <label
-                                      className="swatch js-swatch ct_size_active"
-                                      for="swatch-1"
-                                      aria-label="Extra Small"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Extra Small"
-                                    >
-                                      {item}
-                                    </label>
-                                  </>
-                                ))} */}
+
                               </div>
                             </div>
                           </div>
@@ -816,15 +829,13 @@ function Product1_simple(props) {
                                 title="Add To Wishlist"
                               >
                                 <i
-                                  className={`fa-heart ${
-                                    product?.wishlist_like == 0
-                                      ? "fa-regular"
-                                      : "fa-solid"
-                                  }`}
+                                  className={`fa-heart ${product?.wishlist_like == 0
+                                    ? "fa-regular"
+                                    : "fa-solid"
+                                    }`}
                                   style={{
-                                    color: `${
-                                      product?.wishlist_like == 0 ? null : "red"
-                                    }`,
+                                    color: `${product?.wishlist_like == 0 ? null : "red"
+                                      }`,
                                   }}
                                 ></i>{" "}
                               </button>
@@ -890,61 +901,93 @@ function Product1_simple(props) {
                             />
                           </div>
                           <div className="product-single__swatches">
-                            <div className="product-swatch text-swatches">
-                              <label>Size Top</label>
-                              <div className="swatch-list">
-                                {product?.product_size?.map((item) => (
-                                  <>
-                                    <input
-                                      type="radio"
-                                      name="size"
-                                      id="swatch-1"
-                                    />
-                                    <label
-                                      className={
-                                        size_top != item?.size_top
-                                          ? "swatch js-swatch"
-                                          : "swatch js-swatch ct_size_active"
-                                      }
-                                      for="swatch-1"
-                                      aria-label="Extra Small"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Extra Small"
-                                    >
-                                      {item?.size_top}
-                                    </label>
-                                  </>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="product-swatch text-swatches">
-                              <label>Size Bottom</label>
-                              <div className="swatch-list">
-                                {product?.product_size?.map((item) => (
-                                  <>
-                                    <input
-                                      type="radio"
-                                      name="size"
-                                      id="swatch-1"
-                                    />
-                                    <label
-                                      className="swatch js-swatch ct_size_active"
-                                      for="swatch-1"
-                                      aria-label="Extra Small"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Extra Small"
-                                    >
-                                      {item?.size_bottom}
-                                    </label>
-                                  </>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="product-swatch text-swatches">
+                            {
+                              product?.size_standard && product?.size_standard != '0' ?
+                                <>
+                                  <div className="product-swatch text-swatches">
+                                    <label>Size Standard</label>
+                                    <div className="swatch-list">
+                                      <>
+                                        <input
+                                          type="radio"
+                                          name="size"
+                                          id="swatch-1"
+                                        />
+                                        <label
+                                          className="swatch js-swatch ct_size_active"
+                                          for="swatch-1"
+                                          aria-label="Extra Small"
+                                          data-bs-toggle="tooltip"
+                                          data-bs-placement="top"
+                                          title=""
+                                          data-bs-original-title="Extra Small"
+                                        >
+                                          {product?.size_standard}
+                                        </label>
+                                      </>
+                                    </div>
+                                  </div>
+                                </>
+                                :
+                                <>
+                                  <div className="product-swatch text-swatches">
+                                    <label>Size Top</label>
+                                    <div className="swatch-list">
+                                      {product?.product_size?.map((item) => (
+                                        <>
+                                          <input
+                                            type="radio"
+                                            name="size"
+                                            id="swatch-1"
+                                          />
+                                          <label
+                                            className={
+                                              size_top != item?.size_top
+                                                ? "swatch js-swatch"
+                                                : "swatch js-swatch ct_size_active"
+                                            }
+                                            for="swatch-1"
+                                            aria-label="Extra Small"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title=""
+                                            data-bs-original-title="Extra Small"
+                                          >
+                                            {item?.size_top}
+                                          </label>
+                                        </>
+                                      ))}
+                                    </div>
+                                  </div>
+                                  <div className="product-swatch text-swatches">
+                                    <label>Size Bottom</label>
+                                    <div className="swatch-list">
+                                      {product?.product_size?.map((item) => (
+                                        <>
+                                          <input
+                                            type="radio"
+                                            name="size"
+                                            id="swatch-1"
+                                          />
+                                          <label
+                                            className="swatch js-swatch ct_size_active"
+                                            for="swatch-1"
+                                            aria-label="Extra Small"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title=""
+                                            data-bs-original-title="Extra Small"
+                                          >
+                                            {item?.size_bottom}
+                                          </label>
+                                        </>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </>
+                            }
+
+                            <div className="product-swatch text-swatches d-flex align-items-center">
                               <label>Color</label>
                               <div className="swatch-list">
                                 <a
@@ -962,42 +1005,13 @@ function Product1_simple(props) {
                                       `${product?.product_color[0]}`,
                                   }}
                                 ></a>
-                                {product?.product_color?.map((item) => (
-                                  <>
-                                    <input
-                                      type="radio"
-                                      name="size"
-                                      id="swatch-1"
-                                    />
-                                    <label
-                                      className="swatch js-swatch ct_size_active"
-                                      for="swatch-1"
-                                      aria-label="Extra Small"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Extra Small"
-                                    >
-                                      {item}
-                                    </label>
-                                  </>
-                                ))}
+                                
                               </div>
                             </div>
                           </div>
                           <form name="addtocart-form">
                             <div className="product-single__addtocart">
-                              {/* <div className="qty-control position-relative">
-                              <input
-                                type="number"
-                                name="quantity"
-                                value={qty}
-                                min={1}
-                                className="qty-control__number text-center"
-                              />
-                              <div className="qty-control__reduce" onClick={() => qtyDnc()}>-</div>
-                              <div className="qty-control__increase" onClick={() => qtyInc()}>+</div>
-                            </div> */}
+
                               <button
                                 type="button"
                                 className="btn btn-primary btn-addtocart js-open-aside"
@@ -1019,15 +1033,13 @@ function Product1_simple(props) {
                                 title="Add To Wishlist"
                               >
                                 <i
-                                  className={`fa-heart ${
-                                    product?.wishlist_like == 0
-                                      ? "fa-regular"
-                                      : "fa-solid"
-                                  }`}
+                                  className={`fa-heart ${product?.wishlist_like == 0
+                                    ? "fa-regular"
+                                    : "fa-solid"
+                                    }`}
                                   style={{
-                                    color: `${
-                                      product?.wishlist_like == 0 ? null : "red"
-                                    }`,
+                                    color: `${product?.wishlist_like == 0 ? null : "red"
+                                      }`,
                                   }}
                                 ></i>{" "}
                               </button>
@@ -1125,7 +1137,17 @@ function Product1_simple(props) {
                     />
 
                     <>
-                      <ProductInfo
+
+                      {
+                        product?.size_standard && product?.size_standard != '0' ? <ProductInfo label={"Size Standard"} value={product?.size_standard} /> : <>
+
+                          <ProductInfo label={"Size Top"} value={product?.product_size?.length > 0 &&
+                            product?.product_size[0]?.size_top} />
+                          <ProductInfo label={"Size Bottom"} value={product?.product_size?.length > 0 &&
+                            product?.product_size[0]?.size_bottom} />
+                        </>
+                      }
+                      {/* <ProductInfo
                         label={
                           product?.product_buy_rent === "rent"
                             ? "Size Standard"
@@ -1150,38 +1172,31 @@ function Product1_simple(props) {
                             : product?.product_size?.length > 0 &&
                               product?.product_size[0]?.size_bottom
                         }
-                      />
+                      /> */}
                     </>
 
-                    <div className="item">
+                    <div className="item d-flex align-items-center ">
                       <label className="h6">Color</label>
-              
-                        <a
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title={
+
+                      <a
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title={
+                          product &&
+                          product?.product_color?.length > 0 &&
+                          `${product?.product_color[0]}`
+                        }
+                        class="swatch-color swatch_active pc__swatch-color mb-0"
+                        style={{
+                          color:
                             product &&
                             product?.product_color?.length > 0 &&
-                            `${product?.product_color[0]}`
-                          }
-                          class="swatch-color swatch_active pc__swatch-color"
-                          style={{
-                            color:
-                              product &&
-                              product?.product_color?.length > 0 &&
-                              `${product?.product_color[0]}`,
-                          }}
-                        ></a>
-                      
+                            `${product?.product_color[0]}`,
+                        }}
+                      ></a>
+
                     </div>
-                    <ProductInfo
-                      label={"Color"}
-                      value={
-                        product &&
-                        product?.product_color?.length > 0 &&
-                        product?.product_color[0]
-                      }
-                    />
+                    
                     <ProductInfo label={"Location"} value={product?.location} />
                     <ProductInfo
                       label={"Brand"}
@@ -1233,31 +1248,40 @@ function Product1_simple(props) {
                           <p className="pc__category">
                             {item?.product_name ?? "Product Name"}
                           </p>
-                          <h6 className="pc__title">
-                            <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {item?.product_buy_rent === "buy"
-                                ? "Size Top"
-                                : "Size Standard"}{" "}
-                              :{" "}
-                              <span>
-                                {item?.product_buy_rent === "buy"
-                                  ? item?.product_size[0]?.size_top
-                                  : item?.size_standard}
-                              </span>
-                            </a>
-                            <br />
-                            <a onClick={() => handleProduct1Simple(item?.id)}>
-                              {item?.product_buy_rent === "buy"
-                                ? "Size Bottom"
-                                : "Rental Period"}{" "}
-                              :{" "}
-                              <span>
-                                {item?.product_buy_rent === "buy"
-                                  ? item?.product_size[0]?.size_bottom
-                                  : item?.product_rental_period}
-                              </span>
-                            </a>
-                          </h6>
+                          {
+                            product?.size_standard && product?.size_standard != '0' ?
+                              <>
+                                <h6 className="pc__title">
+                                  <a onClick={() => handleProduct1Simple(item?.id)}>
+                                    Size Standard {" "}
+                                    <span>
+                                      {item?.size_standard}
+                                    </span>
+                                  </a>
+                                </h6>
+                              </>
+                              :
+                              <>
+                                <h6 className="pc__title">
+                                  <a onClick={() => handleProduct1Simple(item?.id)}>
+                                    Size Top {" "}
+                                    <span>
+                                    {product?.product_size?.length > 0 &&
+                                        product?.product_size[0]?.size_top}
+                                    </span>
+                                  </a>
+                                  <br/>
+                                  <a onClick={() => handleProduct1Simple(item?.id)}>
+                                    Size Bottom {" "}
+                                    <span>
+                                      {product?.product_size?.length > 0 &&
+                                        product?.product_size[0]?.size_bottom}
+                                    </span>
+                                  </a>
+                                </h6>
+                              </>
+                          }
+                         
                           <div className="product-card__price d-flex">
                             <span className="money price">
                               ${item?.price_sale_lend_price}

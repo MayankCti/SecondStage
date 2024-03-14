@@ -378,19 +378,20 @@ function PastOrder() {
                                               }}
                                             ></a>
                                           </li>
-                                          {obj?.product_buy_rent == "rent" ? (
+                                          {obj?.size_standard && obj?.size_standard != '0' ? (
                                             <>
                                               <li>
-                                                rent for :{" "}
-                                                {obj?.total_rend_days}{" "}
-                                                {obj?.total_rend_days == "1"
-                                                  ? "day"
-                                                  : "days"}{" "}
+                                                Size Standard: {obj?.size_standard}
                                               </li>
-                                              <li>
-                                                Size Standard:{" "}
-                                                {obj?.size_standard}
-                                              </li>
+                                              {
+                                                obj?.product_buy_rent == "rent" &&
+                                                <li>
+                                                  Rent for : {obj?.total_rend_days}{" "}
+                                                  {obj?.total_rend_days == "1"
+                                                    ? "day"
+                                                    : "days"}{" "}
+                                                </li>
+                                              }
                                             </>
                                           ) : (
                                             <>
@@ -398,6 +399,15 @@ function PastOrder() {
                                               <li>
                                                 Size bottom: {obj?.size_bottom}
                                               </li>
+                                              {
+                                                obj?.product_buy_rent == "rent" &&
+                                                <li>
+                                                  Rent for : {obj?.total_rend_days}{" "}
+                                                  {obj?.total_rend_days == "1"
+                                                    ? "day"
+                                                    : "days"}{" "}
+                                                </li>
+                                              }
                                             </>
                                           )}
                                           <li>
