@@ -206,31 +206,31 @@ function Product6_outofstock() {
                       
                       <SwiperSlide> <div className=" product-single__image-item">
                         <img loading="lazy" className="h-auto" src="images/products/product_1-1.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_1.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <a href="images/products/Accesories.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div></SwiperSlide>
                       <SwiperSlide> <div className=" product-single__image-item">
-                        <img loading="lazy" className="h-auto" src="images/products/product_1.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_1.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <img loading="lazy" className="h-auto" src="images/products/Accesories.jpg" width="674" height="674" alt="" />
+                        <a href="images/products/Accesories.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div></SwiperSlide>
                       <SwiperSlide> <div className=" product-single__image-item">
-                        <img loading="lazy" className="h-auto" src="images/products/product_2.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_1.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <img loading="lazy" className="h-auto" src="images/products/Themewear.jpg" width="674" height="674" alt="" />
+                        <a href="images/products/Accesories.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div></SwiperSlide>
                       <SwiperSlide> <div className=" product-single__image-item">
-                        <img loading="lazy" className="h-auto" src="images/products/product_3.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_1.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <img loading="lazy" className="h-auto" src="images/products/FMG-WBFF.jpg" width="674" height="674" alt="" />
+                        <a href="images/products/Accesories.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div></SwiperSlide>
                       <SwiperSlide> <div className=" product-single__image-item">
                         <img loading="lazy" className="h-auto" src="images/products/product_4.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_1.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <a href="images/products/Accesories.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div></SwiperSlide>
@@ -245,26 +245,26 @@ function Product6_outofstock() {
                   <div className="swiper-container">
                     <div className="swiper-wrapper">
                       <div className="swiper-slide product-single__image-item">
-                        <img loading="lazy" className="h-auto" src="images/products/product_1.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_1.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <img loading="lazy" className="h-auto" src="images/products/Accesories.jpg" width="674" height="674" alt="" />
+                        <a href="images/products/Accesories.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div>
                       <div className="swiper-slide product-single__image-item">
-                        <img loading="lazy" className="h-auto" src="images/products/product_2.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_2.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <img loading="lazy" className="h-auto" src="images/products/Themewear.jpg" width="674" height="674" alt="" />
+                        <a href="images/products/Themewear.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div>
                       <div className="swiper-slide product-single__image-item">
-                        <img loading="lazy" className="h-auto" src="images/products/product_2.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_2.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <img loading="lazy" className="h-auto" src="images/products/Themewear.jpg" width="674" height="674" alt="" />
+                        <a href="images/products/Themewear.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div>
                       <div className="swiper-slide product-single__image-item">
-                        <img loading="lazy" className="h-auto" src="images/products/product_3.jpg" width="674" height="674" alt="" />
-                        <a href="images/products/product_3.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                        <img loading="lazy" className="h-auto" src="images/products/FMG-WBFF.jpg" width="674" height="674" alt="" />
+                        <a href="images/products/FMG-WBFF.jpg" data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_zoom" /></svg>
                         </a>
                       </div>
@@ -280,13 +280,13 @@ function Product6_outofstock() {
                         <img src="images/products/product_1-1.jpg" alt="" />
                       </div>
                       <div className='ct_slidr_item'>
-                        <img src="images/products/product_1.jpg" alt="" />
+                        <img src="images/products/Accesories.jpg" alt="" />
                       </div>
                       <div className='ct_slidr_item'>
-                        <img src="images/products/product_2.jpg" alt="" />
+                        <img src="images/products/Themewear.jpg" alt="" />
                       </div>
                       <div className='ct_slidr_item'>
-                        <img src="images/products/product_3.jpg" alt="" />
+                        <img src="images/products/FMG-WBFF.jpg" alt="" />
                       </div>
                       <div className='ct_slidr_item'>
                         <img src="images/products/product_4.jpg" alt="" />
@@ -710,7 +710,7 @@ function Product6_outofstock() {
                 <div className="swiper-slide product-card">
                   <div className="pc__img-wrapper">
                     <a onClick={() => handleProduct1Simple()}>
-                      <img loading="lazy" src="images/products/product_3.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
+                      <img loading="lazy" src="images/products/FMG-WBFF.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
                     </a>
                     <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                   </div>
@@ -731,7 +731,7 @@ function Product6_outofstock() {
                 <div className="swiper-slide product-card">
                   <div className="pc__img-wrapper">
                     <a onClick={() => handleProduct1Simple()}>
-                      <img loading="lazy" src="images/products/product_3.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
+                      <img loading="lazy" src="images/products/FMG-WBFF.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
                     </a>
                     <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                   </div>
@@ -752,7 +752,7 @@ function Product6_outofstock() {
                 <div className="swiper-slide product-card">
                   <div className="pc__img-wrapper">
                     <a onClick={() => handleProduct1Simple()}>
-                      <img loading="lazy" src="images/products/product_2.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
+                      <img loading="lazy" src="images/products/Themewear.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
                     </a>
                     <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                   </div>
@@ -773,7 +773,7 @@ function Product6_outofstock() {
                 <div className="swiper-slide product-card">
                   <div className="pc__img-wrapper">
                     <a onClick={() => handleProduct1Simple()}>
-                      <img loading="lazy" src="images/products/product_3.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
+                      <img loading="lazy" src="images/products/FMG-WBFF.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
                     </a>
                     <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                   </div>
@@ -794,7 +794,7 @@ function Product6_outofstock() {
                 <div className="swiper-slide product-card">
                   <div className="pc__img-wrapper">
                     <a onClick={() => handleProduct1Simple()}>
-                      <img loading="lazy" src="images/products/product_1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
+                      <img loading="lazy" src="images/products/Accesories.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
                     </a>
                     <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                   </div>
@@ -837,7 +837,7 @@ function Product6_outofstock() {
                 <div className="swiper-slide product-card">
                   <div className="pc__img-wrapper">
                     <a onClick={() => handleProduct1Simple()}>
-                      <img loading="lazy" src="images/products/product_2.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
+                      <img loading="lazy" src="images/products/Themewear.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
                     </a>
                     <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                   </div>
@@ -858,7 +858,7 @@ function Product6_outofstock() {
                 <div className="swiper-slide product-card">
                   <div className="pc__img-wrapper">
                     <a onClick={() => handleProduct1Simple()}>
-                      <img loading="lazy" src="images/products/product_3.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
+                      <img loading="lazy" src="images/products/FMG-WBFF.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img" />
                     </a>
                     <button className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                   </div>

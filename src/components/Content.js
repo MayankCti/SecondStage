@@ -8,7 +8,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Cookies from 'js-cookie';
-import FilterBy from "./filterBy";
 export const configJSON = require("../components/config");
 function Content(props) {
   const [isLoader, setIsLoader] = useState(false);
@@ -19,7 +18,7 @@ function Content(props) {
   const [show, setShow] = useState("buy")
   const navigate = useNavigate();
   const [quickSearch, setQuickSearch] = useState("")
-  const [isSearch,setIsSearch] = useState(false)
+  const [isSearch, setIsSearch] = useState(false)
   const handleProduct1Simple = (productId) => {
 
     localStorage.setItem("productID", productId)
@@ -93,32 +92,7 @@ function Content(props) {
       console.log(err)
     })
   };
-  const filterProducts = (val) => {
-    setIsFilter(false)
-    const token = JSON.parse(localStorage.getItem("token"));
-    setIsLoader(true);
-    axios({
-      url: configJSON.baseUrl + configJSON.filterAllProduct,
-      method: "post",
-      data: val,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        setIsLoader(false);
-        if (res?.data?.success == true) {
-          MESSAGE.success(res?.data?.message);
-          setAllProduct(res?.data?.formattedProducts);
-        } else {
-          MESSAGE.error(res?.data?.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoader(false);
-      });
-  };
+
   const searchPage = (val) => {
     window.scrollTo(0, 0)
     const data = allProduct?.filter((item) => {
@@ -136,58 +110,23 @@ function Content(props) {
             {isLoader == true ? (
               <div className="custom-loader"></div>
             ) :
-
               <>
                 <ul className="nav nav-tabs mb-3 text-uppercase justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
                   <li className="nav-item" role="presentation">
-                    <a className="nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white " id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={() => {
+                    <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  ${show == 'buy' && 'ct_active'}`} id="collections-tab-2-trigger" data-bs-toggle="tab" href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true" onClick={() => {
                       setSearchProducts([])
                       setShow("buy")
                     }}>Buy</a>
                   </li>
                   <li className="nav-item" role="presentation">
-                    <a className="nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large" id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true" onClick={() => {
+                    <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  ${show == 'rent' && 'ct_active'}`} id="collections-tab-3-trigger" data-bs-toggle="tab" href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true" onClick={() => {
                       setSearchProducts([])
                       setShow("rent")
                     }}>Rent</a>
                   </li>
 
                 </ul>
-
                 <h2 className="section-title  text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Featured <strong>Products</strong></h2>
-                <div className="shop-filter d-flex align-items-center order-0 order-md-3">
-                  <button
-                    className="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside"
-                    onClick={() => setIsFilter(true)}
-                    data-aside="shopFilter"
-                  >
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter d-inline-block align-middle me-2" viewBox="0 0 16 16">
-                      <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
-                    </svg>
-
-                    <span className="text-uppercase fw-medium d-inline-block align-middle">
-                      Filter
-                    </span>
-                  </button>
-                </div>
-                <div
-                  className={
-                    isFilter == false
-                      ? "shop-sidebar side-sticky bg-body"
-                      : "shop-sidebar side-sticky bg-body aside_visible"
-                  }
-                  id="shopFilter"
-                >
-                  <div className="aside-header d-flex pt-5 mt-5 align-items-center">
-                    <h3 className="text-uppercase fs-6 mb-0">Filter By </h3>
-                    <button
-                      className="btn-close-lg js-close-aside btn-close-aside ms-auto"
-                      onClick={() => setIsFilter(false)}
-                    ></button>
-                  </div>
-                  <FilterBy handlefilter={(val) => filterProducts(val)} />
-                </div>
                 <div
                   className="tab-pane fade show active"
                   id="collections-tab-1"

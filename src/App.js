@@ -50,7 +50,6 @@ function App(){
         <Routes>
           {/* <Route exact path='/' element={<CheckHome />} /> */}
           <Route exact path='/' element={<Index />} />
-
           <Route exact path="/about" element={<About />} />
           <Route exact path="/accessories" element={<Accessories />} />
           <Route exact path="/account-dashboard" element={<Account_dashboard />} />
@@ -59,8 +58,6 @@ function App(){
           <Route exact path="/account-orders" element={<Account_orders />} />
           <Route exact path="/past-order" element={<PastOrder />} />
           <Route exact path="/sell-lend" element={<SellLend />} />
-          
-
           <Route exact path="/account-wishlist" element={<Account_wishlist />} />
           <Route exact path="/bikinis" element={<Bikinis />} />
           <Route exact path="/coming-soon" element={<Coming_soon />} />
@@ -87,16 +84,12 @@ function App(){
           <Route exact path="/lenderform" element={<LenderForm />} />
           <Route exact path="/buyerform" element={<BuyerForm />} />
           <Route exact path="/renterform" element={<RenterFrom />} />
-
           <Route exact path="/lenderform" element={<LenderForm />} />
           <Route exact path="/buyerform" element={<BuyerForm />} />
           <Route exact path="/renterform" element={<RenterFrom />} />
           <Route exact path="/login" element={<UserLogin />} />
           <Route exact path="/register" element={<UserRegister />} />
           <Route exact path="/edit-product" element={<EditProduct />} />
-          
-        
-
         </Routes>
       </Router>
     </div>

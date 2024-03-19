@@ -9,7 +9,7 @@ function HeaderVisitor(props) {
   const [isMenu, setIsMenu] = useState(false);
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate("/");
   };
   const homeDropdown = () => {
     // navigate("/")

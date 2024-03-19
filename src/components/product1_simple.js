@@ -25,7 +25,6 @@ export const configJSON = require("../components/config");
 
 function Product1_simple(props) {
   const navigate = useNavigate();
-
   const [product, setProduct] = useState([]);
   const [cartData, setCartData] = useState([]);
   const [isCartSidebar, setIsCartSidebar] = useState(false);
@@ -40,7 +39,6 @@ function Product1_simple(props) {
   const [total_rend_days, setTotalRendDays] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -84,12 +82,13 @@ function Product1_simple(props) {
         console.log(error);
       });
   };
+
   const getDataFromChild = () => {
     getCartData(true);
   };
+
   const hanleDate = (item) => {
     setState([item?.selection]);
-
     var sDate = moment(item?.selection?.startDate).format("DD-MM-YYYY");
     var eDate = moment(item?.selection?.endDate).format("DD-MM-YYYY");
     setStartDate(sDate);
@@ -102,6 +101,7 @@ function Product1_simple(props) {
 
     setshowCalender(!showCalender);
   };
+
   const getProduct = () => {
     window.scroll(0, 0);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
@@ -172,6 +172,7 @@ function Product1_simple(props) {
         console.log(err);
       });
   };
+
   const addToCart = (product_id, type) => {
     const userID = localStorage.getItem("user_id");
     const randomeUserId = Cookies.get("RandomUserId");
@@ -1003,9 +1004,13 @@ function Product1_simple(props) {
                                       product &&
                                       product?.product_color?.length > 0 &&
                                       `${product?.product_color[0]}`,
+                                     
                                   }}
+                                  
+                            
                                 ></a>
-                                
+                               
+
                               </div>
                             </div>
                           </div>
@@ -1135,12 +1140,21 @@ function Product1_simple(props) {
                       label={"Price"}
                       value={product?.price_sale_lend_price}
                     />
-
                     <>
-
+                      {product?.style_product && product?.style_product?.length != 0 &&
+                        <>
+                          <ProductInfo
+                            label={"Style Top"}
+                            value={product?.style_product[0]?.style_top ?? "Style Top"}
+                          />
+                          <ProductInfo
+                            label={"Style Bottom"}
+                            value={product?.style_product[0]?.style_bottom ?? "Style Bottom"}
+                          />
+                        </>
+                      }
                       {
                         product?.size_standard && product?.size_standard != '0' ? <ProductInfo label={"Size Standard"} value={product?.size_standard} /> : <>
-
                           <ProductInfo label={"Size Top"} value={product?.product_size?.length > 0 &&
                             product?.product_size[0]?.size_top} />
                           <ProductInfo label={"Size Bottom"} value={product?.product_size?.length > 0 &&
@@ -1177,7 +1191,6 @@ function Product1_simple(props) {
 
                     <div className="item d-flex align-items-center ">
                       <label className="h6">Color</label>
-
                       <a
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
@@ -1196,7 +1209,7 @@ function Product1_simple(props) {
                       ></a>
 
                     </div>
-                    
+
                     <ProductInfo label={"Location"} value={product?.location} />
                     <ProductInfo
                       label={"Brand"}
@@ -1236,7 +1249,7 @@ function Product1_simple(props) {
                           <a onClick={() => handleProduct1Simple(item?.id)}>
                             <img
                               loading="lazy"
-                              src={item?.product_image}
+                              src={item?.product_images?.length != 0 && item?.product_images[0]}
                               width="330"
                               height="400"
                               alt="Cropped Faux leather Jacket"
@@ -1266,11 +1279,11 @@ function Product1_simple(props) {
                                   <a onClick={() => handleProduct1Simple(item?.id)}>
                                     Size Top {" "}
                                     <span>
-                                    {product?.product_size?.length > 0 &&
+                                      {product?.product_size?.length > 0 &&
                                         product?.product_size[0]?.size_top}
                                     </span>
                                   </a>
-                                  <br/>
+                                  <br />
                                   <a onClick={() => handleProduct1Simple(item?.id)}>
                                     Size Bottom {" "}
                                     <span>
@@ -1281,7 +1294,7 @@ function Product1_simple(props) {
                                 </h6>
                               </>
                           }
-                         
+
                           <div className="product-card__price d-flex">
                             <span className="money price">
                               ${item?.price_sale_lend_price}

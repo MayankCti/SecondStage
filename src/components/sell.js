@@ -299,7 +299,7 @@ function Sell() {
                   as a User on the Site then just upload your Product to{" "}
                   <a
                     onClick={() => handleRegisterSeller()}
-                    className="btn-text   "
+                    className="btn-text" style={{color:"#be891d"}}
                   >
                     Sell or Lend
                   </a>{" "}
@@ -319,19 +319,22 @@ function Sell() {
                 </p>
                 <div className="ct_second_five_img my-4">
                   <div>
-                    <img src="images/products/product_1-1.jpg"/>
+                    <img src="images/products/Bikini.jpg"/>
                   </div>
                   <div>
-                    <img src="images/products/product_2.jpg"/>
+                    <img src="images/products/Figure.jpg"/>
                   </div>
                   <div>
-                    <img src="images/products/product_3.jpg"/>
+                    <img src="images/products/Swimsuit.jpg"/>
                   </div>
                   <div>
-                    <img src="images/products/product_4.jpg"/>
+                    <img src="images/products/FMG-WBFF.jpg"/>
                   </div>
                   <div>
-                    <img src="images/products/product_1.jpg"/>
+                    <img src="images/products/Themewear.jpg"/>
+                  </div>
+                  <div>
+                    <img src="images/products/Accesories.jpg"/>
                   </div>
               </div>
                 <h4 className="mt-4">Fees</h4>

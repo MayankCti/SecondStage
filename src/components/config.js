@@ -48,3 +48,5 @@ export const getProductDetails_by_Category_swimsuit = "getProductDetails_by_Cate
 export const getProductDetails_by_Category_fmg_wbff = "getProductDetails_by_Category/FMG_WBFF"
 export const getProductDetails_by_Category_themewear = "getProductDetails_by_Category/Themewear"
 export const getProductDetails_by_Category_accessories = "getProductDetails_by_Category/Accessories_Shoes"
+
+export const getAllBrand = 'brand_count'

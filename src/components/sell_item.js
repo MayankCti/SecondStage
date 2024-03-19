@@ -199,7 +199,7 @@ get_my_product()
                     <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                       <div className="swiper-wrapper">
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/Accesories.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                         <div className="swiper-slide">
                           <img loading="lazy" src="images/products/product_1-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
@@ -233,10 +233,10 @@ get_my_product()
                     <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                       <div className="swiper-wrapper">
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_2.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/Themewear.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_3.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/FMG-WBFF.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                       </div>
                       <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
@@ -267,10 +267,10 @@ get_my_product()
                     <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                       <div className="swiper-wrapper">
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_3.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/FMG-WBFF.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_2.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/Themewear.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                       </div>
                       <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
@@ -304,7 +304,7 @@ get_my_product()
                           <img loading="lazy" src="images/products/product_4.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/Accesories.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                       </div>
                       <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
@@ -336,10 +336,10 @@ get_my_product()
                     <div className="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                       <div className="swiper-wrapper">
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/Accesories.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_3.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/FMG-WBFF.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                       </div>
                       <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
@@ -373,7 +373,7 @@ get_my_product()
                           <img loading="lazy" src="images/products/product_4.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                         <div className="swiper-slide">
-                          <img loading="lazy" src="images/products/product_1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
+                          <img loading="lazy" src="images/products/Accesories.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" className="pc__img"/>
                         </div>
                       </div>
                       <span className="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>

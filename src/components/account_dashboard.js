@@ -241,9 +241,9 @@ function Account_dashboard() {
                   </div>
 
                   <div className="d-flex align-items-center gap-2 flex-wrap">
-                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleSellLend()} >Items for Sale/Lend </a>
-                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleAccountOrders()}>Current Orders </a>
-                    <a className='ct_sell_btn ct_border_zero' onClick={() => handlePastOrder()} >Past Orders</a>
+                    <a className='ct_sell_btn ct_border_zero ct_text_white_hover' onClick={() => handleSellLend()} >Items for Sale/Lend </a>
+                    <a className='ct_sell_btn ct_border_zero ct_text_white_hover' onClick={() => handleAccountOrders()}>Current Orders </a>
+                    <a className='ct_sell_btn ct_border_zero ct_text_white_hover' onClick={() => handlePastOrder()} >Past Orders</a>
                     {/* <a className='ct_sell_btn ct_border_zero' onClick={()=>handlePastOrder()} >Issue Request </a> */}
                     <select className='ct_sell_btn ct_select_option_hover' onChange={(e) => handleForm(e.target.value)}>
                       <option value=''>Issue Request</option>
@@ -251,8 +251,8 @@ function Account_dashboard() {
                       <option value='buyerform'>Buyer issue response form</option>
                       <option value='renterform'>Renter issue response form</option>
                     </select>
-                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleAccountEdit()} >Account Details </a>
-                    <a className='ct_sell_btn ct_border_zero' onClick={() => handleWishList()} >Wishlist </a>
+                    <a className='ct_sell_btn ct_border_zero ct_text_white_hover' onClick={() => handleAccountEdit()} >Account Details </a>
+                    <a className='ct_sell_btn ct_border_zero ct_text_white_hover' onClick={() => handleWishList()} >Wishlist </a>
                   </div>
                 </div>
 

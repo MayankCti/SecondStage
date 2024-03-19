@@ -7,6 +7,8 @@ import Content from './Content';
 import Cookies from 'js-cookie';
 import Home from './home';
 import { v4 as uuidv4 } from 'uuid';
+import { message, message as MESSAGE } from "antd";
+import FilterBy from "./filterBy";
 export const configJSON = require("../components/config");
 function Index() {
 
@@ -15,6 +17,9 @@ function Index() {
   const [sort, setSort] = useState(4)
   const [searchData, setSearchProduct] = useState([])
   const [randomUserId, setRandomUserId] = useState()
+  const [isFilter, setIsFilter] = useState(false);
+
+
   const navigate = useNavigate()
 
   const getMyProfile = () => {
@@ -43,6 +48,7 @@ function Index() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     const randomeUserId = Cookies.get('RandomUserId');
+  
     if (token) {
       getMyProfile()
       Cookies.remove('RandomUserId');
@@ -94,6 +100,7 @@ function Index() {
       });
   };
 
+  
   const searchProducts = (val) => {
     const data = allProduct?.filter((item) => {
       if ((item?.product_name?.toLowerCase())?.includes(val?.toLowerCase())) { return item; }
@@ -103,6 +110,32 @@ function Index() {
   const handleNavigation = (val) => {
     navigate(val);
   }
+  const filterProducts = (val) => {
+    setIsFilter(false)
+    const token = JSON.parse(localStorage.getItem("token"));
+    setIsLoader(true);
+    axios({
+      url: configJSON.baseUrl + configJSON.filterAllProduct,
+      method: "post",
+      data: val,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setIsLoader(false);
+        if (res?.data?.success == true) {
+          MESSAGE.success(res?.data?.message);
+          setAllProduct(res?.data?.formattedProducts);
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoader(false);
+      });
+  };
   return (
 
     <>
@@ -266,15 +299,49 @@ function Index() {
 
             <section className="instagram container-fluid">
 
+              <div className="shop-filter d-flex align-items-center order-0 order-md-3 mb-4 ">
+                <button
+                  className="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside"
+                  onClick={() => setIsFilter(true)}
+                  data-aside="shopFilter"
+                >
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter d-inline-block align-middle me-2" viewBox="0 0 16 16">
+                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
+                  </svg>
+
+                  <span className="text-uppercase fw-medium d-inline-block align-middle">
+                    Filter
+                  </span>
+                </button>
+              </div>
+
+              <div
+                  className={
+                    isFilter == false
+                      ? "shop-sidebar side-sticky bg-body"
+                      : "shop-sidebar side-sticky bg-body aside_visible"
+                  }
+                  id="shopFilter"
+                >
+                  <div className="aside-header d-flex pt-5 mt-5 align-items-center">
+                    <h3 className="text-uppercase fs-6 mb-0">Filter By </h3>
+                    <button
+                      className="btn-close-lg js-close-aside btn-close-aside ms-auto"
+                      onClick={() => setIsFilter(false)}
+                    ></button>
+                  </div>
+                  <FilterBy handlefilter={(val) => filterProducts(val)} />
+                </div>
               <div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/bikinis")}>
                   <a className="position-relative d-block effect ">
-                    <img loading="lazy" className="instagram__img" src="images/products/product_3.jpg" width="150" height="150" alt="Insta image 1" />
-                    <div className="ct_buy_rent_tag"><h4 className="mb-0">Bikini</h4></div>
+                    <img loading="lazy" className="instagram__img" src="images/products/Bikini.jpg" width="150" height="150" alt="Insta image 1" />
+                    <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Bikini</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' >Bikini</a>
+                        <a className='text-white ct_fs_24 ' >Bikini</a>
 
                       </div>
                     </div>
@@ -283,15 +350,15 @@ function Index() {
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/figure")}>
                   <a className="position-relative d-block effect ">
-                    <img loading="lazy" className="instagram__img" src="images/products/product_1.jpg" width="180" height="180" alt="Insta image 2" />
-                    <div className="ct_buy_rent_tag"><h4 className="mb-0">Figure</h4></div>
+                    <img loading="lazy" className="instagram__img" src="images/products/Figure.jpg" width="180" height="180" alt="Insta image 2" />
+                    <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Figure</h4></div>
 
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
-                        <a className='text-white ct_fs_24 ct_Blacksword_font'>Figure</a>
+                        <a className='text-white ct_fs_24 '>Figure</a>
                       </div>
                     </div>
                   </a>
@@ -299,13 +366,13 @@ function Index() {
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/swimsuit")}>
                   <a className="position-relative d-block effect ">
-                    <img loading="lazy" className="instagram__img" src="images/products/product_2.jpg" width="180" height="180" alt="Insta image 3" />
-                    <div className="ct_buy_rent_tag"><h4 className="mb-0">Swimsuit</h4></div>
+                    <img loading="lazy" className="instagram__img" src="images/products/Swimsuit.jpg" width="180" height="180" alt="Insta image 3" />
+                    <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Swimsuit</h4></div>
 
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' >Swimsuit</a>
+                        <a className='text-white ct_fs_24 ' >Swimsuit</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
@@ -315,12 +382,12 @@ function Index() {
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/wbff")}>
                   <a className="position-relative d-block effect ">
-                    <img loading="lazy" className="instagram__img" src="images/products/product_3.jpg" width="180" height="180" alt="Insta image 4" />
-                    <div className="ct_buy_rent_tag"><h4 className="mb-0">Fmg/Wbff</h4></div>
+                    <img loading="lazy" className="instagram__img" src="images/products/FMG-WBFF.jpg" width="180" height="180" alt="Insta image 4" />
+                    <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Fmg/Wbff</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' >Fmg/Wbff</a>
+                        <a className='text-white ct_fs_24 ' >Fmg/Wbff</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
@@ -330,12 +397,12 @@ function Index() {
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/themewear")}>
                   <a className="position-relative d-block effect ">
-                    <img loading="lazy" className="instagram__img" src="images/products/product_2.jpg" width="180" height="180" alt="Insta image 5" />
-                    <div className="ct_buy_rent_tag"><h4 className="mb-0">Themewear</h4></div>
+                    <img loading="lazy" className="instagram__img" src="images/products/Themewear.jpg" width="180" height="180" alt="Insta image 5" />
+                    <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Themewear</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
-                        <a className='text-white ct_fs_24 ct_Blacksword_font'>Themewear</a>
+                        <a className='text-white ct_fs_24 '>Themewear</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
@@ -345,14 +412,14 @@ function Index() {
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/accessories")}>
                   <a className="position-relative d-block effect">
-                    <img loading="lazy" className="instagram__img" src="images/products/product_1.jpg" width="180" height="180" alt="Insta image 6" />
-                    <div className="ct_buy_rent_tag"><h4 className="mb-0">Accessories</h4></div>
+                    <img loading="lazy" className="instagram__img" src="images/products/Accesories.jpg" width="180" height="180" alt="Insta image 6" />
+                    <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Accessories</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
 
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
-                        <a className='text-white ct_fs_24 ct_Blacksword_font' >Accessories</a>
+                        <a className='text-white ct_fs_24 ' >Accessories</a>
                       </div>
                     </div>
                   </a>

@@ -39,7 +39,7 @@ function Shop_checkout() {
   const [addressId, setAddressId] = useState([])
   const [emailError, setEmailError] = useState()
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"))
+    const token = JSON.parse(localStorage.getItem("token"));
     if (token == null)
       navigate('/login')
     else
@@ -149,6 +149,8 @@ function Shop_checkout() {
 
     }).then((res) => {
       setIsLoader(false)
+      const user_email = JSON.parse(localStorage.getItem("Profile"))
+      setEmail(user_email?.email)
       if (res?.data?.success == true) {
         setAddress(res?.data?.shipping_details ? res?.data?.shipping_details : [])
         setIsNewAdress(res?.data?.shipping_details?.length != 0 ? false : true)
@@ -172,10 +174,10 @@ function Shop_checkout() {
     setPostZipCode(item?.postcode_zip)
     setProvince(item?.province)
     setPhone(item?.phone)
-    setEmail(item?.mail)
+    // setEmail(item?.mail)
     setOrderNotes(item?.order_notes)
   }
-  const handleNewAddress = ()=>{
+  const handleNewAddress = () => {
     setIsNewAdress(true)
     setFname('')
     setLname('')
@@ -185,7 +187,7 @@ function Shop_checkout() {
     setPostZipCode('')
     setProvince('')
     setPhone('')
-    setEmail('')
+    // setEmail('')
     setOrderNotes('')
   }
   useEffect(() => {
@@ -466,15 +468,7 @@ function Shop_checkout() {
                     </div>
                     <div className="col-md-12">
                       <div className="form-floating my-3">
-                        <input onChange={(e) => {
-                          setEmail(e.target.value)
-                          const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-                          if (emailRegex.test(e.target.value)) {
-                            setEmailError('');
-                          } else {
-                            setEmailError('Enter valid email.');
-                          }
-                        }} value={email} type="email" className="form-control" id="checkout_email" placeholder="Your Mail *" />
+                        <input value={email} type="email" className="form-control" id="checkout_email" placeholder="Your Mail *" required />
                         <span style={{ color: "red" }}> {emailError}</span>
                         <label htmlFor="checkout_email">Your Mail *</label>
                       </div>
@@ -500,17 +494,17 @@ function Shop_checkout() {
                           address?.map((item) => (
                             <>
                               <div className="col-md-12 mb-2 my-account__address-item__detail mb-2 border gap-3 ">
-                             <div className='d-flex gap-2 justify-content-between align-items-start'>
-                             <div>
-                               <p>{item?.first_name} {item?.last_name},</p>
-                                <p>{item?.street_address},</p>
-                                <p>{item?.town_city},{item?.country_region}.</p>
-                                <p>{item?.mail}</p>
-                                <p>{item?.phone}</p>
-                               </div>
-                                <input type='radio' name='gender' onChange={() => handleAddress(item)}>
-                                </input>
-                             </div>
+                                <div className='d-flex gap-2 justify-content-between align-items-start'>
+                                  <div>
+                                    <p>{item?.first_name} {item?.last_name},</p>
+                                    <p>{item?.street_address},</p>
+                                    <p>{item?.town_city},{item?.country_region}.</p>
+                                    <p>{item?.mail}</p>
+                                    <p>{item?.phone}</p>
+                                  </div>
+                                  <input type='radio' name='gender' onChange={() => handleAddress(item)}>
+                                  </input>
+                                </div>
                               </div>
                             </>
                           ))

@@ -69,7 +69,6 @@ function SellLend() {
     })
       .then((res) => {
         setIsLoader(false);
-        alert("Heloo")
         if (res.data.success == true) {
           MESSAGE.success(res?.data?.message);
           getData();

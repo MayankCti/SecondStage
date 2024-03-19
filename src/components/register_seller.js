@@ -682,10 +682,10 @@ function Register_seller() {
                 >
                   <ul className="nav nav-tabs mb-3 text-uppercase ct_active_btn1 justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
                     <li className="nav-item" role="presentation">
-                      <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white ${product == 'product' ? '' : 'ct_active_1'}`} onClick={() => setProduct("product")}>Product</a>
+                      <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  ${product == 'product' && 'ct_active'}`} onClick={() => setProduct("product")}>Product</a>
                     </li>
                     <li className="nav-item" role="presentation">
-                      <a className={` nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100 ${product == 'featured' ? '' : 'ct_active_1'}`} onClick={() => setProduct("featured")}>Featured Product</a>
+                      <a className={` nav-link nav-link_underscore ct_sell_btn  ct_btn_large w-100 ${product == 'featured' && 'ct_active'}`} onClick={() => setProduct("featured")}>Featured Product</a>
                     </li>
 
                   </ul>
