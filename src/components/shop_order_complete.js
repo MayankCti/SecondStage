@@ -4,7 +4,6 @@ import Header from './header'
 import Footer from './footer'
 import axios, { all } from 'axios'
 import moment from 'moment';
-import { message, message as MESSAGE } from "antd";
 export const configJSON = require("../components/config");
 
 function Shop_order_complete() {
@@ -15,7 +14,7 @@ function Shop_order_complete() {
   const [total, setTotal] = useState()
   const [subTotal, setSubTotal] = useState()
   const [vat, setVat] = useState()
-  const cart_id = useLocation().state?.cart_id
+  const cart_id = JSON.parse(localStorage.getItem("cart_id"))
   const [isLoader, setIsLoader] = useState(false);
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -58,12 +57,6 @@ function Shop_order_complete() {
         console.log(error);
         setIsLoader(false);
       });
-  }
-  const handleShopCart = () => {
-    navigate("/shop-cart")
-  }
-  const handleShopCheckout = () => {
-    navigate("/shop-checkout")
   }
   const handleShopOrderComplete = () => {
     navigate("/shop-order-complete")
@@ -276,7 +269,7 @@ function Shop_order_complete() {
                     </div>
                     <div className="order-info__item">
                       <label>Total</label>
-                      <span>${subTotal}</span>
+                      <span>${subTotal.toFixed(2)}</span>
                     </div>
                     <div className="order-info__item">
                       <label>Paymetn Method</label>
@@ -324,7 +317,7 @@ function Shop_order_complete() {
                           </tr>
                           <tr>
                             <th>TOTAL</th>
-                            <td align="right">${subTotal}</td>
+                            <td align="right">${subTotal.toFixed(2)}</td>
                           </tr>
                         </tbody>
                       </table>

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 // local
 // export const baseUrl = "http://192.168.1.18:4005/web/"
 // live
-export const baseUrl = "http://34.195.103.99:4005/web/"
+export const baseUrl = "https://www.secondstagebikini.com:4005/web/"
 
 export const signUpBuyer = "signUp"
 export const loginBuyer = "login_buyer"
@@ -50,3 +50,5 @@ export const getProductDetails_by_Category_themewear = "getProductDetails_by_Cat
 export const getProductDetails_by_Category_accessories = "getProductDetails_by_Category/Accessories_Shoes"
 
 export const getAllBrand = 'brand_count'
+export const paynow = 'paynow'
+export const updatePaymentStatus = 'update_payment_status'

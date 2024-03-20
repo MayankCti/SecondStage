@@ -11,20 +11,17 @@ import { message, message as MESSAGE } from "antd";
 import FilterBy from "./filterBy";
 export const configJSON = require("../components/config");
 function Index() {
-
   const [isLoader, setIsLoader] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
+  const [filtered, setfiltered] = useState([]);
   const [sort, setSort] = useState(4)
   const [searchData, setSearchProduct] = useState([])
   const [randomUserId, setRandomUserId] = useState()
   const [isFilter, setIsFilter] = useState(false);
-
-
   const navigate = useNavigate()
 
   const getMyProfile = () => {
     const token = JSON.parse(localStorage.getItem("token"));
-
     setIsLoader(true);
     axios({
       url: configJSON.baseUrl + configJSON.myProfile_buyer,
@@ -48,7 +45,6 @@ function Index() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     const randomeUserId = Cookies.get('RandomUserId');
-  
     if (token) {
       getMyProfile()
       Cookies.remove('RandomUserId');
@@ -58,8 +54,8 @@ function Index() {
       const uuid = uuidv4();
       if (!randomeUserId) generateToken(uuid)
     }
+  }, []);
 
-  }, [])
   const generateToken = (uuid) => {
     const length = 6;
     let charset = "1234567890";
@@ -71,7 +67,6 @@ function Index() {
     setRandomUserId(retVal);
     getAllProduct(retVal);
   };
-
 
   const getAllProduct = (randome) => {
     setIsLoader(true);
@@ -100,16 +95,18 @@ function Index() {
       });
   };
 
-  
   const searchProducts = (val) => {
+   
     const data = allProduct?.filter((item) => {
       if ((item?.product_name?.toLowerCase())?.includes(val?.toLowerCase())) { return item; }
     })
     setSearchProduct(data)
   }
+
   const handleNavigation = (val) => {
     navigate(val);
   }
+
   const filterProducts = (val) => {
     setIsFilter(false)
     const token = JSON.parse(localStorage.getItem("token"));
@@ -126,7 +123,8 @@ function Index() {
         setIsLoader(false);
         if (res?.data?.success == true) {
           MESSAGE.success(res?.data?.message);
-          setAllProduct(res?.data?.formattedProducts);
+          // setAllProduct(res?.data?.formattedProducts);
+          setfiltered(res?.data?.formattedProducts);
         } else {
           MESSAGE.error(res?.data?.message);
         }
@@ -136,6 +134,7 @@ function Index() {
         setIsLoader(false);
       });
   };
+
   return (
 
     <>
@@ -317,22 +316,22 @@ function Index() {
               </div>
 
               <div
-                  className={
-                    isFilter == false
-                      ? "shop-sidebar side-sticky bg-body"
-                      : "shop-sidebar side-sticky bg-body aside_visible"
-                  }
-                  id="shopFilter"
-                >
-                  <div className="aside-header d-flex pt-5 mt-5 align-items-center">
-                    <h3 className="text-uppercase fs-6 mb-0">Filter By </h3>
-                    <button
-                      className="btn-close-lg js-close-aside btn-close-aside ms-auto"
-                      onClick={() => setIsFilter(false)}
-                    ></button>
-                  </div>
-                  <FilterBy handlefilter={(val) => filterProducts(val)} />
+                className={
+                  isFilter == false
+                    ? "shop-sidebar side-sticky bg-body"
+                    : "shop-sidebar side-sticky bg-body aside_visible"
+                }
+                id="shopFilter"
+              >
+                <div className="aside-header d-flex pt-5 mt-5 align-items-center">
+                  <h3 className="text-uppercase fs-6 mb-0">Filter By </h3>
+                  <button
+                    className="btn-close-lg js-close-aside btn-close-aside ms-auto"
+                    onClick={() => setIsFilter(false)}
+                  ></button>
                 </div>
+                <FilterBy handlefilter={(val) => filterProducts(val)} />
+              </div>
               <div className="row row-cols-3 row-cols-md-4 row-cols-xl-6">
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/bikinis")}>
                   <a className="position-relative d-block effect ">
@@ -340,45 +339,36 @@ function Index() {
                     <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Bikini</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
-
                         <a className='text-white ct_fs_24 ' >Bikini</a>
-
                       </div>
                     </div>
                   </a>
-
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/figure")}>
                   <a className="position-relative d-block effect ">
                     <img loading="lazy" className="instagram__img" src="images/products/Figure.jpg" width="180" height="180" alt="Insta image 2" />
                     <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Figure</h4></div>
-
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
-
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                         <a className='text-white ct_fs_24 '>Figure</a>
                       </div>
                     </div>
                   </a>
-
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/swimsuit")}>
                   <a className="position-relative d-block effect ">
                     <img loading="lazy" className="instagram__img" src="images/products/Swimsuit.jpg" width="180" height="180" alt="Insta image 3" />
                     <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Swimsuit</h4></div>
-
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
-
                         <a className='text-white ct_fs_24 ' >Swimsuit</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
                     </div>
                   </a>
-
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/wbff")}>
                   <a className="position-relative d-block effect ">
@@ -386,14 +376,12 @@ function Index() {
                     <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Fmg/Wbff</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
-
                         <a className='text-white ct_fs_24 ' >Fmg/Wbff</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
                     </div>
                   </a>
-
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/themewear")}>
                   <a className="position-relative d-block effect ">
@@ -401,14 +389,12 @@ function Index() {
                     <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Themewear</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
-
                         <a className='text-white ct_fs_24 '>Themewear</a>
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                       </div>
                     </div>
                   </a>
-
                 </div>
                 <div className="ct_quick_link_item mb-4" onClick={() => handleNavigation("/accessories")}>
                   <a className="position-relative d-block effect">
@@ -416,7 +402,6 @@ function Index() {
                     <div className="ct_buy_rent_tag"><h4 className="mb-0 ct_jost_font_f">Accessories</h4></div>
                     <div className="ct_serach_products2">
                       <div className="ct_overflow_center">
-
                         {/* <div className="search-field__input-wrapper mb-3">
                     <input type="text" className="search-field__input form-control form-control-sm border-light border-2" placeholder="Search"/></div> */}
                         <a className='text-white ct_fs_24 ' >Accessories</a>
@@ -425,15 +410,11 @@ function Index() {
                   </a>
                 </div>
               </div>
-
             </section>
             <div className="mb-5 pb-5"></div>
-            <Content data={searchData} />
-
-
+            <Content data={searchData} filterData={filtered} />
             {/* <div className="mb-4 pb-4 pb-xl-5 mb-xl-5"></div> */}
           </main>
-
           <Footer />
         </> : <div className='ct_center_loader'>
           <div className="cssload-loader">Second Stage</div>

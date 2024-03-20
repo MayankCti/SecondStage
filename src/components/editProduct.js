@@ -4,12 +4,7 @@ import Footer from "./footer";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { message, message as MESSAGE } from "antd";
-import Box from '@mui/material/Box';
-import { Formik } from 'formik';
-import { useDrag, useDrop } from "react-dnd";
-import Modal from '@mui/material/Modal';
-import { Seller_Schema } from "./Schema";
-import { useLocale } from "antd/es/locale";
+
 export const configJSON = require("../components/config");
 
 function Register_seller() {
@@ -33,6 +28,7 @@ function Register_seller() {
   const [isSizeTopBottom, setIsSizeTopBottom] = useState(false)
   const [isSizeShow, setIsSizeShow] = useState(false)
   const [file, setFile] = useState([])
+  const [imageId, setImageId] = useState([])
   const [filterContent, setFilterContent] = useState([])
 
   const [locationOption, setLocationOption] = useState()
@@ -56,45 +52,31 @@ function Register_seller() {
   const [brandOption, setBrandOption] = useState("");
   const [colorData, setColorData] = useState('');
 
-  const [islicenseState, setIsLicenseState] = useState(false)
-  const [profileData, setProfileData] = useState([])
-  const [licenseStateOption, setLicenseStateOption] = useState("")
-
-  const [formObj, setFormObj] = useState({ buyer_name: "", user_name: '', email: '', phone_number: '', license_state: '', license_number: '', seller_sigup: 1, buyer_card_number: '', guest_token: 0, isCheck: false })
   const [product, setProduct] = useState('product')
   const [images, setImages] = useState([])
   const navigate = useNavigate();
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: "700px",
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"))
     if (token == null) {
       navigate('/login')
     } else {
-      if (categoryOption == "biknis" || categoryOption == "figure" || categoryOption == "fmg_wbff") {
+      if (categoryOption == "Bikini" || categoryOption == "Figure" || categoryOption == "FMG_WBFF") {
         setIsSizeTopBottom(true)
         setIsSizeShow(false)
       }
-      else if (categoryOption == "swimsuit" || categoryOption == "themewear") {
+      else if (categoryOption == "Swimsuit" || categoryOption == "Themewear" || categoryOption == "Accessories_Shoes") {
         setIsSizeTopBottom(false)
+        // setIsSizeTopBottom(true)
         setIsSizeShow(true)
       }
-
     }
   }, [categoryOption])
+
   useEffect(() => {
-    getProductById()
+    setTimeout(() => {
+      getProductById()
+    }, 500)
     getFilterContent()
   }, [])
 
@@ -158,86 +140,31 @@ function Register_seller() {
   const handleFile = (e) => {
     const fileData = e?.target?.files;
     for (var i = 0; i < fileData?.length; i++) {
+      const incId = images[images?.length - 1]?.id ? images[images?.length - 1]?.id + 1 : i + 1
       images.push({
-        id: i + 1,
+        id: incId,
         title: "Hill" + i + 1,
         img: URL.createObjectURL(fileData[i])
       })
       setImages(file => file?.filter((item) => item));
-
     }
     for (var i = 0; i < fileData?.length; i++) {
       file.push({
-        'id': i + 1,
+        'id': file[file?.length - 1]?.id ? file[file?.length - 1]?.id + 1 : i + 1,
         'file': fileData[i]
       })
-      // file.push(fileData[i])
       setFile(file => file?.filter((item) => item));
+
     }
   }
 
-  const moveImage = useCallback((dragIndex, hoverIndex) => {
-    setImages((prevCards) => {
-      const clonedCards = [...prevCards];
-      const removedItem = clonedCards.splice(dragIndex, 1)[0];
-      clonedCards.splice(hoverIndex, 0, removedItem);
-      return clonedCards;
-    });
-    setFile((prevCards) => {
-      const clonedCards = [...prevCards];
-      const removedItem = clonedCards.splice(dragIndex, 1)[0];
-      clonedCards.splice(hoverIndex, 0, removedItem);
-      return clonedCards;
-    })
-  }, []);
 
-  const Card = ({ src, title, id, index, moveImage }) => {
-    const ref = useRef(null);
-    const [, drop] = useDrop({
-      accept: "image",
-      hover: (item, monitor) => {
-        if (!ref.current) {
-          return;
-        }
-        const dragIndex = item.index;
-        const hoverIndex = index;
-        if (dragIndex === hoverIndex) {
-          return;
-        }
-        const hoverBoundingRect = ref.current.getBoundingClientRect();
-        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-        const clientOffset = monitor.getClientOffset();
-        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-          return;
-        }
-        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-          return;
-        }
-        moveImage(dragIndex, hoverIndex);
-        item.index = hoverIndex;
-      }
-    }
-    );
-    const [{ isDragging }, drag] = useDrag({
-      type: "image",
-      item: () => {
-        return { id, index };
-      },
-      collect: (monitor) => {
-        return {
-          isDragging: monitor.isDragging()
-        };
-      }
-    });
 
-    const opacity = isDragging ? 0 : 1;
-
-    drag(drop(ref));
+  const Card = ({ src, title, id, index }) => {
 
     return (
       <>
-        <div className="preview-images-zone mt-2" ref={ref} style={{ opacity }} >
+        <div className="preview-images-zone mt-2"  >
           <div className="preview-image preview-show-4">
             <div className="image-cancel" onClick={() => removeImage(title, id)}>
               x
@@ -261,45 +188,37 @@ function Register_seller() {
     );
   };
 
-  const removeImage = (title, id) => {
-    // setIsLoader(true);
-    const data = {
-      image_id: `${id}`
-    }
-    let count = 0;
-    for (let i = 0; i < file.length; i++) {
-      if (file[i].id == id) {
-        count = 0;
-        break;
-      } else {
-        count = 1;
+  const removeImage = (title, picId) => {
+    setIsLoader(true);
+    if (!imageId.includes(picId)) {
+      setFile(val => val?.filter(item => item.id !== picId));
+      setImages(val => val?.filter((item, index) => item.id != picId));
+      message.success('Image deleted successfully')
+      setIsLoader(false);
+    } else {
+      const data = {
+        image_id: `${picId}`
       }
-    }
-    if (count == 0) {
-      setFile(val => val?.filter((item, index) => item.id !== id));
-      setImages(val => val?.filter((item, index) => item.id != id));
-    }
- 
-    if (count === 1) {
-      // axios({
-      //   url: configJSON.baseUrl + configJSON.delete_product_image,
-      //   method: "post",
-      //   data: data,
-      // }).then((res) => {
-      //   setIsLoader(false);
-      //   console.log(res.data, "res.data")
-      //   if (res?.data?.success == true) {
-      //     MESSAGE.success(res?.data?.message)
-      //     getProductById()
-      //   } else {
-      //     MESSAGE.error(res?.data?.message);
-      //   }
-      // }).catch((error) => {
-      //   setIsLoader(false);
-      //   console.log(error)
-      // })
+      axios({
+        url: configJSON.baseUrl + configJSON.delete_product_image,
+        method: "post",
+        data: data,
+      }).then((res) => {
+        setIsLoader(false);
+        console.log(res.data, "res.data")
+        if (res?.data?.success == true) {
+          MESSAGE.success(res?.data?.message)
+          getProductById()
+        } else {
+          MESSAGE.error(res?.data?.message);
+        }
+      }).catch((error) => {
+        setIsLoader(false);
+        console.log(error)
+      })
 
     }
+
   }
   const updateProduct = () => {
     setIsLoader(true)
@@ -336,7 +255,7 @@ function Register_seller() {
     // for (let i = 0; i < file.length; i++) {
     //   data.append("files", file[i].file);
     // }
-    
+
 
     axios({
       url: configJSON.baseUrl + configJSON.edit_product,
@@ -393,14 +312,17 @@ function Register_seller() {
         setPaddingOption(res?.data?.data?.product_padding)
         setLocationOption(res?.data?.data?.location)
         const arr = []
+        const ids = []
         for (var i = 0; i < res?.data?.data?.product_images?.length; i++) {
+          ids.push(res?.data?.data?.product_images[i]?.id)
           arr.push({
             id: res?.data?.data?.product_images[i]?.id,
             title: "Hill" + res?.data?.data?.product_images[i]?.id,
             img: res?.data?.data?.product_images[i]?.product_image
           })
-          setImages(arr)
         }
+        setImageId(ids)
+        setImages(arr)
       }
       else {
         message.error("Something went wrong.!")
@@ -712,10 +634,10 @@ function Register_seller() {
                 >
                   <ul className="nav nav-tabs mb-3 text-uppercase ct_active_btn1 justify-content-center gap-3 mb-5" id="collections-tab" role="tablist">
                     <li className="nav-item" role="presentation">
-                      <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large  text-white ${product == 'product' ? 'ct_active_1' : ''}`} onClick={() => setProduct("product")}>Product</a>
+                      <a className={`nav-link nav-link_underscore ct_sell_btn ct_btn_large   ${product == 'product' ? 'ct_active_1' : ''}`} onClick={() => setProduct("product")}>Product</a>
                     </li>
                     <li className="nav-item" role="presentation">
-                      <a className={` nav-link nav-link_underscore ct_sell_btn text-white ct_btn_large w-100 ${product == 'featured' ? 'ct_active_1' : ''}`} onClick={() => setProduct("featured")}>Featured Product</a>
+                      <a className={` nav-link nav-link_underscore ct_sell_btn  ct_btn_large w-100 ${product == 'featured' ? 'ct_active_1' : ''}`} onClick={() => setProduct("featured")}>Featured Product</a>
                     </li>
                   </ul>
                   {/* Product Name */}
@@ -1421,7 +1343,7 @@ function Register_seller() {
                               title={image.title}
                               id={image.id}
                               index={index}
-                              moveImage={moveImage}
+                             
                             />
                           ))}
                         </main>

@@ -23,7 +23,8 @@ function FilterBy(props) {
   const [padding, setPadding] = useState([]);
   const [location, setLocation] = useState([]);
   const [search, setSearch] = useState("");
-  const [brand,setBrand] = useState({})
+  const [brand,setBrand]= useState([])
+  const [brandoption,setBrandoption] = useState({})
 
   useEffect(() => {
     getFilterContent();
@@ -38,9 +39,9 @@ function FilterBy(props) {
       .then((res) => {
         setIsLoader(false);
         if (res?.data?.success == true) {
-          setBrand(res?.data?.data);
+          setBrandoption(res?.data?.data);
         } else {
-          setBrand({});
+          setBrandoption({});
         }
       })
       .catch((error) => {
@@ -291,15 +292,13 @@ function FilterBy(props) {
                     />
                   </div>
                   <ul className="search-suggestion list-unstyled">
-                    {Object.keys(brand)?.map((item,i) => (
+                    {Object.keys(brandoption)?.map((item,i) => (
                       <>
-
                         {item
                           ?.toLowerCase()
                           ?.includes(search.toLowerCase()) && (
                           <li className="search-suggestion__item js-search-select d-flex align-items-center py-0">
                             <label className="cyberpunk-checkbox-label">
-                              {console.log('Search',item)}
                               <input
                                 type="checkbox"
                                 className="cyberpunk-checkbox"
@@ -307,7 +306,7 @@ function FilterBy(props) {
                               />
                             </label>
                             <span className="me-auto">{item}</span>
-                            <span className="text-secondary">{brand[item]}</span>
+                            <span className="text-secondary">{brandoption[item]}</span>
                           </li>
                         )}
                       </>

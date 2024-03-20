@@ -14,11 +14,9 @@ function Content(props) {
   const [allProduct, setAllProduct] = useState([]);
   const [searchProducts, setSearchProducts] = useState([])
   const [accessToken, setAccessToken] = useState();
-  const [isFilter, setIsFilter] = useState(false);
   const [show, setShow] = useState("buy")
   const navigate = useNavigate();
   const [quickSearch, setQuickSearch] = useState("")
-  const [isSearch, setIsSearch] = useState(false)
   const handleProduct1Simple = (productId) => {
 
     localStorage.setItem("productID", productId)
@@ -26,18 +24,29 @@ function Content(props) {
   };
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
+
+
     setAccessToken(token);
-    setTimeout(() => {
+    if (props?.filterData != 0) {
+      setAllProduct(props?.filterData);
+    } else {
       getAllProduct();
-    }, 1000);
-  }, []);
-  useEffect(() => {
-    if (props?.data) {
-      setAllProduct(props?.data);
-      setSearchProducts(props?.data);
     }
+  }, []);
+
+  useEffect(() => {
+    if (props?.filterData) {
+      setAllProduct(props?.filterData);
+    }
+    if (props?.data) {
+      setSearchProducts(props?.data);
+      console.log(props?.data,"props")
+    }
+
   }, [props])
+
   const getAllProduct = () => {
+
     setIsLoader(true);
     const randomeUserId = Cookies.get('RandomUserId');
     const token = JSON.parse(localStorage.getItem("token"))
@@ -64,6 +73,7 @@ function Content(props) {
         setIsLoader(false);
       });
   };
+
   const addToWishlist = (productId) => {
     window.scrollTo(0, 0);
     setIsLoader(true)
@@ -100,7 +110,9 @@ function Content(props) {
     })
     setSearchProducts(data)
   }
+
   const filteredData = allProduct?.filter((item) => item?.product_type == 'featured' && item.product_buy_rent === show);
+
   return (
     <>
       <section className="products-grid container">
@@ -162,7 +174,7 @@ function Content(props) {
                                       }}
                                       navigation={true}
                                       modules={[Autoplay, Pagination, Navigation]}
-                                      className="mySwiper"
+                                      className="mySwiper ct_img_custom_height"
                                     >
                                       {item?.product_images?.map((obj, i) => (
                                         <SwiperSlide>
@@ -262,7 +274,7 @@ function Content(props) {
                                       }}
                                       navigation={true}
                                       modules={[Autoplay, Pagination, Navigation]}
-                                      className="mySwiper"
+                                      className="mySwiper ct_img_custom_height"
                                     >
                                       {item?.product_images?.map((obj, i) => (
                                         <SwiperSlide>
@@ -356,7 +368,13 @@ function Content(props) {
               <h3 className="block__title text-center ">Quick Search</h3>
               {/* <p>Get the latest products and news update daily in fastest.</p> */}
               <form className="block-newsletter__form">
-                <input value={quickSearch} onChange={(e) => setQuickSearch(e.target.value)} className="form-control" type="text" name="email" placeholder="Search " />
+                <input value={quickSearch}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                    }
+                  }}
+                  onChange={(e) => setQuickSearch(e.target.value)} className="form-control" type="text" name="email" placeholder="Search " />
                 <button className="btn btn-secondary fw-medium" type="button" onClick={() => searchPage(quickSearch)}>Submit</button>
               </form>
             </div>

@@ -268,7 +268,7 @@ function Account_wishlist() {
                                       }}
                                       navigation={true}
                                       modules={[Autoplay, Pagination, Navigation]}
-                                      className="mySwiper"
+                                      className="mySwiper ct_img_custom_height"
                                     >
                                       {item?.product_images?.map((obj, i) => (
                                         <SwiperSlide>

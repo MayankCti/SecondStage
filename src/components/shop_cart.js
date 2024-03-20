@@ -609,7 +609,7 @@ function Shop_cart() {
                             </tr>
                             <tr>
                               <th>Total</th>
-                              <td>${allTotal}</td>
+                              <td>${allTotal.toFixed(2)}</td>
                             </tr>
                           </tbody>
                         </table>

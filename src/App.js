@@ -40,6 +40,7 @@ import UserLogin from "./components/userLogin";
 import UserRegister from "./components/userRegister";
 import EditProduct from "./components/editProduct";
 import { useEffect } from "react";
+import Cancel_order from "./components/cancel_order";
 function App(){
   useEffect(()=>{
 
@@ -90,6 +91,7 @@ function App(){
           <Route exact path="/login" element={<UserLogin />} />
           <Route exact path="/register" element={<UserRegister />} />
           <Route exact path="/edit-product" element={<EditProduct />} />
+          <Route exact path="/cancel-order" element={<Cancel_order />} />
         </Routes>
       </Router>
     </div>

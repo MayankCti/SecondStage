@@ -1,7 +1,7 @@
 {
   "name": "secondstage",
   "version": "0.1.0",
-  "homepage": "http://34.195.103.99/",
+  "homepage": "https://www.secondstagebikini.com/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.3",

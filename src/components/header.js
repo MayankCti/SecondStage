@@ -10,24 +10,18 @@ export const configJSON = require("../components/config");
 function Header(props) {
   const navigate = useNavigate();
   const profileData = JSON.parse(localStorage.getItem("Profile"));
-
   const [subtotal, setSubTotal] = useState(0);
-  const [isCartSidebar, setIsCartSidebar] = useState(
-    props?.isCartSidebar ? props?.isCartSidebar : false
-  );
+  const [isCartSidebar, setIsCartSidebar] = useState(props?.isCartSidebar ? props?.isCartSidebar : false);
   const [ishome, setIsHome] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [allProduct, setAllProduct] = useState(props?.data ? props?.data : []);
-
   // const [profileData, setProfileData] = useState([]);
   const [accessToken, setAccessToken] = useState();
   const [isLoader, setIsLoader] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
   const [searchProduct, setSearchProduct] = useState();
   const [isdropdown, setDropdown] = useState(false);
-
   const [showCalender, setshowCalender] = useState(false);
-
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -72,7 +66,6 @@ function Header(props) {
         console.log(error);
       });
   };
-
   const upDateCartData = (item, s, e, d) => {
     setIsLoader(true);
     const randomeUserId = Cookies.get("RandomUserId");
@@ -121,7 +114,6 @@ function Header(props) {
         console.log(error);
       });
   };
-
   const deleteCartData = (cart_id) => {
     const randomeUserId = Cookies.get("RandomUserId");
     const userID = localStorage.getItem("user_id");
@@ -150,19 +142,9 @@ function Header(props) {
         console.log(err);
       });
   };
-
-  const handleHome = () => {
-    navigate("/");
-  };
   const homeDropdown = () => {
     // navigate("/")
     setIsHome(!ishome);
-  };
-  const handleFaq = () => {
-    navigate("/faq");
-  };
-  const handleContact = () => {
-    navigate("/contact");
   };
   const handleLoginRegister = () => {
     localStorage.clear();
@@ -207,20 +189,19 @@ function Header(props) {
     props?.searchProducts(searchProduct);
     setIsSearch(!isSearch);
   };
-
   const hanleDate = (item, item1) => {
     setState([item?.selection]);
     const sDate = moment(item?.selection?.startDate).format("DD-MM-YYYY");
     const eDate = moment(item?.selection?.endDate).format("DD-MM-YYYY");
-
     var startDate = moment(item?.selection?.startDate);
     var endDate = moment(item?.selection?.endDate);
     var diffInDays = endDate.diff(startDate, "days");
-
     setshowCalender(!showCalender);
     upDateCartData(item1, sDate, eDate, diffInDays);
   };
-
+const handleNavigate = (val)=>{
+  navigate("/"+val);
+}
   return (
     <>
       <header
@@ -234,7 +215,7 @@ function Header(props) {
         <div className="container-fluid ct_px_60">
           <div className="header-desk header-desk_type_1">
             <div className="logo">
-              <a onClick={() => handleHome()}>
+              <a onClick={()=>handleNavigate("")}>
                 <img
                   src="images/logo.png"
                   alt="Second Stage"
@@ -256,7 +237,7 @@ function Header(props) {
                 </div>
                 <li className="navigation__item position-relative">
                   <a
-                    onClick={() => handleHome()}
+                    onClick={()=>handleNavigate("")}
                     className={
                       props.active == "home"
                         ? "navigation__link ct_active"
@@ -294,7 +275,7 @@ function Header(props) {
                         </li>
                         <li className="sub-menu__item">
                           <a
-                            onClick={() => handleFaq()}
+                            onClick={()=>handleNavigate("faq")}
                             className="menu-link menu-link_us-s"
                           >
                             FAQs{" "}
@@ -302,7 +283,7 @@ function Header(props) {
                         </li>
                         <li className="sub-menu__item">
                           <a
-                            onClick={() => handleContact()}
+                            onClick={()=>handleNavigate("contact")}
                             className="menu-link menu-link_us-s"
                           >
                             Contact
@@ -400,7 +381,7 @@ function Header(props) {
                       className={
                         props.active == "sell"
                           ? "navigation__link ct_active"
-                          : "navigation__link ct_sell_btn"
+                          : "navigation__link ct_sell_btn ct_remove_hover_line"
                       }
                     >
                       Sell/Lend
@@ -618,30 +599,6 @@ function Header(props) {
                           <li onClick={() => navigate("/account-edit")}>
                             <a className="dropdown-item">Profile</a>
                           </li>
-                          {/* <li>
-                          <a
-                            className="dropdown-item"
-                            onClick={() => navigate("/lenderform")}
-                          >
-                            Lender issue response form
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            className="dropdown-item"
-                            onClick={() => navigate("/buyerform")}
-                          >
-                            Buyer issue response form
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            className="dropdown-item"
-                            onClick={() => navigate("/renterform")}
-                          >
-                            Renter issue response form
-                          </a>
-                        </li> */}
                           <li onClick={handleLogout}>
                             <a className="dropdown-item">Log Out</a>
                           </li>
@@ -663,7 +620,7 @@ function Header(props) {
 
                 <a
                   onClick={() => handleSell()}
-                  className="ct_mobile_fs14 text-white ct_sell_btn ms-3"
+                  className="ct_mobile_fs14 text-white ct_sell_btn ms-3 ct_remove_hover_line"
                 >
                   Sell/Lend
                 </a>

@@ -8,6 +8,7 @@ import Footer from './footer'
 
 export const configJSON = require("../components/config");
 function Shop_checkout() {
+
   const shopCartData = useLocation().state
   const [isLoader, setIsLoader] = useState(false);
   const [fname, setFname] = useState("")
@@ -54,6 +55,7 @@ function Shop_checkout() {
   }, [])
 
   const placeOrder = () => {
+    window.scroll(0,0)
     const token = JSON.parse(localStorage.getItem("token"));
     if (isAgree === false) {
       MESSAGE.error("Please accept terms and condition.")
@@ -122,12 +124,20 @@ function Shop_checkout() {
       }).then((res) => {
         setIsLoader(false)
         if (res?.data?.success == true) {
-          MESSAGE.success(res?.data?.message);
-          navigate("/shop-order-complete", { state: { cart_id: res?.data?.data[0]?.cart_id } })
+          // MESSAGE.success(res?.data?.message);
+          localStorage.setItem("cart_id", JSON.stringify(res?.data?.data[0]?.cart_id))
+          console.log(paymentMethod, "method")
+          if (paymentMethod == 'Cash on delivery') {
+            navigate("/shop-order-complete")
+          } else {
+            payNow()
+          }
+         
         }
         else {
           MESSAGE.error(res?.data?.message)
         }
+
       }).catch((error) => {
         setIsLoader(false)
         console.log(error)
@@ -137,7 +147,32 @@ function Shop_checkout() {
       setIsLoader(false)
     }
   }
+  const payNow = () => {
+    setIsLoader(true)
+    const data = {
+      "amount": `${allTotal.toFixed(2)}`,
+    }
 
+    axios({
+      url: configJSON.baseUrl + configJSON.paynow,
+      method: "POST",
+      data: data,
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then((res) => {
+      setIsLoader(false)
+      if (res?.data?.success == true) {
+        window.location.href = res?.data?.paymentLink
+
+      } else {
+        MESSAGE.error(res?.data?.message)
+      }
+    }).catch((err) => {
+      console.log(err)
+      setIsLoader(false)
+    })
+  }
   const getAddresses = (val) => {
     setIsLoader(true)
     axios({
@@ -559,7 +594,7 @@ function Shop_checkout() {
                           </tr>
                           <tr>
                             <th>TOTAL</th>
-                            <td align="right">${allTotal}</td>
+                            <td align="right">${allTotal.toFixed(2)}</td>
                           </tr>
                         </tbody>
                       </table>

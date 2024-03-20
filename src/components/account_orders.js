@@ -372,13 +372,13 @@ function Account_orders() {
                                           {obj?.product_name ?? "Product Name"}
                                         </h4>
                                         <ul className="shopping-cart__product-item__options">
-                                          <li>
+                                          <li className="d-flex align-items-center gap-2">
                                             Color:{" "}
                                             <a
                                               data-bs-toggle="tooltip"
                                               data-bs-placement="top"
                                               title={`${obj?.color}`}
-                                              class="swatch-color swatch_active pc__swatch-color"
+                                              class="swatch-color   pc__swatch-color mb-0  ct_swatch_radio_212"
                                               style={{
                                                 color: `${obj?.color}`,
                                               }}
