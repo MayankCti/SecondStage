@@ -100,6 +100,7 @@ function Shop_checkout() {
             });
         } else {
           MESSAGE.error("Fill all the BILLING DETAILS!!!")
+          setIsLoader(false);
         }
       } else {
         addCheckout()
@@ -439,7 +440,7 @@ function Shop_checkout() {
                         <div className={isCountry == true ? "form-label-fixed hover-container js-content_visible" : "form-label-fixed hover-container"}>
                           <label htmlFor="search-dropdown" className="form-label">Country / Region*</label>
                           <div className="js-hover__open" onClick={() => setIsCountry(!isCountry)}>
-                            <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down" id="search-dropdown" name="search-keyword" readonly value={contryRegion} placeholder="Choose a location..." />
+                            <input type="text" className="form-control form-control-lg search-field__actor search-field__arrow-down ct_bg_unset212" id="search-dropdown" name="search-keyword" readonly value={contryRegion} placeholder="Choose a location..." />
                           </div>
                           {/* <div className="filters-container js-hidden-content mt-2">
                             <div className="search-field__input-wrapper">
@@ -514,7 +515,7 @@ function Shop_checkout() {
                       <textarea onChange={(e) => setOrderNotes(e.target.value)} value={orderNotes} className="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
                     </div>
                   </div>
-                  {address?.length != 0 && <button className="btn btn-primary btn-checkout" onClick={() => setIsNewAdress(false)} type='button' >Retrieve addresses from previous records.</button>}
+                  {address?.length != 0 && <button className="btn btn-primary btn-checkout mt-3" onClick={() => setIsNewAdress(false)} type='button' >Retrieve addresses from previous records.</button>}
                 </div>
                 }
                 {
@@ -545,7 +546,7 @@ function Shop_checkout() {
                           ))
                         }
                       </div>
-                      <button className="btn btn-primary btn-checkout" onClick={() => handleNewAddress()} type='button' >Add new addres</button>
+                      <button className="btn btn-primary btn-checkout " onClick={() => handleNewAddress()} type='button' >Add new addres</button>
                     </div>
                   </div>
                 }
@@ -570,7 +571,7 @@ function Shop_checkout() {
                                   {item?.product_name ?? 'Product Name'}
                                 </td>
                                 <td align="right">
-                                  ${item?.sub_total}
+                                {configJSON.currencySym}{item?.sub_total}
                                 </td>
                               </tr>
                             ))
@@ -582,7 +583,7 @@ function Shop_checkout() {
                         <tbody>
                           <tr>
                             <th>SUBTOTAL</th>
-                            <td align="right">${subtotal}</td>
+                            <td align="right">{configJSON.currencySym}{subtotal}</td>
                           </tr>
                           <tr>
                             <th>SHIPPING</th>
@@ -594,7 +595,7 @@ function Shop_checkout() {
                           </tr>
                           <tr>
                             <th>TOTAL</th>
-                            <td align="right">${allTotal.toFixed(2)}</td>
+                            <td align="right">{configJSON.currencySym}{allTotal.toFixed(2)}</td>
                           </tr>
                         </tbody>
                       </table>

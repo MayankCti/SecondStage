@@ -61,14 +61,10 @@ function App(){
           <Route exact path="/sell-lend" element={<SellLend />} />
           <Route exact path="/account-wishlist" element={<Account_wishlist />} />
           <Route exact path="/bikinis" element={<Bikinis />} />
-          <Route exact path="/coming-soon" element={<Coming_soon />} />
           <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/faq" element={<Faq />} />
           <Route exact path="/figure" element={<Figure />} />
-          <Route exact path="/how-it-works" element={<How_it_works />} />
-          <Route exact path="/privacy" element={<Privacy />} />
           <Route exact path="/product1-simple" element={<Product1_simple />} />
-          <Route exact path="/product6-outofstock" element={<Product6_outofstock />} />
           <Route exact path="/register-seller" element={<Register_seller />} />
           <Route exact path="/reset-password" element={<Reset_password />} />
           <Route exact path="/sell-item" element={<Sell_item />} />
@@ -76,8 +72,6 @@ function App(){
           <Route exact path="/shop-cart" element={<Shop_cart />} />
           <Route exact path="/shop-checkout" element={<Shop_checkout />} />
           <Route exact path="/shop-order-complete" element={<Shop_order_complete />} />
-          <Route exact path="/shop-order-tracking" element={<Shop_order_tracking />} />
-          <Route exact path="/shop2" element={<Shop2 />} />
           <Route exact path="/swimsuit" element={<Swimsuit />} />
           <Route exact path="/terms" element={<Terms />} />
           <Route exact path="/themewear" element={<Themewear />} />
@@ -85,13 +79,17 @@ function App(){
           <Route exact path="/lenderform" element={<LenderForm />} />
           <Route exact path="/buyerform" element={<BuyerForm />} />
           <Route exact path="/renterform" element={<RenterFrom />} />
-          <Route exact path="/lenderform" element={<LenderForm />} />
-          <Route exact path="/buyerform" element={<BuyerForm />} />
-          <Route exact path="/renterform" element={<RenterFrom />} />
           <Route exact path="/login" element={<UserLogin />} />
           <Route exact path="/register" element={<UserRegister />} />
           <Route exact path="/edit-product" element={<EditProduct />} />
           <Route exact path="/cancel-order" element={<Cancel_order />} />
+          <Route exact path="/privacy" element={<Privacy />} />
+
+          <Route exact path="/coming-soon" element={<Coming_soon />} />
+          <Route exact path="/how-it-works" element={<How_it_works />} />
+          <Route exact path="/product6-outofstock" element={<Product6_outofstock />} />
+          <Route exact path="/shop-order-tracking" element={<Shop_order_tracking />} />
+          <Route exact path="/shop2" element={<Shop2 />} />
         </Routes>
       </Router>
     </div>

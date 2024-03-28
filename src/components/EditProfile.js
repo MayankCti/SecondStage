@@ -9,6 +9,7 @@ function EditProfile(props) {
 
   const data = props?.data
   const navigate = useNavigate();
+  const [islicenseState, setIsLicenseState] = useState(false)
   const [name, setName] = useState(data?.buyer_name);
   const [userName, setUserName] = useState(data?.user_name);
   const [email, setEmail] = useState(data?.email);
@@ -138,20 +139,24 @@ function EditProfile(props) {
               </div>
             </div>
             <div className="col-md-6">
-              <div className="form-floating my-3">
-                <input
-                  name="login_email"
-                  type="number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="form-control form-control_gray"
-                  id="customerNameEmailInput"
-                  placeholder="Email Phone*"
-                  required=""
-                />
-                <label htmlFor="customerNameEmailInput">Phone*</label>
+              <div className='d-flex align-items-center'>
+                <p className='ct_country_drop_list mb-0 d-flex align-items-center px-3'>+61</p>
+                <div className="form-floating my-3 w-100">
+                  <input
+                    name="login_email"
+                    type="number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="form-control form-control_gray"
+                    id="customerNameEmailInput"
+                    placeholder="Email Phone*"
+                    required=""
+                  />
+                  <label htmlFor="customerNameEmailInput">Phone*</label>
+                </div>
               </div>
             </div>
+
             <div className="col-md-6">
               <div className="form-floating my-3">
                 <input
@@ -169,22 +174,64 @@ function EditProfile(props) {
                 </label>
               </div>
             </div>
+
             <div className="col-md-6">
+
               <div className="form-floating my-3">
-                <input
-                  name="login_email"
-                  type="text"
-                  value={licenseState}
-                  onChange={(e) => setLicenseState(e.target.value)}
-                  className="form-control form-control_gray"
-                  id="customerNameEmailInput"
-                  placeholder="Email Licence Number *"
-                  required=""
-                />
-                <label htmlFor="customerNameEmailInput">
-                  Licence State *
-                </label>
+                <div class={islicenseState == false ? "form-label-fixed hover-container " : "form-label-fixed hover-container js-content_visible"}>
+                  <label for="search-dropdown7" className="form-label">Licence State *</label>
+                  <div className="js-hover__open" onClick={() => setIsLicenseState(!islicenseState)}>
+                    <input
+                      type="text"
+                      className="form-control form-control-lg search-field__actor search-field__arrow-down"
+                      id="search-dropdown7"
+                      name="search-keyword"
+                      value={licenseState}
+                      autofill={false}
+                    />
+                  </div>
+                  <div className="filters-container js-hidden-content mt-2">
+                    <ul className="search-suggestion list-unstyled" onClick={() => setIsLicenseState(!islicenseState)}>
+                      <li className="search-suggestion__item js-search-select" onClick={() => setLicenseState("ACT")}>
+                        <a className=" mb-3 me-3 js-filter">
+                          ACT
+                        </a>
+                      </li>
+                      <li className="search-suggestion__item js-search-select" onClick={() => setLicenseState("NSW")}>
+                        <a className=" mb-3 me-3 js-filter">
+                          NSW
+                        </a>
+                      </li>
+                      <li className="search-suggestion__item js-search-select" onClick={() => setLicenseState("SA")}>
+                        <a className=" mb-3 me-3 js-filter">
+                          SA
+                        </a>
+                      </li>
+                      <li className="search-suggestion__item js-search-select" onClick={() => setLicenseState("Vic")}>
+                        <a className=" mb-3 me-3 js-filter">
+                          Vic
+                        </a>
+                      </li>
+                      <li className="search-suggestion__item js-search-select" onClick={() => setLicenseState("Qld")}>
+                        <a className=" mb-3 me-3 js-filter">
+                          Qld
+                        </a>
+                      </li>
+                      <li className="search-suggestion__item js-search-select" onClick={() => setLicenseState("WA")}>
+                        <a className=" mb-3 me-3 js-filter">
+                          WA
+                        </a>
+                      </li>
+                      <li className="search-suggestion__item js-search-select" onClick={() => setLicenseState("WA")}>
+                        <a className=" mb-3 me-3 js-filter">
+                          NT
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
+
             </div>
             <div className="col-md-12">
               <div className="my-3">

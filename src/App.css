@@ -146,3 +146,7 @@ span.ct_quantity_text {
 .ct_cart_update_calender .rdrDateDisplayWrapper {
     width: 95%;
 }
+
+.ct_country_drop_list{
+	background-color: #fff;
+}

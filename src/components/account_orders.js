@@ -436,7 +436,7 @@ function Account_orders() {
                                     </td>
                                     <td>
                                       <span className="shopping-cart__subtotal">
-                                        ${obj?.sub_total}
+                                      {configJSON.currencySym}{obj?.sub_total}
                                       </span>
                                     </td>
                                   </tr>

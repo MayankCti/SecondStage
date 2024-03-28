@@ -36,7 +36,6 @@ function Account_wishlist() {
     })
       .then((res) => {
         setIsLoader(false);
-
         if (res?.data?.success == true) {
           setWishListItems(res?.data?.wishlist);
         } else {
@@ -48,7 +47,6 @@ function Account_wishlist() {
         setIsLoader(false);
       });
   };
-
   const addToWishlist = (productId) => {
     window.scroll(0, 0);
     setIsLoader(true)
@@ -79,7 +77,6 @@ function Account_wishlist() {
   };
   const handleProduct1Simple = (productId) => {
     localStorage.setItem("productID", productId)
-
     navigate("/product1-simple");
   };
   return (
@@ -324,7 +321,7 @@ function Account_wishlist() {
                                 }
                               
                                 <div className="product-card__price d-flex">
-                                  <span className="money price">${item?.price_sale_lend_price}</span>
+                                  <span className="money price">{configJSON.currencySym}{item?.price_sale_lend_price}</span>
                                 </div>
 
                                 {

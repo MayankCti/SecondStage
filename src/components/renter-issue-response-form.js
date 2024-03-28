@@ -308,7 +308,7 @@ const RenterFrom = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.cleaning_fee && touched.cleaning_fee && <div className="error" style={{ color: "red" }}>{errors.cleaning_fee}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>
@@ -324,7 +324,7 @@ const RenterFrom = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.additional_not_listed && touched.additional_not_listed && <div className="error" style={{ color: "red" }}>{errors.additional_not_listed}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>
@@ -340,7 +340,7 @@ const RenterFrom = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.value_of_claim && touched.value_of_claim && <div className="error" style={{ color: "red" }}>{errors.value_of_claim}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>

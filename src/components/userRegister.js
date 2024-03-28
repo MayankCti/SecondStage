@@ -319,12 +319,8 @@ function UserRegister() {
                                   </div>
                                   <div className="col-md-6">
                                     <div className="d-flex ">
-                                      <select className="form-control ct_country_drop_list" >
-                                      
-                                            <option value='AU'>AU</option>
-
-                                      </select>
-                                      <div className="form-floating mb-3">
+                                    <p className='ct_country_drop_list mb-0 d-flex align-items-center px-3'>+61</p>
+                                      <div className="form-floating mb-3 w-100">
                                         <input
                                           name="phone_number"
                                           onBlur={handleBlur}

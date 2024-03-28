@@ -25,7 +25,6 @@ function Account_edit_address() {
       headers: {
         'Authorization': `Bearer ${val}`
       },
-
     }).then((res) => {
       setIsLoader(false)
       if (res?.data?.success == true) {
@@ -190,17 +189,13 @@ function Account_edit_address() {
           <path d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z" fill="currentColor" />
         </symbol>
       </svg>
-
       <Header />
-
       <main>
         <div className="mb-4 pb-4"></div>
         <section className="my-account container">
           <h2 className="page-title">Addresses</h2>
           <div className="row">
-
             <List7 data="account-edit-address" />
-
             <div className="col-lg-9">
               {
                 isLoader == true ?
@@ -210,46 +205,35 @@ function Account_edit_address() {
                     <div className="page-content my-account__address">
                       <p className="notice">The following addresses will be used on the checkout page by default.</p>
                       <div className="my-account__address-list">
-                    
                         <div className="my-account__address-item">
                           <div className="my-account__address-item__title">
                             <h5>Shipping Address</h5>
-
                           </div>
                           <div className=' row'>
-                          {
-                            
-                            address?.map((item) => (
-                              <>
-                              <div className="col-md-4 my-account__address-item__detail mb-4">
-                               
-                                  <p>{item?.first_name} {item?.last_name},</p>
-                                  <p>{item?.street_address},</p>
-                                  <p>{item?.town_city},{item?.country_region}.</p>
-                                 
-                                  <p>{item?.mail}</p>
-                                  <p>{item?.phone}</p>
-                              
-                              </div>
-                               
+                            {
+                              address?.map((item) => (
+                                <>
+                                  <div className="col-md-4 my-account__address-item__detail mb-4">
+                                    <p>{item?.first_name} {item?.last_name},</p>
+                                    <p>{item?.street_address},</p>
+                                    <p>{item?.town_city},{item?.country_region}.</p>
+                                    <p>{item?.mail}</p>
+                                    <p>{item?.phone}</p>
+                                  </div>
                                 </>
-                            ))
-                          }
+                              ))
+                            }
                           </div>
                         </div>
                       </div>
                     </div> : <h3>No SHIPPING ADDRESS !!!</h3>
               }
-
             </div>
           </div>
         </section>
       </main>
-
       <div className="mb-5 pb-xl-5"></div>
-
       <Footer />
-
     </>
   )
 }

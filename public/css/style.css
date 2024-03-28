@@ -21421,7 +21421,7 @@ justify-content: center;
   /* top: 0px; */
   width: fit-content;
   background-color: unset;
-  padding-inline: 6px !important;
+  padding-inline: 15px !important;
   appearance: auto;
   /* border-right: 0px; */
   height: 60px;
@@ -21615,4 +21615,8 @@ input[type=number] {
   width: 100%;
   object-fit: cover;
   height: 400px;
+}
+
+.ct_bg_unset212{
+  background-image: unset!important;
 }

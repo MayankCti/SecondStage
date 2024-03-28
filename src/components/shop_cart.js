@@ -470,18 +470,19 @@ function Shop_cart() {
                                     {item?.product_name ?? "Product Name"}
                                   </h4>
                                   <ul className="shopping-cart__product-item__options">
-                                    <li>
+                                    <li className="d-flex align-items-center gap-2">
                                       Color:{" "}
                                       <a
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="top"
                                         title={`${item?.color}`}
-                                        class="swatch-color swatch_active pc__swatch-color"
+                                        class="swatch-color pc__swatch-color mb-0  ct_swatch_radio_212"
                                         style={{
                                           color: `${item?.color}`,
                                         }}
                                       ></a>
                                     </li>
+                              
 
                                     <li>
                                       Product Type : {item?.product_buy_rent}
@@ -494,11 +495,11 @@ function Shop_cart() {
                                         {
                                           item?.product_buy_rent == "rent" &&
                                           <li>
-                                                Rent for : {item?.total_rend_days}{" "}
-                                                {item?.total_rend_days == "1"
-                                                  ? "day"
-                                                  : "days"}{" "}
-                                              </li>
+                                            Rent for : {item?.total_rend_days}{" "}
+                                            {item?.total_rend_days == "1"
+                                              ? "day"
+                                              : "days"}{" "}
+                                          </li>
                                         }
                                       </>
                                     ) : (
@@ -510,27 +511,27 @@ function Shop_cart() {
                                         {
                                           item?.product_buy_rent == "rent" &&
                                           <li>
-                                                Rent for : {item?.total_rend_days}{" "}
-                                                {item?.total_rend_days == "1"
-                                                  ? "day"
-                                                  : "days"}{" "}
-                                              </li>
+                                            Rent for : {item?.total_rend_days}{" "}
+                                            {item?.total_rend_days == "1"
+                                              ? "day"
+                                              : "days"}{" "}
+                                          </li>
                                         }
                                       </>
                                     )}
-                                    
+
                                   </ul>
                                 </div>
                               </td>
                               <td>
                                 <span className="shopping-cart__product-price">
-                                  ${item?.cart_price}
+                                  {configJSON.currencySym}{item?.cart_price}
                                 </span>
                               </td>
 
                               <td>
                                 <span className="shopping-cart__subtotal">
-                                  ${item?.sub_total}
+                                  {configJSON.currencySym}{item?.sub_total}
                                 </span>
                               </td>
                               <td>
@@ -569,7 +570,7 @@ function Shop_cart() {
                           <tbody>
                             <tr>
                               <th>Subtotal</th>
-                              <td>${subtotal}</td>
+                              <td>{configJSON.currencySym}{subtotal}</td>
                             </tr>
                             <tr>
                               <th>Shipping</th>
@@ -609,7 +610,7 @@ function Shop_cart() {
                             </tr>
                             <tr>
                               <th>Total</th>
-                              <td>${allTotal.toFixed(2)}</td>
+                              <td>{configJSON.currencySym}{allTotal.toFixed(2)}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -636,7 +637,7 @@ function Shop_cart() {
           <Footer />
         </div >
       )
-}
+      }
     </>
   );
 }

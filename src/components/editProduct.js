@@ -154,7 +154,6 @@ function Register_seller() {
         'file': fileData[i]
       })
       setFile(file => file?.filter((item) => item));
-
     }
   }
 
@@ -177,14 +176,11 @@ function Register_seller() {
               />
             </div>
           </div>
-
         </div>
-
         {/* <div ref={ref} style={{ opacity }} className="card">
           <img className='w-25' src={src} alt={title} />
         </div> */}
       </>
-
     );
   };
 

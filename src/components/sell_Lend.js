@@ -26,6 +26,7 @@ function SellLend() {
     }
   }, []);
   const getData = () => {
+    setIsLoader(true)
     const userID = localStorage.getItem("user_id")
     const data = {
       user_id: userID
@@ -486,7 +487,7 @@ function SellLend() {
                                   </h6> */}
                                   <div className="product-card__price d-flex">
                                     <span className="money price">
-                                      ${item?.price_sale_lend_price}
+                                    {configJSON.currencySym}{item?.price_sale_lend_price}
                                     </span>
                                   </div>
                                   {item?.wishlist_like == 0 ? (

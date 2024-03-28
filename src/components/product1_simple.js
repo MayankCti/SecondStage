@@ -794,7 +794,7 @@ function Product1_simple(props) {
                                       product?.product_color?.length > 0 &&
                                       `${product?.product_color[0]}`
                                     }
-                                    class="swatch-color swatch_active pc__swatch-color"
+                                    class="swatch-color pc__swatch-color ct_swatch_radio_212"
                                     style={{
                                       color:
                                         product &&
@@ -998,7 +998,7 @@ function Product1_simple(props) {
                                     product?.product_color?.length > 0 &&
                                     `${product?.product_color[0]}`
                                   }
-                                  class="swatch-color swatch_active pc__swatch-color"
+                                  class="swatch-color pc__swatch-color ct_swatch_radio_212"
                                   style={{
                                     color:
                                       product &&
@@ -1199,7 +1199,7 @@ function Product1_simple(props) {
                           product?.product_color?.length > 0 &&
                           `${product?.product_color[0]}`
                         }
-                        class="swatch-color swatch_active pc__swatch-color mb-0"
+                        class="swatch-color pc__swatch-color mb-0 ct_swatch_radio_212"
                         style={{
                           color:
                             product &&

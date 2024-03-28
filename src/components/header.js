@@ -693,7 +693,7 @@ const handleNavigate = (val)=>{
                             title={
                               `${item?.product_color[0]}`
                             }
-                            class="swatch-color swatch_active pc__swatch-color"
+                            class="swatch-color ct_swatch_radio_212 pc__swatch-color"
                             style={{
                               color:
                                 `${item?.product_color[0]}`,
@@ -800,29 +800,8 @@ const handleNavigate = (val)=>{
                       className="d-flex align-items-center justify-content-between mt-1 "
                       style={{ width: "95%" }}
                     >
-                      {/* <div className="qty-control position-relative">
-                        <input
-                          type="number"
-                          name="quantity"
-                          value={item?.cart_quantity}
-                          min="1"
-                          className="qty-control__number border-0 text-center"
-                        />
-                        <div
-                          className="qty-control__reduce text-start"
-                          onClick={() => qtyDec(item, item?.color, item?.size_top, item?.size_bottom, item?.cart_quantity)}
-                        >
-                          -
-                        </div>
-                        <div
-                          className="qty-control__increase text-end"
-                          onClick={() => qtyInc(item, item?.color, item?.size_top, item?.size_bottom, item?.cart_quantity)}
-                        >
-                          +
-                        </div>
-                      </div> */}
                       <span className="cart-drawer-item__price money price">
-                        ${item?.sub_total}
+                      {configJSON.currencySym}{item?.sub_total}
                       </span>
                     </div>
                   </div>
@@ -846,7 +825,7 @@ const handleNavigate = (val)=>{
           <div className="d-flex justify-content-between">
             <h6 className="fs-base fw-medium">SUBTOTAL:</h6>
             <span className="cart-subtotal fw-medium">
-              ${allProduct?.length == 0 ? "0" : subtotal}
+            {configJSON.currencySym}{allProduct?.length == 0 ? "0" : subtotal}
             </span>
           </div>
           <a
@@ -947,7 +926,7 @@ const handleNavigate = (val)=>{
                   Lightweight Puffer Jacket With a Hood
                 </h1>
                 <div className="product-single__price">
-                  <span className="current-price">$449</span>
+                  <span className="current-price">{configJSON.currencySym}449</span>
                 </div>
                 <div className="product-single__short-desc">
                   <p>

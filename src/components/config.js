@@ -4,7 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 // local
 // export const baseUrl = "http://192.168.1.18:4005/web/"
 // live
+
 export const baseUrl = "https://www.secondstagebikini.com:4005/web/"
+
+export const currencySym = "$"
 
 export const signUpBuyer = "signUp"
 export const loginBuyer = "login_buyer"

@@ -269,7 +269,7 @@ function Shop_order_complete() {
                     </div>
                     <div className="order-info__item">
                       <label>Total</label>
-                      <span>${subTotal.toFixed(2)}</span>
+                      <span>{configJSON.currencySym}{subTotal.toFixed(2)}</span>
                     </div>
                     <div className="order-info__item">
                       <label>Paymetn Method</label>
@@ -294,7 +294,7 @@ function Shop_order_complete() {
                                   {item?.product_details?.product_name}
                                 </td>
                                 <td align="right">
-                                  ${item?.sub_total}
+                                {configJSON.currencySym}{item?.sub_total}
                                 </td>
                               </tr>
                             ))
@@ -305,7 +305,7 @@ function Shop_order_complete() {
                         <tbody>
                           <tr>
                             <th>SUBTOTAL</th>
-                            <td align="right">${total}</td>
+                            <td align="right">{configJSON.currencySym}{total}</td>
                           </tr>
                           <tr>
                             <th>SHIPPING</th>
@@ -317,7 +317,7 @@ function Shop_order_complete() {
                           </tr>
                           <tr>
                             <th>TOTAL</th>
-                            <td align="right">${subTotal.toFixed(2)}</td>
+                            <td align="right">{configJSON.currencySym}{subTotal.toFixed(2)}</td>
                           </tr>
                         </tbody>
                       </table>

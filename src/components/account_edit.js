@@ -37,7 +37,7 @@ function Account_edit() {
     }).then((res) => {
       setIsLoader(false)
       if (res?.data?.success == true) {
-        localStorage.setItem("Profile",JSON.stringify(res?.data?.user_info[0]));
+        localStorage.setItem("Profile", JSON.stringify(res?.data?.user_info[0]));
         setProfileData(res?.data?.user_info[0])
       }
       else {
@@ -210,7 +210,7 @@ function Account_edit() {
         </symbol>
       </svg>
       {isLoader == false ?
-        <Header  />
+        <Header />
         : <div className="custom-loader"></div>
       }
       <main>
@@ -293,6 +293,24 @@ function Account_edit() {
                                   </div>
                                 </div>
                                 <div className="col-md-6">
+                                  <div className='d-flex align-items-center'>
+                                    <p className='ct_country_drop_list mb-0 d-flex align-items-center px-3'>+61</p>
+                                    <div className="form-floating my-3 w-100">
+                                      <input
+                                        name="login_email"
+                                        type="number"
+                                        value={profileData.phone_number}
+                                        className="form-control form-control_gray"
+                                        id="customerNameEmailInput"
+                                        placeholder="Email Phone*"
+                                        required=""
+                                        readOnly={true}
+                                      />
+                                      <label htmlFor="customerNameEmailInput">Phone*</label>
+                                    </div>
+                                  </div>
+                                </div>
+                                {/* <div className="col-md-6">
                                   <div className="form-floating my-3">
                                     <input
                                       name="login_email"
@@ -307,7 +325,7 @@ function Account_edit() {
                                     />
                                     <label htmlFor="customerNameEmailInput">Phone*</label>
                                   </div>
-                                </div>
+                                </div> */}
                                 <div className="col-md-6">
                                   <div className="form-floating my-3">
                                     <input

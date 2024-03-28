@@ -296,13 +296,13 @@ const LenderForm = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.damage_fee && touched.damage_fee && <div className="error" style={{ color: "red" }}>{errors.damage_fee}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group mb-3">
-                        <label>$Total</label>
+                        <label>{configJSON.currencySym}Total</label>
                         <div className="position-relative">
                           <input type="text"
                             name="total"
@@ -312,7 +312,7 @@ const LenderForm = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.total && touched.total && <div className="error" style={{ color: "red" }}>{errors.total}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>
@@ -327,7 +327,7 @@ const LenderForm = () => {
                             onBlur={handleBlur}
                             className="form-control ct_text_indent_15" />
                           {errors.standard && touched.standard && <div className="error" style={{ color: "red" }}>{errors.standard}</div>}
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>
@@ -343,7 +343,7 @@ const LenderForm = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.complex && touched.complex && <div className="error" style={{ color: "red" }}>{errors.complex}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>
@@ -359,7 +359,7 @@ const LenderForm = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.cleaning_fee && touched.cleaning_fee && <div className="error" style={{ color: "red" }}>{errors.cleaning_fee}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>
@@ -375,7 +375,7 @@ const LenderForm = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.additional_not_listed && touched.additional_not_listed && <div className="error" style={{ color: "red" }}>{errors.additional_not_listed}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>
@@ -391,7 +391,7 @@ const LenderForm = () => {
                             className="form-control ct_text_indent_15" />
                           {errors.value_of_claim && touched.value_of_claim && <div className="error" style={{ color: "red" }}>{errors.value_of_claim}</div>}
 
-                          <span className="ct_price_position">$</span>
+                          <span className="ct_price_position">{configJSON.currencySym}</span>
                         </div>
                       </div>
                     </div>

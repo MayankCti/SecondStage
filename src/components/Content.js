@@ -230,7 +230,7 @@ function Content(props) {
 
                                   <div className="product-card__price d-flex">
                                     <span className="money price">
-                                      ${item?.price_sale_lend_price}
+                                    {configJSON.currencySym}{item?.price_sale_lend_price}
                                     </span>
                                   </div>
                                   <button
@@ -333,7 +333,7 @@ function Content(props) {
 
                                   <div className="product-card__price d-flex">
                                     <span className="money price">
-                                      ${item?.price_sale_lend_price}
+                                      {configJSON.currencySym}{item?.price_sale_lend_price}
                                     </span>
                                   </div>
                                   <button
